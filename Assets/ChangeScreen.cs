@@ -10,7 +10,7 @@ using UnityEngine.UI;
 //Script will find a screen for each button that matches NAME_Screen
 public class ChangeScreen : MonoBehaviour {
 
-    public GameObject newScreen;
+    GameObject newScreen;
 
     // Use this for initialization
     void Start () {
@@ -33,6 +33,9 @@ public class ChangeScreen : MonoBehaviour {
         else
             Debug.LogWarning(gameObject.name+ ": There is no button component on this UI element. It cannot use the ChangeScreen script without a button");
 
+        //Deactivate the attached screen so the app starts at the first view
+        newScreen.SetActive(false);
+
         ResolutionManager.GetCurrentResolution();
     }
 
@@ -43,7 +46,13 @@ public class ChangeScreen : MonoBehaviour {
 
     void Activate(){
         newScreen.SetActive(true);
+        transform.parent.gameObject.SetActive(false); //turn off the rest of the buttons
+        newScreen.GetComponent<AppScreen>().StopAllCoroutines();
         newScreen.GetComponent<AppScreen>().StartCoroutine("MoveScreenIn");
+    }
+
+    void DeActivate(){
+        newScreen.SetActive(false);
     }
 
    
