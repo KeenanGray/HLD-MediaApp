@@ -19,6 +19,7 @@ public class AppScreen : MonoBehaviour {
 
     RectTransform CurrentView;
     Button close_button;
+    float Res;
 
     // Use this for initialization
     void Start () {
@@ -30,7 +31,7 @@ public class AppScreen : MonoBehaviour {
         }
 
         Debug.Log("Screen Width " + MainCanvas.GetComponent<RectTransform>().rect.width);
-        var Res = MainCanvas.GetComponent<RectTransform>().rect.width;
+        Res = MainCanvas.GetComponent<RectTransform>().rect.width;
 
         rt = GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector3(Res, 0, 0);
@@ -83,33 +84,63 @@ public class AppScreen : MonoBehaviour {
 
     void SwipeHandler(SwipeData swipe)
     {
-        //slide screen while user is swiping
-        ViewContainer.anchoredPosition += new Vector2(swipe.value, 0);
+        if (gameObject.activeSelf)
+        {
+            //slide screen while user is swiping
+            ViewContainer.anchoredPosition += new Vector2(swipe.value * 4, 0);
 
-        if(swipe.full){
-            //Pull in the new screen if swipe has gone far enough
-            Debug.Log("rt width " + ViewContainer.anchoredPosition.x + ". Next view " + GetNextView() * rt.rect.width);
-            if(ViewContainer.anchoredPosition.x < (GetNextView() * rt.rect.width) ){
-                Debug.Log("Swipe was strong enough");
+            if (swipe.full)
+            {
+                //Pull in the new screen if swipe has gone far enough
+                if (swipe.value < -50)
+                {
+                    StartCoroutine(SwitchView(Direction.LEFT));
+                }
+                else if (swipe.value > 50)
+                {
+                    StartCoroutine(SwitchView(Direction.RIGHT));
+                }
+                else
+                {
+                    ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
+                }
             }
-            else{
-                Debug.Log("Swipe not strong enough");
-            }
-
-            StartCoroutine("SwitchView");
         }
     }
 
     int GetNextView(){
         int i = views.IndexOf(CurrentView);
-        if (i < views.Count)
+        if (i < views.Count-1)
+        {
+            Debug.Log("hmm: " + (i + 1));
             return i + 1;
+        }
         else{
-            return 0;
+            return views.IndexOf(CurrentView);
+        }
+    }
+    int GetPreviousView()
+    {
+        int i = views.IndexOf(CurrentView);
+        if (i > 0)
+            return i - 1;
+        else
+        {
+            return views.IndexOf(CurrentView);
         }
     }
     //Moves in a view at a rate based on the speed of a swipe.
-    IEnumerator SwitchView(){
+    IEnumerator SwitchView(Direction dir){
+        if(dir==Direction.RIGHT){
+            Debug.Log("RIGHT");
+            CurrentView = views[GetPreviousView()];
+            ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
+        }
+        if (dir==Direction.LEFT){
+            Debug.Log("LEFT");
+            CurrentView = views[GetNextView()];
+            ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
+        }
 
         yield break;
     }
