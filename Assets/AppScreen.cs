@@ -24,16 +24,19 @@ public class AppScreen : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //TODO: prevent hardcoding of value here, use screen width insteads
-        MainCanvas = GameObject.Find("AppCanvas");
+        MainCanvas = GameObject.FindWithTag("MainCanvas");
 
-        if(MainCanvas!=null){
-            Debug.LogWarning("App Canvas Not Found");
+        if(MainCanvas==null){
+            Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
         }
 
-        Debug.Log("Screen Width " + MainCanvas.GetComponent<RectTransform>().rect.width);
         Res = MainCanvas.GetComponent<RectTransform>().rect.width;
 
         rt = GetComponent<RectTransform>();
+        if(rt==null){
+            Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
+        }
+
         rt.anchoredPosition = new Vector3(Res, 0, 0);
 
         //assign the close_button
@@ -47,7 +50,7 @@ public class AppScreen : MonoBehaviour {
         if (close_button != null)
         {
             close_button.onClick.AddListener(DeActivate);
-            close_button.gameObject.SetActive(false);
+           // close_button.gameObject.SetActive(false);
         }
         else
         {
@@ -74,9 +77,9 @@ public class AppScreen : MonoBehaviour {
         //Arrange the views side-by-side
         for (int i=0; i < views.Count;i++){
             vrt = views[i].GetComponent<RectTransform>();
-
-            vrt.anchoredPosition = new Vector2(rt.rect.width * i,0);
+            vrt.anchoredPosition = new Vector2(rt.rect.width * i, 0);
         }
+
         CurrentView = views[0].GetComponent<RectTransform>();
 
         InputManager.SwipeDelegate += SwipeHandler;
@@ -87,16 +90,19 @@ public class AppScreen : MonoBehaviour {
         if (gameObject.activeSelf)
         {
             //slide screen while user is swiping
-            ViewContainer.anchoredPosition += new Vector2(swipe.value * 4, 0);
+            if (views.IndexOf(CurrentView) == 0 || views.IndexOf(CurrentView) == views.Count)
+                ViewContainer.anchoredPosition += new Vector2(swipe.value * 1, 0);
+            else
+                ViewContainer.anchoredPosition += new Vector2(swipe.value * 3, 0);
 
             if (swipe.full)
             {
                 //Pull in the new screen if swipe has gone far enough
-                if (swipe.value < -50)
+                if (swipe.value < -100)
                 {
                     StartCoroutine(SwitchView(Direction.LEFT));
                 }
-                else if (swipe.value > 50)
+                else if (swipe.value > 100)
                 {
                     StartCoroutine(SwitchView(Direction.RIGHT));
                 }
@@ -112,7 +118,6 @@ public class AppScreen : MonoBehaviour {
         int i = views.IndexOf(CurrentView);
         if (i < views.Count-1)
         {
-            Debug.Log("hmm: " + (i + 1));
             return i + 1;
         }
         else{
@@ -132,17 +137,19 @@ public class AppScreen : MonoBehaviour {
     //Moves in a view at a rate based on the speed of a swipe.
     IEnumerator SwitchView(Direction dir){
         if(dir==Direction.RIGHT){
-            Debug.Log("RIGHT");
             CurrentView = views[GetPreviousView()];
             ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
         }
         if (dir==Direction.LEFT){
-            Debug.Log("LEFT");
             CurrentView = views[GetNextView()];
             ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
         }
 
         yield break;
+    }
+
+    public void Activate (){
+        close_button.gameObject.SetActive(true);
     }
 
     void DeActivate()
@@ -157,7 +164,9 @@ public class AppScreen : MonoBehaviour {
     public float rate = 1.0f;
     IEnumerator MoveScreenIn()
     {
-        var Res = MainCanvas.GetComponent<RectTransform>().rect.width;
+        if(rt==null){
+            Debug.LogWarning("Rect Transform is null or is not activated");
+        }
         rt.anchoredPosition = new Vector3(Res, 0, 0);
 
         float lerp = 0;

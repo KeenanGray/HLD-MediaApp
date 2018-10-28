@@ -16,7 +16,6 @@ public class ChangeScreen : MonoBehaviour {
     void Start () {
         var screenName = gameObject.name.ToString().Split('_')[0];
         screenName = screenName + "_Screen";
-        Debug.Log(screenName);
         newScreen = GameObject.Find(screenName);
 
         if (newScreen != null)
@@ -34,7 +33,8 @@ public class ChangeScreen : MonoBehaviour {
             Debug.LogWarning(gameObject.name+ ": There is no button component on this UI element. It cannot use the ChangeScreen script without a button");
 
         //Deactivate the attached screen so the app starts at the first view
-        newScreen.SetActive(false);
+        //This is done in a coroutine to avoid disabling the gameobject before it is finished initializing
+        StartCoroutine("Wait_DeActivate");
 
         ResolutionManager.GetCurrentResolution();
     }
@@ -46,9 +46,20 @@ public class ChangeScreen : MonoBehaviour {
 
     void Activate(){
         newScreen.SetActive(true);
-        transform.parent.gameObject.SetActive(false); //turn off the rest of the buttons
-        newScreen.GetComponent<AppScreen>().StopAllCoroutines();
-        newScreen.GetComponent<AppScreen>().StartCoroutine("MoveScreenIn");
+        var AppScript = newScreen.GetComponent<AppScreen>();
+
+        if(AppScript==null){
+            Debug.LogWarning("Component not found");
+        }
+        AppScript.StopAllCoroutines();
+        AppScript.Activate();
+        AppScript.StartCoroutine("MoveScreenIn");
+    }
+
+    IEnumerator Wait_DeActivate(){
+        yield return new WaitForEndOfFrame();
+        DeActivate();
+        yield break;
     }
 
     void DeActivate(){
