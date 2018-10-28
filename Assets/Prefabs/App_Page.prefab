@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 224659509447392374}
   - component: {fileID: 114938629568986918}
   m_Layer: 5
-  m_Name: App_Default_Screen
+  m_Name: App_Page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

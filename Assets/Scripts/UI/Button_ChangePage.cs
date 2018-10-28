@@ -8,14 +8,14 @@ using UnityEngine.UI;
 
 //NOTE:: Buttons should have be named following the syntax NAME_Button
 //Script will find a screen for each button that matches NAME_Screen
-public class ChangeScreen : MonoBehaviour {
+public class Button_ChangePage : MonoBehaviour {
 
     GameObject newScreen;
 
     // Use this for initialization
-    void Start () {
+    public void Initialize () {
         var screenName = gameObject.name.ToString().Split('_')[0];
-        screenName = screenName + "_Screen";
+        screenName = screenName + "_Page";
         newScreen = GameObject.Find(screenName);
 
         if (newScreen != null)
@@ -23,18 +23,22 @@ public class ChangeScreen : MonoBehaviour {
             //nothing to do here
         }
         else
-            Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the ChangeScreen script, but no screen has been assigned" +
+        {
+            Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the ChangePage script, but no screen has been assigned" +
                              " check the names of these gameobjects");
+           gameObject.SetActive(false);
+            return;
+        }
 
         var myBtn = GetComponent<Button>();
         if (myBtn != null)
-            GetComponent<Button>().onClick.AddListener(Activate);
+            GetComponent<Button>().onClick.AddListener(OnButtonPressed);
         else
             Debug.LogWarning(gameObject.name+ ": There is no button component on this UI element. It cannot use the ChangeScreen script without a button");
 
         //Deactivate the attached screen so the app starts at the first view
         //This is done in a coroutine to avoid disabling the gameobject before it is finished initializing
-        StartCoroutine("Wait_DeActivate");
+       // StartCoroutine("Wait_DeActivate");
 
         ResolutionManager.GetCurrentResolution();
     }
@@ -44,9 +48,9 @@ public class ChangeScreen : MonoBehaviour {
 		
 	}
 
-    void Activate(){
+    void OnButtonPressed(){
         newScreen.SetActive(true);
-        var AppScript = newScreen.GetComponent<AppScreen>();
+        var AppScript = newScreen.GetComponent<Page>();
 
         if(AppScript==null){
             Debug.LogWarning("Component not found");
@@ -54,16 +58,11 @@ public class ChangeScreen : MonoBehaviour {
         AppScript.StopAllCoroutines();
         AppScript.Activate();
         AppScript.StartCoroutine("MoveScreenIn");
-    }
 
-    IEnumerator Wait_DeActivate(){
-        yield return new WaitForEndOfFrame();
-        DeActivate();
-        yield break;
     }
 
     void DeActivate(){
-        newScreen.SetActive(false);
+        //newScreen.SetActive(false);
     }
 
    

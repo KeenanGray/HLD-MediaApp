@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class AppScreen : MonoBehaviour {
+public class Page : MonoBehaviour {
 
     public List<RectTransform> views;
 
@@ -22,18 +22,20 @@ public class AppScreen : MonoBehaviour {
     float Res;
 
     // Use this for initialization
-    void Start () {
+    public void Initialize () {
         //TODO: prevent hardcoding of value here, use screen width insteads
         MainCanvas = GameObject.FindWithTag("MainCanvas");
 
-        if(MainCanvas==null){
+        if (MainCanvas == null)
+        {
             Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
         }
 
         Res = MainCanvas.GetComponent<RectTransform>().rect.width;
 
         rt = GetComponent<RectTransform>();
-        if(rt==null){
+        if (rt == null)
+        {
             Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
         }
 
@@ -50,7 +52,6 @@ public class AppScreen : MonoBehaviour {
         if (close_button != null)
         {
             close_button.onClick.AddListener(DeActivate);
-           // close_button.gameObject.SetActive(false);
         }
         else
         {
@@ -64,18 +65,20 @@ public class AppScreen : MonoBehaviour {
         View_Slider = GameObject.Find("View_Slider");
 
         //Collect the views for the game screen
-         RectTransform vrt;
-        foreach (View v in GetComponentsInChildren<View>()){
+        RectTransform vrt;
+        foreach (View v in GetComponentsInChildren<View>())
+        {
             views.Add(v.GetComponent<RectTransform>());
             //TODO: Sort the list to ensure the screens appear in order
             vrt = v.GetComponent<RectTransform>();
-            vrt.rect.Set(0,0,rt.rect.width,rt.rect.height);
+            vrt.rect.Set(0, 0, rt.rect.width, rt.rect.height);
 
-           // Debug.Log("View: " + v.gameObject.name);
+            // Debug.Log("View: " + v.gameObject.name);
         }
 
         //Arrange the views side-by-side
-        for (int i=0; i < views.Count;i++){
+        for (int i = 0; i < views.Count; i++)
+        {
             vrt = views[i].GetComponent<RectTransform>();
             vrt.anchoredPosition = new Vector2(rt.rect.width * i, 0);
         }
@@ -83,6 +86,8 @@ public class AppScreen : MonoBehaviour {
         CurrentView = views[0].GetComponent<RectTransform>();
 
         InputManager.SwipeDelegate += SwipeHandler;
+
+        gameObject.SetActive(false);
     }
 
     void SwipeHandler(SwipeData swipe)
@@ -149,7 +154,7 @@ public class AppScreen : MonoBehaviour {
     }
 
     public void Activate (){
-        close_button.gameObject.SetActive(true);
+       // close_button.gameObject.SetActive(true);
     }
 
     void DeActivate()

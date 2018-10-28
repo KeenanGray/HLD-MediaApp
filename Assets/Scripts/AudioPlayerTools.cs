@@ -215,7 +215,6 @@ public class AudioPlayerTools : MonoBehaviour                                   
 
     public void OnDrag()
     {
-        Debug.Log("on Drag");
         source.Pause();
         if (source.isPlaying)
             restartAtEndOfDrag = true;
@@ -223,7 +222,6 @@ public class AudioPlayerTools : MonoBehaviour                                   
     }
     public void OnDragEnd()
     {
-        Debug.Log("HAHAH");
         source.UnPause();
         if (restartAtEndOfDrag)
         {
