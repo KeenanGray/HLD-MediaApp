@@ -44,7 +44,6 @@ public class MongoLib : MonoBehaviour {
     IEnumerator GetCollectionFromDatabase(){
         var url = GenerateCollectionRequestString("The_Displayed");
 
-        var one = "https://api.mlab.com/api/1/databases/heroku_pm1crn83/collections/The_Displayed?apiKey=1XimX81CHyHjHFoHBM4SfoASyTLfSd8R";
         var two = url;
 
         Debug.Log(one);
