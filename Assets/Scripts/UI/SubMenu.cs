@@ -54,7 +54,6 @@ public class SubMenu : MonoBehaviour
             et.GetComponent<EventTrigger>().triggers.Add(entry);
         }
 
-        rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
        // DeActivate();
     }
 

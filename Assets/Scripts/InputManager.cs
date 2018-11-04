@@ -60,10 +60,10 @@ public class InputManager : MonoBehaviour {
     void PrintSwipeData(SwipeData swipe){
         if (swipe.full)
         {
-          Debug.Log(swipe.dir + " swipe detected with value " + swipe.SwipeSpeed());
+         // Debug.Log(swipe.dir + " swipe detected with value " + swipe.SwipeSpeed());
         }
         else {
-           Debug.Log("user is swiping " + swipe.dir);
+        //   Debug.Log("user is swiping " + swipe.dir);
         }
 
     }

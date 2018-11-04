@@ -35,3 +35,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+mongo_config.txt
+mongo_config.txt.meta
