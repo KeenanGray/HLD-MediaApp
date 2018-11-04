@@ -8,14 +8,24 @@ using UnityEngine.UI;
 
 //NOTE:: Buttons should have be named following the syntax NAME_Button
 //Script will find a screen for each button that matches NAME_Screen
+
+
+[ExecuteInEditMode]
 public class Button_ChangePage : MonoBehaviour {
+    public enum Button_Activates
+    {
+        Page,
+        SubMenu
+    }
 
     GameObject newScreen;
 
-    // Use this for initialization
-    public void Initialize () {
+    public Button_Activates Button_Opens;
+
+    private void Awake()
+    {
         var screenName = gameObject.name.ToString().Split('_')[0];
-        screenName = screenName + "_Page";
+        screenName = screenName + ("_" + Button_Opens.ToString());
         newScreen = GameObject.Find(screenName);
 
         if (newScreen != null)
@@ -26,7 +36,7 @@ public class Button_ChangePage : MonoBehaviour {
         {
             Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the ChangePage script, but no screen has been assigned" +
                              " check the names of these gameobjects");
-           gameObject.SetActive(false);
+            gameObject.SetActive(false);
             return;
         }
 
@@ -34,30 +44,36 @@ public class Button_ChangePage : MonoBehaviour {
         if (myBtn != null)
             GetComponent<Button>().onClick.AddListener(OnButtonPressed);
         else
-            Debug.LogWarning(gameObject.name+ ": There is no button component on this UI element. It cannot use the ChangeScreen script without a button");
-
-        //Deactivate the attached screen so the app starts at the first view
-        //This is done in a coroutine to avoid disabling the gameobject before it is finished initializing
-       // StartCoroutine("Wait_DeActivate");
-
-        ResolutionManager.GetCurrentResolution();
+            Debug.LogWarning(gameObject.name + ": There is no button component on this UI element. It cannot use the ChangeScreen script without a button");
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 
     void OnButtonPressed(){
         newScreen.SetActive(true);
-        var AppScript = newScreen.GetComponent<Page>();
 
-        if(AppScript==null){
-            Debug.LogWarning("Component not found");
+        if (Button_Opens == Button_Activates.Page)
+        {
+            var AppScript = newScreen.GetComponent<Page>();
+
+            if (AppScript == null)
+            {
+                Debug.LogWarning("Component not found");
+            }
+            AppScript.StopAllCoroutines();
+            AppScript.Activate();
+            AppScript.StartCoroutine("MoveScreenIn");
         }
-        AppScript.StopAllCoroutines();
-        AppScript.Activate();
-        AppScript.StartCoroutine("MoveScreenIn");
+
+        else if(Button_Opens == Button_Activates.SubMenu){
+            var AppScript = newScreen.GetComponent<SubMenu>();
+
+            if (AppScript == null)
+            {
+                Debug.LogWarning("Component not found");
+            }
+            AppScript.StopAllCoroutines();
+            AppScript.Activate();
+            AppScript.StartCoroutine("MoveScreenIn");
+        }
 
     }
 

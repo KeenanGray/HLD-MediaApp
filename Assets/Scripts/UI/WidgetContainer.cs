@@ -11,13 +11,9 @@ public class WidgetContainer : MonoBehaviour
     float height;
 
     RectTransform rt;
-    private void Awake()
-    {
-    }
 
-    void Update()
+    public void Init()
     {
-        Debug.Log("Initializing Widgets");
         MainCanvas = GameObject.FindWithTag("MainCanvas");
 
         if (MainCanvas == null)
@@ -25,17 +21,21 @@ public class WidgetContainer : MonoBehaviour
             Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
         }
 
-        width = MainCanvas.GetComponent<RectTransform>().rect.width;
-        height = MainCanvas.GetComponent<RectTransform>().rect.height;
+        rt = gameObject.GetComponent<RectTransform>();
+        if(rt==null)
+            Debug.LogWarning("No rect transform on this component");
 
+        width = AspectRatioManager.ScreenWidth;
+        height = AspectRatioManager.ScreenHeight;
 
-        rt = GetComponent<RectTransform>();
-        if (rt == null)
-        {
-            Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
-        }
+     //   Debug.Log("width " + width + " ,  " + height);
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
         rt.sizeDelta = new Vector2(width, height);
+    }
+
+    void Update()
+    {
+     
     }
 }

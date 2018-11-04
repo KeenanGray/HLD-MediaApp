@@ -5,41 +5,39 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.EventSystems;
 
-public class SubMenu : MonoBehaviour {
+public class SubMenu : MonoBehaviour
+{
     RectTransform rt;
     GameObject MainCanvas;
     GameObject ScrollView;
 
-    float timeOfTravel = 5; //time after object reach a target place 
-    float currentTime = 0; // actual floting time 
-    float normalizedValue;
-
-    float Res;
-
-    // Use this for initialization
-    public void Initialize () {
+    [ExecuteInEditMode]
+    public void Init()
+    {
         //TODO: prevent hardcoding of value here, use screen width insteads
         MainCanvas = GameObject.FindWithTag("MainCanvas");
 
-        if(MainCanvas==null){
+        if (MainCanvas == null)
+        {
             Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
         }
 
-        Res = MainCanvas.GetComponent<RectTransform>().rect.width;
-
         rt = GetComponent<RectTransform>();
-        if(rt==null){
+        if (rt == null)
+        {
             Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
         }
 
-        rt.anchoredPosition = new Vector3(Res, 0, 0);
+        rt.sizeDelta = new Vector2(AspectRatioManager.ScreenWidth, AspectRatioManager.ScreenHeight);
 
-        //for each button in the submenu
+     //for each button in the submenu
         //add a listener to deactivate the submenu onclick
         foreach (Button b in GetComponentsInChildren<Button>())
         {
             b.onClick.AddListener(DeActivate);
         }
+
+        GetComponent<EventTrigger>().triggers.Clear();
 
         //TODO:Error handle this
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -48,20 +46,22 @@ public class SubMenu : MonoBehaviour {
 
         GetComponent<EventTrigger>().triggers.Add(entry);
 
-        ScrollView = GetComponentInChildren<ScrollRect>().gameObject;         
-            ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
+        ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
+        ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
 
-        foreach(EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>()){
-            Debug.Log(et.name);
+        foreach (EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>())
+        {
             et.GetComponent<EventTrigger>().triggers.Add(entry);
         }
 
-
+        rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
+       // DeActivate();
     }
 
     public void Activate (){
 
     }
+
 
     public void DeActivate()
     {
@@ -78,17 +78,13 @@ public class SubMenu : MonoBehaviour {
         if(rt==null){
             Debug.LogWarning("Rect Transform is null or is not activated");
         }
-        rt.anchoredPosition = new Vector3(Res, 0, 0);
+        rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
 
         float lerp = 0;
 
-        currentTime = 0;
-        while (currentTime <= timeOfTravel)
+        while (true)
         {
-            currentTime += Time.deltaTime;
-            normalizedValue = currentTime / timeOfTravel; // we normalize our time 
-
-            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(0, 0, 0), lerp);
+            rt.anchoredPosition = Vector2.Lerp(rt.anchoredPosition, new Vector3(0, 0), lerp);
             lerp += rate;
             if (rt.anchoredPosition == new Vector2(0, 0))
             {
@@ -105,19 +101,20 @@ public class SubMenu : MonoBehaviour {
     {
         rt.anchoredPosition = new Vector3(0, 0, 0);
         float lerp = 0;
+      //  currentTime = 0;
 
-        currentTime = 0;
-        while (currentTime <= timeOfTravel)
+        while (true)
         {
-            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(1334, 0, 0), lerp);
+            rt.anchoredPosition = Vector2.Lerp(rt.anchoredPosition, new Vector2(AspectRatioManager.ScreenWidth, 0), lerp);
             lerp += rate;
 
-            if (rt.anchoredPosition == new Vector2(1334, 0)){
+            if (rt.anchoredPosition == new Vector2(AspectRatioManager.ScreenWidth, 0)){
                 break;
             }
 
             yield return null;
         }
+        gameObject.SetActive(false);
         yield break;
     }
 

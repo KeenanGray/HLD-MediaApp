@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class Page : MonoBehaviour {
+public class Page : MonoBehaviour
+{
 
     public List<RectTransform> views;
 
@@ -13,25 +14,19 @@ public class Page : MonoBehaviour {
     RectTransform ViewContainer;
     GameObject View_Slider;
 
-    float timeOfTravel = 5; //time after object reach a target place 
-    float currentTime = 0; // actual floting time 
-    float normalizedValue;
-
     RectTransform CurrentView;
     Button close_button;
-    float Res;
 
-    // Use this for initialization
-    public void Initialize () {
+    [ExecuteInEditMode]
+    public void Init()
+    {
         //TODO: prevent hardcoding of value here, use screen width insteads
         MainCanvas = GameObject.FindWithTag("MainCanvas");
-
+        views = new List<RectTransform>();
         if (MainCanvas == null)
         {
             Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
         }
-
-        Res = MainCanvas.GetComponent<RectTransform>().rect.width;
 
         rt = GetComponent<RectTransform>();
         if (rt == null)
@@ -39,7 +34,7 @@ public class Page : MonoBehaviour {
             Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
         }
 
-        rt.anchoredPosition = new Vector3(Res, 0, 0);
+        rt.sizeDelta = new Vector2(AspectRatioManager.ScreenWidth, AspectRatioManager.ScreenHeight);
 
         //assign the close_button
         //gameobject must be named close_button and be a child of this gameobject
@@ -71,51 +66,56 @@ public class Page : MonoBehaviour {
             views.Add(v.GetComponent<RectTransform>());
             //TODO: Sort the list to ensure the screens appear in order
             vrt = v.GetComponent<RectTransform>();
-            vrt.rect.Set(0, 0, rt.rect.width, rt.rect.height);
-
-            // Debug.Log("View: " + v.gameObject.name);
+            vrt.rect.Set(0, 0, AspectRatioManager.ScreenWidth, AspectRatioManager.ScreenHeight);
         }
 
         //Arrange the views side-by-side
         for (int i = 0; i < views.Count; i++)
         {
             vrt = views[i].GetComponent<RectTransform>();
-            vrt.anchoredPosition = new Vector2(rt.rect.width * i, 0);
+            vrt.anchoredPosition = new Vector2(AspectRatioManager.ScreenWidth * i, 0);
         }
 
         CurrentView = views[0].GetComponent<RectTransform>();
 
-        InputManager.SwipeDelegate += SwipeHandler;
 
-        gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        DeActivate();
+        InputManager.SwipeDelegate += SwipeHandler;
     }
 
     void SwipeHandler(SwipeData swipe)
     {
         if (gameObject.activeSelf)
         {
-            //slide screen while user is swiping
-            if (views.IndexOf(CurrentView) == 0 || views.IndexOf(CurrentView) == views.Count)
-                ViewContainer.anchoredPosition += new Vector2(swipe.value * 1, 0);
-            else
-                ViewContainer.anchoredPosition += new Vector2(swipe.value * 3, 0);
-
-            if (swipe.full)
-            {
-                //Pull in the new screen if swipe has gone far enough
-                if (swipe.value < -100)
-                {
-                    StartCoroutine(SwitchView(Direction.LEFT));
-                }
-                else if (swipe.value > 100)
-                {
-                    StartCoroutine(SwitchView(Direction.RIGHT));
-                }
+                //slide screen while user is swiping
+                if (views.IndexOf(CurrentView) == 0 || views.IndexOf(CurrentView) == views.Count)
+                    ViewContainer.anchoredPosition += new Vector2(swipe.value * 1f, 0);
                 else
+                    ViewContainer.anchoredPosition += new Vector2(swipe.value * 3f, 0);
+
+                if (swipe.full)
                 {
-                    ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
+                    //Pull in the new screen if swipe has gone far enough
+                    if (swipe.value < -100)
+                    {
+                        StopAllCoroutines();
+                        StartCoroutine(SwitchView(Direction.LEFT));
+                    }
+                    else if (swipe.value > 100)
+                    {
+                        StopAllCoroutines();
+                        StartCoroutine(SwitchView(Direction.RIGHT));
+                    }
+                    else
+                    {
+                        ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
+                    }
+
                 }
-            }
         }
     }
 
@@ -139,22 +139,24 @@ public class Page : MonoBehaviour {
             return views.IndexOf(CurrentView);
         }
     }
+
     //Moves in a view at a rate based on the speed of a swipe.
     IEnumerator SwitchView(Direction dir){
         if(dir==Direction.RIGHT){
             CurrentView = views[GetPreviousView()];
-            ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
+            //This looks weird, but YES these values are both supposed to be negative
+            ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
         }
         if (dir==Direction.LEFT){
             CurrentView = views[GetNextView()];
-            ViewContainer.anchoredPosition = new Vector3(-Res * views.IndexOf(CurrentView), 0, 0);
+            //This looks weird, but YES these values are both supposed to be negative
+            ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
         }
 
         yield break;
     }
 
     public void Activate (){
-       // close_button.gameObject.SetActive(true);
     }
 
     void DeActivate()
@@ -169,19 +171,16 @@ public class Page : MonoBehaviour {
     public float rate = 1.0f;
     IEnumerator MoveScreenIn()
     {
+        gameObject.SetActive(true);
         if(rt==null){
             Debug.LogWarning("Rect Transform is null or is not activated");
         }
-        rt.anchoredPosition = new Vector3(Res, 0, 0);
+        rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
 
         float lerp = 0;
 
-        currentTime = 0;
-        while (currentTime <= timeOfTravel)
+        while (true)
         {
-            currentTime += Time.deltaTime;
-            normalizedValue = currentTime / timeOfTravel; // we normalize our time 
-
             rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(0, 0, 0), lerp);
             lerp += rate;
             if (rt.anchoredPosition == new Vector2(0, 0))
@@ -191,19 +190,17 @@ public class Page : MonoBehaviour {
 
             yield return null;
         }
-        close_button.gameObject.SetActive(true);
         yield break;
     }
 
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     IEnumerator MoveScreenOut()
     {
+        yield return new WaitForEndOfFrame();
         rt.anchoredPosition = new Vector3(0, 0, 0);
         float lerp = 0;
 
-        close_button.gameObject.SetActive(false);
-        currentTime = 0;
-        while (currentTime <= timeOfTravel)
+        while (true)
         {
             rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(1334, 0, 0), lerp);
             lerp += rate;
@@ -214,7 +211,9 @@ public class Page : MonoBehaviour {
 
             yield return null;
         }
+        gameObject.SetActive(false);
         yield break;
+
     }
 
 }

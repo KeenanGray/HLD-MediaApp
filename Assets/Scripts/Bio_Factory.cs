@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using MongoDB.Bson;
 
-public class View : MonoBehaviour {
-
-    //This script exists to 'Tag' objects as parts of app_pages
+public class Bio_Factory : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -15,4 +14,9 @@ public class View : MonoBehaviour {
 	void Update () {
 		
 	}
+
+//    public static void CreateBioPages(BsonDocument document){
+//        Debug.Log(document);
+	
+//	}
 }
