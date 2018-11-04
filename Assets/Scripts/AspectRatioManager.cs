@@ -47,7 +47,7 @@ public class AspectRatioManager : MonoBehaviour {
 
             foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())
             {
-                sm.Init();
+              // sm.Init();
             }
 
             foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())

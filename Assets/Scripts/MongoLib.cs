@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class MongoLib : MonoBehaviour {
 
     //db name heroku_pm1crn83
@@ -14,10 +15,10 @@ public class MongoLib : MonoBehaviour {
     private string API_Key = "";
     private string db_name = "heroku_pm1crn83";
 
-    private void  Start () {
-        API_Key = GetAPIKey(config.text);
-        StartCoroutine("GetCollectionFromDatabase");
-    }
+    private string collection_name;
+    private string db_result;
+    
+    public bool UpdateFromDB;
 
     private string GetAPIKey(string v)
     {
@@ -31,27 +32,34 @@ public class MongoLib : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (UpdateFromDB)
+        {
+            API_Key = GetAPIKey(config.text);
+            StartCoroutine("UpdateBiographies");
+            UpdateFromDB = false;
+        }
     }
 
     string GenerateCollectionRequestString(string collection){
         var myString = "";
         myString += baseURL;
         myString += ("databases/" + db_name + "/collections/" +collection + "?apiKey="+API_Key);
-       // Debug.Log(myString);
+
         return myString;
     }
 
+    IEnumerator UpdateBiographies(){
+        //Get the biographies from the database
+        collection_name = "The_Displayed";
+        yield return StartCoroutine("GetCollectionFromDatabase");
+        Bio_Factory.CreateBioPages(db_result);
+        yield break;
+    }
+
     IEnumerator GetCollectionFromDatabase(){
-        var url = GenerateCollectionRequestString("The_Displayed");
-
-        var two = url;
-
-        Debug.Log(one);
-        Debug.Log(url);
-
+        var url = GenerateCollectionRequestString(collection_name);
         using (WWW www = new WWW(url))
         {
-         
             while (!www.isDone)
             {
                 yield return www;
@@ -59,12 +67,14 @@ public class MongoLib : MonoBehaviour {
             if(www.responseHeaders.ContainsKey("STATUS")){
                 if(www.responseHeaders["STATUS"] == "HTTP/1.1 200 OK")
                 {
-                    Debug.Log(www.text);
+                //   Debug.Log(www.text);
+                    db_result = www.text;
                 }
-                else{
+                else
+                {
                     Debug.LogWarning("Error with response" + www.responseHeaders["STATUS"]);
                 }
-            }    
+            }
             yield break;
         }
 

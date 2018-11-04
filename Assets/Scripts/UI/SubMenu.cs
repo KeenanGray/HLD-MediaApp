@@ -57,6 +57,11 @@ public class SubMenu : MonoBehaviour
        // DeActivate();
     }
 
+    private void Start()
+    {
+        DeActivate();
+    }
+
     public void Activate (){
 
     }
@@ -98,6 +103,8 @@ public class SubMenu : MonoBehaviour
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     IEnumerator MoveScreenOut()
     {
+        yield return new WaitForEndOfFrame();
+
         rt.anchoredPosition = new Vector3(0, 0, 0);
         float lerp = 0;
       //  currentTime = 0;
@@ -115,6 +122,11 @@ public class SubMenu : MonoBehaviour
         }
         gameObject.SetActive(false);
         yield break;
+    }
+
+    [ExecuteInEditMode]
+    void AddsubMenuButton(){
+        Debug.Log("here");
     }
 
 }
