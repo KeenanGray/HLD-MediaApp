@@ -11,7 +11,10 @@ using UnityEngine.UI;
 public class AspectRatioManager : MonoBehaviour {
     public static float ScreenWidth;
     public static float ScreenHeight;
-    
+
+    public static bool AspectRatioSet;
+    public static bool Stopped;
+
     private void Awake()
     {
     }
@@ -22,6 +25,12 @@ public class AspectRatioManager : MonoBehaviour {
               ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
             if (ScreenHeight.Equals(0))
                 ScreenHeight = gameObject.GetComponent<RectTransform>().rect.height;
-      }
+
+        if(!Stopped)
+            AspectRatioSet = true;
+        else
+            AspectRatioSet = false;
+
+    }
 
 }

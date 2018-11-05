@@ -20,10 +20,16 @@ public static class ObjPoolManager {
             GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
             GameObject Button_PoolGO = GameObject.Find("ButtonPool");
 
-            foreach (GameObject go in Biographies_Pool)
-                go.transform.SetParent(Bio_PoolGO.transform);
-            foreach (GameObject go in Button_Pool)
-                go.transform.SetParent(Button_PoolGO.transform);
+        foreach (GameObject go in Biographies_Pool)
+        {
+            go.transform.SetParent(Bio_PoolGO.transform);
+            
+        }
+        foreach (GameObject go in Button_Pool)
+        {
+            go.transform.SetParent(Button_PoolGO.transform);
+            UnityEditor.PrefabUtility.ResetToPrefabState(go);
+        }
 
     }
 
@@ -44,8 +50,6 @@ public static class ObjPoolManager {
                 Debug.LogWarning("No Button Pool");
             }
         }
-
-
         return go;
     }
 

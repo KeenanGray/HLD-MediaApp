@@ -8,20 +8,16 @@ public class InitializationManager : MonoBehaviour {
 
     public bool Initialize;
 
-    int frameCount;
     // Update is called once per frame
     void Awake () {
-        Initialize = false;
-        frameCount = 0;
     }
 
     private void Update()
     {
         if (!AspectRatioManager.ScreenWidth.Equals(0) && !AspectRatioManager.ScreenHeight.Equals(0))
         {
-            if (frameCount<10)
+            if (AspectRatioManager.AspectRatioSet)
             {
-                frameCount++;
                 foreach (WidgetContainer wc in GetComponentsInChildren<WidgetContainer>())
                 {
                     wc.Init();
@@ -49,9 +45,9 @@ public class InitializationManager : MonoBehaviour {
 
                 ObjPoolManager.Init();
 
-                Initialize = false;
+               GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
 
-                GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
+                AspectRatioManager.Stopped = true;
             }
         }
         else

@@ -19,9 +19,11 @@ public class Bio_Factory : MonoBehaviour {
         public string Desc;
     }
 
+    public static bool Constructed;
+
 	// Use this for initialization
 	void Start () {
-		
+        Constructed = false;		
 	}
 	
 	// Update is called once per frame
@@ -35,29 +37,34 @@ public class Bio_Factory : MonoBehaviour {
                                             
         string JSONToParse = "{\"users\":" + BiographiesJSON + "}";
 
-        int i = 0;
-        //Initialize and position all the biographies in the pool
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("App_Biography")) {
-            go.GetComponent<Bio_Page>().Initialize();
-            Debug.Log(AspectRatioManager.ScreenHeight);
-            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * AspectRatioManager.ScreenHeight);
-            i++;
-        }
-
-        BioArray myObject = JsonUtility.FromJson<BioArray>(JSONToParse);
-
-        //Grab objects from the pool and insert them as independent pages
-
-        foreach(Bio b in myObject.users){
-
-            GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
-            if (go != null)
+        if (!Constructed)
+        {
+            int i = 0;
+            //Initialize and position all the biographies in the pool
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("App_Biography"))
             {
-                go.transform.SetParent(Bio_Page_Root.transform);
-                go.GetComponent<App_Button>().SetButtonText(b.Name);
+                go.GetComponent<Bio_Page>().Initialize();
+                Debug.Log(AspectRatioManager.ScreenHeight);
+                go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * AspectRatioManager.ScreenHeight);
+                i++;
             }
-;            Debug.Log(b.Name);
+
+            BioArray myObject = JsonUtility.FromJson<BioArray>(JSONToParse);
+
+            //Grab objects from the pool and insert them as independent pages
+
+             var OrderedByName = myObject.users.OrderBy(x => x.Name);
+
+            foreach (Bio b in OrderedByName)
+            {
+                GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
+                if (go != null)
+                {
+                    go.transform.SetParent(Bio_Page_Root.transform);
+                    go.GetComponent<App_Button>().SetButtonText(b.Name);
+                }
+            }
+            Constructed = true;
         }
-       
 	}
 }
