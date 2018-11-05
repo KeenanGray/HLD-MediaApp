@@ -30,6 +30,11 @@ public class MongoLib : MonoBehaviour {
         return v;
     }
 
+    public void UpdateFromDatabase(){
+        API_Key = GetAPIKey(config.text);
+        StartCoroutine("UpdateBiographies");
+    }
+
     // Update is called once per frame
     void Update () {
         if (UpdateFromDB)

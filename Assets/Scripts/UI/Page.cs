@@ -10,7 +10,6 @@ public class Page : MonoBehaviour
     public List<RectTransform> views;
 
     RectTransform rt;
-    GameObject MainCanvas;
     RectTransform ViewContainer;
     GameObject View_Slider;
 
@@ -20,13 +19,7 @@ public class Page : MonoBehaviour
     [ExecuteInEditMode]
     public void Init()
     {
-        //TODO: prevent hardcoding of value here, use screen width insteads
-        MainCanvas = GameObject.FindWithTag("MainCanvas");
         views = new List<RectTransform>();
-        if (MainCanvas == null)
-        {
-            Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
-        }
 
         rt = GetComponent<RectTransform>();
         if (rt == null)
@@ -55,7 +48,6 @@ public class Page : MonoBehaviour
 
         //Get the container gameobject for each View
         ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
-
         //Get the View_Slider
         View_Slider = GameObject.Find("View_Slider");
 
@@ -77,13 +69,10 @@ public class Page : MonoBehaviour
         }
 
         CurrentView = views[0].GetComponent<RectTransform>();
-
-
     }
 
     private void Start()
     {
-        DeActivate();
         InputManager.SwipeDelegate += SwipeHandler;
     }
 
@@ -91,6 +80,8 @@ public class Page : MonoBehaviour
     {
         if (gameObject.activeSelf)
         {
+            if (ViewContainer != null)
+            {
                 //slide screen while user is swiping
                 if (views.IndexOf(CurrentView) == 0 || views.IndexOf(CurrentView) == views.Count)
                     ViewContainer.anchoredPosition += new Vector2(swipe.value * 1f, 0);
@@ -114,8 +105,13 @@ public class Page : MonoBehaviour
                     {
                         ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
                     }
-
                 }
+            }
+
+            else
+            {
+                Debug.LogWarning("Something wrong with ViewContainer " + gameObject.name);
+            }
         }
     }
 
@@ -156,16 +152,6 @@ public class Page : MonoBehaviour
         yield break;
     }
 
-    public void Activate (){
-    }
-
-    void DeActivate()
-    {
-        StopAllCoroutines();
-        StartCoroutine("MoveScreenOut");
-    }
-
-
     //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
     //Other rates will allow the screen to slide in from the right.
     public float rate = 1.0f;
@@ -193,6 +179,10 @@ public class Page : MonoBehaviour
         yield break;
     }
 
+    void DeActivate(){
+        StartCoroutine("MoveScreenOut");
+    }
+
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     IEnumerator MoveScreenOut()
     {
@@ -211,7 +201,6 @@ public class Page : MonoBehaviour
 
             yield return null;
         }
-        gameObject.SetActive(false);
         yield break;
 
     }

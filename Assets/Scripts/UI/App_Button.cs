@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 //This Script is used on buttons that will change the screen to another view of the app when pressed.
 
@@ -10,10 +10,10 @@ using UnityEngine.UI;
 //Script will find a screen for each button that matches NAME_Screen
 
 
-[ExecuteInEditMode]
-public class Button_ChangePage : MonoBehaviour {
+public class App_Button : MonoBehaviour {
     public enum Button_Activates
     {
+        None,
         Page,
         SubMenu
     }
@@ -21,11 +21,18 @@ public class Button_ChangePage : MonoBehaviour {
     GameObject newScreen;
 
     public Button_Activates Button_Opens;
-
-    private void Awake()
+  
+    [ExecuteInEditMode]
+    public void Init()
     {
+        if (Button_Opens == Button_Activates.None)
+        {
+            return;
+        }
+
         var screenName = gameObject.name.ToString().Split('_')[0];
         screenName = screenName + ("_" + Button_Opens.ToString());
+
         newScreen = GameObject.Find(screenName);
 
         if (newScreen != null)
@@ -34,17 +41,18 @@ public class Button_ChangePage : MonoBehaviour {
         }
         else
         {
-            Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the ChangePage script, but no screen has been assigned" +
-                             " check the names of these gameobjects");
+            Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the App_Button script, but no gameobject - "+ screenName + " has been assigned. Check the names of these gameobjects");
             gameObject.SetActive(false);
             return;
         }
 
         var myBtn = GetComponent<Button>();
         if (myBtn != null)
+        {
             GetComponent<Button>().onClick.AddListener(OnButtonPressed);
+        }
         else
-            Debug.LogWarning(gameObject.name + ": There is no button component on this UI element. It cannot use the ChangeScreen script without a button");
+            Debug.LogWarning(gameObject.name + ": There is no button component on this UI element. It cannot use the App_Button script without a button");
     }
 
     void OnButtonPressed(){
@@ -59,7 +67,6 @@ public class Button_ChangePage : MonoBehaviour {
                 Debug.LogWarning("Component not found");
             }
             AppScript.StopAllCoroutines();
-            AppScript.Activate();
             AppScript.StartCoroutine("MoveScreenIn");
         }
 
@@ -71,7 +78,6 @@ public class Button_ChangePage : MonoBehaviour {
                 Debug.LogWarning("Component not found");
             }
             AppScript.StopAllCoroutines();
-            AppScript.Activate();
             AppScript.StartCoroutine("MoveScreenIn");
         }
 
@@ -81,7 +87,9 @@ public class Button_ChangePage : MonoBehaviour {
         //newScreen.SetActive(false);
     }
 
-   
+    public void SetButtonText(string newtext){
+        GetComponentInChildren<TextMeshProUGUI>().text = newtext;
+    }
 
   
 }

@@ -8,21 +8,13 @@ using UnityEngine.EventSystems;
 public class SubMenu : MonoBehaviour
 {
     RectTransform rt;
-    GameObject MainCanvas;
     GameObject ScrollView;
 
     [ExecuteInEditMode]
     public void Init()
     {
-        //TODO: prevent hardcoding of value here, use screen width insteads
-        MainCanvas = GameObject.FindWithTag("MainCanvas");
-
-        if (MainCanvas == null)
-        {
-            Debug.LogWarning("Canvas tagged with \"Main Canvas\" Not Found");
-        }
-
         rt = GetComponent<RectTransform>();
+
         if (rt == null)
         {
             Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
@@ -34,7 +26,7 @@ public class SubMenu : MonoBehaviour
         //add a listener to deactivate the submenu onclick
         foreach (Button b in GetComponentsInChildren<Button>())
         {
-            b.onClick.AddListener(DeActivate);
+       //     b.onClick.AddListener(DeActivate);
         }
 
         GetComponent<EventTrigger>().triggers.Clear();
@@ -47,32 +39,20 @@ public class SubMenu : MonoBehaviour
         GetComponent<EventTrigger>().triggers.Add(entry);
 
         ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
+
+        ScrollView.GetComponent<EventTrigger>().triggers.Clear();
         ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
 
         foreach (EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>())
         {
+            et.GetComponent<EventTrigger>().triggers.Clear();
             et.GetComponent<EventTrigger>().triggers.Add(entry);
         }
-
-       // DeActivate();
     }
 
     private void Start()
     {
-        DeActivate();
     }
-
-    public void Activate (){
-
-    }
-
-
-    public void DeActivate()
-    {
-        StopAllCoroutines();
-        StartCoroutine("MoveScreenOut");
-    }
-
 
     //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
     //Other rates will allow the screen to slide in from the right.
@@ -100,6 +80,10 @@ public class SubMenu : MonoBehaviour
         yield break;
     }
 
+    void DeActivate(){
+        StartCoroutine("MoveScreenOut");
+    }
+
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     IEnumerator MoveScreenOut()
     {
@@ -120,7 +104,6 @@ public class SubMenu : MonoBehaviour
 
             yield return null;
         }
-        gameObject.SetActive(false);
         yield break;
     }
 
