@@ -9,7 +9,6 @@ using TMPro;
 //NOTE:: Buttons should have be named following the syntax NAME_Button
 //Script will find a screen for each button that matches NAME_Screen
 
-
 public class App_Button : MonoBehaviour {
     public enum Button_Activates
     {
@@ -25,6 +24,10 @@ public class App_Button : MonoBehaviour {
     [ExecuteInEditMode]
     public void Init()
     {
+        if(gameObject.name == "App_SubMenuButton"){
+            Debug.LogWarning("This button is in the pool");
+            return;
+        }
         if (Button_Opens == Button_Activates.None)
         {
             return;
@@ -42,7 +45,7 @@ public class App_Button : MonoBehaviour {
         else
         {
             Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the App_Button script, but no gameobject - "+ screenName + " has been assigned. Check the names of these gameobjects");
-            gameObject.SetActive(false);
+         //  gameObject.SetActive(false);
             return;
         }
 

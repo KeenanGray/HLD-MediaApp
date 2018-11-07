@@ -12,7 +12,6 @@ public static class ObjPoolManager {
     static List<GameObject> Biographies_Pool;
     static List<GameObject> Button_Pool;
 
-    [ExecuteInEditMode]
     public static void Init(){
             Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
             Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
@@ -28,7 +27,11 @@ public static class ObjPoolManager {
         foreach (GameObject go in Button_Pool)
         {
             go.transform.SetParent(Button_PoolGO.transform);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+
+#if UNITY_EDITOR
             UnityEditor.PrefabUtility.ResetToPrefabState(go);
+#endif
         }
 
     }

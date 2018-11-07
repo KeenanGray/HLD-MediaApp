@@ -3,54 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class InitializationManager : MonoBehaviour {
 
-    public bool Initialize;
+    GameObject aspectManager;
 
     // Update is called once per frame
-    void Awake () {
+    void Start () {
+        aspectManager = GameObject.Find("AppCanvas");
+        StartCoroutine("Init");
     }
 
     private void Update()
     {
-        if (!AspectRatioManager.ScreenWidth.Equals(0) && !AspectRatioManager.ScreenHeight.Equals(0))
-        {
-            if (AspectRatioManager.AspectRatioSet)
-            {
-                foreach (WidgetContainer wc in GetComponentsInChildren<WidgetContainer>())
-                {
-                    wc.Init();
-                }
+    
+    }
 
-                foreach (App_Button ab in GetComponentsInChildren<App_Button>())
-                {
-                    ab.Init();
-                }
-
-                foreach (Page p in GetComponentsInChildren<Page>())
-                {
-                    p.Init();
-                }
-
-                foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())
-                {
-                    sm.Init();
-                }
-
-                foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
-                {
-                    arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
-                }
-
-                ObjPoolManager.Init();
-
-               GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
-
-                AspectRatioManager.Stopped = true;
-            }
+    IEnumerator Init()
+    {
+        if(aspectManager==null){
+            Debug.Log("warn");
+            yield break;
         }
-        else
-            Debug.LogWarning("Canvas size is invalid");
+        yield return aspectManager.GetComponent<AspectRatioManager>().GetScreenResolution();
+        Debug.Log("here");
+        
+        ObjPoolManager.Init();
+        yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
+         
+        foreach (WidgetContainer wc in GetComponentsInChildren<WidgetContainer>())
+            {
+                yield return wc.Init();
+            }
+
+        foreach (App_Button ab in GetComponentsInChildren<App_Button>())
+            {
+                ab.Init();
+            }
+
+        foreach (Page p in GetComponentsInChildren<Page>())
+            {
+                p.Init();
+            }
+
+        foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())
+            {
+                sm.Init();
+            }
+
+        foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
+            {
+                arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
+            }
+
+        AspectRatioManager.Stopped = true;
+        yield break;
+
     }
 }
+

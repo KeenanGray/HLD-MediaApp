@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class MongoLib : MonoBehaviour {
 
     //db name heroku_pm1crn83
@@ -18,8 +17,6 @@ public class MongoLib : MonoBehaviour {
     private string collection_name;
     private string db_result;
     
-    public bool UpdateFromDB;
-
     private string GetAPIKey(string v)
     {
         foreach(string s in v.Split('\n')){
@@ -30,19 +27,11 @@ public class MongoLib : MonoBehaviour {
         return v;
     }
 
-    public void UpdateFromDatabase(){
+    public IEnumerator UpdateFromDatabase()
+    {
         API_Key = GetAPIKey(config.text);
-        StartCoroutine("UpdateBiographies");
-    }
-
-    // Update is called once per frame
-    void Update () {
-        if (UpdateFromDB)
-        {
-            API_Key = GetAPIKey(config.text);
-            StartCoroutine("UpdateBiographies");
-            UpdateFromDB = false;
-        }
+        yield return StartCoroutine("UpdateBiographies");
+        
     }
 
     string GenerateCollectionRequestString(string collection){

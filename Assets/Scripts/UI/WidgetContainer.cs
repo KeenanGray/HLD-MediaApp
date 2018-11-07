@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[ExecuteInEditMode]
 public class WidgetContainer : MonoBehaviour
 {
     GameObject MainCanvas;
@@ -12,7 +11,8 @@ public class WidgetContainer : MonoBehaviour
 
     RectTransform rt;
 
-    public void Init()
+
+    public IEnumerator Init()
     {
         MainCanvas = GameObject.FindWithTag("MainCanvas");
 
@@ -32,6 +32,8 @@ public class WidgetContainer : MonoBehaviour
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
         rt.sizeDelta = new Vector2(width, height);
+
+        yield break;
     }
 
     void Update()

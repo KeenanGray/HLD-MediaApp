@@ -192,7 +192,7 @@ public class Page : MonoBehaviour
 
         while (true)
         {
-            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(1334, 0, 0), lerp);
+            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(AspectRatioManager.ScreenWidth, 0, 0), lerp);
             lerp += rate;
 
             if (rt.anchoredPosition == new Vector2(1334, 0)){
@@ -201,6 +201,7 @@ public class Page : MonoBehaviour
 
             yield return null;
         }
+        gameObject.SetActive(false);
         yield break;
 
     }

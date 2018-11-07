@@ -36,20 +36,14 @@ public class SubMenu : MonoBehaviour
         entry.eventID = EventTriggerType.PointerDown;
         entry.callback.AddListener((eventData) => { DeActivate(); });
 
-        GetComponent<EventTrigger>().triggers.Add(entry);
-
         ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
 
-        ScrollView.GetComponent<EventTrigger>().triggers.Clear();
-        ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
-
-        foreach (EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>())
-        {
-            et.GetComponent<EventTrigger>().triggers.Clear();
-            et.GetComponent<EventTrigger>().triggers.Add(entry);
+        foreach(App_Button ab in GetComponentsInChildren<App_Button>()){
+            Debug.Log("adding listener" + gameObject.name);
+            ab.GetComponent<Button>().onClick.AddListener(DeActivate);
         }
     }
-
+    
     private void Start()
     {
     }
@@ -81,6 +75,7 @@ public class SubMenu : MonoBehaviour
     }
 
     void DeActivate(){
+        Debug.Log("Hey");
         StartCoroutine("MoveScreenOut");
     }
 
@@ -105,11 +100,6 @@ public class SubMenu : MonoBehaviour
             yield return null;
         }
         yield break;
-    }
-
-    [ExecuteInEditMode]
-    void AddsubMenuButton(){
-        Debug.Log("here");
     }
 
 }

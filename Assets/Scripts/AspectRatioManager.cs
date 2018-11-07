@@ -19,18 +19,21 @@ public class AspectRatioManager : MonoBehaviour {
     {
     }
 
-    private void Update()
+    public IEnumerator GetScreenResolution()
     {
-            if(ScreenWidth.Equals(0))
-              ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
-            if (ScreenHeight.Equals(0))
-                ScreenHeight = gameObject.GetComponent<RectTransform>().rect.height;
+        yield return new WaitForEndOfFrame();
+
+        ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
+        ScreenHeight = gameObject.GetComponent<RectTransform>().rect.height;
+
+        Debug.Log(AspectRatioManager.ScreenWidth + ", " + AspectRatioManager.ScreenHeight);
 
         if(!Stopped)
             AspectRatioSet = true;
         else
             AspectRatioSet = false;
 
+        yield break;
     }
 
 }

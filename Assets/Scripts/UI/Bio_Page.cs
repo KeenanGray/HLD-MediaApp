@@ -5,9 +5,9 @@ using TMPro;
 
 public class Bio_Page : MonoBehaviour {
 
-    TextMeshProUGUI Name;
-    TextMeshProUGUI Title;
-    TextMeshProUGUI Description;
+    public TextMeshProUGUI Name;
+    public TextMeshProUGUI Title;
+    public TextMeshProUGUI Description;
 
     // Use this for initialization
     [ExecuteInEditMode]
@@ -21,7 +21,6 @@ public class Bio_Page : MonoBehaviour {
                 Description = tm;
         }
 
-
         Name.text = "";
         Title.text = "";
         Description.text = "";
@@ -31,4 +30,17 @@ public class Bio_Page : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void SetName(string str){
+        Name.text = str;
+    }
+    public void SetTitle(string str)
+    {
+        Title.text = str;
+    }
+    public void SetDesc(string str)
+    {
+        Description.text = str;
+    }
+
 }
