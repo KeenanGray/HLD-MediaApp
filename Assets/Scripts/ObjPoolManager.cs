@@ -13,7 +13,7 @@ public static class ObjPoolManager {
     static List<GameObject> Button_Pool;
 
     public static void Init(){
-            Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
+        Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
             Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
 
             GameObject Bio_PoolGO = GameObject.Find("BioPagePool");

@@ -10,7 +10,6 @@ public class SubMenu : MonoBehaviour
     RectTransform rt;
     GameObject ScrollView;
 
-    [ExecuteInEditMode]
     public void Init()
     {
         rt = GetComponent<RectTransform>();
@@ -38,8 +37,15 @@ public class SubMenu : MonoBehaviour
 
         ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
 
-        foreach(App_Button ab in GetComponentsInChildren<App_Button>()){
-            Debug.Log("adding listener" + gameObject.name);
+        ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
+    //    ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
+
+        foreach (EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>())
+        {
+         //   et.GetComponent<EventTrigger>().triggers.Add(entry);
+        }
+
+        foreach (App_Button ab in GetComponentsInChildren<App_Button>()){
             ab.GetComponent<Button>().onClick.AddListener(DeActivate);
         }
     }
@@ -75,7 +81,6 @@ public class SubMenu : MonoBehaviour
     }
 
     void DeActivate(){
-        Debug.Log("Hey");
         StartCoroutine("MoveScreenOut");
     }
 
@@ -99,6 +104,7 @@ public class SubMenu : MonoBehaviour
 
             yield return null;
         }
+        gameObject.SetActive(false);
         yield break;
     }
 

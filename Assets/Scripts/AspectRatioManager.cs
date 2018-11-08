@@ -15,8 +15,14 @@ public class AspectRatioManager : MonoBehaviour {
     public static bool AspectRatioSet;
     public static bool Stopped;
 
-    private void Awake()
+    private void Update()
     {
+        Debug.Log("stooped " + Stopped);
+        if (!Stopped)
+        {
+            ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
+            ScreenHeight = gameObject.GetComponent<RectTransform>().rect.height;
+        }
     }
 
     public IEnumerator GetScreenResolution()
@@ -25,8 +31,6 @@ public class AspectRatioManager : MonoBehaviour {
 
         ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
         ScreenHeight = gameObject.GetComponent<RectTransform>().rect.height;
-
-        Debug.Log(AspectRatioManager.ScreenWidth + ", " + AspectRatioManager.ScreenHeight);
 
         if(!Stopped)
             AspectRatioSet = true;

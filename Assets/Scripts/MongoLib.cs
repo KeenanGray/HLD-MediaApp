@@ -6,7 +6,6 @@ using UnityEngine;
 public class MongoLib : MonoBehaviour {
 
     //db name heroku_pm1crn83
-    //TODO: IS IT OKAY TO USE API KEY HERE? READ ONLY USAGE?!!?!??!
     // Use this for initialization
     public TextAsset config;
 

@@ -28,10 +28,8 @@ public class Bio_Factory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
-    [ExecuteInEditMode]
     public static void CreateBioPages(string BiographiesJSON){
         GameObject Bio_Button_Root = GameObject.Find("Biographies_Links");
         GameObject Bio_Page_Root = GameObject.Find("Pages");

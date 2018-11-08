@@ -7,6 +7,7 @@ TagManager:
   - MainCanvas
   - App_Biography
   - App_SubMenuButton
+  - Hidden
   layers:
   - Default
   - TransparentFX

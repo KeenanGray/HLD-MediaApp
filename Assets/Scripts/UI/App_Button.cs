@@ -21,7 +21,6 @@ public class App_Button : MonoBehaviour {
 
     public Button_Activates Button_Opens;
   
-    [ExecuteInEditMode]
     public void Init()
     {
         if(gameObject.name == "App_SubMenuButton"){

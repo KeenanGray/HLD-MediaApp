@@ -16,7 +16,6 @@ public class Page : MonoBehaviour
     RectTransform CurrentView;
     Button close_button;
 
-    [ExecuteInEditMode]
     public void Init()
     {
         views = new List<RectTransform>();
@@ -180,6 +179,7 @@ public class Page : MonoBehaviour
     }
 
     void DeActivate(){
+        Debug.Log("close button pressed " + gameObject.name);
         StartCoroutine("MoveScreenOut");
     }
 
@@ -195,7 +195,7 @@ public class Page : MonoBehaviour
             rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(AspectRatioManager.ScreenWidth, 0, 0), lerp);
             lerp += rate;
 
-            if (rt.anchoredPosition == new Vector2(1334, 0)){
+            if (rt.anchoredPosition == new Vector2(AspectRatioManager.ScreenWidth, 0)){
                 break;
             }
 
