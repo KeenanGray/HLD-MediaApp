@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class MongoLib : MonoBehaviour {
 
     //db name heroku_pm1crn83
@@ -15,7 +17,27 @@ public class MongoLib : MonoBehaviour {
 
     private string collection_name;
     private string db_result;
+
+    IEnumerator myCoroutine;
+    public bool updateThis;
     
+    private void Start()
+    {
+        //   myCoroutine = UpdateBiographies;
+        EditorApplication.update += EditorUpdate;
+        myCoroutine = UpdateFromDatabase();
+
+    }
+
+    void EditorUpdate()
+    {
+        if (updateThis)
+        {
+            myCoroutine.MoveNext();
+
+        }
+    }
+
     private string GetAPIKey(string v)
     {
         foreach(string s in v.Split('\n')){
@@ -51,16 +73,17 @@ public class MongoLib : MonoBehaviour {
 
     IEnumerator GetCollectionFromDatabase(){
         var url = GenerateCollectionRequestString(collection_name);
+
         using (WWW www = new WWW(url))
         {
             while (!www.isDone)
             {
                 yield return www;
             }
-            if(www.responseHeaders.ContainsKey("STATUS")){
-                if(www.responseHeaders["STATUS"] == "HTTP/1.1 200 OK")
+            if (www.responseHeaders.ContainsKey("STATUS"))
+            {
+                if (www.responseHeaders["STATUS"] == "HTTP/1.1 200 OK")
                 {
-                //   Debug.Log(www.text);
                     db_result = www.text;
                 }
                 else

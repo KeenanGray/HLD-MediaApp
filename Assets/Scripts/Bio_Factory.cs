@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+[ExecuteInEditMode]
 public class Bio_Factory : MonoBehaviour {
 
     [System.Serializable]
@@ -34,6 +35,14 @@ public class Bio_Factory : MonoBehaviour {
         GameObject Bio_Button_Root = GameObject.Find("Biographies_Links");
         GameObject Bio_Page_Root = GameObject.Find("Pages");
 
+//        Debug.Log("bio:" + BiographiesJSON);
+
+        if (BiographiesJSON==null)
+        {
+            //TODO:What else needs to be done prior to updating?
+            Debug.Log("No JSON returned from server");
+            return;
+        }
         string JSONToParse = "{\"users\":" + BiographiesJSON + "}";
 
         if (!Constructed)
@@ -46,7 +55,7 @@ public class Bio_Factory : MonoBehaviour {
                 go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * AspectRatioManager.ScreenHeight);
                 i++;
             }
-
+            
             BioArray myObject = JsonUtility.FromJson<BioArray>(JSONToParse);
 
             //Grab objects from the pool and insert them as independent pages

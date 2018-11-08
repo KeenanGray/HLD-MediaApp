@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,14 @@ public class InitializationManager : MonoBehaviour {
 
     GameObject aspectManager;
     public GameObject mCamera;
-    // Update is called once per frame
+
     void Start () {
         mCamera.SetActive(false);
         aspectManager = GameObject.Find("AppCanvas");
         StartCoroutine("Init");
-
+        
+        // StartRequest is build like a normal 
+        // coroutine and yield returns on WWW
     }
 
     private void Update()
@@ -32,6 +35,8 @@ public class InitializationManager : MonoBehaviour {
             {
                 spr.SetAspectRatio();
             }
+
+            GameObject.Find("DB_Manager").GetComponent<MongoLib>().updateThis = true;
 
             AspectRatioManager.Stopped = true;
         }

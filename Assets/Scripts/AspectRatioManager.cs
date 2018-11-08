@@ -17,7 +17,6 @@ public class AspectRatioManager : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log("stooped " + Stopped);
         if (!Stopped)
         {
             ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
