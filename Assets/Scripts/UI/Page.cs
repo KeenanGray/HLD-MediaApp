@@ -8,7 +8,7 @@ public class Page : MonoBehaviour
 {
 
     public List<RectTransform> views;
-
+    public GameObject LandingPage;
     RectTransform rt;
     RectTransform ViewContainer;
     GameObject View_Slider;
@@ -18,6 +18,11 @@ public class Page : MonoBehaviour
 
     public void Init()
     {
+        LandingPage = GameObject.Find("LandingScreen");
+        if (LandingPage == null)
+            Debug.LogWarning("No landing page 2");
+
+
         views = new List<RectTransform>();
 
         rt = GetComponent<RectTransform>();
@@ -180,6 +185,7 @@ public class Page : MonoBehaviour
 
     void DeActivate(){
         Debug.Log("close button pressed " + gameObject.name);
+        LandingPage.SetActive(true);
         StartCoroutine("MoveScreenOut");
     }
 

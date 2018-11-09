@@ -6,23 +6,28 @@ public static class ObjPoolManager {
 
     public enum Pool{
         Bio,
+        About,
+        Watch,
+        Program,
         Button
     }
 
     static List<GameObject> Biographies_Pool;
     static List<GameObject> Button_Pool;
+    static List<GameObject> AboutPage_Pool;
 
     public static void Init(){
         Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
-            Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
+        Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
+        AboutPage_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_AboutPage"));
 
-            GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
-            GameObject Button_PoolGO = GameObject.Find("ButtonPool");
+        GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
+        GameObject Button_PoolGO = GameObject.Find("ButtonPool");
+        GameObject About_PoolGO = GameObject.Find("AboutPagePool");
 
         foreach (GameObject go in Biographies_Pool)
         {
-            go.transform.SetParent(Bio_PoolGO.transform);
-            
+            go.transform.SetParent(Bio_PoolGO.transform);      
         }
         foreach (GameObject go in Button_Pool)
         {
@@ -32,6 +37,11 @@ public static class ObjPoolManager {
 #if UNITY_EDITOR
             UnityEditor.PrefabUtility.ResetToPrefabState(go);
 #endif
+        }
+
+        foreach (GameObject go in AboutPage_Pool)
+        {
+            go.transform.SetParent(About_PoolGO.transform);
         }
 
     }

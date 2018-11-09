@@ -20,12 +20,14 @@ public class MongoLib : MonoBehaviour {
 
     IEnumerator myCoroutine;
     public bool updateThis;
-    
+
     private void Start()
     {
         //   myCoroutine = UpdateBiographies;
+#if UNITY_EDITOR
         EditorApplication.update += EditorUpdate;
         myCoroutine = UpdateFromDatabase();
+#endif
 
     }
 
@@ -52,7 +54,9 @@ public class MongoLib : MonoBehaviour {
     {
         API_Key = GetAPIKey(config.text);
         yield return StartCoroutine("UpdateBiographies");
-        
+        yield return StartCoroutine("UpdateAbout");
+        yield return StartCoroutine("UpdateProgram");
+        yield return StartCoroutine("UpdateWatch");
     }
 
     string GenerateCollectionRequestString(string collection){
@@ -70,6 +74,31 @@ public class MongoLib : MonoBehaviour {
         Bio_Factory.CreateBioPages(db_result);
         yield break;
     }
+    IEnumerator UpdateWatch()
+    {
+        //Get the biographies from the database
+        collection_name = "Watch";
+        yield return StartCoroutine("GetCollectionFromDatabase");
+        Watch_Factory.CreateWatchPage(db_result);
+        yield break;
+    }
+    IEnumerator UpdateAbout()
+    {
+        //Get the biographies from the database
+        collection_name = "About";
+        yield return StartCoroutine("GetCollectionFromDatabase");
+        About_Factory.CreateAboutPages(db_result);
+        yield break;
+    }
+    IEnumerator UpdateProgram()
+    {
+        //Get the biographies from the database
+        collection_name = "Program";
+        yield return StartCoroutine("GetCollectionFromDatabase");
+        Program_Factory.CreateProgramPage(db_result);
+        yield break;
+    }
+
 
     IEnumerator GetCollectionFromDatabase(){
         var url = GenerateCollectionRequestString(collection_name);

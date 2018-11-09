@@ -11,7 +11,6 @@ public class InitializationManager : MonoBehaviour {
     public GameObject mCamera;
 
     void Start () {
-        mCamera.SetActive(false);
         aspectManager = GameObject.Find("AppCanvas");
         StartCoroutine("Init");
         
@@ -82,7 +81,7 @@ public class InitializationManager : MonoBehaviour {
         
         AspectRatioManager.Stopped = true;
 
-        mCamera.SetActive(true);
+     //   mCamera.SetActive(true);
         yield break;
 
     }

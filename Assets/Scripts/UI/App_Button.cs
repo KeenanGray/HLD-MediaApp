@@ -19,11 +19,16 @@ public class App_Button : MonoBehaviour {
 
     GameObject newScreen;
 
+    public GameObject LandingPage;
     public Button_Activates Button_Opens;
   
     public void Init()
     {
-        if(gameObject.name == "App_SubMenuButton"){
+        LandingPage = GameObject.Find("LandingScreen");
+        if (LandingPage == null)
+            Debug.LogWarning("No landing page");
+
+        if (gameObject.name == "App_SubMenuButton"){
             Debug.LogWarning("This button is in the pool");
             return;
         }
@@ -82,7 +87,7 @@ public class App_Button : MonoBehaviour {
             AppScript.StopAllCoroutines();
             AppScript.StartCoroutine("MoveScreenIn");
         }
-
+        LandingPage.SetActive(false);
     }
 
     void DeActivate(){
