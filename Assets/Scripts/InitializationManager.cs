@@ -65,7 +65,7 @@ public class InitializationManager : MonoBehaviour {
         foreach (Page p in GetComponentsInChildren<Page>())
             {
                 p.Init();
-            p.StartCoroutine("MoveScreenOut");
+                p.StartCoroutine("MoveScreenOut");
         }
 
         foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())

@@ -207,7 +207,7 @@ public class Page : MonoBehaviour
 
             yield return null;
         }
-        gameObject.SetActive(false);
+       gameObject.SetActive(false);
         yield break;
 
     }
