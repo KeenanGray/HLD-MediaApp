@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,27 +19,14 @@ public class MongoLib : MonoBehaviour {
 
     private string collection_name;
     private string db_result;
-
-    IEnumerator myCoroutine;
-    public bool updateThis;
-
+    
     private void Start()
     {
-        //   myCoroutine = UpdateBiographies;
-#if UNITY_EDITOR
-        EditorApplication.update += EditorUpdate;
-        myCoroutine = UpdateFromDatabase();
-#endif
 
     }
-
-    void EditorUpdate()
+    private void Update()
     {
-        if (updateThis)
-        {
-            myCoroutine.MoveNext();
 
-        }
     }
 
     private string GetAPIKey(string v)
@@ -71,7 +60,7 @@ public class MongoLib : MonoBehaviour {
         //Get the biographies from the database
         collection_name = "The_Displayed";
         yield return StartCoroutine("GetCollectionFromDatabase");
-        Bio_Factory.CreateBioPages(db_result);
+        WriteJson(db_result, "Bios.json");
         yield break;
     }
     IEnumerator UpdateWatch()
@@ -79,7 +68,7 @@ public class MongoLib : MonoBehaviour {
         //Get the biographies from the database
         collection_name = "Watch";
         yield return StartCoroutine("GetCollectionFromDatabase");
-        Watch_Factory.CreateWatchPage(db_result);
+      //  WriteJson(db_result, "Watch.json");
         yield break;
     }
     IEnumerator UpdateAbout()
@@ -87,7 +76,7 @@ public class MongoLib : MonoBehaviour {
         //Get the biographies from the database
         collection_name = "About";
         yield return StartCoroutine("GetCollectionFromDatabase");
-        About_Factory.CreateAboutPages(db_result);
+      //  WriteJson(db_result, "About.json");
         yield break;
     }
     IEnumerator UpdateProgram()
@@ -95,7 +84,7 @@ public class MongoLib : MonoBehaviour {
         //Get the biographies from the database
         collection_name = "Program";
         yield return StartCoroutine("GetCollectionFromDatabase");
-        Program_Factory.CreateProgramPage(db_result);
+      //  WriteJson(db_result, "Program.json");
         yield break;
     }
 
@@ -122,6 +111,74 @@ public class MongoLib : MonoBehaviour {
             }
             yield break;
         }
-
     }
+
+    void WriteJson(string data, string fileName){
+        string destination = Application.persistentDataPath + "/"+fileName;
+        FileStream file;
+        StreamReader sr;
+        StreamWriter sw;
+
+        string jsonToWrite = "{\"users\":" + data + "}";
+
+        //Open the local file
+        if (File.Exists(destination))
+        {
+            //If the file exists, compare the two versions
+            //If they are differnet. overwrite the old version
+            sr = File.OpenText(destination);
+            var oldJson = sr.ReadToEnd();
+            sr.Close();
+            
+            oldJson = oldJson.Remove(oldJson.Length-1, 1);
+            //   oldJson = oldJson.Remove(oldJson.Length - 1, 1);
+            if (oldJson.Equals(jsonToWrite)){
+//                Debug.Log("JSON matches");
+            }
+            else
+            {
+                file = File.Create(destination);
+                file.Close();
+      //          Debug.Log("New JSON");
+                sw = new StreamWriter(destination, true);
+                sw.WriteLine(jsonToWrite);
+                sw.Close();
+            }
+        }
+        else
+        {
+            //If the file does not exist, create the file and write data to it
+
+            file = File.Create(destination);
+            file.Close();
+            sw = new StreamWriter(destination, true);
+            sw.WriteLine(jsonToWrite);
+            sw.Close();
+        }
+    }
+
+    public static string ReadJson(string fileName){
+        string destination = Application.persistentDataPath + "/" + fileName;
+        StreamReader sr;
+
+        string jsonStr="";
+        //Open the local file
+        if (File.Exists(destination))
+        {
+            //If the file exists, read the file
+            //TODO:
+            sr = File.OpenText(destination);
+            jsonStr = sr.ReadToEnd();
+            sr.Close();
+
+            return jsonStr;
+        }
+        else{
+            Debug.LogWarning("no file found");
+            return "";
+        }
+        
+    }
+
+
 }

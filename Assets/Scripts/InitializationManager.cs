@@ -5,17 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
-public class InitializationManager : MonoBehaviour {
+public class InitializationManager : MonoBehaviour
+{
 
     GameObject aspectManager;
-    public GameObject mCamera;
 
-    void Start () {
+    public UAP_AccessibilityManager AccessibilityManager;
+    public GameObject bCanvas;
+
+    void Start()
+    {
+        bCanvas.SetActive(true);
         aspectManager = GameObject.Find("AppCanvas");
+
         StartCoroutine("Init");
-        
-        // StartRequest is build like a normal 
-        // coroutine and yield returns on WWW
     }
 
     private void Update()
@@ -35,15 +38,17 @@ public class InitializationManager : MonoBehaviour {
                 spr.SetAspectRatio();
             }
 
-            GameObject.Find("DB_Manager").GetComponent<MongoLib>().updateThis = true;
-
             AspectRatioManager.Stopped = true;
         }
     }
 
     IEnumerator Init()
     {
-        if (aspectManager==null){
+        bCanvas.SetActive(true);
+        AccessibilityManager.enabled = false;
+
+        if (aspectManager == null)
+        {
             Debug.LogWarning("Unable to find Aspect Manager");
             yield break;
         }
@@ -51,39 +56,43 @@ public class InitializationManager : MonoBehaviour {
 
         ObjPoolManager.Init();
         yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
-         
+
+        var str = MongoLib.ReadJson("Bios.json");
+        Bio_Factory.CreateBioPages(str);
+
         foreach (WidgetContainer wc in GetComponentsInChildren<WidgetContainer>())
-            {
-                yield return wc.Init();
-            }
-
-        foreach (App_Button ab in GetComponentsInChildren<App_Button>())
-            {
-                ab.Init();
-            }
-
-        foreach (Page p in GetComponentsInChildren<Page>())
-            {
-                p.Init();
-                p.StartCoroutine("MoveScreenOut");
+        {
+            yield return wc.Init();
         }
 
+        foreach (App_Button ab in GetComponentsInChildren<App_Button>())
+        {
+            ab.Init();
+        }
+        foreach (Page p in GetComponentsInChildren<Page>())
+        {
+            p.Init();
+            yield return p.MoveScreenOut();
+            p.ToggleRenderer(false);
+        }
+    
         foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())
-            {
-                sm.Init();
-            sm.StartCoroutine("MoveScreenOut");
-            }
+        {
+            sm.Init();
+            yield return sm.MoveScreenOut();
+            sm.ToggleRenderer(true);
+        }
 
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
-            {
-                arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
-            }
-        
+        {
+            arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
+        }
         AspectRatioManager.Stopped = true;
 
-     //   mCamera.SetActive(true);
-        yield break;
+        AccessibilityManager.enabled = true;
+        bCanvas.SetActive(false);
 
+        yield break;
     }
 }
 

@@ -21,11 +21,11 @@ public class SubMenu : MonoBehaviour
 
         rt.sizeDelta = new Vector2(AspectRatioManager.ScreenWidth, AspectRatioManager.ScreenHeight);
 
-     //for each button in the submenu
+        //for each button in the submenu
         //add a listener to deactivate the submenu onclick
         foreach (Button b in GetComponentsInChildren<Button>())
         {
-       //     b.onClick.AddListener(DeActivate);
+            //     b.onClick.AddListener(DeActivate);
         }
 
         GetComponent<EventTrigger>().triggers.Clear();
@@ -36,20 +36,20 @@ public class SubMenu : MonoBehaviour
         entry.callback.AddListener((eventData) => { DeActivate(); });
 
         ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
-
         ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
-    //    ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
+        //    ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
 
         foreach (EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>())
         {
-         //   et.GetComponent<EventTrigger>().triggers.Add(entry);
+            //   et.GetComponent<EventTrigger>().triggers.Add(entry);
         }
 
-        foreach (App_Button ab in GetComponentsInChildren<App_Button>()){
+        foreach (App_Button ab in GetComponentsInChildren<App_Button>())
+        {
             ab.GetComponent<Button>().onClick.AddListener(DeActivate);
         }
     }
-    
+
     private void Start()
     {
     }
@@ -59,11 +59,13 @@ public class SubMenu : MonoBehaviour
     public float rate = 1.0f;
     IEnumerator MoveScreenIn()
     {
-        if(rt==null){
+        if (rt == null)
+        {
             Debug.LogWarning("Rect Transform is null or is not activated");
         }
+#if !UNITY_EDITOR
         rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
-
+#endif
         float lerp = 0;
 
         while (true)
@@ -85,7 +87,7 @@ public class SubMenu : MonoBehaviour
     }
 
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
-    IEnumerator MoveScreenOut()
+    public IEnumerator MoveScreenOut()
     {
         yield return new WaitForEndOfFrame();
 
@@ -104,8 +106,16 @@ public class SubMenu : MonoBehaviour
 
             yield return null;
         }
-        gameObject.SetActive(false);
         yield break;
     }
 
+    public void ToggleRenderer(bool Enabled)
+    {
+        if (Enabled)
+            transform.localScale = new Vector3(1, 1, 1);
+        else
+        {
+            transform.localScale = new Vector3(0, 0, 0);
+        }
+    }
 }

@@ -12,7 +12,6 @@ public class Page : MonoBehaviour
     RectTransform rt;
     RectTransform ViewContainer;
     GameObject View_Slider;
-
     RectTransform CurrentView;
     Button close_button;
 
@@ -119,13 +118,15 @@ public class Page : MonoBehaviour
         }
     }
 
-    int GetNextView(){
+    int GetNextView()
+    {
         int i = views.IndexOf(CurrentView);
-        if (i < views.Count-1)
+        if (i < views.Count - 1)
         {
             return i + 1;
         }
-        else{
+        else
+        {
             return views.IndexOf(CurrentView);
         }
     }
@@ -141,13 +142,16 @@ public class Page : MonoBehaviour
     }
 
     //Moves in a view at a rate based on the speed of a swipe.
-    IEnumerator SwitchView(Direction dir){
-        if(dir==Direction.RIGHT){
+    IEnumerator SwitchView(Direction dir)
+    {
+        if (dir == Direction.RIGHT)
+        {
             CurrentView = views[GetPreviousView()];
             //This looks weird, but YES these values are both supposed to be negative
             ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
         }
-        if (dir==Direction.LEFT){
+        if (dir == Direction.LEFT)
+        {
             CurrentView = views[GetNextView()];
             //This looks weird, but YES these values are both supposed to be negative
             ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
@@ -162,7 +166,8 @@ public class Page : MonoBehaviour
     IEnumerator MoveScreenIn()
     {
         gameObject.SetActive(true);
-        if(rt==null){
+        if (rt == null)
+        {
             Debug.LogWarning("Rect Transform is null or is not activated");
         }
         rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
@@ -183,14 +188,15 @@ public class Page : MonoBehaviour
         yield break;
     }
 
-    void DeActivate(){
+    void DeActivate()
+    {
         Debug.Log("close button pressed " + gameObject.name);
         LandingPage.SetActive(true);
         StartCoroutine("MoveScreenOut");
     }
 
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
-    IEnumerator MoveScreenOut()
+    public IEnumerator MoveScreenOut()
     {
         yield return new WaitForEndOfFrame();
         rt.anchoredPosition = new Vector3(0, 0, 0);
@@ -201,15 +207,24 @@ public class Page : MonoBehaviour
             rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(AspectRatioManager.ScreenWidth, 0, 0), lerp);
             lerp += rate;
 
-            if (rt.anchoredPosition == new Vector2(AspectRatioManager.ScreenWidth, 0)){
+            if (rt.anchoredPosition == new Vector2(AspectRatioManager.ScreenWidth, 0))
+            {
                 break;
             }
 
             yield return null;
         }
-       gameObject.SetActive(false);
         yield break;
 
     }
+
+    public void ToggleRenderer(bool Enabled){
+        if (Enabled)
+            rt.localScale = new Vector3(1, 1, 1);
+        else{
+            rt.localScale = new Vector3(0, 0, 0);
+        }
+    }
+
 
 }

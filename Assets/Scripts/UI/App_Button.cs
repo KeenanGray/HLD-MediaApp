@@ -19,7 +19,7 @@ public class App_Button : MonoBehaviour {
 
     GameObject newScreen;
 
-    public GameObject LandingPage;
+    GameObject LandingPage;
     public Button_Activates Button_Opens;
   
     public void Init()
@@ -63,6 +63,18 @@ public class App_Button : MonoBehaviour {
     }
 
     void OnButtonPressed(){
+        switch(Button_Opens){
+            case Button_Activates.Page:
+                newScreen.GetComponent<Page>().ToggleRenderer(true);
+                break;
+            case Button_Activates.SubMenu:
+                newScreen.GetComponent<SubMenu>().ToggleRenderer(true);
+                break;
+            default:
+                Debug.Log("No Activity for this button");
+                break;
+        }
+
         newScreen.SetActive(true);
 
         if (Button_Opens == Button_Activates.Page)

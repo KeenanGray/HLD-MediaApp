@@ -24,33 +24,39 @@ public static class ObjPoolManager {
         GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
         GameObject Button_PoolGO = GameObject.Find("ButtonPool");
         GameObject About_PoolGO = GameObject.Find("AboutPagePool");
-
+    /*    
         foreach (GameObject go in Biographies_Pool)
         {
-            go.transform.SetParent(Bio_PoolGO.transform);      
+            go.transform.SetParent(Bio_PoolGO.transform);
+            go.name = "Bio_Page";
         }
         foreach (GameObject go in Button_Pool)
         {
             go.transform.SetParent(Button_PoolGO.transform);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-
-#if UNITY_EDITOR
-            UnityEditor.PrefabUtility.ResetToPrefabState(go);
-#endif
+            go.GetComponent<App_Button>().SetButtonText("");
+            go.name = "App_SubMenuButton";
         }
 
         foreach (GameObject go in AboutPage_Pool)
         {
             go.transform.SetParent(About_PoolGO.transform);
         }
-
+*/
     }
 
     public static GameObject RetrieveFromPool(Pool pool){
         GameObject go = null;
         if(pool.Equals(Pool.Bio)){
-            go = Biographies_Pool[0];
-            Biographies_Pool.Remove(go);
+            if (Biographies_Pool.Count > 0)
+            {
+                go = Biographies_Pool[0];
+                Biographies_Pool.Remove(go);
+            }
+            else{
+                Debug.LogWarning("No Bio Pool");
+            }
+
         }
 
         if (pool.Equals(Pool.Button)){
