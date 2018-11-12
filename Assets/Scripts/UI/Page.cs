@@ -14,6 +14,7 @@ public class Page : MonoBehaviour
     GameObject View_Slider;
     RectTransform CurrentView;
     Button close_button;
+    bool PageOnScreen;
 
     public void Init()
     {
@@ -50,7 +51,14 @@ public class Page : MonoBehaviour
         }
 
         //Get the container gameobject for each View
-        ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
+        if (transform.Find("Views") != null)
+            ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
+        else
+        {
+            Debug.LogWarning("No ViewContainerOnThisPage");
+            return;
+        }
+
         //Get the View_Slider
         View_Slider = GameObject.Find("View_Slider");
 
@@ -70,8 +78,8 @@ public class Page : MonoBehaviour
             vrt = views[i].GetComponent<RectTransform>();
             vrt.anchoredPosition = new Vector2(AspectRatioManager.ScreenWidth * i, 0);
         }
-
-        CurrentView = views[0].GetComponent<RectTransform>();
+        if(views.Count>0)
+            CurrentView = views[0].GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -81,39 +89,41 @@ public class Page : MonoBehaviour
 
     void SwipeHandler(SwipeData swipe)
     {
-        if (gameObject.activeSelf)
-        {
-            if (ViewContainer != null)
+        if(PageOnScreen){
+            if (gameObject.activeSelf)
             {
-                //slide screen while user is swiping
-                if (views.IndexOf(CurrentView) == 0 || views.IndexOf(CurrentView) == views.Count)
-                    ViewContainer.anchoredPosition += new Vector2(swipe.value * 1f, 0);
-                else
-                    ViewContainer.anchoredPosition += new Vector2(swipe.value * 3f, 0);
-
-                if (swipe.full)
+                if (ViewContainer != null)
                 {
-                    //Pull in the new screen if swipe has gone far enough
-                    if (swipe.value < -100)
-                    {
-                        StopAllCoroutines();
-                        StartCoroutine(SwitchView(Direction.LEFT));
-                    }
-                    else if (swipe.value > 100)
-                    {
-                        StopAllCoroutines();
-                        StartCoroutine(SwitchView(Direction.RIGHT));
-                    }
+                    //slide screen while user is swiping
+                    if (views.IndexOf(CurrentView) == 0 || views.IndexOf(CurrentView) == views.Count)
+                        ViewContainer.anchoredPosition += new Vector2(swipe.value * 1f, 0);
                     else
+                        ViewContainer.anchoredPosition += new Vector2(swipe.value * 3f, 0);
+
+                    if (swipe.full)
                     {
-                        ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
+                        //Pull in the new screen if swipe has gone far enough
+                        if (swipe.value < -100)
+                        {
+                            StopAllCoroutines();
+                            StartCoroutine(SwitchView(Direction.LEFT));
+                        }
+                        else if (swipe.value > 100)
+                        {
+                            StopAllCoroutines();
+                            StartCoroutine(SwitchView(Direction.RIGHT));
+                        }
+                        else
+                        {
+                            ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
+                        }
                     }
                 }
-            }
 
-            else
-            {
-                Debug.LogWarning("Something wrong with ViewContainer " + gameObject.name);
+                else
+                {
+                    Debug.LogWarning("Something wrong with ViewContainer " + gameObject.name);
+                }
             }
         }
     }
@@ -163,9 +173,11 @@ public class Page : MonoBehaviour
     //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
     //Other rates will allow the screen to slide in from the right.
     public float rate = 1.0f;
-    IEnumerator MoveScreenIn()
+    public IEnumerator MoveScreenIn()
     {
         gameObject.SetActive(true);
+        ActivateButtonsOnScreen();
+        ActivateUAP();
         if (rt == null)
         {
             Debug.LogWarning("Rect Transform is null or is not activated");
@@ -185,19 +197,16 @@ public class Page : MonoBehaviour
 
             yield return null;
         }
+        PageOnScreen = true;
         yield break;
-    }
-
-    void DeActivate()
-    {
-        Debug.Log("close button pressed " + gameObject.name);
-        LandingPage.SetActive(true);
-        StartCoroutine("MoveScreenOut");
     }
 
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     public IEnumerator MoveScreenOut()
     {
+        if (GetComponent<AccessibleUIGroupRoot>() != null)
+            GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
+
         yield return new WaitForEndOfFrame();
         rt.anchoredPosition = new Vector3(0, 0, 0);
         float lerp = 0;
@@ -214,17 +223,53 @@ public class Page : MonoBehaviour
 
             yield return null;
         }
+        PageOnScreen = false;
+        DeActivateUAP();
         yield break;
 
     }
 
-    public void ToggleRenderer(bool Enabled){
-        if (Enabled)
-            rt.localScale = new Vector3(1, 1, 1);
-        else{
-            rt.localScale = new Vector3(0, 0, 0);
+    void DeActivate()
+    {
+        Debug.Log("Deactivating Page " + gameObject.name);
+        DeActivateButtonsOnScreen();
+        DeActivateUAP();
+        LandingPage.SetActive(true);
+        StartCoroutine("MoveScreenOut");
+    }
+
+    public void SetOnScreen(bool Enabled){
+        PageOnScreen = Enabled;
+        }
+
+    void ActivateButtonsOnScreen()
+    {
+        foreach (Button b in GetComponentsInChildren<Button>())
+        {
+            if(b.GetComponent<App_Button>()!=null)
+                b.GetComponent<App_Button>().Activate();
+        }
+    }
+    void DeActivateButtonsOnScreen()
+    {
+        foreach (Button b in GetComponentsInChildren<Button>())
+        {
+            if (b.GetComponent<App_Button>() != null)
+                b.GetComponent<App_Button>().DeActivate();
         }
     }
 
+    void DeActivateUAP(){
+        foreach(UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>()){
+            uap.enabled = false;
+        }
+    }
 
+    void ActivateUAP()
+    {
+        foreach (UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>())
+        {
+            uap.enabled = true;
+        }
+    }
 }

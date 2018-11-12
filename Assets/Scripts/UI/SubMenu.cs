@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.EventSystems;
 
+
 public class SubMenu : MonoBehaviour
 {
     RectTransform rt;
     GameObject ScrollView;
+    bool MenuOnScreen;
 
     public void Init()
     {
@@ -59,6 +61,9 @@ public class SubMenu : MonoBehaviour
     public float rate = 1.0f;
     IEnumerator MoveScreenIn()
     {
+        gameObject.SetActive(true);
+
+        ActivateButtonsOnScreen();
         if (rt == null)
         {
             Debug.LogWarning("Rect Transform is null or is not activated");
@@ -79,6 +84,7 @@ public class SubMenu : MonoBehaviour
 
             yield return null;
         }
+        MenuOnScreen = true;
         yield break;
     }
 
@@ -89,7 +95,8 @@ public class SubMenu : MonoBehaviour
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     public IEnumerator MoveScreenOut()
     {
-        yield return new WaitForEndOfFrame();
+      // yield return new WaitForEndOfFrame();
+        DeActivateButtonsOnScreen();
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
         float lerp = 0;
@@ -106,16 +113,25 @@ public class SubMenu : MonoBehaviour
 
             yield return null;
         }
+        MenuOnScreen = false;
         yield break;
     }
 
-    public void ToggleRenderer(bool Enabled)
+    public void SetOnScreen(bool Enabled)
     {
-        if (Enabled)
-            transform.localScale = new Vector3(1, 1, 1);
-        else
+        MenuOnScreen = Enabled;
+    }
+
+    void ActivateButtonsOnScreen(){
+        foreach(Button b in GetComponentsInChildren<Button>()){
+            b.GetComponent<App_Button>().Activate();
+        }
+    }
+    void DeActivateButtonsOnScreen()
+    {
+        foreach (Button b in GetComponentsInChildren<Button>())
         {
-            transform.localScale = new Vector3(0, 0, 0);
+            b.GetComponent<App_Button>().DeActivate();
         }
     }
 }

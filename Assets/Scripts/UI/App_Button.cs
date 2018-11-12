@@ -30,10 +30,12 @@ public class App_Button : MonoBehaviour {
 
         if (gameObject.name == "App_SubMenuButton"){
             Debug.LogWarning("This button is in the pool");
+            DeActivate();
             return;
         }
         if (Button_Opens == Button_Activates.None)
         {
+            DeActivate();
             return;
         }
 
@@ -49,7 +51,8 @@ public class App_Button : MonoBehaviour {
         else
         {
             Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the App_Button script, but no gameobject - "+ screenName + " has been assigned. Check the names of these gameobjects");
-         //  gameObject.SetActive(false);
+            //  gameObject.SetActive(false);
+            DeActivate();
             return;
         }
 
@@ -60,15 +63,17 @@ public class App_Button : MonoBehaviour {
         }
         else
             Debug.LogWarning(gameObject.name + ": There is no button component on this UI element. It cannot use the App_Button script without a button");
+
+        DeActivate();
     }
 
     void OnButtonPressed(){
         switch(Button_Opens){
             case Button_Activates.Page:
-                newScreen.GetComponent<Page>().ToggleRenderer(true);
+                newScreen.GetComponent<Page>().SetOnScreen(true);
                 break;
             case Button_Activates.SubMenu:
-                newScreen.GetComponent<SubMenu>().ToggleRenderer(true);
+                newScreen.GetComponent<SubMenu>().SetOnScreen(true);
                 break;
             default:
                 Debug.Log("No Activity for this button");
@@ -102,13 +107,23 @@ public class App_Button : MonoBehaviour {
         LandingPage.SetActive(false);
     }
 
-    void DeActivate(){
-        //newScreen.SetActive(false);
+    public void Activate(){
+        GetComponent<Button>().enabled = true;
+        GetComponent<Special_AccessibleButton>().enabled = true;
+    }
+    public void DeActivate(){
+        GetComponent<Button>().enabled = false;
     }
 
     public void SetButtonText(string newtext){
         GetComponentInChildren<TextMeshProUGUI>().text = newtext;
     }
 
-  
+    private void OnEnable()
+    {
+        if(tag=="Hidden"){
+            Activate();
+        }
+    }
+
 }

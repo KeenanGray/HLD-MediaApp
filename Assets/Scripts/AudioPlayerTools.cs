@@ -31,7 +31,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
 
         foreach (Button b in GetComponentsInChildren<Button>())
         {
-            if (b.gameObject.name.Equals("Play_Button"))
+            if (b.gameObject.name.Equals("Play"))
                 playbutton = b;
         }
         if (playbutton != null)
@@ -47,7 +47,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
 
         foreach (Button b in GetComponentsInChildren<Button>())
         {
-            if (b.gameObject.name.Equals("Back_Button"))
+            if (b.gameObject.name.Equals("Back"))
                 backButton = b;
         }
         if (playbutton != null)
@@ -61,7 +61,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
 
         foreach (Button b in GetComponentsInChildren<Button>())
         {
-            if (b.gameObject.name.Equals("Fwd_Button"))
+            if (b.gameObject.name.Equals("Forward"))
                 fwdButton = b;
         }
         if (playbutton != null)

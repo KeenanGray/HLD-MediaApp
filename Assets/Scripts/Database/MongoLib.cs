@@ -43,9 +43,10 @@ public class MongoLib : MonoBehaviour {
     {
         API_Key = GetAPIKey(config.text);
         yield return StartCoroutine("UpdateBiographies");
-        yield return StartCoroutine("UpdateAbout");
-        yield return StartCoroutine("UpdateProgram");
-        yield return StartCoroutine("UpdateWatch");
+        //yield return StartCoroutine("UpdateAbout");
+        //yield return StartCoroutine("UpdateProgram");
+        //yield return StartCoroutine("UpdateWatch");
+        yield return StartCoroutine("UpdatePassCode");
     }
 
     string GenerateCollectionRequestString(string collection){
@@ -88,6 +89,14 @@ public class MongoLib : MonoBehaviour {
         yield break;
     }
 
+    IEnumerator UpdatePassCode()
+    {
+        //Get the biographies from the database
+        collection_name = "D.I.S.P.L.A.Y.E.D";
+        yield return StartCoroutine("GetCollectionFromDatabase");
+        WriteJson(db_result, "AccessCode.json");
+        yield break;
+    }
 
     IEnumerator GetCollectionFromDatabase(){
         var url = GenerateCollectionRequestString(collection_name);
@@ -119,7 +128,7 @@ public class MongoLib : MonoBehaviour {
         StreamReader sr;
         StreamWriter sw;
 
-        string jsonToWrite = "{\"users\":" + data + "}";
+        string jsonToWrite = "{\"data\":" + data + "}";
 
         //Open the local file
         if (File.Exists(destination))

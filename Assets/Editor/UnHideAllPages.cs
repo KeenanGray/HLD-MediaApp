@@ -11,13 +11,19 @@ public class AppTools : ScriptableWizard
     static void UnHideAllPages()
     {
         foreach(Page p in FindObjectsOfType<Page>()){
+            p.gameObject.SetActive(true);
             p.Init();
-            p.ToggleRenderer(true);
+            p.SetOnScreen(true);
         }
         foreach (SubMenu sm in FindObjectsOfType<SubMenu>())
         {
+            sm.gameObject.SetActive(true);
             sm.Init();
-            sm.ToggleRenderer(true);
+            sm.SetOnScreen(true);
+        }
+        foreach (GameObject asm in GameObject.FindGameObjectsWithTag("App_SubMenuButton"))
+        {
+            asm.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
     }
 

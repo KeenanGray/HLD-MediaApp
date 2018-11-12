@@ -5,17 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-[AddComponentMenu("Accessibility/UI/Special Accessible Button")]
+[AddComponentMenu("Accessibility/UI/Special_AccessibleButton_Inspector")]
 public class Special_AccessibleButton : UAP_BaseElement
 {
 
     //////////////////////////////////////////////////////////////////////////
-
-    private void Awake()
-    {
-       //AutoFillTextLabel();
-        // m_NameLabel = GetButton().gameObject;
-    }
 
     Special_AccessibleButton()
     {

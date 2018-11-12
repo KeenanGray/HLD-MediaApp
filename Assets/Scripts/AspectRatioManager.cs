@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 
 //This script should be added to the main canvas of the app
-//
 
-[ExecuteInEditMode]
 public class AspectRatioManager : MonoBehaviour {
     public static float ScreenWidth;
     public static float ScreenHeight;

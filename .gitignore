@@ -35,6 +35,8 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+Assets/Video
+
 Assets/Plugins/*
 Assets/Plugins.meta
 mongo_config.txt

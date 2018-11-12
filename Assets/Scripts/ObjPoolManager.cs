@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ObjPoolManager {
+public static class ObjPoolManager
+{
 
-    public enum Pool{
+    public enum Pool
+    {
         Bio,
         About,
         Watch,
@@ -16,7 +18,8 @@ public static class ObjPoolManager {
     static List<GameObject> Button_Pool;
     static List<GameObject> AboutPage_Pool;
 
-    public static void Init(){
+    public static void Init()
+    {
         Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
         Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
         AboutPage_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_AboutPage"));
@@ -24,7 +27,7 @@ public static class ObjPoolManager {
         GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
         GameObject Button_PoolGO = GameObject.Find("ButtonPool");
         GameObject About_PoolGO = GameObject.Find("AboutPagePool");
-    /*    
+
         foreach (GameObject go in Biographies_Pool)
         {
             go.transform.SetParent(Bio_PoolGO.transform);
@@ -42,34 +45,48 @@ public static class ObjPoolManager {
         {
             go.transform.SetParent(About_PoolGO.transform);
         }
-*/
+
     }
 
-    public static GameObject RetrieveFromPool(Pool pool){
+    public static GameObject RetrieveFromPool(Pool pool)
+    {
         GameObject go = null;
-        if(pool.Equals(Pool.Bio)){
+        if (pool.Equals(Pool.Bio))
+        {
             if (Biographies_Pool.Count > 0)
             {
                 go = Biographies_Pool[0];
                 Biographies_Pool.Remove(go);
             }
-            else{
+            else
+            {
                 Debug.LogWarning("No Bio Pool");
             }
 
         }
 
-        if (pool.Equals(Pool.Button)){
+        if (pool.Equals(Pool.Button))
+        {
             if (Button_Pool.Count > 0)
             {
                 go = Button_Pool[0];
                 Button_Pool.Remove(go);
             }
-            else {
+            else
+            {
                 Debug.LogWarning("No Button Pool");
             }
         }
         return go;
     }
+    public static void DisablePools()
+    {
+        GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
+        GameObject Button_PoolGO = GameObject.Find("ButtonPool");
+        GameObject About_PoolGO = GameObject.Find("AboutPagePool");
 
+        Bio_PoolGO.SetActive(false);
+        Button_PoolGO.SetActive(false);
+        About_PoolGO.SetActive(false);
+    }
 }

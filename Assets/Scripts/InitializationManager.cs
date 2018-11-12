@@ -4,25 +4,27 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class InitializationManager : MonoBehaviour
 {
-
     GameObject aspectManager;
 
     public UAP_AccessibilityManager AccessibilityManager;
-    public GameObject bCanvas;
+    GameObject VideoCanvas;
+
+    public float InitializeTime;
+    float t1;
+    float t2;
 
     void Start()
     {
-        bCanvas.SetActive(true);
-        aspectManager = GameObject.Find("AppCanvas");
-
+        aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
+        VideoCanvas = GameObject.Find("Front");
         StartCoroutine("Init");
     }
 
     private void Update()
     {
+        /*
         if (AspectRatioManager.ScreenHeight > 0 && AspectRatioManager.ScreenWidth > 0)
         {
             foreach (WidgetContainer wc in GetComponentsInChildren<WidgetContainer>())
@@ -40,11 +42,11 @@ public class InitializationManager : MonoBehaviour
 
             AspectRatioManager.Stopped = true;
         }
+        */
     }
 
     IEnumerator Init()
     {
-        bCanvas.SetActive(true);
         AccessibilityManager.enabled = false;
 
         if (aspectManager == null)
@@ -53,17 +55,22 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
         yield return aspectManager.GetComponent<AspectRatioManager>().GetScreenResolution();
-
+        
         ObjPoolManager.Init();
         yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
 
         var str = MongoLib.ReadJson("Bios.json");
         Bio_Factory.CreateBioPages(str);
-
-        foreach (WidgetContainer wc in GetComponentsInChildren<WidgetContainer>())
+        Canvas.ForceUpdateCanvases();
+        
+        foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
-            yield return wc.Init();
+            arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
+            arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+            arf.enabled = true;
         }
+
+      //  VideoCanvas.GetComponent<AspectRatioFitter>().enabled = true;
 
         foreach (App_Button ab in GetComponentsInChildren<App_Button>())
         {
@@ -73,25 +80,35 @@ public class InitializationManager : MonoBehaviour
         {
             p.Init();
             yield return p.MoveScreenOut();
-            p.ToggleRenderer(false);
         }
     
         foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())
         {
             sm.Init();
             yield return sm.MoveScreenOut();
-            sm.ToggleRenderer(true);
+            sm.SetOnScreen(false);
         }
 
-        foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
-        {
-            arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden")) {
+            go.SetActive(false);
         }
+
+        var firstScreen = GameObject.Find("LandingScreen");
+        firstScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+
         AspectRatioManager.Stopped = true;
 
-        AccessibilityManager.enabled = true;
-        bCanvas.SetActive(false);
+        t2 = Time.time;
+        Debug.Log("boot time " + t2);
+        if (t2 < InitializeTime) ;
+        yield return new WaitForSeconds(InitializeTime - t2);
 
+        VideoCanvas.SetActive(false);
+
+        AccessibilityManager.enabled = true;
+
+        t1 = Time.time;
+        Debug.Log("Total time " + t1);
         yield break;
     }
 }

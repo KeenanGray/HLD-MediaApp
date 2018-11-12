@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 [ExecuteInEditMode]
@@ -9,7 +10,7 @@ public class Bio_Factory : MonoBehaviour {
     [System.Serializable]
     public class BioArray
     {
-        public Biography[] users;
+        public Biography[] data;
     }
 
     [System.Serializable]
@@ -30,10 +31,23 @@ public class Bio_Factory : MonoBehaviour {
 	void Update () {
 	}
 
+    static string Bio_GameObject_Name = "Pages";
+    static string Bio_MenuGameObject_Name = "TheDisplayed_SubMenu";
+
     public static void CreateBioPages(string BiographiesJSON){
-        GameObject Bio_Button_Root = GameObject.Find("Biographies_Links");
-        GameObject Bio_Page_Root = GameObject.Find("Pages");
-        
+        GameObject Bio_Button_Root=null;
+        if (GameObject.Find(Bio_MenuGameObject_Name) !=null)
+            Bio_Button_Root = GameObject.Find(Bio_MenuGameObject_Name).GetComponentInChildren<ScrollRect>().content.gameObject;
+
+        GameObject Bio_Page_Root=null;
+        if (GameObject.Find(Bio_GameObject_Name) !=null)
+            Bio_Page_Root = GameObject.Find(Bio_GameObject_Name);
+
+        if(Bio_Page_Root == null || Bio_Button_Root==null){
+            Debug.LogError("Required gameobjects were not found.");
+            return;
+        }
+
         if (BiographiesJSON==null)
         {
             //TODO:What else needs to be done prior to updating?
@@ -49,11 +63,11 @@ public class Bio_Factory : MonoBehaviour {
             //go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * AspectRatioManager.ScreenHeight);
             i++;
         }
-        
+
         BioArray myObject = JsonUtility.FromJson<BioArray>(BiographiesJSON);
 
         //Grab objects from the pool and insert them as independent pages
-         var OrderedByName = myObject.users.OrderBy(x => x.Name);
+         var OrderedByName = myObject.data.OrderBy(x => x.Name);
         
         //Make the pages first
         foreach (Biography bioJson in OrderedByName)
@@ -61,7 +75,6 @@ public class Bio_Factory : MonoBehaviour {
             GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Bio);
             if (go != null)
             {
-
                 go.transform.SetParent(Bio_Page_Root.transform);
                 //   go.GetComponent<Bio_Page>().SetButtonText(b.Name);
                 //    go.GetComponent<Bio_Page>().Button_Opens = App_Button.Button_Activates.Page;
