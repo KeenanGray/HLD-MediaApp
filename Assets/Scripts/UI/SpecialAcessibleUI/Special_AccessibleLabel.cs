@@ -71,9 +71,9 @@ public class Special_AccessibleLabel : UAP_BaseElement
 		if (label != null)
 		{
 			if (IsNameLocalizationKey())
-				return CombinePrefix(UAP_AccessibilityManager.Localize(label.text));
+                return CombinePrefix(UAP_AccessibilityManager.Localize(label.GetParsedText()));
 			else
-				return CombinePrefix(label.text);
+                return CombinePrefix(label.GetParsedText());
 		}
 
 #if ACCESS_NGUI

@@ -235,6 +235,9 @@ public class Page : MonoBehaviour
         DeActivateButtonsOnScreen();
         DeActivateUAP();
         LandingPage.SetActive(true);
+        ViewContainer.anchoredPosition = new Vector3(0, 0, 0);
+        CurrentView = views[0];
+
         StartCoroutine("MoveScreenOut");
     }
 

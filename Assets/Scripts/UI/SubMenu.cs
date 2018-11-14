@@ -38,7 +38,6 @@ public class SubMenu : MonoBehaviour
         entry.callback.AddListener((eventData) => { DeActivate(); });
 
         ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
-        ScrollView = GetComponentInChildren<ScrollRect>().gameObject;
         //    ScrollView.GetComponent<EventTrigger>().triggers.Add(entry);
 
         foreach (EventTrigger et in ScrollView.GetComponentsInChildren<EventTrigger>())
