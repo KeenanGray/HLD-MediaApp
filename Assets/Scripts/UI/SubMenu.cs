@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.EventSystems;
 
 
+[RequireComponent(typeof(EventTrigger))]
 public class SubMenu : MonoBehaviour
 {
     RectTransform rt;
@@ -87,7 +88,7 @@ public class SubMenu : MonoBehaviour
         yield break;
     }
 
-    void DeActivate(){
+    public void DeActivate(){
         StartCoroutine("MoveScreenOut");
     }
 

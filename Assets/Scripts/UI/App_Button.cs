@@ -9,27 +9,24 @@ using TMPro;
 //NOTE:: Buttons should have be named following the syntax NAME_Button
 //Script will find a screen for each button that matches NAME_Screen
 
+[AddComponentMenu("App_Button_Editor")]
+[RequireComponent(typeof(Button))]
 public class App_Button : MonoBehaviour {
     public enum Button_Activates
     {
         None,
         Page,
-        SubMenu
+        SubMenu,
+        SpecificPage,
+        Video
     }
 
-    GameObject newScreen;
-
-    GameObject LandingPage;
+    public GameObject newScreen;
     public Button_Activates Button_Opens;
   
     public void Init()
     {
-        LandingPage = GameObject.Find("LandingScreen");
-        if (LandingPage == null)
-            Debug.LogWarning("No landing page");
-
         if (gameObject.name == "App_SubMenuButton"){
-            Debug.LogWarning("This button is in the pool");
             DeActivate();
             return;
         }
@@ -40,20 +37,13 @@ public class App_Button : MonoBehaviour {
         }
 
         var screenName = gameObject.name.ToString().Split('_')[0];
-        screenName = screenName + ("_" + Button_Opens.ToString());
+        var typeName = Button_Opens.ToString().Replace(" ", "");
+        screenName = screenName + ("_" + typeName);
+        var PageObject = GameObject.Find(screenName);
 
-        newScreen = GameObject.Find(screenName);
-
-        if (newScreen != null)
+        if (PageObject != null)
         {
-            //nothing to do here
-        }
-        else
-        {
-            Debug.LogWarning(gameObject.name + ": Something is mismatched for this button. It has the App_Button script, but no gameobject - "+ screenName + " has been assigned. Check the names of these gameobjects");
-            //  gameObject.SetActive(false);
-            DeActivate();
-            return;
+            newScreen = PageObject;
         }
 
         var myBtn = GetComponent<Button>();
@@ -64,47 +54,41 @@ public class App_Button : MonoBehaviour {
         else
             Debug.LogWarning(gameObject.name + ": There is no button component on this UI element. It cannot use the App_Button script without a button");
 
+        if (Button_Opens == Button_Activates.Video)
+        {
+            newScreen = GameObject.FindWithTag("App_VideoPlayer");
+        }
+
+
         DeActivate();
     }
 
     void OnButtonPressed(){
         switch(Button_Opens){
             case Button_Activates.Page:
-                newScreen.GetComponent<Page>().SetOnScreen(true);
+                newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+                break;
+            case Button_Activates.SpecificPage:
+                newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
                 break;
             case Button_Activates.SubMenu:
-                newScreen.GetComponent<SubMenu>().SetOnScreen(true);
+                newScreen.GetComponent<SubMenu>().StartCoroutine("MoveScreenIn");
+                break;
+            case Button_Activates.Video:
+                newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
                 break;
             default:
                 Debug.Log("No Activity for this button");
                 break;
         }
 
-        newScreen.SetActive(true);
+        var CurrPage = GetComponentInParent<Page>();
+        if (CurrPage != null)
+            CurrPage.DeActivate();
 
-        if (Button_Opens == Button_Activates.Page)
-        {
-            var AppScript = newScreen.GetComponent<Page>();
-
-            if (AppScript == null)
-            {
-                Debug.LogWarning("Component not found");
-            }
-            AppScript.StopAllCoroutines();
-            AppScript.StartCoroutine("MoveScreenIn");
-        }
-
-        else if(Button_Opens == Button_Activates.SubMenu){
-            var AppScript = newScreen.GetComponent<SubMenu>();
-
-            if (AppScript == null)
-            {
-                Debug.LogWarning("Component not found");
-            }
-            AppScript.StopAllCoroutines();
-            AppScript.StartCoroutine("MoveScreenIn");
-        }
-        LandingPage.SetActive(false);
+        var CurrSubMenu = GetComponentInParent<SubMenu>();
+        if (CurrSubMenu != null)
+            CurrSubMenu.DeActivate();
     }
 
     public void Activate(){

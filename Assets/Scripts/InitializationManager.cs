@@ -99,7 +99,6 @@ public class InitializationManager : MonoBehaviour
         AspectRatioManager.Stopped = true;
 
         t2 = Time.time;
-        Debug.Log("boot time " + t2);
         if (t2 < InitializeTime) ;
         yield return new WaitForSeconds(InitializeTime - t2);
 
@@ -108,7 +107,6 @@ public class InitializationManager : MonoBehaviour
         AccessibilityManager.enabled = true;
 
         t1 = Time.time;
-        Debug.Log("Total time " + t1);
         yield break;
     }
 }

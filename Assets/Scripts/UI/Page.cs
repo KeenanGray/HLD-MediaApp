@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 public class Page : MonoBehaviour
 {
+    public delegate void Activated();
+    public event Activated OnActivated;
+
+    public delegate void DeActivated();
+    public event Activated OnDeActivated;
 
     public List<RectTransform> views;
-    public GameObject LandingPage;
     RectTransform rt;
     RectTransform ViewContainer;
     GameObject View_Slider;
@@ -18,10 +23,8 @@ public class Page : MonoBehaviour
 
     public void Init()
     {
-        LandingPage = GameObject.Find("LandingScreen");
-        if (LandingPage == null)
-            Debug.LogWarning("No landing page 2");
-
+       OnActivated += new Activated(HandleActivated);
+        OnDeActivated += new Activated(HandleDeActivated);
 
         views = new List<RectTransform>();
 
@@ -82,6 +85,17 @@ public class Page : MonoBehaviour
             CurrentView = views[0].GetComponent<RectTransform>();
     }
 
+    private void HandleDeActivated()
+    {
+        //Debug.Log("Default DeActivate Handler " + name);
+    }
+
+    void HandleActivated()
+    {
+//        Debug.Log("Default Activate Handler " + name);
+    }
+
+
     private void Start()
     {
         InputManager.SwipeDelegate += SwipeHandler;
@@ -122,7 +136,7 @@ public class Page : MonoBehaviour
 
                 else
                 {
-                    Debug.LogWarning("Something wrong with ViewContainer " + gameObject.name);
+                    //Debug.LogWarning("Something wrong with ViewContainer " + gameObject.name);
                 }
             }
         }
@@ -175,7 +189,10 @@ public class Page : MonoBehaviour
     public float rate = 1.0f;
     public IEnumerator MoveScreenIn()
     {
-        gameObject.SetActive(true);
+        if(OnActivated!=null)
+            OnActivated();
+
+     //  gameObject.SetActive(true);
         ActivateButtonsOnScreen();
         ActivateUAP();
         if (rt == null)
@@ -204,6 +221,9 @@ public class Page : MonoBehaviour
     //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
     public IEnumerator MoveScreenOut()
     {
+        if (OnDeActivated != null)
+            OnDeActivated();
+
         if (GetComponent<AccessibleUIGroupRoot>() != null)
             GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
 
@@ -229,14 +249,17 @@ public class Page : MonoBehaviour
 
     }
 
-    void DeActivate()
+    public void DeActivate()
     {
-        Debug.Log("Deactivating Page " + gameObject.name);
+//        Debug.Log("Deactivating Page " + gameObject.name);
         DeActivateButtonsOnScreen();
         DeActivateUAP();
-        LandingPage.SetActive(true);
-        ViewContainer.anchoredPosition = new Vector3(0, 0, 0);
-        CurrentView = views[0];
+
+        if(ViewContainer!=null)
+            ViewContainer.anchoredPosition = new Vector3(0, 0, 0);
+
+        if(views!=null&&views.Count>0)
+            CurrentView = views[0];
 
         StartCoroutine("MoveScreenOut");
     }

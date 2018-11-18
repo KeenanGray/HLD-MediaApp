@@ -9,6 +9,7 @@ TagManager:
   - App_SubMenuButton
   - Hidden
   - App_AboutPage
+  - App_VideoPlayer
   layers:
   - Default
   - TransparentFX

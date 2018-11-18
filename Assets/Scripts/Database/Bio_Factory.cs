@@ -79,6 +79,7 @@ public class Bio_Factory : MonoBehaviour {
                 //   go.GetComponent<Bio_Page>().SetButtonText(b.Name);
                 //    go.GetComponent<Bio_Page>().Button_Opens = App_Button.Button_Activates.Page;
                 go.name = (bioJson.Name + "_Page");
+                go.tag = "Untagged";
 
                 Bio_Page bp = go.GetComponent<Bio_Page>();
                 bp.SetName(bioJson.Name);
@@ -101,6 +102,7 @@ public class Bio_Factory : MonoBehaviour {
                 script.SetButtonText(b.Name);
                 script.Button_Opens = App_Button.Button_Activates.Page;
                 go.name = (b.Name + "_Button");
+                go.tag = "Untagged";
 
                 script.Init();
             }
