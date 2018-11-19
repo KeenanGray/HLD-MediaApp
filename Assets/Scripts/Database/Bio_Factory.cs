@@ -96,12 +96,17 @@ public class Bio_Factory : MonoBehaviour {
             GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
             if (go != null)
             {
+                go.name = (b.Name + "_Button");
 
                 App_Button script = go.GetComponent<App_Button>();
                 go.transform.SetParent(Bio_Button_Root.transform);
+
+                //update parent for accessibility
+                go.GetComponent<Special_AccessibleButton>().m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
+                
                 script.SetButtonText(b.Name);
                 script.Button_Opens = App_Button.Button_Activates.Page;
-                go.name = (b.Name + "_Button");
+                
                 go.tag = "Untagged";
 
                 script.Init();

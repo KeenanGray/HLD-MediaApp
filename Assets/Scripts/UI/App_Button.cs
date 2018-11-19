@@ -101,6 +101,8 @@ public class App_Button : MonoBehaviour {
 
     public void SetButtonText(string newtext){
         GetComponentInChildren<TextMeshProUGUI>().text = newtext;
+        GetComponent<Special_AccessibleButton>().AutoFillTextLabel();
+
     }
 
     private void OnEnable()

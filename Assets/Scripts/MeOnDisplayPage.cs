@@ -33,16 +33,15 @@ public class MeOnDisplayPage : MonoBehaviour {
             var b = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
             if (b != null)
             {
+                b.name = dancer + " video";
+
+                b.GetComponent<Button>().onClick.AddListener(delegate { PlayVideo(dancer); });
+                b.transform.SetParent(scroll.content.transform);
+
                 var ab = b.GetComponent<App_Button>();
                 ab.SetButtonText(dancer);
                 ab.Button_Opens = App_Button.Button_Activates.Video;
-                b.name = dancer + " video";
                 ab.Init();
-
-                b.GetComponent<Button>().onClick.AddListener(PlayVideo);
-
-                b.transform.SetParent(scroll.content.transform);
-
             }
             else
                 Debug.LogError("Not enough objects in pool");
@@ -54,9 +53,30 @@ public class MeOnDisplayPage : MonoBehaviour {
         ObjPoolManager.Init();
     }
 
-    void PlayVideo()
+    void PlayVideo(string src)
     {
-        GameObject.FindWithTag("App_VideoPlayer").GetComponent<VideoPlayer>().Play();
+        var filename = "MeOnDisplay/" + src.Replace(" ", "_");
+        VideoClip videoSource = Resources.Load<VideoClip>(filename) as VideoClip;
+
+        var captionFile = "VideoCaptions/" + src.Replace(" ", "_");
+        TextAsset captions = Resources.Load<TextAsset>(captionFile) as TextAsset;
+
+        var vp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<VideoPlayer>();
+        vp.GetComponent<App_VideoPlayer>().SetVideoCaptions(captions);
+        vp.clip = videoSource;
+        StartCoroutine("PlayVideoCoroutine");
+    }
+
+    IEnumerator PlayVideoCoroutine(){
+        //Move the current screen out
+        GetComponent<Page>().StartCoroutine("MoveScreenOut");
+
+        //Get the video player screen and associated script
+        var avp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<App_VideoPlayer>();
+        avp.StopAllCoroutines();
+        yield return avp.StartCoroutine("PlayVideo");
+        
+        yield break;
     }
 
     // Update is called once per frame
