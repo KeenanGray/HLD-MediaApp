@@ -26,11 +26,14 @@ public class MeOnDisplayPage : MonoBehaviour {
 
     private void PageActivated()
     {
+        Special_AccessibleButton AccessibleButton = null;
         //sort alphabetically
         var OrderedByName = Dancers.OrderBy(x => x);
 
         foreach (string dancer in OrderedByName){
             var b = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
+
+            int i = 0;
             if (b != null)
             {
                 b.name = dancer + " video";
@@ -41,11 +44,22 @@ public class MeOnDisplayPage : MonoBehaviour {
                 var ab = b.GetComponent<App_Button>();
                 ab.SetButtonText(dancer);
                 ab.Button_Opens = App_Button.Button_Activates.Video;
+
                 ab.Init();
+
+                if(i==0){
+                    AccessibleButton = b.GetComponent<Special_AccessibleButton>();
+                    i++;
+                }
+
             }
             else
                 Debug.LogError("Not enough objects in pool");
         }
+        Debug.LogError("PAUSING");
+
+        if(AccessibleButton!=null)
+            AccessibleButton.SelectItem();
     }
     private void PageDeActivated()
     {

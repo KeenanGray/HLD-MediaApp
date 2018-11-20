@@ -128,13 +128,18 @@ public class MongoLib : MonoBehaviour {
         StreamReader sr;
         StreamWriter sw;
 
+        //if no data returned, do not continue
+        if (data == "" || data == null)
+        {
+            return;
+        }
         string jsonToWrite = "{\"data\":" + data + "}";
 
         //Open the local file
         if (File.Exists(destination))
         {
             //If the file exists, compare the two versions
-            //If they are differnet. overwrite the old version
+            //If they are different. overwrite the old version
             sr = File.OpenText(destination);
             var oldJson = sr.ReadToEnd();
             sr.Close();
@@ -167,6 +172,7 @@ public class MongoLib : MonoBehaviour {
     }
 
     public static string ReadJson(string fileName){
+        Debug.Log(Application.persistentDataPath);
         string destination = Application.persistentDataPath + "/" + fileName;
         StreamReader sr;
 

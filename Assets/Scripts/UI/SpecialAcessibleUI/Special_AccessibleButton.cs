@@ -304,13 +304,23 @@ public class Special_AccessibleButton : UAP_BaseElement
         }
 #else
         Button button = GetButton();
+        App_Button ab = GetComponent<App_Button>();
+
         if (button != null)
         {
             var pointer = new PointerEventData(EventSystem.current); // pointer event for Execute
             if (enable)
+            {
+                if (ab != null)
+                    ab.OnPointerEnter(pointer);
                 button.OnPointerEnter(pointer);
+            }
             else
+            {
+                if (ab != null)
+                    ab.OnPointerExit(pointer);
                 button.OnPointerExit(pointer);
+            }
         }
 #endif
     }

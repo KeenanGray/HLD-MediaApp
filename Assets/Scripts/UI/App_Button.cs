@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using System;
 
 //This Script is used on buttons that will change the screen to another view of the app when pressed.
 
@@ -11,7 +13,7 @@ using TMPro;
 
 [AddComponentMenu("App_Button_Editor")]
 [RequireComponent(typeof(Button))]
-public class App_Button : MonoBehaviour {
+public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler{
     public enum Button_Activates
     {
         None,
@@ -23,10 +25,12 @@ public class App_Button : MonoBehaviour {
 
     public GameObject newScreen;
     public Button_Activates Button_Opens;
-  
+    public TextMeshProUGUI buttonText;
+
     public void Init()
     {
-        if (gameObject.name == "App_SubMenuButton"){
+        if (gameObject.name == "App_SubMenuButton")
+        {
             DeActivate();
             return;
         }
@@ -59,57 +63,88 @@ public class App_Button : MonoBehaviour {
             newScreen = GameObject.FindWithTag("App_VideoPlayer");
         }
 
-
-        DeActivate();
-    }
-
-    void OnButtonPressed(){
-        switch(Button_Opens){
-            case Button_Activates.Page:
-                newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
-                break;
-            case Button_Activates.SpecificPage:
-                newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
-                break;
-            case Button_Activates.SubMenu:
-                newScreen.GetComponent<SubMenu>().StartCoroutine("MoveScreenIn");
-                break;
-            case Button_Activates.Video:
-                newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
-                break;
-            default:
-                Debug.Log("No Activity for this button");
-                break;
+        buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        if (buttonText == null)
+        {
+            Debug.LogError("no buttonText");
+        }
+            DeActivate();
         }
 
-        var CurrPage = GetComponentInParent<Page>();
-        if (CurrPage != null)
-            CurrPage.DeActivate();
+        void OnButtonPressed()
+        {
+            switch (Button_Opens)
+            {
+                case Button_Activates.Page:
+                    newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+                    break;
+                case Button_Activates.SpecificPage:
+                    newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+                    break;
+                case Button_Activates.SubMenu:
+                    newScreen.GetComponent<SubMenu>().StartCoroutine("MoveScreenIn");
+                    break;
+                case Button_Activates.Video:
+                    newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+                    break;
+                default:
+                    Debug.Log("No Activity for this button");
+                    break;
+            }
 
-        var CurrSubMenu = GetComponentInParent<SubMenu>();
-        if (CurrSubMenu != null)
-            CurrSubMenu.DeActivate();
-    }
+            var CurrPage = GetComponentInParent<Page>();
+            if (CurrPage != null)
+                CurrPage.DeActivate();
 
-    public void Activate(){
-        GetComponent<Button>().enabled = true;
-        GetComponent<Special_AccessibleButton>().enabled = true;
-    }
-    public void DeActivate(){
-        GetComponent<Button>().enabled = false;
-    }
-
-    public void SetButtonText(string newtext){
-        GetComponentInChildren<TextMeshProUGUI>().text = newtext;
-        GetComponent<Special_AccessibleButton>().AutoFillTextLabel();
-
-    }
-
-    private void OnEnable()
-    {
-        if(tag=="Hidden"){
-            Activate();
+            var CurrSubMenu = GetComponentInParent<SubMenu>();
+            if (CurrSubMenu != null)
+                CurrSubMenu.DeActivate();
         }
-    }
 
+        public void Activate()
+        {
+            GetComponent<Button>().enabled = true;
+            GetComponent<Special_AccessibleButton>().enabled = true;
+        }
+        public void DeActivate()
+        {
+            GetComponent<Button>().enabled = false;
+        }
+
+        public void SetButtonText(string newtext)
+        {
+            GetComponentInChildren<TextMeshProUGUI>().text = newtext;
+            GetComponent<Special_AccessibleButton>().AutoFillTextLabel();
+
+        }
+
+        private void OnEnable()
+        {
+            if (tag == "Hidden")
+            {
+                Activate();
+            }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            Color32 highlightColor = new Color32(203, 194, 62, 255);
+        
+        if(GetComponent<Button>().image.sprite!=null)
+                GetComponent<Button>().image.color = highlightColor;
+
+            if (buttonText != null)
+                buttonText.color = highlightColor;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            Color32 defaultColor = new Color32(230, 230, 230, 255);
+
+        if (GetComponent<Button>().image.sprite != null)
+            GetComponent<Button>().image.color = defaultColor;
+        
+        if (buttonText != null)
+                buttonText.color = defaultColor;
+        }
 }
