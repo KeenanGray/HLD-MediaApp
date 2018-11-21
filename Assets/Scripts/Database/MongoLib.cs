@@ -19,7 +19,9 @@ public class MongoLib : MonoBehaviour {
 
     private string collection_name;
     private string db_result;
-    
+
+    public float TimeOutLength;
+
     private void Start()
     {
 
@@ -101,12 +103,25 @@ public class MongoLib : MonoBehaviour {
     IEnumerator GetCollectionFromDatabase(){
         var url = GenerateCollectionRequestString(collection_name);
 
+        var t0 = Time.time;
+        var t1 = 0.0f;
         using (WWW www = new WWW(url))
         {
             while (!www.isDone)
             {
-                yield return www;
+                if (www.progress.Equals(0))
+                {
+                    t1 = Time.time;
+                    if (t1 - t0 > TimeOutLength)
+                    {
+                        Debug.LogWarning("Internet Update taking too much time");
+                        yield break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+                //yield return www;
             }
+
             if (www.responseHeaders.ContainsKey("STATUS"))
             {
                 if (www.responseHeaders["STATUS"] == "HTTP/1.1 200 OK")
@@ -117,6 +132,10 @@ public class MongoLib : MonoBehaviour {
                 {
                     Debug.LogWarning("Error with response" + www.responseHeaders["STATUS"]);
                 }
+            }
+            else
+            {
+                Debug.Log("Not sure what to put here");
             }
             yield break;
         }
@@ -172,7 +191,6 @@ public class MongoLib : MonoBehaviour {
     }
 
     public static string ReadJson(string fileName){
-        Debug.Log(Application.persistentDataPath);
         string destination = Application.persistentDataPath + "/" + fileName;
         StreamReader sr;
 

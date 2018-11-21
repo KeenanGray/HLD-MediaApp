@@ -48,7 +48,7 @@ public class Bio_Factory : MonoBehaviour {
             return;
         }
 
-        if (BiographiesJSON==null)
+        if (BiographiesJSON==null || BiographiesJSON=="")
         {
             //TODO:What else needs to be done prior to updating?
             Debug.Log("No JSON read from file");
@@ -63,7 +63,6 @@ public class Bio_Factory : MonoBehaviour {
             //go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * AspectRatioManager.ScreenHeight);
             i++;
         }
-
         BioArray myObject = JsonUtility.FromJson<BioArray>(BiographiesJSON);
 
         //Grab objects from the pool and insert them as independent pages

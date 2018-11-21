@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using System;
 
-public class AudioPlayerTools : MonoBehaviour                                                        {
+public class AudioPlayerTools : MonoBehaviour {
 
     AudioSource source;
     Button playbutton;
@@ -14,6 +15,8 @@ public class AudioPlayerTools : MonoBehaviour                                   
     Button fwdButton;
     TextMeshProUGUI time_label;
     TextMeshProUGUI maxtime_label;
+    TMP_InputField AudioTimerInput;
+    TextMeshProUGUI displayText;
 
     Image playImage;
     Image pauseImage;
@@ -29,6 +32,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
     {
         source = gameObject.GetComponentInChildren<AudioSource>();
 
+        //Set up buttons for audiocontroller
         foreach (Button b in GetComponentsInChildren<Button>())
         {
             if (b.gameObject.name.Equals("Play"))
@@ -73,6 +77,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
             Debug.LogWarning("No fwd button");
         }
 
+        //Set up scrollbar for audio controls
         foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
         {
             if (sb.gameObject.name.Equals("Time_Scroll"))
@@ -93,7 +98,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
                 timeScroll.GetComponent<EventTrigger>().triggers.Add(entry);
             }
 
-            timeScroll.onValueChanged.AddListener(delegate { OnScrollValueChanged(); });
+            timeScroll.onValueChanged.AddListener(MoveToEndOfLine);
         }
         if (timeScroll != null)
         {
@@ -104,6 +109,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
             Debug.LogWarning("No play button");
         }
 
+        //Add time field for audio length
         foreach (TextMeshProUGUI tl in GetComponentsInChildren<TextMeshProUGUI>())
         {
             if (tl.gameObject.name.Equals("Time_Text"))
@@ -118,6 +124,7 @@ public class AudioPlayerTools : MonoBehaviour                                   
             Debug.LogWarning("No time_label");
         }
 
+        //Add time field for audio length
         foreach (TextMeshProUGUI tl in GetComponentsInChildren<TextMeshProUGUI>())
         {
             if (tl.gameObject.name.Equals("MaxTime_Text"))
@@ -132,10 +139,64 @@ public class AudioPlayerTools : MonoBehaviour                                   
             Debug.LogWarning("No maxtime_label");
         }
 
-      
+        //Set up the input field
+        AudioTimerInput = GetComponentInChildren<TMP_InputField>();
+
+        displayText = AudioTimerInput.transform.GetChild(0).Find("DisplayText").GetComponent<TextMeshProUGUI>();
+        if(displayText==null)
+            Debug.LogWarning("Uh Oh gameObject is missing");
+
+        AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
+        AudioTimerInput.onSubmit.AddListener(OnInputFieldSubmitted);
+        AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true,true); });
+        AudioTimerInput.text = "00:00";
     }
 
-  
+    private void MoveToEndOfLine(float arg0)
+    {
+        Debug.Log("selected");
+        AudioTimerInput.MoveTextEnd(false);
+        AudioTimerInput.MoveToEndOfLine(false,false);
+        AudioTimerInput.caretPosition = 5;
+
+
+
+    }
+
+    private void OnInputFieldSubmitted(string arg0)
+    {
+        string str = displayText.text.Split(':')[0] + displayText.text.Split(':')[1];
+
+        AudioTimerInput.text = "00:00";
+        if (source.clip.length > StringToSecondsCount(str,ref arg0)){
+            source.time = StringToSecondsCount(str, ref arg0);
+        }
+        else{
+            Debug.LogWarning("length exceeds time remaining in clip");
+        }
+
+        //TODO:deselect the input field
+    }
+
+    int timerIndex;
+    private void OnInputFieldChanged(string arg0)
+    {
+        AudioTimerInput.caretPosition = 5;
+        arg0 = arg0.Insert(5, "_");
+        var customTime = arg0.Split('_')[1];
+
+        ConvertToClockTime(StringToSecondsCount(customTime,ref customTime));
+        AudioTimerInput.text = customTime;
+
+        customTime = customTime.Insert(5, "/");
+
+        displayText.text = customTime.Split('/')[0];
+
+    }
+
+    void HandleUnityAction(string arg0)
+    {
+    }
 
     void PauseAudio(){
 
@@ -211,6 +272,48 @@ public class AudioPlayerTools : MonoBehaviour                                   
             minutesAsString = "" + minutes;
 
         return minutesAsString + ":" + secondsAsString;
+    }
+
+    private int StringToSecondsCount(string v, ref string outStr)
+    {
+        var min = "00";
+        var sec = "00";
+
+        switch (v.Length)
+        {
+            case 0:
+                min = "00";
+                sec = "00";
+                break;
+            case 1:
+                min = "00";
+                sec = "0" + v;
+                break;
+            case 2:
+                min = "00";
+                sec = v;
+                break;
+            case 3:
+                min = "0" + v[0];
+                sec = v[1] + "" + v[2];
+                break;
+            case 4:
+                min = v[0] + "" + v[1];
+                sec = v[2] + "" + v[3];
+                break;
+            default:
+                v = "";
+                min = "00";
+                sec = "00";
+
+                if (!source.isPlaying)
+                    source.Play();
+                AudioTimerInput.OnSelect(null);
+                OnInputFieldSubmitted(min + ":" + sec + v);
+                break;
+        }
+        outStr = min + ":" + sec  + v;
+        return (int.Parse(min) * 60) + int.Parse(sec);
     }
 
     public void OnDrag()

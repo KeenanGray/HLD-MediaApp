@@ -54,15 +54,16 @@ public class InitializationManager : MonoBehaviour
             Debug.LogWarning("Unable to find Aspect Manager");
             yield break;
         }
+
         yield return aspectManager.GetComponent<AspectRatioManager>().GetScreenResolution();
         
         ObjPoolManager.Init();
-        yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
 
-        var str = MongoLib.ReadJson("Bios.json");
-        Bio_Factory.CreateBioPages(str);
-        Canvas.ForceUpdateCanvases();
-        
+        VideoCanvas.GetComponent<AspectRatioFitter>().aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
+        VideoCanvas.GetComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+        VideoCanvas.GetComponent<AspectRatioFitter>().enabled = true;
+        t1 = Time.time;
+
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
             arf.aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
@@ -70,7 +71,13 @@ public class InitializationManager : MonoBehaviour
             arf.enabled = true;
         }
 
-      //  VideoCanvas.GetComponent<AspectRatioFitter>().enabled = true;
+        yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
+
+        var str = MongoLib.ReadJson("Bios.json");
+        Bio_Factory.CreateBioPages(str);
+        Canvas.ForceUpdateCanvases();
+        
+        VideoCanvas.SetActive(true);
 
         foreach (App_Button ab in GetComponentsInChildren<App_Button>())
         {
@@ -98,15 +105,20 @@ public class InitializationManager : MonoBehaviour
 
         AspectRatioManager.Stopped = true;
 
+
+        //if we finish initializing faster than expected, take a moment to finish the video
         t2 = Time.time;
-        if (t2 < InitializeTime) ;
-        yield return new WaitForSeconds(InitializeTime - t2);
+        var elapsed = t2 - t1;
+        if (InitializeTime > elapsed)
+            yield return new WaitForSeconds(InitializeTime - elapsed);
+        else
+            Debug.LogWarning("Took longer to initialize than expected");
 
         VideoCanvas.SetActive(false);
 
         AccessibilityManager.enabled = true;
+//        Debug.Log("Init Time " + Time.time);
 
-        t1 = Time.time;
         yield break;
     }
 }

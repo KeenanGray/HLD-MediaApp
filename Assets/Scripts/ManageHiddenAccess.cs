@@ -35,15 +35,12 @@ public class ManageHiddenAccess : MonoBehaviour {
 
     private void CheckIsCorrect(string arg0)
     {
-        Debug.Log("CHECKING..." + arg0);
         var res = MongoLib.ReadJson("AccessCode.json");
         if (res != ""){
             PassPhraseArray myObject = JsonUtility.FromJson<PassPhraseArray>(res);
 
             if (arg0 == myObject.data[0].Code)
             {
-                Debug.Log("Success");
-
                 foreach (GameObject go in hiddenPages)
                 {
                     go.SetActive(true);
@@ -59,10 +56,7 @@ public class ManageHiddenAccess : MonoBehaviour {
 
 
         }
-
-
-
-        Debug.Log("access code " + res);
+//        Debug.Log("access code " + res);
     }
 
     // Update is called once per frame

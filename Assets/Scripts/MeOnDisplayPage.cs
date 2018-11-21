@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -10,9 +11,10 @@ public class MeOnDisplayPage : MonoBehaviour {
 
     List<string> Dancers;
     ScrollRect scroll;
+    Special_AccessibleButton AccessibleButton = null;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         Dancers = new List<string>(){"Desmond Cadogan", "Chris Braz", "Peter Trojic", "Victoria Dombroski", "Tianshi Suo", "Tiffany Geigel", "Donald Lee",
                                       "Louisa Mann", "Leslie Taub", "Jerron Herman", "Kelly Ramis", "Nico Gonzales", "Meredith Fages", "Amy Meisner", "Jillian Hollis",
                                       "Jaclyn Rea", "Carmen Schoenster"};
@@ -21,19 +23,17 @@ public class MeOnDisplayPage : MonoBehaviour {
 
        GetComponent<Page>().OnActivated += PageActivated;
         GetComponent<Page>().OnDeActivated += PageDeActivated;
-
     }
 
     private void PageActivated()
     {
-        Special_AccessibleButton AccessibleButton = null;
         //sort alphabetically
         var OrderedByName = Dancers.OrderBy(x => x);
 
+        int i = 0;
         foreach (string dancer in OrderedByName){
             var b = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
 
-            int i = 0;
             if (b != null)
             {
                 b.name = dancer + " video";
@@ -49,17 +49,13 @@ public class MeOnDisplayPage : MonoBehaviour {
 
                 if(i==0){
                     AccessibleButton = b.GetComponent<Special_AccessibleButton>();
-                    i++;
                 }
-
+                i++;
             }
             else
                 Debug.LogError("Not enough objects in pool");
         }
-        Debug.LogError("PAUSING");
-
-        if(AccessibleButton!=null)
-            AccessibleButton.SelectItem();
+        StartCoroutine("SelectFirstItem");
     }
     private void PageDeActivated()
     {
@@ -90,6 +86,26 @@ public class MeOnDisplayPage : MonoBehaviour {
         avp.StopAllCoroutines();
         yield return avp.StartCoroutine("PlayVideo");
         
+        yield break;
+    }
+
+    IEnumerator SelectFirstItem()
+    {
+        Canvas.ForceUpdateCanvases();
+        yield return new WaitForEndOfFrame();
+        if (AccessibleButton != null)
+        {
+            AccessibleButton.SelectItem(true); AccessibleButton.SelectItem(true);
+
+            AccessibleButton.GetComponent<Button>().OnPointerDown(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
+            AccessibleButton.GetComponent<Button>().OnSelect(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
+            AccessibleButton.GetComponent<Button>().OnPointerEnter(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
+
+
+        }
+
+        Canvas.ForceUpdateCanvases();
+
         yield break;
     }
 
