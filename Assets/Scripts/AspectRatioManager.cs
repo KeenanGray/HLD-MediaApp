@@ -12,6 +12,7 @@ public class AspectRatioManager : MonoBehaviour {
 
     public static bool AspectRatioSet;
     public static bool Stopped;
+    
 
     private void Update()
     {

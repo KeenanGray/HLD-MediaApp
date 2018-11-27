@@ -5,6 +5,8 @@ using TMPro;
 using System;
 
 public class ManageHiddenAccess : MonoBehaviour {
+    public GameObject ViewToShow;
+    public GameObject ViewToHide;
 
     public class PassPhraseArray
     {
@@ -26,11 +28,14 @@ public class ManageHiddenAccess : MonoBehaviour {
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
         ls = GameObject.Find("LandingScreen");
 
-        hiddenPages = new List<GameObject>();
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden"))
-        {
-            hiddenPages.Add(go);
-        }
+       // hiddenPages = new List<GameObject>();
+       // foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden"))
+       // {
+       //    hiddenPages.Add(go);
+       // }
+
+        ViewToShow.SetActive(false);
+        ViewToHide.SetActive(true);
     }
 
     private void CheckIsCorrect(string arg0)
@@ -39,15 +44,21 @@ public class ManageHiddenAccess : MonoBehaviour {
         if (res != ""){
             PassPhraseArray myObject = JsonUtility.FromJson<PassPhraseArray>(res);
 
-            if (arg0 == myObject.data[0].Code)
+//compare the two strings
+//non-case sensitive
+            if (arg0.ToLower() == myObject.data[0].Code.ToLower())
             {
-                foreach (GameObject go in hiddenPages)
+              /*    foreach (GameObject go in hiddenPages)
                 {
                     go.SetActive(true);
                 }
+            
 
                 GetComponentInParent<Page>().MoveScreenOut();
                     ls.GetComponent<Page>().MoveScreenIn();
+*/
+        ViewToShow.SetActive(true);
+        ViewToHide.SetActive(false);            
             }
             else
             {
