@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class App_Button_Editor : Editor
 {
     SerializedProperty Opens;
+    SerializedProperty VO_Select;
     SerializedProperty NewPage;
 
     public Object source;
@@ -16,11 +17,14 @@ public class App_Button_Editor : Editor
     {
         Opens = serializedObject.FindProperty("Button_Opens");
         NewPage = serializedObject.FindProperty("newScreen");
+        VO_Select = serializedObject.FindProperty("VO_Select");
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+
+        EditorGUILayout.PropertyField(VO_Select, new GUIContent("Voiceover select"));
         EditorGUILayout.PropertyField(Opens, new GUIContent("Button Opens"));
 
         if (Opens.enumDisplayNames[Opens.enumValueIndex] == Button_Activates.None.ToString())

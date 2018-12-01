@@ -24,6 +24,7 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     public GameObject newScreen;
+    public GameObject VO_Select;
     public Button_Activates Button_Opens;
     public TextMeshProUGUI buttonText;
 
@@ -66,7 +67,7 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText == null)
         {
-            Debug.LogError("no buttonText");
+            Debug.LogError("no buttonText " + gameObject.name);
         }
             DeActivate();
         }
@@ -99,6 +100,12 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             var CurrSubMenu = GetComponentInParent<SubMenu>();
             if (CurrSubMenu != null)
                 CurrSubMenu.DeActivate();
+
+        if (VO_Select != null)
+        {
+            UAP_AccessibilityManager.SelectElement(VO_Select);
+        }
+
         }
 
         public void Activate()
@@ -124,14 +131,17 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 Activate();
             }
+
+      //  GetComponent<Special_AccessibleButton>().SelectItem();
+
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             Color32 highlightColor = new Color32(203, 194, 62, 255);
         
-        if(GetComponent<Button>().image.sprite!=null)
-                GetComponent<Button>().image.color = highlightColor;
+            if(GetComponent<Button>().image.sprite!=null)
+                    GetComponent<Button>().image.color = highlightColor;
 
             if (buttonText != null)
                 buttonText.color = highlightColor;

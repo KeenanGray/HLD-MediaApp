@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-[ExecuteInEditMode]
 public class Bio_Factory : MonoBehaviour {
 
     [System.Serializable]

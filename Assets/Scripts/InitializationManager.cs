@@ -8,7 +8,6 @@ public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
 
-    public UAP_AccessibilityManager AccessibilityManager;
     GameObject VideoCanvas;
 
     public float InitializeTime;
@@ -47,7 +46,7 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
-        AccessibilityManager.enabled = false;
+        UAP_AccessibilityManager.PauseAccessibility(true);
 
         if (aspectManager == null)
         {
@@ -116,8 +115,9 @@ public class InitializationManager : MonoBehaviour
 
         VideoCanvas.SetActive(false);
 
-        AccessibilityManager.enabled = true;
-//        Debug.Log("Init Time " + Time.time);
+        UAP_AccessibilityManager.PauseAccessibility(false);
+
+        //        Debug.Log("Init Time " + Time.time);
 
         yield break;
     }

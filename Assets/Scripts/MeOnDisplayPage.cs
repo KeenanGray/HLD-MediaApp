@@ -55,7 +55,8 @@ public class MeOnDisplayPage : MonoBehaviour {
             else
                 Debug.LogError("Not enough objects in pool");
         }
-        StartCoroutine("SelectFirstItem");
+        UAP_AccessibilityManager.SelectElement(AccessibleButton.gameObject);
+
     }
     private void PageDeActivated()
     {
@@ -86,26 +87,6 @@ public class MeOnDisplayPage : MonoBehaviour {
         avp.StopAllCoroutines();
         yield return avp.StartCoroutine("PlayVideo");
         
-        yield break;
-    }
-
-    IEnumerator SelectFirstItem()
-    {
-        Canvas.ForceUpdateCanvases();
-        yield return new WaitForEndOfFrame();
-        if (AccessibleButton != null)
-        {
-            AccessibleButton.SelectItem(true); AccessibleButton.SelectItem(true);
-
-            AccessibleButton.GetComponent<Button>().OnPointerDown(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
-            AccessibleButton.GetComponent<Button>().OnSelect(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
-            AccessibleButton.GetComponent<Button>().OnPointerEnter(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
-
-
-        }
-
-        Canvas.ForceUpdateCanvases();
-
         yield break;
     }
 

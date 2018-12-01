@@ -7,6 +7,7 @@ using System;
 public class ManageHiddenAccess : MonoBehaviour {
     public GameObject ViewToShow;
     public GameObject ViewToHide;
+    GameObject AudioDescription_Button;
 
     public class PassPhraseArray
     {
@@ -25,6 +26,7 @@ public class ManageHiddenAccess : MonoBehaviour {
 
     // Use this for initialization
     public void Start () {
+        AudioDescription_Button = GameObject.Find("AudioDescription_Button");
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
         ls = GameObject.Find("LandingScreen");
 
@@ -56,18 +58,19 @@ public class ManageHiddenAccess : MonoBehaviour {
 
                 GetComponentInParent<Page>().MoveScreenOut();
                     ls.GetComponent<Page>().MoveScreenIn();
-*/
-        ViewToShow.SetActive(true);
-        ViewToHide.SetActive(false);            
-            }
+        */
+                ViewToShow.SetActive(true);
+                ViewToHide.SetActive(false);
+
+            }   
             else
             {
                 Debug.Log("try enterring passcode " + myObject.data[0].Code);
             }
 
+           // UAP_AccessibilityManager.SelectElement(AudioDescription_Button);
 
         }
-//        Debug.Log("access code " + res);
     }
 
     // Update is called once per frame
