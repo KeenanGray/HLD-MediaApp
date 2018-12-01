@@ -95,15 +95,14 @@ public class InitializationManager : MonoBehaviour
             sm.SetOnScreen(false);
         }
 
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden")) {
-            go.SetActive(false);
-        }
+ //       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden")) {
+ //           go.SetActive(false);
+ //       }
 
-        var firstScreen = GameObject.Find("LandingScreen");
+        var firstScreen = GameObject.Find("Landing_Page");
         firstScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
 
         AspectRatioManager.Stopped = true;
-
 
         //if we finish initializing faster than expected, take a moment to finish the video
         t2 = Time.time;
@@ -116,6 +115,9 @@ public class InitializationManager : MonoBehaviour
         VideoCanvas.SetActive(false);
 
         UAP_AccessibilityManager.PauseAccessibility(false);
+        var first = GameObject.Find("DISPLAYED-Code_Button");
+
+        UAP_AccessibilityManager.SelectElement(first,true); ;
 
         //        Debug.Log("Init Time " + Time.time);
 

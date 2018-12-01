@@ -22,8 +22,11 @@ public class Bio_Factory : MonoBehaviour {
 
     public static bool Constructed;
 
-	// Use this for initialization
-	void Start () {
+    static string BioParentGameObjectName = "CompanyDancers_SubMenu";
+    static string BioButtonGameObjectName = "CompanyDancers_Button";
+
+    // Use this for initialization
+    void Start () {
 	}
 	
 	// Update is called once per frame
@@ -31,7 +34,7 @@ public class Bio_Factory : MonoBehaviour {
 	}
 
     static string Bio_GameObject_Name = "Pages";
-    static string Bio_MenuGameObject_Name = "TheDisplayed_SubMenu";
+    static string Bio_MenuGameObject_Name = BioParentGameObjectName;
 
     public static void CreateBioPages(string BiographiesJSON){
         GameObject Bio_Button_Root=null;
@@ -82,6 +85,7 @@ public class Bio_Factory : MonoBehaviour {
                 Bio_Page bp = go.GetComponent<Bio_Page>();
                 bp.SetName(bioJson.Name);
                 bp.SetTitle(bioJson.Title);
+                bp.SetImage("DancerPhotos/"+bioJson.Name.Replace(" ", "_"));
                 bp.SetDesc(bioJson.Bio);
 
             }
@@ -89,6 +93,7 @@ public class Bio_Factory : MonoBehaviour {
 
         //Make the buttons
         //They will be assigned to their buttons with 'Init'
+        int traversalOrder = 0;
         foreach (Biography b in OrderedByName)
         {
             GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
@@ -100,11 +105,26 @@ public class Bio_Factory : MonoBehaviour {
                 go.transform.SetParent(Bio_Button_Root.transform);
 
                 //update parent for accessibility
-                go.GetComponent<Special_AccessibleButton>().m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
-                
+                var sab = go.GetComponent<Special_AccessibleButton>();
+
+                //get the button for the biographies and tell it to select
+                //the first element in the list
+                if(traversalOrder==0){
+                    GameObject.Find(BioButtonGameObjectName).GetComponent<App_Button>().SetVO(go);
+                }
+                sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
+                sab.m_ManualPositionOrder = traversalOrder;
+                traversalOrder++;
+
                 script.SetButtonText(b.Name);
                 script.Button_Opens = App_Button.Button_Activates.Page;
-                
+
+                //For some reason you have to do this
+                //So that the names appear in the right order for accessibility
+                Bio_Button_Root.SetActive(false);
+                Bio_Button_Root.SetActive(true);
+
+
                 go.tag = "Untagged";
 
                 script.Init();

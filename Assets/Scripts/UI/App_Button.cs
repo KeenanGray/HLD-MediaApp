@@ -127,13 +127,7 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         private void OnEnable()
         {
-            if (tag == "Hidden")
-            {
-                Activate();
-            }
-
-      //  GetComponent<Special_AccessibleButton>().SelectItem();
-
+          
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -157,4 +151,8 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (buttonText != null)
                 buttonText.color = defaultColor;
         }
+
+    public void SetVO(GameObject target){
+        VO_Select = target;
+    }
 }

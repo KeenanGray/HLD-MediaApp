@@ -50,7 +50,7 @@ public class Page : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning(gameObject.name + ": You need to create a button named \"close_button\" as a child of this gameobject, otherwise the screen will never be closed");
+//            Debug.LogWarning(gameObject.name + ": You need to create a button named \"close_button\" as a child of this gameobject, otherwise the screen will never be closed");
         }
 
         //Get the container gameobject for each View
@@ -58,7 +58,7 @@ public class Page : MonoBehaviour
             ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
         else
         {
-            Debug.LogWarning("No ViewContainerOnThisPage");
+//            Debug.LogWarning("No ViewContainerOnThisPage");
             return;
         }
 

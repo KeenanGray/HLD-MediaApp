@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Bio_Page : MonoBehaviour {
 
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Description;
+    public Image BioImage;
 
     // Use this for initialization
     [ExecuteInEditMode]
@@ -19,6 +21,11 @@ public class Bio_Page : MonoBehaviour {
                 Title = tm;
             else if (tm.name == "Description")
                 Description = tm;
+        }
+        foreach(Image i in GetComponentsInChildren<Image>()){
+            if (i.name == "Image") {
+                BioImage = i;
+            }
         }
 
         Name.text = "";
@@ -41,6 +48,19 @@ public class Bio_Page : MonoBehaviour {
     public void SetDesc(string str)
     {
         Description.text = str;
+    }
+
+    public void SetImage(string PathToImage){
+        var ImageToUse = Resources.Load<Sprite>(PathToImage) as Sprite;
+        if (ImageToUse != null)
+        {
+           // Debug.Log(PathToImage + " : name " + ImageToUse.name);
+        }
+        else{
+            Debug.LogWarning("Failed to load " + PathToImage);
+        }
+       BioImage.sprite = ImageToUse;
+        BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
     }
 
 }

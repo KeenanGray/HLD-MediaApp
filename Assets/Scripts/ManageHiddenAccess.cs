@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class ManageHiddenAccess : MonoBehaviour {
-    public GameObject ViewToShow;
-    public GameObject ViewToHide;
     GameObject AudioDescription_Button;
 
     public class PassPhraseArray
@@ -36,8 +35,6 @@ public class ManageHiddenAccess : MonoBehaviour {
        //    hiddenPages.Add(go);
        // }
 
-        ViewToShow.SetActive(false);
-        ViewToHide.SetActive(true);
     }
 
     private void CheckIsCorrect(string arg0)
@@ -50,25 +47,22 @@ public class ManageHiddenAccess : MonoBehaviour {
 //non-case sensitive
             if (arg0.ToLower() == myObject.data[0].Code.ToLower())
             {
-              /*    foreach (GameObject go in hiddenPages)
-                {
-                    go.SetActive(true);
-                }
-            
+                /*    foreach (GameObject go in hiddenPages)
+                  {
+                      go.SetActive(true);
+                  }
 
-                GetComponentInParent<Page>().MoveScreenOut();
-                    ls.GetComponent<Page>().MoveScreenIn();
-        */
-                ViewToShow.SetActive(true);
-                ViewToHide.SetActive(false);
 
-            }   
+                  GetComponentInParent<Page>().MoveScreenOut();
+                      ls.GetComponent<Page>().MoveScreenIn();
+          */
+                StartCoroutine("OnCorrectCode");
+
+            }
             else
             {
                 Debug.Log("try enterring passcode " + myObject.data[0].Code);
             }
-
-           // UAP_AccessibilityManager.SelectElement(AudioDescription_Button);
 
         }
     }
@@ -78,5 +72,29 @@ public class ManageHiddenAccess : MonoBehaviour {
 		
 	}
 
+    IEnumerator OnCorrectCode(){
+
+        GameObject.Find("DISPLAYED-Code_Button").name = "DISPLAYED-Info_Button";
+        var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<Button>();
+        GetComponentInParent<Page>().DeActivate();
+
+        var ab = button.GetComponent<App_Button>();
+        ab.Init();
+
+        var audioDesc = GameObject.Find("AudioDescription_Button");
+        audioDesc.SetActive(false);
+
+        ab.SetVO(audioDesc);
+
+        button.onClick.Invoke();
+        audioDesc.SetActive(true);
+
+        yield return new WaitForSeconds(0.0f);
+        audioDesc.GetComponent<Button>().enabled = true;
+        audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
+        yield return new WaitForSeconds(0.0f);
+        UAP_AccessibilityManager.SelectElement(audioDesc);
+        yield break;
+    }
 
 }

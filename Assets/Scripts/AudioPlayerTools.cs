@@ -149,7 +149,7 @@ public class AudioPlayerTools : MonoBehaviour {
         AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
         AudioTimerInput.onSubmit.AddListener(OnInputFieldSubmitted);
         AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true,true); });
-        AudioTimerInput.text = "00:00";
+        AudioTimerInput.text = "";
     }
 
     private void MoveToEndOfLine(float arg0)
@@ -158,16 +158,13 @@ public class AudioPlayerTools : MonoBehaviour {
         AudioTimerInput.MoveTextEnd(false);
         AudioTimerInput.MoveToEndOfLine(false,false);
         AudioTimerInput.caretPosition = 5;
-
-
-
     }
 
     private void OnInputFieldSubmitted(string arg0)
     {
         string str = displayText.text.Split(':')[0] + displayText.text.Split(':')[1];
 
-        AudioTimerInput.text = "00:00";
+        AudioTimerInput.text = "";
         if (source.clip.length > StringToSecondsCount(str,ref arg0)){
             source.time = StringToSecondsCount(str, ref arg0);
         }
@@ -175,22 +172,31 @@ public class AudioPlayerTools : MonoBehaviour {
             Debug.LogWarning("length exceeds time remaining in clip");
         }
 
+        AudioTimerInput.DeactivateInputField();
+
+        if (!source.isPlaying)
+            PlayButtonPressed();
         //TODO:deselect the input field
     }
 
     int timerIndex;
     private void OnInputFieldChanged(string arg0)
     {
-        AudioTimerInput.caretPosition = 5;
-        arg0 = arg0.Insert(5, "_");
-        var customTime = arg0.Split('_')[1];
+        /*    AudioTimerInput.caretPosition = 5;
+            arg0 = arg0.Insert(5, "_");
+            var customTime = arg0.Split('_')[1];
 
-        ConvertToClockTime(StringToSecondsCount(customTime,ref customTime));
-        AudioTimerInput.text = customTime;
+            ConvertToClockTime(StringToSecondsCount(customTime,ref customTime));
+            AudioTimerInput.text = customTime;
 
-        customTime = customTime.Insert(5, "/");
+            customTime = customTime.Insert(5, "/");
 
-        displayText.text = customTime.Split('/')[0];
+            displayText.text = customTime.Split('/')[0];
+            */
+
+        var outstr = "";
+            displayText.text = ConvertToClockTime(StringToSecondsCount(AudioTimerInput.text, ref outstr));
+
 
     }
 
@@ -207,7 +213,8 @@ public class AudioPlayerTools : MonoBehaviour {
         time_label.text = ConvertToClockTime(source.time);
 
         var t = Mathf.InverseLerp(0, source.clip.length, source.time);
-        timeScroll.value = t;
+        if(timeScroll!=null)
+            timeScroll.value = t;
 
     }
     // Update is called once per frame
@@ -225,12 +232,19 @@ public class AudioPlayerTools : MonoBehaviour {
             source.Pause();
             playbutton.transform.GetChild(0).gameObject.SetActive(true); //turn off the play button
             playbutton.transform.GetChild(1).gameObject.SetActive(false); //turn on the pause button
+            var sab = playbutton.GetComponent<Special_AccessibleButton>();
+            sab.m_Text = "Play";
+            sab.SelectItem(true);
         }
         else
         {
             source.Play();
             playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
             playbutton.transform.GetChild(1).gameObject.SetActive(true); //turn on the pause button
+            var sab = playbutton.GetComponent<Special_AccessibleButton>();
+            sab.m_Text = "Pause";
+            sab.SelectItem(true);
+
         }
     }
 
@@ -306,8 +320,6 @@ public class AudioPlayerTools : MonoBehaviour {
                 min = "00";
                 sec = "00";
 
-                if (!source.isPlaying)
-                    source.Play();
                 AudioTimerInput.OnSelect(null);
                 OnInputFieldSubmitted(min + ":" + sec + v);
                 break;
