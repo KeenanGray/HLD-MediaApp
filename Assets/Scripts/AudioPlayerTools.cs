@@ -25,11 +25,14 @@ public class AudioPlayerTools : MonoBehaviour {
     private float scrollPos;
     
     bool trig;
+    bool shouldContinuePlaying;
     private bool restartAtEndOfDrag;
 
     // Use this for initialization
     void Start()
     {
+        shouldContinuePlaying = false;
+
         source = gameObject.GetComponentInChildren<AudioSource>();
 
         //Set up buttons for audiocontroller
@@ -148,7 +151,7 @@ public class AudioPlayerTools : MonoBehaviour {
 
         AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
         AudioTimerInput.onSubmit.AddListener(OnInputFieldSubmitted);
-        AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
+       // AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
         AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true,true); });
         AudioTimerInput.text = "";
     }
@@ -175,10 +178,8 @@ public class AudioPlayerTools : MonoBehaviour {
 
         AudioTimerInput.DeactivateInputField();
 
-        if (!source.isPlaying)
-        {
-            playbutton.onClick.Invoke();
-        }
+        shouldContinuePlaying = true;
+        playbutton.onClick.Invoke();
         //TODO:deselect the input field
     }
 
@@ -230,6 +231,22 @@ public class AudioPlayerTools : MonoBehaviour {
     }
 
     void PlayButtonPressed(){
+        if (shouldContinuePlaying)
+        {
+            shouldContinuePlaying = false;
+            if(!source.isPlaying){
+                Debug.Log("HERE 2");
+
+                source.Play();
+                playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
+                playbutton.transform.GetChild(1).gameObject.SetActive(true); //turn on the pause button
+                var sab = playbutton.GetComponent<Special_AccessibleButton>();
+                sab.m_Text = "Pause";
+                sab.SelectItem(true);
+            }
+            return;
+        }
+
         if (source.isPlaying)
         {
             source.Pause();
@@ -250,6 +267,8 @@ public class AudioPlayerTools : MonoBehaviour {
 
         }
     }
+
+ 
 
     void FwdButtonPressed()
     {
