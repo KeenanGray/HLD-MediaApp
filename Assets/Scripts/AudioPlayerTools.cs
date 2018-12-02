@@ -148,6 +148,7 @@ public class AudioPlayerTools : MonoBehaviour {
 
         AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
         AudioTimerInput.onSubmit.AddListener(OnInputFieldSubmitted);
+        AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
         AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true,true); });
         AudioTimerInput.text = "";
     }
@@ -175,7 +176,9 @@ public class AudioPlayerTools : MonoBehaviour {
         AudioTimerInput.DeactivateInputField();
 
         if (!source.isPlaying)
-            PlayButtonPressed();
+        {
+            playbutton.onClick.Invoke();
+        }
         //TODO:deselect the input field
     }
 
@@ -238,7 +241,6 @@ public class AudioPlayerTools : MonoBehaviour {
         }
         else
         {
-            Debug.Log("HEY");
             source.Play();
             playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
             playbutton.transform.GetChild(1).gameObject.SetActive(true); //turn on the pause button
