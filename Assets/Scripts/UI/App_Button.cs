@@ -20,13 +20,16 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Page,
         SubMenu,
         SpecificPage,
-        Video
+        Video,
+        Website
     }
 
     public GameObject newScreen;
     public GameObject VO_Select;
     public Button_Activates Button_Opens;
     public TextMeshProUGUI buttonText;
+    public string WebUrl;
+    private Color originalColor;
 
     public void Init()
     {
@@ -67,7 +70,7 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText == null)
         {
-            Debug.LogError("no buttonText " + gameObject.name);
+           // Debug.LogError("no buttonText " + gameObject.name);
         }
             DeActivate();
         }
@@ -87,6 +90,12 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     break;
                 case Button_Activates.Video:
                     newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+                    break;
+                case Button_Activates.Website:
+                    if (WebUrl != null)
+                        Application.OpenURL(WebUrl);
+                    else
+                        Debug.LogWarning("Button not assigned a url");
                     break;
                 default:
                     Debug.Log("No Activity for this button");
@@ -130,26 +139,31 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
           
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Color32 highlightColor = new Color32(203, 194, 62, 255);
-        
-            if(GetComponent<Button>().image.sprite!=null)
-                    GetComponent<Button>().image.color = highlightColor;
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Color32 highlightColor = new Color32(193, 200, 47, 255);
+        if (GetComponent<Button>().image.sprite != null)
+            originalColor = GetComponent<Button>().image.color;
+        else
+            originalColor = new Color32(230, 230, 230, 255);
 
+        if (GetComponent<Button>().image.sprite != null)
+        {
+            if (GetComponent<Button>().image.sprite.name == "X_w")
+                GetComponent<Button>().image.color = highlightColor;
+        }
             if (buttonText != null)
                 buttonText.color = highlightColor;
-        }
+        
+    }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Color32 defaultColor = new Color32(230, 230, 230, 255);
-
         if (GetComponent<Button>().image.sprite != null)
-            GetComponent<Button>().image.color = defaultColor;
+            GetComponent<Button>().image.color = originalColor;
         
         if (buttonText != null)
-                buttonText.color = defaultColor;
+            buttonText.color = originalColor;
         }
 
     public void SetVO(GameObject target){

@@ -13,6 +13,9 @@ public class Page : MonoBehaviour
     public delegate void DeActivated();
     public event Activated OnDeActivated;
 
+    GameObject mainCanvas;
+    GameObject subCanvas;
+
     public List<RectTransform> views;
     RectTransform rt;
     RectTransform ViewContainer;

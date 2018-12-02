@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class Bio_Factory : MonoBehaviour {
 
@@ -123,6 +124,10 @@ public class Bio_Factory : MonoBehaviour {
                 //So that the names appear in the right order for accessibility
                 Bio_Button_Root.SetActive(false);
                 Bio_Button_Root.SetActive(true);
+
+
+                //set the text in the button to right align.
+                go.GetComponentInChildren<TextMeshProUGUI>().alignment = TMPro.TextAlignmentOptions.Right;
 
 
                 go.tag = "Untagged";

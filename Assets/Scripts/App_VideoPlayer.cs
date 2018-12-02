@@ -13,8 +13,10 @@ public class App_VideoPlayer : MonoBehaviour {
     VideoPlayer myPlayer;
     TextAsset VideoCaptions;
 
-	// Use this for initialization
-	void Start () {
+    public GameObject OriginScreen;
+
+    // Use this for initialization
+    void Start () {
         cover = transform.Find("Cover").gameObject;
         CaptionsCanvas = transform.Find("CaptionsCanvas").gameObject;
         if (CaptionsCanvas == null)
@@ -68,7 +70,9 @@ public class App_VideoPlayer : MonoBehaviour {
         myClip = null;
         cover.SetActive(true);
         GetComponentInParent<Page>().StartCoroutine("MoveScreenOut");
-        GameObject.Find("#MeOnDisplay_Page").GetComponent<Page>().StartCoroutine("MoveScreenIn");
+        var listPage = GameObject.Find("#MeOnDisplay_Page");
+        listPage.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+        UAP_AccessibilityManager.SelectElement(listPage);
     }
 
     public void SetVideoCaptions(TextAsset newText){
@@ -87,7 +91,6 @@ public class App_VideoPlayer : MonoBehaviour {
             Debug.LogWarning("couldnt find text");
 
         var words = GetNumberOfLines();
-
 
         int start = 0;
         int WordsPerLine = 6;

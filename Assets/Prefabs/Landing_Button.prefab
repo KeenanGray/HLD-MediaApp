@@ -152,7 +152,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 3df86b12037d14a928f3166bee31a8ab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06f25ca0e4ce7423bb90925b96d03b6f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -175,6 +175,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
+  WebUrl: 
 --- !u!114 &114910939359414960
 MonoBehaviour:
   m_ObjectHideFlags: 1

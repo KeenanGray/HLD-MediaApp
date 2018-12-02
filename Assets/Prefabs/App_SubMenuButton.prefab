@@ -77,10 +77,10 @@ MonoBehaviour:
   m_TryToReadLabel: 0
   m_ReferenceElement: {fileID: 0}
   m_AllowVoiceOver: 1
-  m_ReadType: 1
+  m_ReadType: 0
   m_WasJustAdded: 1
   m_Type: 1
-  m_CustomHint: 0
+  m_CustomHint: 1
   m_HintAsAudio: {fileID: 0}
   m_Hint: 
   m_HintIsLocalizationKey: 0
@@ -201,13 +201,13 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
@@ -280,8 +280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newScreen: {fileID: 0}
+  VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
+  WebUrl: 
 --- !u!222 &222191698931881390
 CanvasRenderer:
   m_ObjectHideFlags: 1

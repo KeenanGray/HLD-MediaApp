@@ -45,6 +45,11 @@ public class ManageHiddenAccess : MonoBehaviour {
 
 //compare the two strings
 //non-case sensitive
+            if(myObject==null)
+            {
+                    Debug.LogError("Uh oh");
+                    return;
+            }
             if (arg0.ToLower() == myObject.data[0].Code.ToLower())
             {
                 /*    foreach (GameObject go in hiddenPages)
@@ -74,27 +79,35 @@ public class ManageHiddenAccess : MonoBehaviour {
 
     IEnumerator OnCorrectCode(){
 
-        GameObject.Find("DISPLAYED-Code_Button").name = "DISPLAYED-Info_Button";
+        var go = GameObject.Find("DISPLAYED-Code_Button");
+        if (go != null)
+        {
+            GameObject.Find("DISPLAYED-Code_Button").name = "DISPLAYED-Info_Button";
+        }
+        else{
+        }
         var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<Button>();
+
         GetComponentInParent<Page>().DeActivate();
 
-        var ab = button.GetComponent<App_Button>();
-        ab.Init();
+            var ab = button.GetComponent<App_Button>();
+            ab.Init();
 
-        var audioDesc = GameObject.Find("AudioDescription_Button");
-        audioDesc.SetActive(false);
+            var audioDesc = GameObject.Find("AudioDescription_Button");
+            audioDesc.SetActive(false);
 
-        ab.SetVO(audioDesc);
+            ab.SetVO(audioDesc);
 
-        button.onClick.Invoke();
-        audioDesc.SetActive(true);
+            button.onClick.Invoke();
+            audioDesc.SetActive(true);
 
-        yield return new WaitForSeconds(0.0f);
-        audioDesc.GetComponent<Button>().enabled = true;
-        audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
-        yield return new WaitForSeconds(0.0f);
-        UAP_AccessibilityManager.SelectElement(audioDesc);
-        yield break;
+            yield return new WaitForSeconds(0.0f);
+            audioDesc.GetComponent<Button>().enabled = true;
+            audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
+            yield return new WaitForSeconds(0.0f);
+            UAP_AccessibilityManager.SelectElement(audioDesc);
+            yield break;
+
     }
 
 }

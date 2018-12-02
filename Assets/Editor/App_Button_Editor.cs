@@ -11,6 +11,7 @@ public class App_Button_Editor : Editor
     SerializedProperty Opens;
     SerializedProperty VO_Select;
     SerializedProperty NewPage;
+    SerializedProperty WebUrl;
 
     public Object source;
     void OnEnable()
@@ -18,6 +19,7 @@ public class App_Button_Editor : Editor
         Opens = serializedObject.FindProperty("Button_Opens");
         NewPage = serializedObject.FindProperty("newScreen");
         VO_Select = serializedObject.FindProperty("VO_Select");
+        WebUrl = serializedObject.FindProperty("WebUrl");
     }
 
     public override void OnInspectorGUI()
@@ -26,6 +28,13 @@ public class App_Button_Editor : Editor
 
         EditorGUILayout.PropertyField(VO_Select, new GUIContent("Voiceover select"));
         EditorGUILayout.PropertyField(Opens, new GUIContent("Button Opens"));
+
+        if (Opens.enumDisplayNames[Opens.enumValueIndex] == Button_Activates.Website.ToString())
+        {
+            EditorGUILayout.PropertyField(WebUrl, new GUIContent("Url"));
+            serializedObject.ApplyModifiedProperties();
+            return;
+        }
 
         if (Opens.enumDisplayNames[Opens.enumValueIndex] == Button_Activates.None.ToString())
         {

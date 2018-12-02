@@ -10,6 +10,7 @@ TagManager:
   - Hidden
   - App_AboutPage
   - App_VideoPlayer
+  - SubCanvas
   layers:
   - Default
   - TransparentFX

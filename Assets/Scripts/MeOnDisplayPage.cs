@@ -27,6 +27,8 @@ public class MeOnDisplayPage : MonoBehaviour {
 
     private void PageActivated()
     {
+        GameObject.FindWithTag("App_VideoPlayer").GetComponent<App_VideoPlayer>().OriginScreen = gameObject;
+
         //sort alphabetically
         var OrderedByName = Dancers.OrderBy(x => x);
 
@@ -47,16 +49,24 @@ public class MeOnDisplayPage : MonoBehaviour {
 
                 ab.Init();
 
+                var sab = b.GetComponent<Special_AccessibleButton>();
                 if(i==0){
-                    AccessibleButton = b.GetComponent<Special_AccessibleButton>();
+                    AccessibleButton = sab;
                 }
+
+                sab.m_ManualPositionOrder = i;
+                sab.m_ManualPositionParent = transform.parent.gameObject;
+
                 i++;
             }
             else
                 Debug.LogError("Not enough objects in pool");
         }
-        UAP_AccessibilityManager.SelectElement(AccessibleButton.gameObject);
 
+        transform.parent.gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(true);
+        
+        GameObject.FindWithTag("App_VideoPlayer").GetComponent<Page>().DeActivate();
     }
     private void PageDeActivated()
     {
@@ -66,6 +76,7 @@ public class MeOnDisplayPage : MonoBehaviour {
 
     void PlayVideo(string src)
     {
+
         var filename = "MeOnDisplay/" + src.Replace(" ", "_");
         VideoClip videoSource = Resources.Load<VideoClip>(filename) as VideoClip;
 
@@ -76,6 +87,7 @@ public class MeOnDisplayPage : MonoBehaviour {
         vp.GetComponent<App_VideoPlayer>().SetVideoCaptions(captions);
         vp.clip = videoSource;
         StartCoroutine("PlayVideoCoroutine");
+
     }
 
     IEnumerator PlayVideoCoroutine(){
