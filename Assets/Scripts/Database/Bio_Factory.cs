@@ -125,7 +125,6 @@ public class Bio_Factory : MonoBehaviour {
                 Bio_Button_Root.SetActive(false);
                 Bio_Button_Root.SetActive(true);
 
-
                 //set the text in the button to right align.
                 go.GetComponentInChildren<TextMeshProUGUI>().alignment = TMPro.TextAlignmentOptions.Right;
 

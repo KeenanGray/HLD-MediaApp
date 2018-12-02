@@ -77,6 +77,8 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         void OnButtonPressed()
         {
+        bool shouldDeActivatePage = true;
+
             switch (Button_Opens)
             {
                 case Button_Activates.Page:
@@ -92,6 +94,7 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     newScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
                     break;
                 case Button_Activates.Website:
+                shouldDeActivatePage = false;
                     if (WebUrl != null)
                         Application.OpenURL(WebUrl);
                     else
@@ -102,13 +105,24 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     break;
             }
 
-            var CurrPage = GetComponentInParent<Page>();
+        if (shouldDeActivatePage)
+        {
+            var mainC = GameObject.Find("MainCanvas");
+            foreach(Page page in mainC.GetComponentsInChildren<Page>()){
+                if(page.PageOnScreen)
+                    page.DeActivate();
+            }
+
+      /*      var CurrPage = GetComponentInParent<Page>();
             if (CurrPage != null)
                 CurrPage.DeActivate();
 
             var CurrSubMenu = GetComponentInParent<SubMenu>();
             if (CurrSubMenu != null)
                 CurrSubMenu.DeActivate();
+                */
+
+        }
 
         if (VO_Select != null)
         {

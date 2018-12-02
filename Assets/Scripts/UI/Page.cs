@@ -22,7 +22,7 @@ public class Page : MonoBehaviour
     GameObject View_Slider;
     RectTransform CurrentView;
     Button close_button;
-    bool PageOnScreen;
+    public bool PageOnScreen;
 
     public void Init()
     {
@@ -98,7 +98,14 @@ public class Page : MonoBehaviour
 //        Debug.Log("Default Activate Handler " + name);
     }
 
-
+    private void OnDisable()
+    {
+        Debug.LogWarning("Should not be disabling gameobject " + name);
+    }
+    private void OnEnable()
+    {
+       // Debug.Log(name);
+    }
     private void Start()
     {
         InputManager.SwipeDelegate += SwipeHandler;

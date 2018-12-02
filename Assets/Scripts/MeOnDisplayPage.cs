@@ -63,9 +63,10 @@ public class MeOnDisplayPage : MonoBehaviour {
                 Debug.LogError("Not enough objects in pool");
         }
 
-        transform.parent.gameObject.SetActive(false);
-        transform.parent.gameObject.SetActive(true);
-        
+        var theScroll = transform.Find("Interface").GetComponentInChildren<ScrollRect>().gameObject;
+        theScroll.SetActive(false);
+        theScroll.SetActive(true);
+
         GameObject.FindWithTag("App_VideoPlayer").GetComponent<Page>().DeActivate();
     }
     private void PageDeActivated()

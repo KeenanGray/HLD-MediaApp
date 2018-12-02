@@ -238,6 +238,7 @@ public class AudioPlayerTools : MonoBehaviour {
         }
         else
         {
+            Debug.Log("HEY");
             source.Play();
             playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
             playbutton.transform.GetChild(1).gameObject.SetActive(true); //turn on the pause button
