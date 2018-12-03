@@ -180,13 +180,17 @@ public class Page : MonoBehaviour
     {
         if (dir == Direction.RIGHT)
         {
-            CurrentView = views[GetPreviousView()];
+            var index = GetPreviousView();
+            if(index<views.Count && index>-1)
+                CurrentView = views[index];
             //This looks weird, but YES these values are both supposed to be negative
             ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
         }
         if (dir == Direction.LEFT)
         {
-            CurrentView = views[GetNextView()];
+            var index = GetNextView();
+            if (index < views.Count-1 && index>-1)
+                CurrentView = views[index];
             //This looks weird, but YES these values are both supposed to be negative
             ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
         }

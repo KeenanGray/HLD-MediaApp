@@ -27,6 +27,7 @@ public class ManageHiddenAccess : MonoBehaviour {
     public void Start () {
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
+
         ls = GameObject.Find("LandingScreen");
 
        // hiddenPages = new List<GameObject>();

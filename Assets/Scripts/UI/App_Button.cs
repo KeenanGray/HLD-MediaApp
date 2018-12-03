@@ -165,9 +165,21 @@ public class App_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (GetComponent<Button>().image.sprite.name == "X_w")
                 GetComponent<Button>().image.color = highlightColor;
+            return;
         }
-            if (buttonText != null)
-                buttonText.color = highlightColor;
+
+        if (buttonText != null)
+        {
+            originalColor = buttonText.color;
+
+            //TODO: reconsider this wierd special case
+            //just for the displayed button
+            if (buttonText.color == highlightColor)
+                buttonText.color = new Color32(163, 170, 17, 255);
+
+            originalColor = buttonText.color;
+            buttonText.color = highlightColor;
+        }
         
     }
 

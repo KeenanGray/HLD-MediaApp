@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class App_VideoPlayer : MonoBehaviour {
@@ -26,6 +27,11 @@ public class App_VideoPlayer : MonoBehaviour {
         myClip = null;
 
         myPlayer = GetComponent<VideoPlayer>();
+
+        var b = GetComponentInChildren<Button>();
+        b.onClick.AddListener(delegate { myPlayer.Stop(); });
+        Debug.Log("b " + b.name);
+
 	}
 	
 	// Update is called once per frame
@@ -49,6 +55,7 @@ public class App_VideoPlayer : MonoBehaviour {
         myPlayer.enabled = false;
         myPlayer.enabled = true;
         cover.SetActive(false);
+        myClip = myPlayer.clip;
 
         myPlayer.Play();
         StartCoroutine("PlayCaptionsWithVideo");
@@ -56,6 +63,7 @@ public class App_VideoPlayer : MonoBehaviour {
         var t0 = Time.time;
         var t1 = Time.time;
 
+        Debug.Log(myClip.length + " passed " + (myClip.length - (t1 - t0)));
         while(myClip.length - (t1-t0) >= 0){
             t1 = Time.time;
             yield return delay;

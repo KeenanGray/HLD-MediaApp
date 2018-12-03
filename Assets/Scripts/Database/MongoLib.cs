@@ -63,7 +63,7 @@ public class MongoLib : MonoBehaviour {
         //Get the biographies from the database
         collection_name = "The_Displayed";
         yield return StartCoroutine("GetCollectionFromDatabase");
-        WriteJson(db_result, "Bios.json");
+        WriteJsonFromWeb(db_result, "Bios.json");
         yield break;
     }
     IEnumerator UpdateWatch()
@@ -96,7 +96,7 @@ public class MongoLib : MonoBehaviour {
         //Get the biographies from the database
         collection_name = "D.I.S.P.L.A.Y.E.D";
         yield return StartCoroutine("GetCollectionFromDatabase");
-        WriteJson(db_result, "AccessCode.json");
+        WriteJsonFromWeb(db_result, "AccessCode.json");
         yield break;
     }
 
@@ -141,7 +141,7 @@ public class MongoLib : MonoBehaviour {
         }
     }
 
-    void WriteJson(string data, string fileName){
+    void WriteJsonFromWeb(string data, string fileName){
         string destination = Application.persistentDataPath + "/"+fileName;
         FileStream file;
         StreamReader sr;
@@ -173,6 +173,57 @@ public class MongoLib : MonoBehaviour {
                 file = File.Create(destination);
                 file.Close();
       //          Debug.Log("New JSON");
+                sw = new StreamWriter(destination, true);
+                sw.WriteLine(jsonToWrite);
+                sw.Close();
+            }
+        }
+        else
+        {
+            //If the file does not exist, create the file and write data to it
+
+            file = File.Create(destination);
+            file.Close();
+            sw = new StreamWriter(destination, true);
+            sw.WriteLine(jsonToWrite);
+            sw.Close();
+        }
+    }
+
+    public static void WriteJsonUnModified(string data, string fileName)
+    {
+        string destination = Application.persistentDataPath + "/" + fileName;
+        FileStream file;
+        StreamReader sr;
+        StreamWriter sw;
+
+        //if no data returned, do not continue
+        if (data == "" || data == null)
+        {
+            return;
+        }
+        string jsonToWrite = data;
+
+        //Open the local file
+        if (File.Exists(destination))
+        {
+            //If the file exists, compare the two versions
+            //If they are different. overwrite the old version
+            sr = File.OpenText(destination);
+            var oldJson = sr.ReadToEnd();
+            sr.Close();
+
+            oldJson = oldJson.Remove(oldJson.Length - 1, 1);
+            //   oldJson = oldJson.Remove(oldJson.Length - 1, 1);
+            if (oldJson.Equals(jsonToWrite))
+            {
+                //                Debug.Log("JSON matches");
+            }
+            else
+            {
+                file = File.Create(destination);
+                file.Close();
+                //          Debug.Log("New JSON");
                 sw = new StreamWriter(destination, true);
                 sw.WriteLine(jsonToWrite);
                 sw.Close();

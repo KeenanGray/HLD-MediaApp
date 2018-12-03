@@ -48,6 +48,9 @@ public class InitializationManager : MonoBehaviour
     {
         UAP_AccessibilityManager.PauseAccessibility(true);
 
+        InitializePlaceHolderJsonFiles();
+
+
         if (aspectManager == null)
         {
             Debug.LogWarning("Unable to find Aspect Manager");
@@ -123,5 +126,18 @@ public class InitializationManager : MonoBehaviour
 
         yield break;
     }
+
+    void InitializePlaceHolderJsonFiles()
+    {
+        Debug.Log(Application.persistentDataPath);
+
+        TextAsset code = Resources.Load<TextAsset>("Json/AccessCode_default");
+        TextAsset bios = Resources.Load<TextAsset>("Json/Bios_default");
+
+        MongoLib.WriteJsonUnModified(bios.text,"Bios.json");
+        MongoLib.WriteJsonUnModified(code.text, "AccessCode.json");
+
+    }
+
 }
 
