@@ -42,16 +42,31 @@ public class AspectRatioManager_Editor : MonoBehaviour
         ScreenWidth = Screen.width;
         ScreenHeight = Screen.height;
 
+        float right = ScreenWidth * 2;
+        float up = ScreenHeight / 2;
+
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
-            var tmp =arf.GetComponent<RectTransform>().position;
+            // var tmp = arf.GetComponent<RectTransform>().position;
+            //if get component has a "page", move it into a nice position;
+            if ((arf.GetComponent<Page>() != null || arf.GetComponent<SubMenu>()!=null) && arf.tag!="App_Biography" && arf.tag!="Pool")
+            {
+                var pos = new Vector3(right, up, 0);
+                right += ScreenWidth+ 100;
+                arf.GetComponent<RectTransform>().position = new Vector3((int) pos.x, (int) pos.y, (int)pos.z);
+            }
+
+            if (arf.tag == "App_Biography")
+            {
+                var pos = new Vector3(right, up, 0);
+                arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+            }
 
             arf.enabled = true;
             arf.aspectRatio = (ScreenWidth) / (ScreenHeight);
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = false;
 
-            arf.GetComponent<RectTransform>().position = new Vector3((int) tmp.x, (int) tmp.y, (int)tmp.z);
         }
     }
 #endif

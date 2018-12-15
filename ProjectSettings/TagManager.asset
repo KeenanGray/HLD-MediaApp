@@ -11,6 +11,7 @@ TagManager:
   - App_AboutPage
   - App_VideoPlayer
   - SubCanvas
+  - Pool
   layers:
   - Default
   - TransparentFX
