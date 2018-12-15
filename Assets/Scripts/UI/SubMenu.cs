@@ -104,10 +104,10 @@ public class SubMenu : MonoBehaviour
 
         while (true)
         {
-            rt.anchoredPosition = Vector2.Lerp(rt.anchoredPosition, new Vector2(AspectRatioManager.ScreenWidth, 0), lerp);
+            rt.anchoredPosition = Vector2.Lerp(rt.anchoredPosition, new Vector2(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0), lerp);
             lerp += rate;
 
-            if (rt.anchoredPosition == new Vector2(AspectRatioManager.ScreenWidth, 0)){
+            if (rt.anchoredPosition == new Vector2(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0)){
                 break;
             }
 

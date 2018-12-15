@@ -16,6 +16,7 @@ public class InitializationManager : MonoBehaviour
 
     void Start()
     {
+        AspectRatioManager_Editor.Instance().IsInEditor = false;
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
         VideoCanvas = GameObject.Find("Front");
         StartCoroutine("Init");
@@ -69,9 +70,9 @@ public class InitializationManager : MonoBehaviour
         
         ObjPoolManager.Init();
 
-        VideoCanvas.GetComponent<AspectRatioFitter>().aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
-        VideoCanvas.GetComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-        VideoCanvas.GetComponent<AspectRatioFitter>().enabled = true;
+     //   VideoCanvas.GetComponent<AspectRatioFitter>().aspectRatio = (AspectRatioManager.ScreenWidth) / (AspectRatioManager.ScreenHeight);
+     //   VideoCanvas.GetComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+     //   VideoCanvas.GetComponent<AspectRatioFitter>().enabled = true;
         t1 = Time.time;
 
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())

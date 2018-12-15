@@ -213,7 +213,7 @@ public class Page : MonoBehaviour
         {
             Debug.LogWarning("Rect Transform is null or is not activated");
         }
-        rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
+        //rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
 
         float lerp = 0;
 
@@ -247,10 +247,10 @@ public class Page : MonoBehaviour
 
         while (true)
         {
-            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(AspectRatioManager.ScreenWidth, 0, 0), lerp);
+            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0, 0), lerp);
             lerp += rate;
 
-            if (rt.anchoredPosition == new Vector2(AspectRatioManager.ScreenWidth, 0))
+            if (rt.anchoredPosition == new Vector2(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0))
             {
                 break;
             }

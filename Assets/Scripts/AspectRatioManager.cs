@@ -18,8 +18,8 @@ public class AspectRatioManager : MonoBehaviour {
     {
         if (!Stopped)
         {
-            ScreenWidth = gameObject.GetComponent<RectTransform>().rect.width;
-            ScreenHeight = gameObject.GetComponent<RectTransform>().rect.height;
+            ScreenWidth = Screen.width;
+            ScreenHeight = Screen.height;
         }
     }
 
