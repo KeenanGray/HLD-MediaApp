@@ -69,7 +69,7 @@ public class Bio_Factory : MonoBehaviour {
         BioArray myObject = JsonUtility.FromJson<BioArray>(BiographiesJSON);
 
         //Grab objects from the pool and insert them as independent pages
-         var OrderedByName = myObject.data.OrderBy(x => x.Name);
+         var OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
         
         //Make the pages first
         foreach (Biography bioJson in OrderedByName)

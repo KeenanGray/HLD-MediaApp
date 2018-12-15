@@ -46,6 +46,14 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+
+        //on android we must check for OBB file
+
+        if (GooglePlayDownloader.RunningOnAndroid())
+        {
+            Debug.Log("Running on Android");
+        }
+
         UAP_AccessibilityManager.PauseAccessibility(true);
 
         InitializePlaceHolderJsonFiles();
