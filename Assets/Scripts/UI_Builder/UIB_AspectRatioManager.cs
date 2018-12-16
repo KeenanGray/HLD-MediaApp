@@ -7,22 +7,27 @@ namespace UI_Builder
 {
     //This script should be added to the main canvas of the app
     [ExecuteInEditMode]
-    public class AspectRatioManager_Editor : MonoBehaviour
+    public class UIB_AspectRatioManager : MonoBehaviour
     {
 #if UNITY_EDITOR
-        public float ScreenWidth;
-        public float ScreenHeight;
+        public static float ScreenWidth;
+        public static float ScreenHeight;
 
         public bool AspectRatioSet;
         public bool IsInEditor;
 
-        static AspectRatioManager_Editor aspectRatioManager;
+        static UIB_AspectRatioManager aspectRatioManager;
 
-        public static AspectRatioManager_Editor Instance()
+        private void Awake()
+        {
+            GetScreenResolution();
+
+        }
+        public static UIB_AspectRatioManager Instance()
         {
             if (aspectRatioManager == null)
             {
-                aspectRatioManager = GameObject.FindWithTag("MainCanvas").GetComponent<AspectRatioManager_Editor>();
+                aspectRatioManager = GameObject.FindWithTag("MainCanvas").GetComponent<UIB_AspectRatioManager>();
                 return aspectRatioManager;
             }
             else

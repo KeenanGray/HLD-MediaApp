@@ -20,8 +20,8 @@ namespace UI_Builder
         //Pages are activated by button presses. 
         //A Page should be named <name of page>_Page
         //This matches a corresponding App_Button <name of page>_Button
-        void OnActivated();
-        void OnDeactivated();
+        void PageActivatedHandler();
+        void PageDeActivatedHandler();
     }
 
     //App_Page
@@ -45,11 +45,12 @@ namespace UI_Builder
         RectTransform CurrentView;
         UnityEngine.UI.Button close_button;
         public bool PageOnScreen;
+        public float rate = 1.0f;
 
         public void Init()
         {
-            OnActivated += new Activated(HandleActivated);
-            OnDeActivated += new Activated(HandleDeActivated);
+            OnActivated += new Activated(PageActivatedHandler);
+            OnDeActivated += new Activated(PageDeActivatedHandler);
 
             views = new List<RectTransform>();
 
@@ -59,7 +60,7 @@ namespace UI_Builder
                 Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
             }
 
-            rt.sizeDelta = new Vector2(AspectRatioManager.ScreenWidth, AspectRatioManager.ScreenHeight);
+            rt.sizeDelta = new Vector2(UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
 
             //assign the close_button
             //gameobject must be named close_button and be a child of this gameobject
@@ -92,47 +93,43 @@ namespace UI_Builder
 
             //Collect the views for the game screen
             RectTransform vrt;
-            foreach (View v in GetComponentsInChildren<View>())
+            foreach (UIB_View v in GetComponentsInChildren<UIB_View>())
             {
                 views.Add(v.GetComponent<RectTransform>());
                 //TODO: Sort the list to ensure the screens appear in order
                 vrt = v.GetComponent<RectTransform>();
-                vrt.rect.Set(0, 0, AspectRatioManager.ScreenWidth, AspectRatioManager.ScreenHeight);
+                vrt.rect.Set(0, 0, UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
             }
 
             //Arrange the views side-by-side
             for (int i = 0; i < views.Count; i++)
             {
                 vrt = views[i].GetComponent<RectTransform>();
-                vrt.anchoredPosition = new Vector2(AspectRatioManager.ScreenWidth * i, 0);
+                vrt.anchoredPosition = new Vector2(UIB_AspectRatioManager.ScreenWidth * i, 0);
             }
             if (views.Count > 0)
                 CurrentView = views[0].GetComponent<RectTransform>();
-        }
-
-        private void HandleDeActivated()
-        {
-            //Debug.Log("Default DeActivate Handler " + name);
-        }
-
-        void HandleActivated()
-        {
-            //        Debug.Log("Default Activate Handler " + name);
         }
 
         private void OnDisable()
         {
             //        Debug.LogWarning("Should not be disabling gameobject " + name);
         }
+
         private void OnEnable()
         {
             // Debug.Log(name);
         }
+
         private void Start()
         {
             InputManager.SwipeDelegate += SwipeHandler;
         }
 
+        #region SwipeHandler
+        //Original swipe handler for Views
+        //Unfortunately this code is not integrated with the Unity Accessibility plugin 
+        //TODO: Update SwipeHandling + Views with UAP
         void SwipeHandler(SwipeData swipe)
         {
             if (PageOnScreen)
@@ -162,7 +159,7 @@ namespace UI_Builder
                             }
                             else
                             {
-                                ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
+                                ViewContainer.anchoredPosition = new Vector3(-UIB_AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
                             }
                         }
                     }
@@ -174,8 +171,13 @@ namespace UI_Builder
                 }
             }
         }
+        #endregion
 
-        int GetNextView()
+        #region ViewHandling
+        //Views are pieces of pages that can be slid in and out. 
+        //Views are under development and not used in the HLD app
+        //TODO: extend View Handling
+        private int GetNextView()
         {
             int i = views.IndexOf(CurrentView);
             if (i < views.Count - 1)
@@ -187,7 +189,7 @@ namespace UI_Builder
                 return views.IndexOf(CurrentView);
             }
         }
-        int GetPreviousView()
+        private int GetPreviousView()
         {
             int i = views.IndexOf(CurrentView);
             if (i > 0)
@@ -207,7 +209,7 @@ namespace UI_Builder
                 if (index < views.Count && index > -1)
                     CurrentView = views[index];
                 //This looks weird, but YES these values are both supposed to be negative
-                ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
+                ViewContainer.anchoredPosition = new Vector3(-UIB_AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
             }
             if (dir == Direction.LEFT)
             {
@@ -215,34 +217,29 @@ namespace UI_Builder
                 if (index < views.Count - 1 && index > -1)
                     CurrentView = views[index];
                 //This looks weird, but YES these values are both supposed to be negative
-                ViewContainer.anchoredPosition = new Vector3(-AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
+                ViewContainer.anchoredPosition = new Vector3(-UIB_AspectRatioManager.ScreenWidth * views.IndexOf(CurrentView), 0, 0);
             }
 
             yield break;
         }
+        #endregion
 
         //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
         //Other rates will allow the screen to slide in from the right.
-        public float rate = 1.0f;
-        public IEnumerator MoveScreenIn()
+        public IEnumerator MoveScreenIn(bool initializing=false)
         {
-            if (OnActivated != null)
-                OnActivated();
-
-            //  gameObject.SetActive(true);
-            ActivateButtonsOnScreen();
-            ActivateUAP();
-            if (rt == null)
-            {
-                Debug.LogWarning("Rect Transform is null or is not activated");
-            }
-            //rt.anchoredPosition = new Vector3(AspectRatioManager.ScreenWidth, 0, 0);
+            OnActivated?.Invoke();
 
             float lerp = 0;
+            var tmp = rate;
+            Debug.Log("init " + initializing);
+
+            if (initializing)
+                tmp = 1;
 
             while (true)
             {
-                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(0, 0, 0), lerp);
+                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector2(0, 0), lerp);
                 lerp += rate;
                 if (rt.anchoredPosition == new Vector2(0, 0))
                 {
@@ -257,24 +254,25 @@ namespace UI_Builder
         }
 
         //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
-        public IEnumerator MoveScreenOut()
+        public IEnumerator MoveScreenOut(bool initializing=false)
         {
-            if (OnDeActivated != null)
-                OnDeActivated();
+            OnDeActivated?.Invoke();
 
-            if (GetComponent<AccessibleUIGroupRoot>() != null)
-                GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
-
-            yield return new WaitForEndOfFrame();
+          //  yield return new WaitForEndOfFrame();
             rt.anchoredPosition = new Vector3(0, 0, 0);
             float lerp = 0;
+
+            var tmp = rate;
+            if (initializing)
+                tmp = 1;
 
             while (true)
             {
                 rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0, 0), lerp);
-                lerp += rate;
+                lerp += tmp;
 
-                if (rt.anchoredPosition == new Vector2(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0))
+                if (Mathf.Approximately(rt.anchoredPosition.x , GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x) || 
+                rt.anchoredPosition.x+lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
                 {
                     break;
                 }
@@ -300,15 +298,31 @@ namespace UI_Builder
             if (views != null && views.Count > 0)
                 CurrentView = views[0];
 
-            StartCoroutine("MoveScreenOut");
+            StartCoroutine("MoveScreenOut",false);
         }
 
+        public void PageActivatedHandler()
+        {
+            // Debug.Log("Page Activated " + name);
+            //  gameObject.SetActive(true);
+            ActivateButtonsOnScreen();
+            ActivateUAP();
+        }
+
+        public void PageDeActivatedHandler()
+        {
+            // Debug.Log("Page De-Activated " + name);
+            if (GetComponent<AccessibleUIGroupRoot>() != null)
+                GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
+        }
+
+        #region Helpers
         public void SetOnScreen(bool Enabled)
         {
             PageOnScreen = Enabled;
         }
 
-        void ActivateButtonsOnScreen()
+        private void ActivateButtonsOnScreen()
         {
             foreach (UnityEngine.UI.Button b in GetComponentsInChildren<UnityEngine.UI.Button>())
             {
@@ -316,20 +330,13 @@ namespace UI_Builder
                     b.GetComponent<UIB_Button>().Activate();
             }
         }
-        void DeActivateButtonsOnScreen()
+
+        private void DeActivateButtonsOnScreen()
         {
             foreach (UnityEngine.UI.Button b in GetComponentsInChildren<UnityEngine.UI.Button>())
             {
                 if (b.GetComponent<UIB_Button>() != null)
                     b.GetComponent<UIB_Button>().DeActivate();
-            }
-        }
-
-        void DeActivateUAP()
-        {
-            foreach (UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>())
-            {
-                uap.enabled = false;
             }
         }
 
@@ -341,14 +348,13 @@ namespace UI_Builder
             }
         }
 
-        void IPage.OnActivated()
+        void DeActivateUAP()
         {
-            throw new NotImplementedException();
+            foreach (UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>())
+            {
+                uap.enabled = false;
+            }
         }
-
-        public void OnDeactivated()
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine.Video;
 
 namespace UI_Builder
 {
-    public class App_VideoPlayer : MonoBehaviour
+    public class UIB_VideoPlayer : MonoBehaviour
     {
 
         GameObject cover;

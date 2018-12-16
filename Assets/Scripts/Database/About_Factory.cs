@@ -53,7 +53,7 @@ public class About_Factory : MonoBehaviour {
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("App_AboutPage"))
             {
                 go.GetComponent<Bio_Page>().Initialize();
-                go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * AspectRatioManager.ScreenHeight);
+                go.GetComponent<RectTransform>().anchoredPosition = new Vector2(-2000, i * UIB_AspectRatioManager.ScreenHeight);
                 i++;
             }
             

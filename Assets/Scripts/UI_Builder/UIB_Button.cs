@@ -59,7 +59,7 @@ namespace UI_Builder
             var myBtn = GetComponent<UnityEngine.UI.Button>();
             if (myBtn != null)
             {
-                GetComponent<UnityEngine.UI.Button>().onClick.AddListener(this.OnButtonPressed);
+                myBtn.onClick.AddListener(OnButtonPressed);
             }
             else
                 Debug.LogWarning(gameObject.name + ": There is no button component on this UI element. It cannot use the App_Button script without a button");
@@ -84,13 +84,13 @@ namespace UI_Builder
             switch (Button_Opens)
             {
                 case UIB_Button_Activates.Page:
-                    newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn");
+                    newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
                     break;
                 case UIB_Button_Activates.SpecificPage:
-                    newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn");
+                    newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
                     break;
                 case UIB_Button_Activates.Video:
-                    newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn");
+                    newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
                     break;
                 case UIB_Button_Activates.Website:
                     shouldDeActivatePage = false;

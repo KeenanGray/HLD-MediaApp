@@ -526,12 +526,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -560,7 +560,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -587,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &12542402
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,7 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &15831820
 Prefab:
   m_ObjectHideFlags: 0
@@ -1142,6 +1147,46 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224741887016377202, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224741887016377202, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224064620267947396, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224064620267947396, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -1509,7 +1554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &27743274
 GameObject:
   m_ObjectHideFlags: 0
@@ -2567,7 +2612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &42227601
 GameObject:
   m_ObjectHideFlags: 0
@@ -3752,6 +3797,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &72440118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4260,12 +4308,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -4294,7 +4342,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -4321,7 +4374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &84318188
 GameObject:
   m_ObjectHideFlags: 0
@@ -5296,6 +5349,46 @@ Prefab:
       propertyPath: m_AnchoredPosition.y
       value: -0.0000000072177744
       objectReference: {fileID: 0}
+    - target: {fileID: 224741887016377202, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224741887016377202, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224064620267947396, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224064620267947396, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
   m_IsPrefabAsset: 0
@@ -5480,7 +5573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &100127610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6967,7 +7060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &131398407
 GameObject:
   m_ObjectHideFlags: 0
@@ -8127,7 +8220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &159311223
 GameObject:
   m_ObjectHideFlags: 0
@@ -9478,7 +9571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &174987994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9788,7 +9881,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -10548,7 +10641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &212675570
 GameObject:
   m_ObjectHideFlags: 0
@@ -11116,7 +11209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &226738527
 GameObject:
   m_ObjectHideFlags: 0
@@ -14573,7 +14666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &310151657
 GameObject:
   m_ObjectHideFlags: 0
@@ -14967,7 +15060,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -15024,6 +15117,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &315031982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15980,7 +16076,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -15994,7 +16090,7 @@ Prefab:
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -16090,7 +16186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &353654450
 GameObject:
   m_ObjectHideFlags: 0
@@ -17679,6 +17775,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!1 &408130105
 GameObject:
   m_ObjectHideFlags: 0
@@ -17762,7 +17861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &409117129
 GameObject:
   m_ObjectHideFlags: 0
@@ -18539,12 +18638,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -18573,7 +18672,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -18600,7 +18704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &427707328
 GameObject:
   m_ObjectHideFlags: 0
@@ -18678,7 +18782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &432461599
 Prefab:
   m_ObjectHideFlags: 0
@@ -19049,7 +19153,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -20389,7 +20493,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.75, y: -1496.4055}
+  m_AnchoredPosition: {x: 959.75, y: -1320.8718}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &460781688
@@ -20817,6 +20921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &469887468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20965,7 +21072,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -20980,11 +21087,11 @@ Prefab:
         type: 2}
       propertyPath: newScreen
       value: 
-      objectReference: {fileID: 2083966828}
+      objectReference: {fileID: 1696677180}
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -21237,6 +21344,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &475657936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22940,7 +23050,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -23010,7 +23120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &506769206
 GameObject:
   m_ObjectHideFlags: 0
@@ -23865,12 +23975,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -23899,7 +24009,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -23926,7 +24041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &513869402
 Prefab:
   m_ObjectHideFlags: 0
@@ -24514,7 +24629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9860.338, y: 0}
+  m_AnchoredPosition: {x: 9735.058, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &524792336
@@ -24552,7 +24667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &524792338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24910,6 +25025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &534529721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25010,6 +25128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &535218683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25110,6 +25231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &536309893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25169,7 +25293,6 @@ GameObject:
   - component: {fileID: 536640769}
   - component: {fileID: 536640768}
   - component: {fileID: 536640767}
-  - component: {fileID: 536640772}
   - component: {fileID: 536640771}
   - component: {fileID: 536640773}
   - component: {fileID: 536640774}
@@ -25270,17 +25393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitializeTime: 0
---- !u!114 &536640772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 536640766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac5dcc571812a41d3af0f17149ae23b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &536640773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25314,8 +25426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461fbe5f9b8f548df97874618d812c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScreenWidth: 472
-  ScreenHeight: 998
   AspectRatioSet: 0
   IsInEditor: 1
 --- !u!1 &537971739
@@ -26171,7 +26281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &541544072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27268,12 +27378,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -27302,7 +27412,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -27329,7 +27444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &569968392
 Prefab:
   m_ObjectHideFlags: 0
@@ -27615,12 +27730,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -27649,7 +27764,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -27676,7 +27796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!224 &573659298
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28958,7 +29078,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -28967,7 +29087,7 @@ Prefab:
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -29330,7 +29450,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114331369672883054, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -29437,7 +29557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &600159317
 GameObject:
   m_ObjectHideFlags: 0
@@ -29490,6 +29610,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &600159320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30371,7 +30494,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -31791,6 +31914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &655074504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31880,7 +32006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7533.5586, y: 0}
+  m_AnchoredPosition: {x: 7450.0386, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &659324241
@@ -31917,7 +32043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &659324243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32522,6 +32648,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &663261468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33272,7 +33401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: -8932.881}
+  m_AnchoredPosition: {x: 2880.0002, y: -8147.225}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670073129
@@ -33288,7 +33417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &670073130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33614,6 +33743,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &681116894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34332,7 +34464,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -34341,7 +34473,7 @@ Prefab:
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -35012,7 +35144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &700698878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35302,6 +35434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &702162323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36706,7 +36841,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -37605,6 +37740,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &753674290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39393,7 +39531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &779368443
 GameObject:
   m_ObjectHideFlags: 0
@@ -39946,7 +40084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &781037653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40020,7 +40158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: -13399.32}
+  m_AnchoredPosition: {x: 2880.0002, y: -12220.837}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &784445304
@@ -40125,7 +40263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &784445309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41417,12 +41555,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -41451,7 +41589,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -41478,7 +41621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &797554696
 Prefab:
   m_ObjectHideFlags: 0
@@ -41489,7 +41632,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224082080476126946, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -41734,7 +41877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &804261182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44690,7 +44833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &867924375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44794,7 +44937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &874795751
 GameObject:
   m_ObjectHideFlags: 0
@@ -44847,6 +44990,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &874795754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46239,6 +46385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &904913209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46364,7 +46513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &914380410
 GameObject:
   m_ObjectHideFlags: 0
@@ -46637,7 +46786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &924685679
 GameObject:
   m_ObjectHideFlags: 0
@@ -46689,7 +46838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &924972105
 GameObject:
   m_ObjectHideFlags: 0
@@ -46742,7 +46891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &924972108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47064,12 +47213,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -47098,7 +47247,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -47125,7 +47279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &926522411
 GameObject:
   m_ObjectHideFlags: 0
@@ -47569,6 +47723,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &933570677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47975,7 +48132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &966494761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48255,7 +48412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5206.7793, y: -8932.881}
+  m_AnchoredPosition: {x: 5165.0195, y: -8147.225}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &970905423
@@ -48271,7 +48428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &970905424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49969,7 +50126,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -50318,7 +50475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1029957478
 GameObject:
   m_ObjectHideFlags: 0
@@ -51118,7 +51275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7533.5586, y: -8932.881}
+  m_AnchoredPosition: {x: 7450.0386, y: -8147.225}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1055744228
@@ -51134,7 +51291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1055744229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51882,7 +52039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1089752948
 GameObject:
   m_ObjectHideFlags: 0
@@ -53385,7 +53542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1121806706
 GameObject:
   m_ObjectHideFlags: 0
@@ -56485,7 +56642,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -57317,7 +57474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12187.117, y: -8932.881}
+  m_AnchoredPosition: {x: 12020.077, y: -8147.225}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1199682276
@@ -57333,7 +57490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1199682277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57870,6 +58027,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1222789873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58049,7 +58209,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -58111,6 +58271,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1229615225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58444,12 +58607,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -58478,7 +58641,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -58505,7 +58673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1232847600
 GameObject:
   m_ObjectHideFlags: 0
@@ -59000,6 +59168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1245848542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59499,7 +59670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0001220703}
+  m_AnchoredPosition: {x: 0, y: 0.00048828122}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1258236103
@@ -60196,12 +60367,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -60230,7 +60401,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -60257,7 +60433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1264723922
 GameObject:
   m_ObjectHideFlags: 0
@@ -60308,7 +60484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1264723925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61557,7 +61733,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12187.117, y: 0}
+  m_AnchoredPosition: {x: 12020.077, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1289839535
@@ -61573,7 +61749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1289839536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62644,7 +62820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1339869254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62936,7 +63112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!224 &1351804795
 RectTransform:
   m_ObjectHideFlags: 0
@@ -63479,7 +63655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1361470110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64453,7 +64629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 842.7, y: -1731.3798}
+  m_AnchoredPosition: {x: 842.7, y: -1555.8468}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394636453
@@ -65071,7 +65247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 200, y: 0.00008733006}
+  m_AnchoredPosition: {x: 200, y: 0.00010160603}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1407599757
@@ -66031,6 +66207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1434392967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66983,12 +67162,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -67017,7 +67196,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -67044,7 +67228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &1477195322
 Prefab:
   m_ObjectHideFlags: 0
@@ -67145,7 +67329,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -67164,7 +67348,7 @@ Prefab:
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -67226,6 +67410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1478230473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67559,12 +67746,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -67593,7 +67780,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -67620,7 +67812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1480729867
 GameObject:
   m_ObjectHideFlags: 0
@@ -68700,7 +68892,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -1731.3796}
+  m_AnchoredPosition: {x: 800, y: -1555.8461}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1511790365
@@ -69737,6 +69929,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1540920423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69761,6 +69956,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c97b4f265782d4016b0320369d83cc8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
+  playbutton: {fileID: 0}
+  backButton: {fileID: 0}
+  fwdButton: {fileID: 0}
+  time_label: {fileID: 0}
+  maxtime_label: {fileID: 0}
+  AudioTimerInput: {fileID: 0}
+  displayText: {fileID: 0}
+  playImage: {fileID: 0}
+  pauseImage: {fileID: 0}
+  timeScroll: {fileID: 0}
+  scrollPos: 0
+  trig: 0
+  shouldContinuePlaying: 0
+  restartAtEndOfDrag: 0
+  ParentOfAudioToolComponents: {fileID: 0}
+  timerIndex: 0
 --- !u!82 &1540920425
 AudioSource:
   m_ObjectHideFlags: 0
@@ -69908,6 +70120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1542154504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71102,7 +71317,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -71553,7 +71768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1580930774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71798,6 +72013,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1589162947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72308,12 +72526,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -72342,7 +72560,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -72369,7 +72592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1609073861
 GameObject:
   m_ObjectHideFlags: 0
@@ -73529,6 +73752,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1632571648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73895,12 +74121,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -73929,7 +74155,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -73956,7 +74187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &1638734623
 Prefab:
   m_ObjectHideFlags: 0
@@ -75039,6 +75270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1652889094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75051,7 +75285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1656087821
 GameObject:
   m_ObjectHideFlags: 0
@@ -76029,7 +76263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1681192963
 GameObject:
   m_ObjectHideFlags: 0
@@ -76957,7 +77191,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5206.7793, y: 0}
+  m_AnchoredPosition: {x: 5165.0195, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1696677182
@@ -77008,7 +77242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1696677185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77192,7 +77426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1701497714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77281,6 +77515,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1701523534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77611,7 +77848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1708357850
 GameObject:
   m_ObjectHideFlags: 0
@@ -79124,7 +79361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: -4466.4404}
+  m_AnchoredPosition: {x: 2880.0002, y: -4073.6125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733907362
@@ -79139,7 +79376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1733907363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81854,12 +82091,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -81888,7 +82125,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -81915,7 +82157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1788950516
 GameObject:
   m_ObjectHideFlags: 0
@@ -82036,6 +82278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1788950520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82048,7 +82293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1789371643
 GameObject:
   m_ObjectHideFlags: 0
@@ -82551,7 +82796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12187.117, y: -4466.4404}
+  m_AnchoredPosition: {x: 12020.077, y: -4073.6125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1799403267
@@ -82567,7 +82812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1799403268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82720,6 +82965,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1811095253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85045,7 +85293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7533.5586, y: -4466.4404}
+  m_AnchoredPosition: {x: 7450.0386, y: -4073.6125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1870676757
@@ -85060,7 +85308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1870676758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85194,6 +85442,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55542195e75484681be5e2cf7eb3fd76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearInputs: 0
+  SwipeVal: 0
+  SwipeDir: 0
 --- !u!4 &1880459030
 Transform:
   m_ObjectHideFlags: 0
@@ -86026,12 +86277,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -86060,7 +86311,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -86087,7 +86343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1891476324
 GameObject:
   m_ObjectHideFlags: 0
@@ -86129,7 +86385,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -26, y: -1541.2307}
+  m_AnchoredPosition: {x: -26, y: -1365.6968}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5000003, y: 0.4999999}
 --- !u!114 &1891476326
@@ -87321,6 +87577,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1906072522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87754,7 +88013,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224195930127827290, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -88167,6 +88426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1929646005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88822,6 +89084,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1944598682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89329,7 +89594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &1948558696
 GameObject:
   m_ObjectHideFlags: 0
@@ -89523,7 +89788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5206.7793, y: -4466.4404}
+  m_AnchoredPosition: {x: 5165.0195, y: -4073.6125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955317414
@@ -89538,7 +89803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1955317415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89854,7 +90119,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224959902299621708, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -89933,7 +90198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9860.338, y: -4466.4404}
+  m_AnchoredPosition: {x: 9735.058, y: -4073.6125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959093667
@@ -89949,7 +90214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1959093668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90198,6 +90463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1962391947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90306,7 +90574,7 @@ Prefab:
     - target: {fileID: 224959902299621708, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -25.710693
+      value: -28.144653
       objectReference: {fileID: 0}
     - target: {fileID: 224959902299621708, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -90367,7 +90635,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -90429,7 +90697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1964965977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90504,7 +90772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 14513.896, y: -8932.881}
+  m_AnchoredPosition: {x: 14305.096, y: -8147.225}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965000467
@@ -90520,7 +90788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &1965000468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90640,7 +90908,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -90649,7 +90917,7 @@ Prefab:
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -91162,6 +91430,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1967720064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91479,7 +91750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!224 &1973944984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -91498,7 +91769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4799.9995, y: -4059.6606}
+  m_AnchoredPosition: {x: -4800.0005, y: -3708.5935}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1973944985
@@ -91711,7 +91982,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -91720,7 +91991,7 @@ Prefab:
     - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: Button_Opens
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -92289,6 +92560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &1999327948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92676,12 +92950,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -92710,7 +92984,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -92737,7 +93016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &2007448948
 GameObject:
   m_ObjectHideFlags: 0
@@ -93506,12 +93785,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -93540,7 +93819,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -93567,7 +93851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &2019098266
 GameObject:
   m_ObjectHideFlags: 0
@@ -94222,7 +94506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &2022914611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94690,12 +94974,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -94724,7 +95008,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -94751,7 +95040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1001 &2031942286
 Prefab:
   m_ObjectHideFlags: 0
@@ -94937,7 +95226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &2037842891
 GameObject:
   m_ObjectHideFlags: 0
@@ -95585,7 +95874,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -96208,6 +96497,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &2057960676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96294,7 +96586,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9860.338, y: -8932.881}
+  m_AnchoredPosition: {x: 9735.058, y: -8147.225}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2059476948
@@ -96310,7 +96602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &2059476949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96689,7 +96981,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -97708,7 +98000,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 14513.896, y: -4466.4404}
+  m_AnchoredPosition: {x: 14305.096, y: -4073.6125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2083966830
@@ -97724,7 +98016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &2083966831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98370,7 +98662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &2091069967
 GameObject:
   m_ObjectHideFlags: 0
@@ -98829,6 +99121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &2097498103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99160,6 +99455,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &2113910618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99703,12 +100001,12 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -99737,7 +100035,12 @@ Prefab:
     - target: {fileID: 114940904918766112, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.4729459
+      value: 0.5177165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
+        type: 2}
+      propertyPath: m_AspectRatio
+      value: 0.5177165
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -99764,7 +100067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!1 &2121618191
 GameObject:
   m_ObjectHideFlags: 0
@@ -99817,6 +100120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaac8a25aeeea475196325f31078eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 0
+  height: 0
+  rt: {fileID: 0}
 --- !u!114 &2121618194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100528,8 +100834,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2134505403}
-  - component: {fileID: 2134505405}
   - component: {fileID: 2134505404}
+  - component: {fileID: 2134505405}
   m_Layer: 5
   m_Name: Landing_Page
   m_TagString: Untagged
@@ -100556,7 +100862,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: 0}
+  m_AnchoredPosition: {x: 2880.0002, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2134505404
@@ -100571,7 +100877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &2134505405
 MonoBehaviour:
   m_ObjectHideFlags: 0
