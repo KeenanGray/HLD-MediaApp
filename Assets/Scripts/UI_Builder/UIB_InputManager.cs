@@ -28,7 +28,7 @@ public struct SwipeData{
     }
 }
 
-public class InputManager : MonoBehaviour {
+public class UIB_InputManager : MonoBehaviour {
     //whether or not to reset the input check, happens on mouse up (when swipe/touch ends)
     bool clearInputs;
 

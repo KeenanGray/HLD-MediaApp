@@ -7,21 +7,21 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class MeOnDisplayPage : MonoBehaviour , IPage{
+public class MeOnDisplay_Page : MonoBehaviour , UIB_IPage{
 
     List<string> Dancers;
     ScrollRect scroll;
     Special_AccessibleButton AccessibleButton = null;
 
     // Use this for initialization
-    void Start () {
+    public void Init () {
         Dancers = new List<string>(){"Desmond Cadogan", "Chris Braz", "Peter Trojic", "Victoria Dombroski", "Tianshi Suo", "Tiffany Geigel", "Donald Lee",
                                       "Louisa Mann", "Leslie Taub", "Jerron Herman", "Kelly Ramis", "Nico Gonzales", "Meredith Fages", "Amy Meisner", "Jillian Hollis",
                                       "Jaclyn Rea", "Carmen Schoenster"};
 
         scroll = GetComponentInChildren<ScrollRect>();
 
-       GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
+        GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
     }
 
@@ -66,11 +66,12 @@ public class MeOnDisplayPage : MonoBehaviour , IPage{
         int i = 0;
         foreach (string dancer in OrderedByName)
         {
-            var b = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
+            GameObject b = null; 
+            ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref b);
 
             if (b != null)
             {
-                b.name = dancer + " video";
+                b.name = dancer.Replace(" " ,"_") + " video";
 
                 b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { PlayVideo(dancer); });
                 b.transform.SetParent(scroll.content.transform);
@@ -101,6 +102,8 @@ public class MeOnDisplayPage : MonoBehaviour , IPage{
         theScroll.SetActive(true);
 
         GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_Page>().DeActivate();
+        GetComponent<UIB_Page>().ActivateButtonsOnScreen();
+
     }
 
     public void PageDeActivatedHandler()

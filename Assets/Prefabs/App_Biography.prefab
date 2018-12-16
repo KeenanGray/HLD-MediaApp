@@ -164,12 +164,11 @@ GameObject:
   - component: {fileID: 114761669569782480}
   - component: {fileID: 222793572936959544}
   - component: {fileID: 114645054378358780}
+  - component: {fileID: 114130820858773284}
+  - component: {fileID: 114788508724432674}
   - component: {fileID: 114373909099074712}
   - component: {fileID: 114579117459025968}
-  - component: {fileID: 114788508724432674}
   - component: {fileID: 114748247711715832}
-  - component: {fileID: 114940904918766112}
-  - component: {fileID: 114130820858773284}
   m_Layer: 0
   m_Name: App_Biography
   m_TagString: App_Biography
@@ -537,7 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &114134080407260238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -733,7 +732,7 @@ MonoBehaviour:
   Name: {fileID: 114153600913344864}
   Title: {fileID: 114961692888165716}
   Description: {fileID: 114555887875822686}
-  BioImage: {fileID: 0}
+  BioImage: {fileID: 114695492757476288}
 --- !u!114 &114436274527892556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -784,7 +783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &114469713984763482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1083,7 +1082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.4729459
+  m_AspectRatio: 0.5177165
 --- !u!114 &114645054378358780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1291,19 +1290,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114940904918766112
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1567023677399322}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1254083943, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AspectMode: 3
-  m_AspectRatio: 0.4729459
 --- !u!114 &114961692888165716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1614,7 +1600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000000072177744}
+  m_AnchoredPosition: {x: 0, y: 0.0002441334}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224450949154743844

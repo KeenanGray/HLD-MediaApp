@@ -54,13 +54,16 @@ public class Bio_Page : MonoBehaviour {
         var ImageToUse = Resources.Load<Sprite>(PathToImage) as Sprite;
         if (ImageToUse != null)
         {
-           // Debug.Log(PathToImage + " : name " + ImageToUse.name);
+            //Debug.Log(PathToImage + " : name " + ImageToUse.name);
         }
         else{
             Debug.LogWarning("Failed to load " + PathToImage);
         }
-       BioImage.sprite = ImageToUse;
-        BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
+        if (BioImage != null)
+        {
+            BioImage.sprite = ImageToUse;
+            BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
+        }
     }
 
 }

@@ -15,11 +15,12 @@ namespace UI_Builder
     /// Specify "Instant" to have a page instantly appear on button press
     /// </summary>
 
-    public interface IPage
+    public interface UIB_IPage
     {
         //Pages are activated by button presses. 
         //A Page should be named <name of page>_Page
         //This matches a corresponding App_Button <name of page>_Button
+        void Init();
         void PageActivatedHandler();
         void PageDeActivatedHandler();
     }
@@ -27,7 +28,7 @@ namespace UI_Builder
     //App_Page
     //App_Page implements the standard behavior for ALL pages
     //
-    public class UIB_Page : MonoBehaviour, IPage
+    public class UIB_Page : MonoBehaviour, UIB_IPage
     {
         public delegate void Activated();
         public event Activated OnActivated;
@@ -123,7 +124,7 @@ namespace UI_Builder
 
         private void Start()
         {
-            InputManager.SwipeDelegate += SwipeHandler;
+            UIB_InputManager.SwipeDelegate += SwipeHandler;
         }
 
         #region SwipeHandler
@@ -228,11 +229,8 @@ namespace UI_Builder
         //Other rates will allow the screen to slide in from the right.
         public IEnumerator MoveScreenIn(bool initializing=false)
         {
-            OnActivated?.Invoke();
-
             float lerp = 0;
             var tmp = rate;
-            Debug.Log("init " + initializing);
 
             if (initializing)
                 tmp = 1;
@@ -240,7 +238,7 @@ namespace UI_Builder
             while (true)
             {
                 rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector2(0, 0), lerp);
-                lerp += rate;
+                lerp += tmp;
                 if (rt.anchoredPosition == new Vector2(0, 0))
                 {
                     break;
@@ -250,13 +248,14 @@ namespace UI_Builder
             }
             PageOnScreen = true;
             GetComponent<AspectRatioFitter>().enabled = true;
+
+            OnActivated?.Invoke();
             yield break;
         }
 
         //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
         public IEnumerator MoveScreenOut(bool initializing=false)
         {
-            OnDeActivated?.Invoke();
 
           //  yield return new WaitForEndOfFrame();
             rt.anchoredPosition = new Vector3(0, 0, 0);
@@ -276,14 +275,15 @@ namespace UI_Builder
                 {
                     break;
                 }
-
                 yield return null;
             }
             PageOnScreen = false;
             GetComponent<AspectRatioFitter>().enabled = false;
             DeActivateUAP();
-            yield break;
 
+            OnDeActivated?.Invoke();
+
+            yield break;
         }
 
         public void DeActivate()
@@ -322,7 +322,7 @@ namespace UI_Builder
             PageOnScreen = Enabled;
         }
 
-        private void ActivateButtonsOnScreen()
+        public void ActivateButtonsOnScreen()
         {
             foreach (UnityEngine.UI.Button b in GetComponentsInChildren<UnityEngine.UI.Button>())
             {

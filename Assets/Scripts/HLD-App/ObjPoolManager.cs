@@ -50,15 +50,14 @@ public static class ObjPoolManager
 
     }
 
-    public static GameObject RetrieveFromPool(Pool pool)
+    public static void RetrieveFromPool(Pool pool, ref GameObject returned)
     {
-        GameObject go = null;
         if (pool.Equals(Pool.Bio))
         {
             if (Biographies_Pool.Count > 0)
             {
-                go = Biographies_Pool[0];
-                Biographies_Pool.Remove(go);
+                returned = Biographies_Pool[0];
+                Biographies_Pool.Remove(returned);
             }
             else
             {
@@ -71,16 +70,16 @@ public static class ObjPoolManager
         {
             if (Button_Pool.Count > 0)
             {
-                go = Button_Pool[0];
-                Button_Pool.Remove(go);
+                returned = Button_Pool[0];
+                Button_Pool.Remove(returned);
             }
             else
             {
                 Debug.LogWarning("No Button Pool");
             }
         }
-        return go;
     }
+
     public static void DisablePools()
     {
         GameObject Bio_PoolGO = GameObject.Find("BioPagePool");

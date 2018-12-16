@@ -65,7 +65,8 @@ public class About_Factory : MonoBehaviour {
             //Make the pages first
             foreach (Biography bioJson in OrderedByName)
             {
-                GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Bio);
+                GameObject go = null;
+                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Bio, ref go);
                 if (go != null)
                 {
                     go.transform.SetParent(Bio_Page_Root.transform);
@@ -85,7 +86,8 @@ public class About_Factory : MonoBehaviour {
             //They will be assigned to their buttons with 'Init'
             foreach (Biography b in OrderedByName)
             {
-                GameObject go = ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button);
+                GameObject go = null;
+                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
                 if (go != null)
                 {
                     UIB_Button script = go.GetComponent<UIB_Button>();

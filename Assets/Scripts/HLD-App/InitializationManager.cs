@@ -43,13 +43,12 @@ public class InitializationManager : MonoBehaviour
 
         InitializePlaceHolderJsonFiles();
 
-
         if (aspectManager == null)
         {
             Debug.LogWarning("Unable to find Aspect Manager");
             yield break;
         }
-        
+
         ObjPoolManager.Init();
 
         t1 = Time.time;
@@ -63,34 +62,37 @@ public class InitializationManager : MonoBehaviour
 
         yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
 
-        var str = MongoLib.ReadJson("Bios.json");
-        Bio_Factory.CreateBioPages(str);
-        Canvas.ForceUpdateCanvases();
-        
         VideoCanvas.SetActive(true);
 
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
             ab.Init();
         }
-        foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
+
+        foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
         {
             p.Init();
-            yield return p.MoveScreenOut(true);
         }
-  
- //       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden")) {
- //           go.SetActive(false);
- //       }
+
+        foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
+        {
+            //TODO:Fix this bad bad shit
+            if (p.gameObject.name == "Landing_Page")
+                yield return p.MoveScreenOut(true);
+            else
+                p.StartCoroutine("MoveScreenOut", true);
+        }
 
         var firstScreen = GameObject.Find("Landing_Page");
-        firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",true);
-        
+        firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
+
         //if we finish initializing faster than expected, take a moment to finish the video
         t2 = Time.time;
         var elapsed = t2 - t1;
         if (InitializeTime > elapsed)
             yield return new WaitForSeconds(InitializeTime - elapsed);
+        else if (Mathf.Approximately(InitializeTime, float.Epsilon))
+            Debug.Log("took " + elapsed + "s to initialize");
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
@@ -99,7 +101,7 @@ public class InitializationManager : MonoBehaviour
         UAP_AccessibilityManager.PauseAccessibility(false);
         var first = GameObject.Find("DISPLAYED-Code_Button");
 
-        UAP_AccessibilityManager.SelectElement(first,true); ;
+        UAP_AccessibilityManager.SelectElement(first, true); ;
 
         //        Debug.Log("Init Time " + Time.time);
 
@@ -113,7 +115,7 @@ public class InitializationManager : MonoBehaviour
         TextAsset code = Resources.Load<TextAsset>("Json/AccessCode_default");
         TextAsset bios = Resources.Load<TextAsset>("Json/Bios_default");
 
-        MongoLib.WriteJsonUnModified(bios.text,"Bios.json");
+        MongoLib.WriteJsonUnModified(bios.text, "Bios.json");
         MongoLib.WriteJsonUnModified(code.text, "AccessCode.json");
 
     }
