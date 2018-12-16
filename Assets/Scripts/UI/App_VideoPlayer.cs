@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -13,7 +15,8 @@ public class App_VideoPlayer : MonoBehaviour {
     public VideoClip myClip;
     VideoPlayer myPlayer;
     TextAsset VideoCaptions;
-
+    public RenderTexture blank;
+    RenderTexture videoTexture;
     public GameObject OriginScreen;
 
     // Use this for initialization
@@ -27,15 +30,14 @@ public class App_VideoPlayer : MonoBehaviour {
         myClip = null;
 
         myPlayer = GetComponent<VideoPlayer>();
+        videoTexture = myPlayer.targetTexture;
 
         var b = GetComponentInChildren<Button>();
-        b.onClick.AddListener(delegate { myPlayer.Stop(); });
-        Debug.Log("b " + b.name);
+        b.onClick.AddListener(OnStoppedByButton);
+    }
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
         
 	}
 
@@ -48,39 +50,74 @@ public class App_VideoPlayer : MonoBehaviour {
             yield return delay;
         }
 
+        if (myClip == null)
+            yield break;
+            
+        myPlayer.targetTexture = videoTexture;
+
         yield return delay;
         myPlayer.Prepare();
         yield return delay;
 
         myPlayer.enabled = false;
         myPlayer.enabled = true;
-        cover.SetActive(false);
-        myClip = myPlayer.clip;
 
+
+        myClip = myPlayer.clip;
+        WaitForEndOfFrame wf = new WaitForEndOfFrame();
         myPlayer.Play();
+
+        for(int j = 0; j<10;j++)
+            yield return wf;
+
+       // yield return new WaitForSeconds(1.0f);
+        cover.SetActive(false);
+
         StartCoroutine("PlayCaptionsWithVideo");
 
         var t0 = Time.time;
         var t1 = Time.time;
 
-        Debug.Log(myClip.length + " passed " + (myClip.length - (t1 - t0)));
-        while(myClip.length - (t1-t0) >= 0){
-            t1 = Time.time;
-            yield return delay;
-        }
+        //        Debug.Log(myClip.length + " passed " + (myClip.length - (t1 - t0)));
+
+        double CurrLength = -1.0;
+
+        if(myClip!=null)
+            CurrLength= myClip.length;
+
+            while (CurrLength - (t1 - t0) >= 0)
+            {
+                t1 = Time.time;
+                yield return delay;
+            }
+        
+
         yield return new WaitForSeconds(1.0f);
         OnClipEnd();
         
         yield break;
     }
 
-    void OnClipEnd(){
-        myClip = null;
+    private void OnStoppedByButton()
+    {
         cover.SetActive(true);
+
+        CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().text="";
+        StopCoroutine("PlayCaptionsWithVideo");
+        Graphics.Blit(blank, videoTexture);
+
+        myPlayer.targetTexture = blank;
+        myPlayer.clip = null;
+        myPlayer.Stop();
+    }
+
+    void OnClipEnd(){
+        OnStoppedByButton();
         GetComponentInParent<Page>().StartCoroutine("MoveScreenOut");
         var listPage = GameObject.Find("#MeOnDisplay_Page");
         listPage.GetComponent<Page>().StartCoroutine("MoveScreenIn");
         UAP_AccessibilityManager.SelectElement(listPage);
+
     }
 
     public void SetVideoCaptions(TextAsset newText){

@@ -28,15 +28,19 @@ public class AudioPlayerTools : MonoBehaviour {
     bool shouldContinuePlaying;
     private bool restartAtEndOfDrag;
 
+    Transform ParentOfAudioToolComponents;
+
     // Use this for initialization
     void Start()
     {
+        ParentOfAudioToolComponents = transform.parent;
+
         shouldContinuePlaying = false;
 
         source = gameObject.GetComponentInChildren<AudioSource>();
 
         //Set up buttons for audiocontroller
-        foreach (Button b in GetComponentsInChildren<Button>())
+        foreach (Button b in ParentOfAudioToolComponents.GetComponentsInChildren<Button>())
         {
             if (b.gameObject.name.Equals("Play"))
                 playbutton = b;
@@ -52,7 +56,7 @@ public class AudioPlayerTools : MonoBehaviour {
             Debug.LogWarning("No play button");
         }
 
-        foreach (Button b in GetComponentsInChildren<Button>())
+        foreach (Button b in ParentOfAudioToolComponents.GetComponentsInChildren<Button>())
         {
             if (b.gameObject.name.Equals("Back"))
                 backButton = b;
@@ -66,7 +70,7 @@ public class AudioPlayerTools : MonoBehaviour {
             Debug.LogWarning("No Back button button");
         }
 
-        foreach (Button b in GetComponentsInChildren<Button>())
+        foreach (Button b in ParentOfAudioToolComponents.GetComponentsInChildren<Button>())
         {
             if (b.gameObject.name.Equals("Forward"))
                 fwdButton = b;
@@ -81,7 +85,7 @@ public class AudioPlayerTools : MonoBehaviour {
         }
 
         //Set up scrollbar for audio controls
-        foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
+        foreach (Scrollbar sb in ParentOfAudioToolComponents.GetComponentsInChildren<Scrollbar>())
         {
             if (sb.gameObject.name.Equals("Time_Scroll"))
             {
@@ -109,11 +113,11 @@ public class AudioPlayerTools : MonoBehaviour {
         }
         else
         {
-            Debug.LogWarning("No play button");
+            Debug.LogWarning("No time scroll button");
         }
 
         //Add time field for audio length
-        foreach (TextMeshProUGUI tl in GetComponentsInChildren<TextMeshProUGUI>())
+        foreach (TextMeshProUGUI tl in transform.parent.GetComponentsInChildren<TextMeshProUGUI>())
         {
             if (tl.gameObject.name.Equals("Time_Text"))
                 time_label = tl;
@@ -128,7 +132,7 @@ public class AudioPlayerTools : MonoBehaviour {
         }
 
         //Add time field for audio length
-        foreach (TextMeshProUGUI tl in GetComponentsInChildren<TextMeshProUGUI>())
+        foreach (TextMeshProUGUI tl in ParentOfAudioToolComponents.GetComponentsInChildren<TextMeshProUGUI>())
         {
             if (tl.gameObject.name.Equals("MaxTime_Text"))
                 maxtime_label = tl;
@@ -143,7 +147,7 @@ public class AudioPlayerTools : MonoBehaviour {
         }
 
         //Set up the input field
-        AudioTimerInput = GetComponentInChildren<TMP_InputField>();
+        AudioTimerInput = ParentOfAudioToolComponents.GetComponentInChildren<TMP_InputField>();
 
         displayText = AudioTimerInput.transform.GetChild(0).Find("DisplayText").GetComponent<TextMeshProUGUI>();
         if(displayText==null)

@@ -100,7 +100,7 @@ public class Page : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.LogWarning("Should not be disabling gameobject " + name);
+//        Debug.LogWarning("Should not be disabling gameobject " + name);
     }
     private void OnEnable()
     {
@@ -229,6 +229,7 @@ public class Page : MonoBehaviour
             yield return null;
         }
         PageOnScreen = true;
+        GetComponent<AspectRatioFitter>().enabled = true;
         yield break;
     }
 
@@ -258,6 +259,7 @@ public class Page : MonoBehaviour
             yield return null;
         }
         PageOnScreen = false;
+        GetComponent<AspectRatioFitter>().enabled = false;
         DeActivateUAP();
         yield break;
 

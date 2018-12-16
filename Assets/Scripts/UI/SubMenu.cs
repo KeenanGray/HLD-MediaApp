@@ -85,6 +85,7 @@ public class SubMenu : MonoBehaviour
             yield return null;
         }
         MenuOnScreen = true;
+        GetComponent<AspectRatioFitter>().enabled = true;
         yield break;
     }
 
@@ -114,6 +115,7 @@ public class SubMenu : MonoBehaviour
             yield return null;
         }
         MenuOnScreen = false;
+        GetComponent<AspectRatioFitter>().enabled = false;
         yield break;
     }
 
