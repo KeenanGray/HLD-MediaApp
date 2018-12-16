@@ -23,7 +23,7 @@ public class Bio_Factory : MonoBehaviour {
 
     public static bool Constructed;
 
-    static string BioParentGameObjectName = "CompanyDancers_SubMenu";
+    static string BioParentGameObjectName = "CompanyDancers_Page";
     static string BioButtonGameObjectName = "CompanyDancers_Button";
 
     // Use this for initialization
@@ -102,7 +102,7 @@ public class Bio_Factory : MonoBehaviour {
             {
                 go.name = (b.Name + "_Button");
 
-                App_Button script = go.GetComponent<App_Button>();
+                UI_Builder.UIB_Button script = go.GetComponent<UI_Builder.UIB_Button>();
                 go.transform.SetParent(Bio_Button_Root.transform);
 
                 //update parent for accessibility
@@ -111,14 +111,14 @@ public class Bio_Factory : MonoBehaviour {
                 //get the button for the biographies and tell it to select
                 //the first element in the list
                 if(traversalOrder==0){
-                    GameObject.Find(BioButtonGameObjectName).GetComponent<App_Button>().SetVO(go);
+                    GameObject.Find(BioButtonGameObjectName).GetComponent<UI_Builder.UIB_Button>().SetVO(go);
                 }
                 sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
                 sab.m_ManualPositionOrder = traversalOrder;
                 traversalOrder++;
 
                 script.SetButtonText(b.Name);
-                script.Button_Opens = App_Button.Button_Activates.Page;
+                script.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
 
                 //For some reason you have to do this
                 //So that the names appear in the right order for accessibility

@@ -37,10 +37,10 @@ public static class ObjPoolManager
         {
             go.transform.SetParent(Button_PoolGO.transform);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-            go.GetComponent<App_Button>().SetButtonText("");
+            go.GetComponent<UI_Builder.UIB_Button>().SetButtonText("");
             go.name = "App_SubMenuButton";
 
-            go.GetComponent<App_Button>().Init();
+            go.GetComponent<UI_Builder.UIB_Button>().Init();
         }
 
         foreach (GameObject go in AboutPage_Pool)

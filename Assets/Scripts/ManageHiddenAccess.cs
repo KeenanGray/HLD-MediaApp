@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using UI_Builder;
 
 public class ManageHiddenAccess : MonoBehaviour {
     GameObject AudioDescription_Button;
@@ -87,11 +88,11 @@ public class ManageHiddenAccess : MonoBehaviour {
         }
         else{
         }
-        var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<Button>();
+        var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<UnityEngine.UI.Button>();
 
-        GetComponentInParent<Page>().DeActivate();
+        GetComponentInParent<UIB_Page>().DeActivate();
 
-            var ab = button.GetComponent<App_Button>();
+            var ab = button.GetComponent<UI_Builder.UIB_Button>();
             ab.Init();
 
             var audioDesc = GameObject.Find("AudioDescription_Button");
@@ -103,7 +104,7 @@ public class ManageHiddenAccess : MonoBehaviour {
             audioDesc.SetActive(true);
 
             yield return new WaitForSeconds(0.0f);
-            audioDesc.GetComponent<Button>().enabled = true;
+            audioDesc.GetComponent<UnityEngine.UI.Button>().enabled = true;
             audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
             yield return new WaitForSeconds(0.0f);
             UAP_AccessibilityManager.SelectElement(audioDesc);

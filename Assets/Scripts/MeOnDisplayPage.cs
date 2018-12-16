@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UI_Builder;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,8 +22,8 @@ public class MeOnDisplayPage : MonoBehaviour {
 
         scroll = GetComponentInChildren<ScrollRect>();
 
-       GetComponent<Page>().OnActivated += PageActivated;
-        GetComponent<Page>().OnDeActivated += PageDeActivated;
+       GetComponent<UIB_Page>().OnActivated += PageActivated;
+        GetComponent<UIB_Page>().OnDeActivated += PageDeActivated;
     }
 
     private void PageActivated()
@@ -40,12 +41,12 @@ public class MeOnDisplayPage : MonoBehaviour {
             {
                 b.name = dancer + " video";
 
-                b.GetComponent<Button>().onClick.AddListener(delegate { PlayVideo(dancer); });
+                b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { PlayVideo(dancer); });
                 b.transform.SetParent(scroll.content.transform);
 
-                var ab = b.GetComponent<App_Button>();
+                var ab = b.GetComponent<UI_Builder.UIB_Button>();
                 ab.SetButtonText(dancer);
-                ab.Button_Opens = App_Button.Button_Activates.Video;
+                ab.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Video;
 
                 ab.Init();
 
@@ -67,7 +68,7 @@ public class MeOnDisplayPage : MonoBehaviour {
         theScroll.SetActive(false);
         theScroll.SetActive(true);
 
-        GameObject.FindWithTag("App_VideoPlayer").GetComponent<Page>().DeActivate();
+        GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_Page>().DeActivate();
     }
     private void PageDeActivated()
     {
@@ -77,7 +78,6 @@ public class MeOnDisplayPage : MonoBehaviour {
 
     void PlayVideo(string src)
     {
-
         var filename = "MeOnDisplay/" + src.Replace(" ", "_");
         VideoClip videoSource = Resources.Load<VideoClip>(filename) as VideoClip;
 
@@ -88,12 +88,11 @@ public class MeOnDisplayPage : MonoBehaviour {
         vp.GetComponent<App_VideoPlayer>().SetVideoCaptions(captions);
         vp.clip = videoSource;
         StartCoroutine("PlayVideoCoroutine");
-
     }
 
     IEnumerator PlayVideoCoroutine(){
         //Move the current screen out
-        GetComponent<Page>().StartCoroutine("MoveScreenOut");
+        GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut");
 
         //Get the video player screen and associated script
         var avp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<App_VideoPlayer>();

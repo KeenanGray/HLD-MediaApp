@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI_Builder;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,29 +71,22 @@ public class InitializationManager : MonoBehaviour
         
         VideoCanvas.SetActive(true);
 
-        foreach (App_Button ab in GetComponentsInChildren<App_Button>())
+        foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
             ab.Init();
         }
-        foreach (Page p in GetComponentsInChildren<Page>())
+        foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
         {
             p.Init();
             yield return p.MoveScreenOut();
         }
-    
-        foreach (SubMenu sm in GetComponentsInChildren<SubMenu>())
-        {
-            sm.Init();
-            yield return sm.MoveScreenOut();
-            sm.SetOnScreen(false);
-        }
-
+  
  //       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden")) {
  //           go.SetActive(false);
  //       }
 
         var firstScreen = GameObject.Find("Landing_Page");
-        firstScreen.GetComponent<Page>().StartCoroutine("MoveScreenIn");
+        firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn");
 
         AspectRatioManager.Stopped = true;
 

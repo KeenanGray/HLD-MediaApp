@@ -304,7 +304,7 @@ public class Special_AccessibleButton : UAP_BaseElement
         }
 #else
         Button button = GetButton();
-        App_Button ab = GetComponent<App_Button>();
+        UI_Builder.UIB_Button ab = GetComponent<UI_Builder.UIB_Button>();
 
         if (button != null)
         {
