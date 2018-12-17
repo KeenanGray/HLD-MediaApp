@@ -6,15 +6,10 @@ using UnityEngine.UI;
 namespace UI_Builder
 {
     //This script should be added to the main canvas of the app
-    [ExecuteInEditMode]
     public class UIB_AspectRatioManager : MonoBehaviour
     {
-#if UNITY_EDITOR
-        public static float ScreenWidth;
         public static float ScreenHeight;
-
-        public bool AspectRatioSet;
-        public bool IsInEditor;
+        public static float ScreenWidth;
 
         static UIB_AspectRatioManager aspectRatioManager;
 
@@ -33,64 +28,10 @@ namespace UI_Builder
             else
                 return aspectRatioManager;
         }
-
-        private void Update()
-        {
-            if (IsInEditor)
-            {
-                //            Debug.Log("Run");
-                GetScreenResolution();
-            }
-        }
-
         public void GetScreenResolution()
         {
             ScreenWidth = Screen.width;
             ScreenHeight = Screen.height;
-
-            float right = ScreenWidth * 2;
-            float up = ScreenHeight / 2;
-
-            int buffer = 100;
-            int rowcount = 0;
-            int rowTotal = 5;
-            foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
-            {
-
-                arf.enabled = true;
-                arf.aspectRatio = (ScreenWidth) / (ScreenHeight);
-                arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-                arf.enabled = false;
-
-                // var tmp = arf.GetComponent<RectTransform>().position;
-                //if get component has a "page", move it into a nice position;
-                if ((arf.GetComponent<UIB_Page>() != null) && arf.tag != "App_Biography" && arf.tag != "Pool")
-                {
-                    rowcount++;
-                    if (rowcount > rowTotal)
-                    {
-                        rowcount = 0;
-                        right = ScreenWidth * 2;
-                        up -= (ScreenHeight + buffer);
-                    }
-
-                    var pos = new Vector3(right, up, 0);
-                    right += ScreenWidth + buffer;
-                    arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
-                }
-
-
-                if (arf.tag == "Pool" || arf.tag == "App_Biography")
-                {
-                    var pos = new Vector3(-right, -up, 0);
-                    arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
-                }
-
-
-
-
-            }
         }
-#endif
     }
 }

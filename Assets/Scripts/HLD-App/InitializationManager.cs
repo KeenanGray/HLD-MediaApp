@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UI_Builder;
 using UnityEditor;
@@ -10,6 +11,7 @@ public class InitializationManager : MonoBehaviour
     GameObject aspectManager;
 
     GameObject VideoCanvas;
+    GameObject AccessibilityInstructions;
 
     public float InitializeTime;
     float t1;
@@ -18,11 +20,18 @@ public class InitializationManager : MonoBehaviour
     void Start()
     {
 #if UNITY_EDITOR
-        UIB_AspectRatioManager.Instance().IsInEditor = false;
+        UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
         VideoCanvas = GameObject.Find("Front");
+        UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
         StartCoroutine("Init");
+    }
+
+    private void StopSpeech()
+    {
+        if (UAP_AccessibilityManager.IsSpeaking())
+            UAP_AccessibilityManager.StopSpeaking();
     }
 
     private void Update()
@@ -31,6 +40,15 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+        AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
+        //enable accessible instructins if plugin is on
+        if (UAP_AccessibilityManager.IsActive())
+        {
+            AccessibilityInstructions.SetActive(true);
+        }
+        else
+            AccessibilityInstructions.SetActive(false);
+
 
         //on android we must check for OBB file
 

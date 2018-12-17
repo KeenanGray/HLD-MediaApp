@@ -41,7 +41,7 @@ public class MeOnDisplay_Page : MonoBehaviour , UIB_IPage{
 
     IEnumerator PlayVideoCoroutine(){
         //Move the current screen out
-        GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut");
+        GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut",false);
 
         //Get the video player screen and associated script
         var avp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_VideoPlayer>();

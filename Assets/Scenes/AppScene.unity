@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &16384461
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &27743274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1869,7 +1869,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &37631810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!224 &39609734 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224108663617410756, guid: a0507d24b86394286b4257a19d76eb81,
@@ -3514,7 +3514,7 @@ MonoBehaviour:
   VO_Select: {fileID: 2136347214}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &84318192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4347,7 +4347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &100127610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5834,7 +5834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &131398407
 GameObject:
   m_ObjectHideFlags: 0
@@ -5967,7 +5967,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: https://www.youtube.com/user/HeidiLatskyDance
+  myText: 
 --- !u!114 &131398412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6994,7 +6994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &159311223
 GameObject:
   m_ObjectHideFlags: 0
@@ -7444,6 +7444,182 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 160210766}
   m_CullTransparentMesh: 0
+--- !u!1 &160677226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 1090864236866336, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 160677227}
+  - component: {fileID: 160677232}
+  - component: {fileID: 160677231}
+  - component: {fileID: 160677230}
+  - component: {fileID: 160677229}
+  - component: {fileID: 160677228}
+  m_Layer: 5
+  m_Name: AccessibleInstructions_Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &160677227
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 224500572650810850, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160677226}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000042, y: 1.0000042, z: 1.0000042}
+  m_Children:
+  - {fileID: 2144732723}
+  m_Father: {fileID: 1140616321}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &160677228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160677226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5dd49cdf74d04fba9fa4369ddd0e274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ForceStartHere: 0
+  m_ManualPositionOrder: -1
+  m_ManualPositionParent: {fileID: 0}
+  m_UseTargetForOutline: 0
+  m_PositionOrder: 0
+  m_SecondaryOrder: 0
+  m_Pos: {x: 0, y: 0}
+  m_TextAsAudio: {fileID: 0}
+  m_Prefix: 
+  m_PrefixIsLocalizationKey: 0
+  m_Text: Accessibility Instructions
+  m_NameLabel: {fileID: 0}
+  m_AdditionalNameLabels: []
+  m_TestList: []
+  m_IsLocalizationKey: 0
+  m_TryToReadLabel: 0
+  m_ReferenceElement: {fileID: 0}
+  m_AllowVoiceOver: 1
+  m_ReadType: 0
+  m_WasJustAdded: 1
+  m_Type: 1
+  m_CustomHint: 1
+  m_HintAsAudio: {fileID: 0}
+  m_Hint: 
+  m_HintIsLocalizationKey: 0
+  m_IsInsideScrollView: 0
+  m_IsInitialized: 1
+--- !u!114 &160677229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160677226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be6233ad9a894330b8db12bb0ac8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newScreen: {fileID: 0}
+  VO_Select: {fileID: 0}
+  Button_Opens: 6
+  buttonText: {fileID: 0}
+  myText: "This app is designed for accessibility. The controls for this app likely
+    differ slightly from what you are used to. To move between elements on the page,
+    swipe left and right. Tap with two fingers to pause the currently playing text.
+    Swipe up and down to move between groups of elements. \n"
+--- !u!114 &160677230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 114812094991556344, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160677226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 160677231}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &160677231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 114185035849617240, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160677226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &160677232
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 222759132646414256, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160677226}
+  m_CullTransparentMesh: 0
 --- !u!1001 &162246730
 Prefab:
   m_ObjectHideFlags: 0
@@ -7549,32 +7725,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -7703,22 +7879,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -8624,7 +8800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &174987994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8755,7 +8931,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: http://heidilatskydance.org/contact/
+  myText: 
 --- !u!114 &180270327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8934,7 +9110,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -9049,32 +9225,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -9203,22 +9379,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -10028,32 +10204,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -10182,22 +10358,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -10252,7 +10428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &212675570
 GameObject:
   m_ObjectHideFlags: 0
@@ -10347,7 +10523,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: http://paypal.me/latskydance
+  myText: 
 --- !u!114 &212675574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10820,7 +10996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &226738527
 GameObject:
   m_ObjectHideFlags: 0
@@ -12312,32 +12488,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -12466,22 +12642,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -12581,7 +12757,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &248725657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12765,32 +12941,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -12919,22 +13095,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -14840,7 +15016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &310151657
 GameObject:
   m_ObjectHideFlags: 0
@@ -15234,7 +15410,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -15438,7 +15614,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: http://heidilatskydance.org/schedule/
+  myText: 
 --- !u!114 &315135118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16257,7 +16433,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -16367,7 +16543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &353654450
 GameObject:
   m_ObjectHideFlags: 0
@@ -17129,7 +17305,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &391906557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18032,7 +18208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!224 &408585418 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224108663617410756, guid: a0507d24b86394286b4257a19d76eb81,
@@ -18350,32 +18526,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -18504,22 +18680,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -18890,7 +19066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1001 &432461599
 Prefab:
   m_ObjectHideFlags: 0
@@ -19261,7 +19437,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -20483,7 +20659,7 @@ MonoBehaviour:
   VO_Select: {fileID: 2136347214}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &458151268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20601,7 +20777,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.75, y: -1375.3248}
+  m_AnchoredPosition: {x: 959.75, y: -1545.2952}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &460781688
@@ -20898,7 +21074,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &469535164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21177,7 +21353,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -23152,7 +23328,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -23222,7 +23398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &506769206
 GameObject:
   m_ObjectHideFlags: 0
@@ -24379,7 +24555,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9764.999, y: 0}
+  m_AnchoredPosition: {x: 9152, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &524792336
@@ -24417,7 +24593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &524792338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25042,6 +25218,7 @@ GameObject:
   - component: {fileID: 536640771}
   - component: {fileID: 536640773}
   - component: {fileID: 536640774}
+  - component: {fileID: 536640772}
   m_Layer: 5
   m_Name: MainCanvas
   m_TagString: MainCanvas
@@ -25139,6 +25316,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitializeTime: 0
+--- !u!114 &536640772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 536640766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3d4643ed9614e47ad6a1f6d00dc543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsInEditor: 1
 --- !u!114 &536640773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25172,8 +25361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461fbe5f9b8f548df97874618d812c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AspectRatioSet: 0
-  IsInEditor: 1
 --- !u!1 &537971739
 GameObject:
   m_ObjectHideFlags: 0
@@ -26027,7 +26214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &541544072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26666,32 +26853,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -26820,22 +27007,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -28404,7 +28591,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -28533,32 +28720,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -28687,22 +28874,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -29055,7 +29242,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114331369672883054, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -29162,7 +29349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &600159317
 GameObject:
   m_ObjectHideFlags: 0
@@ -30096,7 +30283,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -31606,7 +31793,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7469.9995, y: 0}
+  m_AnchoredPosition: {x: 7061.333, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &659324241
@@ -31643,7 +31830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &659324243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33009,7 +33196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: -8384.999}
+  m_AnchoredPosition: {x: 2879.9998, y: -8656.213}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670073129
@@ -33025,7 +33212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &670073130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33220,7 +33407,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &673595265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33657,7 +33844,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &685549669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34069,7 +34256,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -34754,7 +34941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &700698878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36054,7 +36241,7 @@ MonoBehaviour:
   VO_Select: {fileID: 507578564}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &716918106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36448,7 +36635,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
@@ -39105,32 +39292,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -39240,22 +39427,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000069886004
+      value: -0.000000006984988
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -39395,7 +39582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &779368443
 GameObject:
   m_ObjectHideFlags: 0
@@ -39948,7 +40135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &781037653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40022,8 +40209,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: -12577.499}
-  m_SizeDelta: {x: 0, y: -0.00024414062}
+  m_AnchoredPosition: {x: 2879.9998, y: -12984.319}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &784445304
 VideoPlayer:
@@ -40127,7 +40314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &784445309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41149,7 +41336,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224082080476126946, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -41366,32 +41553,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -41520,22 +41707,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -41673,7 +41860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &804261182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44629,7 +44816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &867924375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44728,7 +44915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &874795751
 GameObject:
   m_ObjectHideFlags: 0
@@ -45248,7 +45435,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &888275588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46303,7 +46490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &914380410
 GameObject:
   m_ObjectHideFlags: 0
@@ -46576,7 +46763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &924685679
 GameObject:
   m_ObjectHideFlags: 0
@@ -46628,7 +46815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &924972105
 GameObject:
   m_ObjectHideFlags: 0
@@ -46681,7 +46868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &924972108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47007,32 +47194,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -47161,22 +47348,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -47755,32 +47942,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -47909,22 +48096,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -48178,32 +48365,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -48332,22 +48519,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -48404,7 +48591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &966494761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48684,7 +48871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5174.9995, y: -8384.999}
+  m_AnchoredPosition: {x: 4970.6665, y: -8656.213}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &970905423
@@ -48700,7 +48887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &970905424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50398,7 +50585,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -50594,32 +50781,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -50748,22 +50935,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -51026,7 +51213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1029957478
 GameObject:
   m_ObjectHideFlags: 0
@@ -51826,7 +52013,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7469.9995, y: -8384.999}
+  m_AnchoredPosition: {x: 7061.333, y: -8656.213}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1055744228
@@ -51842,7 +52029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1055744229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52576,7 +52763,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -0.00024414062}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1085037429
 MonoBehaviour:
@@ -52590,7 +52777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1089752948
 GameObject:
   m_ObjectHideFlags: 0
@@ -53403,32 +53590,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -53557,22 +53744,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -53682,32 +53869,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -53836,22 +54023,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -54651,7 +54838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!224 &1118457299 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224108663617410756, guid: a0507d24b86394286b4257a19d76eb81,
@@ -55131,32 +55318,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -55285,22 +55472,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -55823,6 +56010,7 @@ RectTransform:
   - {fileID: 1539652380}
   - {fileID: 1904059671}
   - {fileID: 212675571}
+  - {fileID: 160677227}
   m_Father: {fileID: 2134505403}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56184,32 +56372,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -56338,22 +56526,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -58314,7 +58502,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -59146,7 +59334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12059.999, y: -8384.999}
+  m_AnchoredPosition: {x: 11242.666, y: -8656.213}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1199682276
@@ -59162,7 +59350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1199682277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59348,7 +59536,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: https://www.facebook.com/HeidiLatskyDance/
+  myText: 
 --- !u!224 &1202357354 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224108663617410756, guid: a0507d24b86394286b4257a19d76eb81,
@@ -59883,7 +60071,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -60986,7 +61174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061034876}
+  m_AnchoredPosition: {x: 0, y: -0.00048828125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1258236103
@@ -61448,7 +61636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1264723925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62027,7 +62215,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: https://www.instagram.com/heidilatskydance/?hl=en
+  myText: 
 --- !u!1 &1268431093
 GameObject:
   m_ObjectHideFlags: 0
@@ -62446,7 +62634,7 @@ MonoBehaviour:
   VO_Select: {fileID: 1686948552}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &1282678581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62697,7 +62885,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12059.999, y: 0}
+  m_AnchoredPosition: {x: 11242.666, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1289839535
@@ -62713,7 +62901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1289839536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62860,32 +63048,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -63014,22 +63202,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -64102,32 +64290,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -64256,22 +64444,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -64347,7 +64535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1339869254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64639,7 +64827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!224 &1351804795
 RectTransform:
   m_ObjectHideFlags: 0
@@ -65051,7 +65239,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &1359221522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65182,7 +65370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1361470110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66042,7 +66230,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: https://docs.google.com/forms/d/e/1FAIpQLSdQloPNXW4MrAlN2uycWdWSkkBtVFmCpMgTP0ELNGkXr6zuxw/viewform?usp=sf_link
+  myText: 
 --- !u!114 &1394018791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66156,7 +66344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 842.7, y: -1610.2991}
+  m_AnchoredPosition: {x: 842.7, y: -1780.2703}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394636453
@@ -66774,7 +66962,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 200, y: 0.0002044498}
+  m_AnchoredPosition: {x: 200, y: -0.00002139262}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1407599757
@@ -67003,7 +67191,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11475380, guid: 89f4a0ae7ea3fa84ea56c91291d7bd87, type: 2}
       propertyPath: m_ExploreByTouch
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11475380, guid: 89f4a0ae7ea3fa84ea56c91291d7bd87, type: 2}
       propertyPath: m_CyclicMenus
@@ -67015,7 +67203,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11475380, guid: 89f4a0ae7ea3fa84ea56c91291d7bd87, type: 2}
       propertyPath: m_DebugVoiceOver
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11475380, guid: 89f4a0ae7ea3fa84ea56c91291d7bd87, type: 2}
       propertyPath: m_AllowVoiceOverGlobal
@@ -68501,7 +68689,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -69709,7 +69897,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -1610.2993}
+  m_AnchoredPosition: {x: 800, y: -1780.2706}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1511790365
@@ -70290,7 +70478,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: https://twitter.com/heidilatskydnce
+  myText: 
 --- !u!1 &1527818220
 GameObject:
   m_ObjectHideFlags: 0
@@ -70624,7 +70812,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &1539652383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71354,32 +71542,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -71508,22 +71696,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -72367,32 +72555,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -72521,22 +72709,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -72667,7 +72855,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -73118,7 +73306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1580930774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73911,32 +74099,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -74065,22 +74253,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -74395,32 +74583,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -74549,22 +74737,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -76481,7 +76669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1656087821
 GameObject:
   m_ObjectHideFlags: 0
@@ -77487,32 +77675,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -77641,22 +77829,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -77738,7 +77926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1681192963
 GameObject:
   m_ObjectHideFlags: 0
@@ -78666,7 +78854,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5174.9995, y: 0}
+  m_AnchoredPosition: {x: 4970.6665, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1696677182
@@ -78717,7 +78905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1696677185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78901,7 +79089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1701497714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79320,7 +79508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1708357850
 GameObject:
   m_ObjectHideFlags: 0
@@ -80833,7 +81021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2879.9998, y: -4192.4995}
+  m_AnchoredPosition: {x: 2879.9998, y: -4328.1064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733907362
@@ -80848,7 +81036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1733907363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81173,7 +81361,7 @@ MonoBehaviour:
   VO_Select: {fileID: 103112669}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &1742837117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83403,7 +83591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1789371643
 GameObject:
   m_ObjectHideFlags: 0
@@ -83911,7 +84099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12059.999, y: -4192.4995}
+  m_AnchoredPosition: {x: 11242.666, y: -4328.1064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1799403267
@@ -83927,7 +84115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1799403268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86376,7 +86564,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 5
   buttonText: {fileID: 0}
-  WebUrl: http://heidilatskydance.org
+  myText: 
 --- !u!1 &1870676755
 GameObject:
   m_ObjectHideFlags: 0
@@ -86415,7 +86603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7469.9995, y: -4192.4995}
+  m_AnchoredPosition: {x: 7061.333, y: -4328.1064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1870676757
@@ -86430,7 +86618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1870676758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86642,32 +86830,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -86796,22 +86984,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -87436,7 +87624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -26, y: -1420.1503}
+  m_AnchoredPosition: {x: -26, y: -1590.1204}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5000003, y: 0.4999999}
 --- !u!114 &1891476326
@@ -88497,7 +88685,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &1904059674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89071,7 +89259,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224195930127827290, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
@@ -90494,32 +90682,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -90648,22 +90836,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -90925,7 +91113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &1948558696
 GameObject:
   m_ObjectHideFlags: 0
@@ -91187,32 +91375,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -91341,22 +91529,22 @@ Prefab:
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -91398,7 +91586,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5174.9995, y: -4192.4995}
+  m_AnchoredPosition: {x: 4970.6665, y: -4328.1064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955317414
@@ -91413,7 +91601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1955317415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91729,7 +91917,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224959902299621708, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -91808,7 +91996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9764.999, y: -4192.4995}
+  m_AnchoredPosition: {x: 9152, y: -4328.1064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959093667
@@ -91824,7 +92012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1959093668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92231,32 +92419,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -92385,22 +92573,22 @@ Prefab:
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -92465,7 +92653,7 @@ Prefab:
     - target: {fileID: 224959902299621708, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -27.341797
+      value: -25.105957
       objectReference: {fileID: 0}
     - target: {fileID: 224959902299621708, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -92526,7 +92714,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -92588,7 +92776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1964965977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92663,7 +92851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 14354.999, y: -8384.999}
+  m_AnchoredPosition: {x: 13333.333, y: -8656.213}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965000467
@@ -92679,7 +92867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &1965000468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92799,7 +92987,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -93638,7 +93826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!224 &1973944984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -93657,8 +93845,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4799.9995, y: -3817.4998}
-  m_SizeDelta: {x: 0, y: -0.00024414062}
+  m_AnchoredPosition: {x: -4800, y: -4157.44}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1973944985
 MonoBehaviour:
@@ -93870,7 +94058,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -95555,7 +95743,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &2020603648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95687,7 +95875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &2022914611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96060,7 +96248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &2037842891
 GameObject:
   m_ObjectHideFlags: 0
@@ -96708,7 +96896,7 @@ Prefab:
     - target: {fileID: 114822784033342796, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 2}
       propertyPath: m_Name
@@ -97306,32 +97494,32 @@ Prefab:
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114032252676864896, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114555887875822686, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114153600913344864, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224540764556733084, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
@@ -97460,22 +97648,22 @@ Prefab:
     - target: {fileID: 114130820858773284, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114462940178132754, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 114630419812544308, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     - target: {fileID: 224298383061144500, guid: a0507d24b86394286b4257a19d76eb81,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000000070198594
+      value: -0.0004882811
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0507d24b86394286b4257a19d76eb81, type: 2}
@@ -97696,7 +97884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9764.999, y: -8384.999}
+  m_AnchoredPosition: {x: 9152, y: -8656.213}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2059476948
@@ -97712,7 +97900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &2059476949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98055,7 +98243,7 @@ Prefab:
     - target: {fileID: 224507984151070854, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -97
+      value: -97.000244
       objectReference: {fileID: 0}
     - target: {fileID: 224507984151070854, guid: 30653b2010052478d978608504bc5578,
         type: 2}
@@ -98091,7 +98279,7 @@ Prefab:
     - target: {fileID: 114993801063762210, guid: 30653b2010052478d978608504bc5578,
         type: 2}
       propertyPath: m_AspectRatio
-      value: 0.502947
+      value: 0.46182266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30653b2010052478d978608504bc5578, type: 2}
@@ -99115,7 +99303,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 14354.999, y: -4192.4995}
+  m_AnchoredPosition: {x: 13333.333, y: -4328.1064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2083966830
@@ -99131,7 +99319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &2083966831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99777,7 +99965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!1 &2091069967
 GameObject:
   m_ObjectHideFlags: 0
@@ -101631,7 +101819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.502947
+  m_AspectRatio: 0.46182266
 --- !u!114 &2134505405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101968,3 +102156,163 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!1 &2144732722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 1960816114059884, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2144732723}
+  - component: {fileID: 2144732725}
+  - component: {fileID: 2144732724}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2144732723
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 224290813709976960, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2144732722}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 160677227}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2144732724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 114713556171599772, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2144732722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_text: Accessibility Instructions
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2fb0da80e4169452e84bead6b7fa925c, type: 2}
+  m_sharedMaterial: {fileID: 21914774834097844, guid: 2fb0da80e4169452e84bead6b7fa925c,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_outlineColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontSize: 70
+  m_fontSizeBase: 70
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_textAlignment: 257
+  m_isAlignmentEnumConverted: 1
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_firstOverflowCharacterIndex: -1
+  m_linkedTextComponent: {fileID: 0}
+  m_isLinkedTextComponent: 0
+  m_isTextTruncated: 0
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_ignoreRectMaskCulling: 0
+  m_ignoreCulling: 1
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_firstVisibleCharacter: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_textInfo:
+    textComponent: {fileID: 0}
+    characterCount: 26
+    spriteCount: 0
+    spaceCount: 1
+    wordCount: 2
+    linkCount: 0
+    lineCount: 1
+    pageCount: 1
+    materialCount: 1
+  m_havePropertiesChanged: 0
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_spriteAnimator: {fileID: 0}
+  m_isInputParsingRequired: 0
+  m_inputSource: 0
+  m_hasFontAssetChanged: 0
+  m_subTextObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &2144732725
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 222797552124666312, guid: 89b56f88e19434531afda07a0c53a669,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2144732722}
+  m_CullTransparentMesh: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class ObjPoolManager
 {
@@ -38,6 +39,7 @@ public static class ObjPoolManager
             go.transform.SetParent(Button_PoolGO.transform);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
             go.GetComponent<UI_Builder.UIB_Button>().SetButtonText("");
+            go.GetComponent<Button>().onClick.RemoveAllListeners();
             go.name = "App_SubMenuButton";
 
             go.GetComponent<UI_Builder.UIB_Button>().Init();

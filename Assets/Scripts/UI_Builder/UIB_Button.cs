@@ -23,14 +23,15 @@ namespace UI_Builder
             SubMenu,
             SpecificPage,
             Video,
-            Website
+            Website,
+            Accessibletext
         }
 
         public GameObject newScreen;
         public GameObject VO_Select;
         public UIB_Button_Activates Button_Opens;
         public TextMeshProUGUI buttonText;
-        public string WebUrl;
+        public string myText;
         private Color originalColor;
 
         public void Init()
@@ -94,10 +95,14 @@ namespace UI_Builder
                     break;
                 case UIB_Button_Activates.Website:
                     shouldDeActivatePage = false;
-                    if (WebUrl != null)
-                        Application.OpenURL(WebUrl);
+                    if (myText != null)
+                        Application.OpenURL(myText);
                     else
                         Debug.LogWarning("Button not assigned a url");
+                    break;
+                case UIB_Button_Activates.Accessibletext:
+                    shouldDeActivatePage = false;
+                    UAP_AccessibilityManager.Say(myText);
                     break;
                 default:
                     Debug.Log("No Activity for this button");

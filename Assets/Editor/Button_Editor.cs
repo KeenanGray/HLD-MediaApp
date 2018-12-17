@@ -12,7 +12,7 @@ namespace UI_Builder
         SerializedProperty Opens;
         SerializedProperty VO_Select;
         SerializedProperty NewPage;
-        SerializedProperty WebUrl;
+        SerializedProperty myText;
 
         public Object source;
         void OnEnable()
@@ -20,7 +20,7 @@ namespace UI_Builder
             Opens = serializedObject.FindProperty("Button_Opens");
             NewPage = serializedObject.FindProperty("newScreen");
             VO_Select = serializedObject.FindProperty("VO_Select");
-            WebUrl = serializedObject.FindProperty("WebUrl");
+            myText = serializedObject.FindProperty("myText");
         }
 
         public override void OnInspectorGUI()
@@ -32,11 +32,22 @@ namespace UI_Builder
 
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.Website.ToString())
             {
-                EditorGUILayout.PropertyField(WebUrl, new GUIContent("Url"));
+                EditorGUILayout.PropertyField(myText, new GUIContent("Url"));
                 serializedObject.ApplyModifiedProperties();
                 return;
             }
 
+
+            if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.Accessibletext.ToString())
+            {
+                //EditorGUILayout.PropertyField(myText, new GUIContent("Text to Say"));
+                EditorStyles.textField.wordWrap = true;
+                myText.stringValue = EditorGUILayout.TextArea(myText.stringValue);
+      
+        serializedObject.ApplyModifiedProperties();
+                return;
+            }
+            Debug.Log("Opens " + Opens.enumDisplayNames[Opens.enumValueIndex]);
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.None.ToString())
             {
                 EditorGUILayout.HelpBox("Button is not set to open anything", MessageType.Info);
@@ -57,7 +68,7 @@ namespace UI_Builder
             {
                 EditorGUILayout.PropertyField(NewPage, new GUIContent("New Screen"));
             }
-            else
+            else if (myTarget.Button_Opens == UI_Builder.UIB_Button.UIB_Button_Activates.Page)
             {
                 var screenName = myTarget.gameObject.name.ToString().Split('_')[0];
                 var typeName = Opens.enumDisplayNames[Opens.enumValueIndex].Replace(" ", "");
