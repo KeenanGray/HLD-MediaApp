@@ -24,6 +24,7 @@ public class InitializationManager : MonoBehaviour
 #endif
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
         VideoCanvas = GameObject.Find("Front");
+
         UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
         StartCoroutine("Init");
     }
@@ -31,7 +32,11 @@ public class InitializationManager : MonoBehaviour
     private void StopSpeech()
     {
         if (UAP_AccessibilityManager.IsSpeaking())
+        {
             UAP_AccessibilityManager.StopSpeaking();
+        }
+        Debug.Log("TWOFINGERSINGLE");
+        UAP_AccessibilityManager.Say("",false,true,UAP_AudioQueue.EInterrupt.All);
     }
 
     private void Update()

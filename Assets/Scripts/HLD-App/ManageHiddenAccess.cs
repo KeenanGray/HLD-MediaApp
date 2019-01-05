@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UI_Builder;
 
 public class ManageHiddenAccess : MonoBehaviour {
-    GameObject AudioDescription_Button;
+    GameObject AudioDescription_Button = null;
 
     public class PassPhraseArray
     {
@@ -21,7 +21,7 @@ public class ManageHiddenAccess : MonoBehaviour {
         public string Code;
     }
 
-    GameObject ls;
+    GameObject ls=null;
     List<GameObject> hiddenPages;
 
     // Use this for initialization
@@ -30,12 +30,6 @@ public class ManageHiddenAccess : MonoBehaviour {
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
 
         ls = GameObject.Find("LandingScreen");
-
-       // hiddenPages = new List<GameObject>();
-       // foreach (GameObject go in GameObject.FindGameObjectsWithTag("Hidden"))
-       // {
-       //    hiddenPages.Add(go);
-       // }
 
     }
 

@@ -102,7 +102,7 @@ namespace UI_Builder
                     break;
                 case UIB_Button_Activates.Accessibletext:
                     shouldDeActivatePage = false;
-                    UAP_AccessibilityManager.Say(myText);
+                    UAP_AccessibilityManager.SaySkippable(myText);
                     break;
                 default:
                     Debug.Log("No Activity for this button");

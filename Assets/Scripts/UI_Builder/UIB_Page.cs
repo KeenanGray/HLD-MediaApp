@@ -15,7 +15,7 @@ namespace UI_Builder
     /// Specify "Instant" to have a page instantly appear on button press
     /// </summary>
 
-    public interface UIB_IPage
+        public interface UIB_IPage
     {
         //Pages are activated by button presses. 
         //A Page should be named <name of page>_Page
