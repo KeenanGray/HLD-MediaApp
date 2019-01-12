@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System;
 
-public class UIB_AudioPlayerTools : MonoBehaviour {
+public class UIB_AudioPlayerTools : MonoBehaviour
+{
 
     AudioSource source;
     Button playbutton;
@@ -22,11 +23,10 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
     Image pauseImage;
 
     Scrollbar timeScroll;
-    private float scrollPos;
-    
+
     bool trig;
     bool shouldContinuePlaying;
-    private bool restartAtEndOfDrag;
+    private bool DragOccurring;
 
     Transform ParentOfAudioToolComponents;
 
@@ -91,13 +91,11 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
             {
                 timeScroll = sb;
                 var t = Mathf.InverseLerp(0, source.clip.length, source.time);
-                timeScroll.value = t;
 
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.InitializePotentialDrag;
-                entry.callback.AddListener((eventData) => { OnDrag(); });
+                entry.callback.AddListener((eventData) => { OnBeginDrag(); });
                 timeScroll.GetComponent<EventTrigger>().triggers.Add(entry);
-
 
                 entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.PointerUp;
@@ -105,7 +103,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
                 timeScroll.GetComponent<EventTrigger>().triggers.Add(entry);
             }
 
-            timeScroll.onValueChanged.AddListener(MoveToEndOfLine);
+            timeScroll.onValueChanged.AddListener(SliderMoved);
         }
         if (timeScroll != null)
         {
@@ -150,22 +148,25 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
         AudioTimerInput = ParentOfAudioToolComponents.GetComponentInChildren<TMP_InputField>();
 
         displayText = AudioTimerInput.transform.GetChild(0).Find("DisplayText").GetComponent<TextMeshProUGUI>();
-        if(displayText==null)
+        if (displayText == null)
             Debug.LogWarning("Uh Oh gameObject is missing");
 
         AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
         AudioTimerInput.onSubmit.AddListener(OnInputFieldSubmitted);
-       // AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
-        AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true,true); });
+        // AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
+        AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true, true); });
         AudioTimerInput.text = "";
+        
     }
 
-    private void MoveToEndOfLine(float arg0)
+    private void SliderMoved(float arg0)
     {
-       //Debug.Log("selected");
-        AudioTimerInput.MoveTextEnd(false);
-        AudioTimerInput.MoveToEndOfLine(false,false);
-        AudioTimerInput.caretPosition = 5;
+        Debug.Log("Slider Moving");
+
+        // AudioTimerInput.MoveTextEnd(false);
+        // AudioTimerInput.MoveToEndOfLine(false,false);
+        // AudioTimerInput.caretPosition = 5;
+
     }
 
     private void OnInputFieldSubmitted(string arg0)
@@ -173,10 +174,12 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
         string str = displayText.text.Split(':')[0] + displayText.text.Split(':')[1];
 
         AudioTimerInput.text = "";
-        if (source.clip.length > StringToSecondsCount(str,ref arg0)){
+        if (source.clip.length > StringToSecondsCount(str, ref arg0))
+        {
             source.time = StringToSecondsCount(str, ref arg0);
         }
-        else{
+        else
+        {
             Debug.LogWarning("length exceeds time remaining in clip");
         }
 
@@ -190,57 +193,46 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
     int timerIndex;
     private void OnInputFieldChanged(string arg0)
     {
-        /*    AudioTimerInput.caretPosition = 5;
-            arg0 = arg0.Insert(5, "_");
-            var customTime = arg0.Split('_')[1];
-
-            ConvertToClockTime(StringToSecondsCount(customTime,ref customTime));
-            AudioTimerInput.text = customTime;
-
-            customTime = customTime.Insert(5, "/");
-
-            displayText.text = customTime.Split('/')[0];
-            */
-
         var outstr = "";
-            displayText.text = ConvertToClockTime(StringToSecondsCount(AudioTimerInput.text, ref outstr));
-
-
+        displayText.text = ConvertToClockTime(StringToSecondsCount(AudioTimerInput.text, ref outstr));
     }
 
-    void HandleUnityAction(string arg0)
-    {
-    }
-
-    void PauseAudio(){
-
-    }
-
-    public void OnGUI()
+    // Update is called once per frame
+    void Update()
     {
         time_label.text = ConvertToClockTime(source.time);
 
-        var t = Mathf.InverseLerp(0, source.clip.length, source.time);
-        if(timeScroll!=null)
-            timeScroll.value = t;
+        if (timeScroll != null && !DragOccurring)
+            timeScroll.value = Mathf.InverseLerp(0, source.clip.length, source.time);
 
+        //detect end of audio clip
+        if(float.Equals(source.time, source.clip.length))
+        {
+            OnAudioClipEnd();
+        }
     }
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    void OnAudioClipEnd()
+    {
+        timeScroll.value = 0;
+        source.time = 0;
+        if(source.isPlaying)
+            PlayButtonPressed();
+        playbutton.transform.GetChild(1).gameObject.SetActive(false); //turn off the play button
+        playbutton.transform.GetChild(0).gameObject.SetActive(true); //turn on the pause button
+    }
 
-    void OnScrollValueChanged(){
+    void OnScrollValueChanged()
+    {
         source.time = Mathf.Lerp(0, source.clip.length, timeScroll.value);
     }
 
-    void PlayButtonPressed(){
+    void PlayButtonPressed()
+    {
         if (shouldContinuePlaying)
         {
             shouldContinuePlaying = false;
-            if(!source.isPlaying){
-                Debug.Log("HERE 2");
-
+            if (!source.isPlaying)
+            {
                 source.Play();
                 playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
                 playbutton.transform.GetChild(1).gameObject.SetActive(true); //turn on the pause button
@@ -268,11 +260,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
             var sab = playbutton.GetComponent<Special_AccessibleButton>();
             sab.m_Text = "Pause";
             sab.SelectItem(true);
-
         }
     }
-
- 
 
     void FwdButtonPressed()
     {
@@ -281,7 +270,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
             if (source.time < source.clip.length - 30)
                 source.time += 30;
             else
-                source.time = source.clip.length;
+                source.time = source.clip.length-.01f;
         }
     }
 
@@ -300,11 +289,11 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
 
         string secondsAsString;
         string minutesAsString;
-       
+
         if (seconds < 10)
             secondsAsString = "0" + seconds;
         else
-            secondsAsString = ""+seconds;
+            secondsAsString = "" + seconds;
 
         if (minutes < 10)
             minutesAsString = "0" + minutes;
@@ -350,26 +339,36 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
                 OnInputFieldSubmitted(min + ":" + sec + v);
                 break;
         }
-        outStr = min + ":" + sec  + v;
+        outStr = min + ":" + sec + v;
         return (int.Parse(min) * 60) + int.Parse(sec);
     }
 
-    public void OnDrag()
+    public void OnBeginDrag()
     {
-        source.Pause();
         if (source.isPlaying)
-            restartAtEndOfDrag = true;
-       // Debug.Log("Dragging");
+        {
+            source.Pause();
+            DragOccurring = true;
+        }
+        Debug.Log("Begin Dragging");
     }
+
     public void OnDragEnd()
     {
         source.UnPause();
-        if (restartAtEndOfDrag)
+        if (timeScroll.value < 1)
+            source.time = Mathf.Lerp(0, source.clip.length, timeScroll.value);
+        else
+            source.time = source.clip.length-.1f;
+
+        if (!source.isPlaying)
         {
             source.UnPause();
-            restartAtEndOfDrag = false;
+            DragOccurring = false;
         }
 
-        // Debug.Log("Dragging");
+        Debug.Log("End Dragging");
     }
+
+
 }
