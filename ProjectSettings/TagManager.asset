@@ -4,14 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - MainCanvas
-  - App_Biography
-  - App_SubMenuButton
-  - Hidden
-  - App_AboutPage
-  - App_VideoPlayer
-  - SubCanvas
   - Pool
+  - MainCanvas
+  - App_VideoPlayer
+  - App_SubMenuButton
+  - App_Biography
+  - App_AboutPage
+  - App_Narrative
   layers:
   - Default
   - TransparentFX

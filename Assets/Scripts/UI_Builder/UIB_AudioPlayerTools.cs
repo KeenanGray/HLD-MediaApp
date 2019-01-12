@@ -162,7 +162,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour {
 
     private void MoveToEndOfLine(float arg0)
     {
-        Debug.Log("selected");
+       //Debug.Log("selected");
         AudioTimerInput.MoveTextEnd(false);
         AudioTimerInput.MoveToEndOfLine(false,false);
         AudioTimerInput.caretPosition = 5;

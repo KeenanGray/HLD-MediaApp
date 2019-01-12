@@ -9,13 +9,14 @@ namespace UI_Builder
 {
     //Page Interface
     /// <summary>
-    /// Declares the "OnActivated" Function which will be used by all Pages
+    /// Declares the "PageActivatedHandler" Function which will be used by all Pages
     /// A "Page" is an instance of an App-Screen. Pages take up the entire screen. 
+    ///     
+    /// </summary>
     /// Pages can be individually set to swipe in, at a custom speed, from the "Left" "Top" "Bottom" or "Right" of the screen.
     /// Specify "Instant" to have a page instantly appear on button press
-    /// </summary>
 
-        public interface UIB_IPage
+    public interface UIB_IPage
     {
         //Pages are activated by button presses. 
         //A Page should be named <name of page>_Page
@@ -30,6 +31,8 @@ namespace UI_Builder
     //
     public class UIB_Page : MonoBehaviour, UIB_IPage
     {
+        public bool isTemplate;
+
         public delegate void Activated();
         public event Activated OnActivated;
 
@@ -249,7 +252,10 @@ namespace UI_Builder
             PageOnScreen = true;
             GetComponent<AspectRatioFitter>().enabled = true;
 
+
             OnActivated?.Invoke();
+            UIB_PageManager.CurrentPage = gameObject;
+
             yield break;
         }
 
@@ -281,7 +287,10 @@ namespace UI_Builder
             GetComponent<AspectRatioFitter>().enabled = false;
             DeActivateUAP();
 
+
             OnDeActivated?.Invoke();
+
+            UIB_PageManager.LastPage = gameObject;
 
             yield break;
         }
@@ -299,11 +308,12 @@ namespace UI_Builder
                 CurrentView = views[0];
 
             StartCoroutine("MoveScreenOut",false);
+
         }
 
         public void PageActivatedHandler()
         {
-            // Debug.Log("Page Activated " + name);
+       //     Debug.Log("Page Activated " + name);
             //  gameObject.SetActive(true);
             ActivateButtonsOnScreen();
             ActivateUAP();
@@ -311,7 +321,7 @@ namespace UI_Builder
 
         public void PageDeActivatedHandler()
         {
-            // Debug.Log("Page De-Activated " + name);
+//            Debug.Log("Page De-Activated " + name);
             if (GetComponent<AccessibleUIGroupRoot>() != null)
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
         }

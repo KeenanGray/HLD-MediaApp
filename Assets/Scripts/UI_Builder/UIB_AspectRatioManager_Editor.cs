@@ -53,6 +53,10 @@ namespace UI_Builder
             int buffer = 100;
             int rowcount = 0;
             int rowTotal = 5;
+
+            int cnt = 0;
+            Dictionary<string, int> nameMap = new Dictionary<string, int>();
+
             foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
             {
 
@@ -63,7 +67,8 @@ namespace UI_Builder
 
                 // var tmp = arf.GetComponent<RectTransform>().position;
                 //if get component has a "page", move it into a nice position;
-                if ((arf.GetComponent<UIB_Page>() != null) && arf.tag != "App_Biography" && arf.tag != "Pool")
+                var page = arf.GetComponent<UIB_Page>();
+                if (page != null && arf.tag != "App_Biography" && arf.tag != "Pool" && arf.transform.parent.tag!="Pool")
                 {
                     rowcount++;
                     if (rowcount > rowTotal)
@@ -79,14 +84,33 @@ namespace UI_Builder
                 }
 
 
-                if (arf.tag == "Pool" || arf.tag == "App_Biography")
+               if (arf.transform.parent.tag == "Pool")
                 {
-                    var pos = new Vector3(-right, -up, 0);
-                    arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+                    var commonName = arf.transform.parent.name.Split('(')[0];
+                    if (!nameMap.ContainsKey(arf.transform.parent.name))
+                    {
+                        nameMap.Add(commonName, cnt);
+                        nameMap[commonName] = cnt;
+
+                        rowcount++;
+                        if (rowcount > rowTotal)
+                        {
+                            rowcount = 0;
+                            right = ScreenWidth * 2;
+                            up -= (ScreenHeight + buffer);
+                        }
+
+                        var pos = new Vector3(-right, up, 0);
+                        right += ScreenWidth + buffer;
+                        arf.transform.parent.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+                        arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+                    }
+                    else
+                    {
+                        cnt++;
+                       
+                    } 
                 }
-
-
-
 
             }
         }

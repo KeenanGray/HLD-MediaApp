@@ -20,16 +20,16 @@ public class CompanyDancers_Page : UIB_ScrollMenu {
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
-        Debug.Log("HERE");
         foreach (Biography bioJson in OrderedByName)
         {
+            Name_Suffix = bioJson.Name.Replace(" ","");
             GameObject go = null;
             ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Bio, ref go);
 
             if (go != null)
             {
                 go.transform.SetParent(Page_Parent.transform);
-                go.name = (bioJson.Name + "_Page");
+                go.name = (Name_Suffix + "_Page");
 
                 Bio_Page bp = go.GetComponent<Bio_Page>();
                 bp.SetName(bioJson.Name);

@@ -94,7 +94,14 @@ public class InitializationManager : MonoBehaviour
 
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
         {
-            p.Init();
+            try
+            {
+                p.Init();
+            }
+            catch
+            {
+                Debug.Log("Null page ");
+            }
         }
 
         foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())

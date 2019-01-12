@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.5177165
+  m_AspectRatio: 0.5625
 --- !u!114 &114134080407260238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -717,7 +717,7 @@ MonoBehaviour:
   VO_Select: {fileID: 0}
   Button_Opens: 1
   buttonText: {fileID: 0}
-  WebUrl: 
+  myText: 
 --- !u!114 &114373909099074712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -783,7 +783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.5177165
+  m_AspectRatio: 0.5625
 --- !u!114 &114469713984763482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1044,6 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10abc7ecff75141dda2d87643b3080b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTemplate: 1
   views:
   - {fileID: 224720370287129808}
   PageOnScreen: 0
@@ -1082,7 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 3
-  m_AspectRatio: 0.5177165
+  m_AspectRatio: 0.5625
 --- !u!114 &114645054378358780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1542,7 +1543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -2097.7778, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224145101330520764
@@ -1600,7 +1601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0002441334}
+  m_AnchoredPosition: {x: 0, y: 0.0007324149}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224450949154743844

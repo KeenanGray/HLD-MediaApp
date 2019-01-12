@@ -9,6 +9,7 @@ public static class ObjPoolManager
     public enum Pool
     {
         Bio,
+        Narrative,
         About,
         Watch,
         Program,
@@ -18,16 +19,20 @@ public static class ObjPoolManager
     static List<GameObject> Biographies_Pool;
     static List<GameObject> Button_Pool;
     static List<GameObject> AboutPage_Pool;
+    static List<GameObject> Narrative_Pool;
+
 
     public static void Init()
     {
         Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
         Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
         AboutPage_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_AboutPage"));
+        Narrative_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Narrative"));
 
         GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
         GameObject Button_PoolGO = GameObject.Find("ButtonPool");
         GameObject About_PoolGO = GameObject.Find("AboutPagePool");
+        GameObject Narrative_PoolGO = GameObject.Find("NarrativePagePool");
 
         foreach (GameObject go in Biographies_Pool)
         {
@@ -48,6 +53,11 @@ public static class ObjPoolManager
         foreach (GameObject go in AboutPage_Pool)
         {
             go.transform.SetParent(About_PoolGO.transform);
+        }
+
+        foreach (GameObject go in Narrative_Pool)
+        {
+            go.transform.SetParent(Narrative_PoolGO.transform);
         }
 
     }
@@ -78,6 +88,19 @@ public static class ObjPoolManager
             else
             {
                 Debug.LogWarning("No Button Pool");
+            }
+        }
+
+        if(pool.Equals(Pool.Narrative))
+        {
+            if(Narrative_Pool.Count >0)
+            {
+                returned = Narrative_Pool[0];
+                Narrative_Pool.Remove(returned);
+            }
+            else
+            {
+                Debug.LogWarning("No Narrative Pool");
             }
         }
     }

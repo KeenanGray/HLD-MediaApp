@@ -6,8 +6,10 @@ using System;
 using UnityEngine.UI;
 using UI_Builder;
 
-public class ManageHiddenAccess : MonoBehaviour {
+public class ManageHiddenAccess : MonoBehaviour
+{
     GameObject AudioDescription_Button = null;
+    GameObject CodeButton;
 
     public class PassPhraseArray
     {
@@ -21,14 +23,15 @@ public class ManageHiddenAccess : MonoBehaviour {
         public string Code;
     }
 
-    GameObject ls=null;
+    GameObject ls = null;
     List<GameObject> hiddenPages;
 
     // Use this for initialization
-    public void Start () {
+    public void Start()
+    {
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
-
+        CodeButton = GameObject.Find("DISPLAYED-Code_Button");
         ls = GameObject.Find("LandingScreen");
 
     }
@@ -36,15 +39,16 @@ public class ManageHiddenAccess : MonoBehaviour {
     private void CheckIsCorrect(string arg0)
     {
         var res = MongoLib.ReadJson("AccessCode.json");
-        if (res != ""){
+        if (res != "")
+        {
             PassPhraseArray myObject = JsonUtility.FromJson<PassPhraseArray>(res);
 
-//compare the two strings
-//non-case sensitive
-            if(myObject==null)
+            //compare the two strings
+            //non-case sensitive
+            if (myObject == null)
             {
-                    Debug.LogError("Uh oh");
-                    return;
+                Debug.LogError("Uh oh");
+                return;
             }
             if (arg0.ToLower() == myObject.data[0].Code.ToLower())
             {
@@ -55,9 +59,13 @@ public class ManageHiddenAccess : MonoBehaviour {
 
 
                   GetComponentInParent<Page>().MoveScreenOut();
-                      ls.GetComponent<Page>().MoveScreenIn();
+                      ls.GetComponent<Page>().
+                MoveScreenIn();
           */
+                //HACK: call coroutine twice for it to work?!?
                 StartCoroutine("OnCorrectCode");
+                StartCoroutine("OnCorrectCode");
+
 
             }
             else
@@ -69,40 +77,60 @@ public class ManageHiddenAccess : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update()
+    {
 
-    IEnumerator OnCorrectCode(){
+    }
 
-        var go = GameObject.Find("DISPLAYED-Code_Button");
-        if (go != null)
+    IEnumerator OnCorrectCode()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (CodeButton != null)
         {
-            GameObject.Find("DISPLAYED-Code_Button").name = "DISPLAYED-Info_Button";
+            CodeButton.name = "DISPLAYED-Info_Button";
+
+            // go.GetComponent<UIB_Button>().Init();
+
+            //TODO: Figure out why this hack works. 
+            var gmobj = GameObject.Find("DISPLAYED-Info_Page");
+            yield return new WaitForEndOfFrame();
+            gmobj.SetActive(false);
+            CodeButton.SetActive(false);
+            yield return new WaitForEndOfFrame();
+            gmobj.SetActive(true);
+            CodeButton.SetActive(true);
+
+
         }
-        else{
+        else
+        {
+            Debug.Log("Code Button is Null");
         }
+
         var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<UnityEngine.UI.Button>();
 
-        GetComponentInParent<UIB_Page>().DeActivate();
+        //GetComponentInParent<UIB_Page>().DeActivate();
 
-            var ab = button.GetComponent<UI_Builder.UIB_Button>();
-            ab.Init();
+        var ab = button.GetComponent<UI_Builder.UIB_Button>();
+        ab.Init();
+        button.onClick.Invoke();
 
-            var audioDesc = GameObject.Find("AudioDescription_Button");
-            audioDesc.SetActive(false);
+        UAP_AccessibilityManager.StopSpeaking();
+        var audioDesc = GameObject.Find("AudioDescription_Button");
+        audioDesc.SetActive(false);
 
-            ab.SetVO(audioDesc);
+        ab.SetVO(audioDesc);
 
-            button.onClick.Invoke();
-            audioDesc.SetActive(true);
+        audioDesc.SetActive(true);
 
-            yield return new WaitForSeconds(0.0f);
-            audioDesc.GetComponent<UnityEngine.UI.Button>().enabled = true;
-            audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
-            yield return new WaitForSeconds(0.0f);
-            UAP_AccessibilityManager.SelectElement(audioDesc);
-            yield break;
+        yield return new WaitForSeconds(0.0f);
+        audioDesc.GetComponent<UnityEngine.UI.Button>().enabled = true;
+        audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
+        yield return new WaitForSeconds(0.0f);
+        UAP_AccessibilityManager.SelectElement(audioDesc,true);
+        yield break;
+
 
     }
 
