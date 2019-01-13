@@ -85,9 +85,12 @@ namespace UI_Builder
             switch (Button_Opens)
             {
                 case UIB_Button_Activates.Page:
+                    //if the new page is a template, we want to keep the current page on screen (this way the object pool won't be cleaned up)
+                    shouldDeActivatePage = !newScreen.GetComponent<UIB_Page>().isTemplate;
                     newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
                     break;
                 case UIB_Button_Activates.SpecificPage:
+                    shouldDeActivatePage = !newScreen.GetComponent<UIB_Page>().isTemplate;
                     newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
                     break;
                 case UIB_Button_Activates.Video:
@@ -111,28 +114,26 @@ namespace UI_Builder
 
             if (shouldDeActivatePage)
             {
-                var mainC = GameObject.Find("MainCanvas");
-                foreach (UIB_Page page in mainC.GetComponentsInChildren<UIB_Page>())
+                GetComponentInParent<UIB_Page>().DeActivate();
+             //   var mainC = GameObject.Find("MainCanvas");
+               /* foreach (UIB_Page page in mainC.GetComponentsInChildren<UIB_Page>())
                 {
                     if (page.PageOnScreen)
+                    {
+                        Debug.Log("Page " + page.name + "Deactivated");
                         page.DeActivate();
+                    }
                 }
-
-                /*      var CurrPage = GetComponentInParent<Page>();
-                      if (CurrPage != null)
-                          CurrPage.DeActivate();
-
-                      var CurrSubMenu = GetComponentInParent<SubMenu>();
-                      if (CurrSubMenu != null)
-                          CurrSubMenu.DeActivate();
-                          */
-
+                */
             }
 
             if (VO_Select != null)
             {
                 UAP_AccessibilityManager.SelectElement(VO_Select);
             }
+
+            //Deactivate the button when it's pressed so it can't be double clicked
+            DeActivate();
 
         }
 

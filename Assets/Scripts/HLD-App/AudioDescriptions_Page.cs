@@ -33,7 +33,10 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
 
     public void PageDeActivatedHandler()
     {
-
+        var thing = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().myTools.source;
+        //   Resources.UnloadUnusedAssets();
+        if (thing != null)
+            thing.Stop();
     }
 
     // Use this for initialization

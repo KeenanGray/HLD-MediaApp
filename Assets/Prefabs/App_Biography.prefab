@@ -1047,6 +1047,7 @@ MonoBehaviour:
   isTemplate: 1
   views:
   - {fileID: 224720370287129808}
+  rt: {fileID: 224108663617410756}
   PageOnScreen: 0
   rate: 1
 --- !u!114 &114622323283858380

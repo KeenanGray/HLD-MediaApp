@@ -64,6 +64,8 @@ public class MeOnDisplay_Page : MonoBehaviour , UIB_IPage{
         var OrderedByName = Dancers.OrderBy(x => x);
 
         int i = 0;
+        ObjPoolManager.BeginRetrieval();
+
         foreach (string dancer in OrderedByName)
         {
             GameObject b = null; 
@@ -96,6 +98,8 @@ public class MeOnDisplay_Page : MonoBehaviour , UIB_IPage{
             else
                 Debug.LogError("Not enough objects in pool");
         }
+        ObjPoolManager.EndRetrieval();
+
 
         var theScroll = transform.Find("Interface").GetComponentInChildren<ScrollRect>().gameObject;
         theScroll.SetActive(false);
@@ -109,6 +113,6 @@ public class MeOnDisplay_Page : MonoBehaviour , UIB_IPage{
     public void PageDeActivatedHandler()
     {
         //Return the objecst to the pool
-        ObjPoolManager.Init();
+        ObjPoolManager.RefreshPool();
     }
 }

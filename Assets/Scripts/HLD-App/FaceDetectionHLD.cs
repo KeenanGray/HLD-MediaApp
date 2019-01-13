@@ -87,10 +87,16 @@ public class FaceDetectionHLD : MonoBehaviour
 
         // Convert Mat to Texture2D for display
         CvConvert.MatToTexture2D(mat, ref tex);
-        // Assign Texture2D to GUI element
-        rawImage.texture = tex;
+        if (rawImage == null)
+            Debug.LogWarning("Raw Image has not been assigned");
 
-        rawImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rawImage.texture.width, rawImage.texture.height);
+        if (rawImage != null)
+        {
+            // Assign Texture2D to GUI element
+            rawImage.texture = tex;
+
+            rawImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rawImage.texture.width, rawImage.texture.height);
+        }
 
     }
 

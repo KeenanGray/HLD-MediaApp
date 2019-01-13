@@ -33,6 +33,8 @@ namespace UI_Builder
     {
         public bool isTemplate;
 
+        Canvas page_Canvas;
+
         public delegate void Activated();
         public event Activated OnActivated;
 
@@ -43,7 +45,7 @@ namespace UI_Builder
         GameObject subCanvas;
 
         public List<RectTransform> views;
-        RectTransform rt;
+        public RectTransform rt;
         RectTransform ViewContainer;
         GameObject View_Slider;
         RectTransform CurrentView;
@@ -56,12 +58,12 @@ namespace UI_Builder
             OnActivated += new Activated(PageActivatedHandler);
             OnDeActivated += new Activated(PageDeActivatedHandler);
 
-            views = new List<RectTransform>();
+            //views = new List<RectTransform>();
 
-            rt = GetComponent<RectTransform>();
             if (rt == null)
             {
-                Debug.LogWarning("difficulty finding rect transform attached to this gameobject");
+                rt = GetComponent<RectTransform>();
+                Debug.LogWarning("difficulty finding rect transform attached to " + name);
             }
 
             rt.sizeDelta = new Vector2(UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
@@ -88,8 +90,9 @@ namespace UI_Builder
                 ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
             else
             {
+                //TODO: Someday i'll re-make the view system
                 //            Debug.LogWarning("No ViewContainerOnThisPage");
-                return;
+                //return;
             }
 
             //Get the View_Slider
@@ -113,6 +116,16 @@ namespace UI_Builder
             }
             if (views.Count > 0)
                 CurrentView = views[0].GetComponent<RectTransform>();
+
+            page_Canvas = gameObject.GetComponent<Canvas>();
+            if (page_Canvas == null)
+            {
+                Debug.LogWarning("no canvas on this object " + name);
+            }
+            else
+                page_Canvas.enabled = false;
+
+
         }
 
         private void OnDisable()
@@ -230,8 +243,10 @@ namespace UI_Builder
 
         //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
         //Other rates will allow the screen to slide in from the right.
-        public IEnumerator MoveScreenIn(bool initializing=false)
+        public IEnumerator MoveScreenIn(bool initializing = false)
         {
+            ToggleCanvas(true);
+
             float lerp = 0;
             var tmp = rate;
 
@@ -260,10 +275,9 @@ namespace UI_Builder
         }
 
         //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
-        public IEnumerator MoveScreenOut(bool initializing=false)
+        public IEnumerator MoveScreenOut(bool initializing = false)
         {
-
-          //  yield return new WaitForEndOfFrame();
+            //  yield return new WaitForEndOfFrame();
             rt.anchoredPosition = new Vector3(0, 0, 0);
             float lerp = 0;
 
@@ -273,11 +287,11 @@ namespace UI_Builder
 
             while (true)
             {
-                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x, 0, 0), lerp);
+                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(UIB_AspectRatioManager_Editor.ScreenHeight, 0, 0), lerp);
                 lerp += tmp;
 
-                if (Mathf.Approximately(rt.anchoredPosition.x , GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x) || 
-                rt.anchoredPosition.x+lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
+                if (Mathf.Approximately(rt.anchoredPosition.x, UIB_AspectRatioManager_Editor.ScreenHeight) ||
+                rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
                 {
                     break;
                 }
@@ -291,6 +305,8 @@ namespace UI_Builder
             OnDeActivated?.Invoke();
 
             UIB_PageManager.LastPage = gameObject;
+            //toggle the canvas at the end to prevent flicker
+            ToggleCanvas(false);
 
             yield break;
         }
@@ -307,13 +323,13 @@ namespace UI_Builder
             if (views != null && views.Count > 0)
                 CurrentView = views[0];
 
-            StartCoroutine("MoveScreenOut",false);
+            StartCoroutine("MoveScreenOut", false);
 
         }
 
         public void PageActivatedHandler()
         {
-       //     Debug.Log("Page Activated " + name);
+            //     Debug.Log("Page Activated " + name);
             //  gameObject.SetActive(true);
             ActivateButtonsOnScreen();
             ActivateUAP();
@@ -321,7 +337,7 @@ namespace UI_Builder
 
         public void PageDeActivatedHandler()
         {
-//            Debug.Log("Page De-Activated " + name);
+            //            Debug.Log("Page De-Activated " + name);
             if (GetComponent<AccessibleUIGroupRoot>() != null)
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
         }
@@ -365,6 +381,23 @@ namespace UI_Builder
                 uap.enabled = false;
             }
         }
+
+        void ToggleCanvas(bool set)
+        {
+            if (page_Canvas == null)
+            {
+                Debug.Log("No Canvas on " + name);
+            }
+            else
+            {
+                //                Debug.Log("canvas enabled " + page_Canvas.enabled);
+                page_Canvas.enabled = set;
+            }
+        }
         #endregion
+
+
     }
+
+
 }

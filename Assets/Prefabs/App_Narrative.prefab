@@ -404,6 +404,7 @@ MonoBehaviour:
   isTemplate: 0
   views:
   - {fileID: 224065836940564116}
+  rt: {fileID: 224650608154091758}
   PageOnScreen: 0
   rate: 1
 --- !u!114 &114103042644992388
@@ -455,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d7b23dd295c4087949904541e697cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myTools: {fileID: 0}
 --- !u!114 &114205795260099146
 MonoBehaviour:
   m_ObjectHideFlags: 1

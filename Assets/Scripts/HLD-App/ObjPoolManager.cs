@@ -16,14 +16,32 @@ public static class ObjPoolManager
         Button
     }
 
+    static GameObject ObjectPoolCanvas;
     static List<GameObject> Biographies_Pool;
     static List<GameObject> Button_Pool;
     static List<GameObject> AboutPage_Pool;
     static List<GameObject> Narrative_Pool;
 
-
     public static void Init()
     {
+        ObjectPoolCanvas = GameObject.Find("ObjectPoolCanvas");
+
+        if (ObjectPoolCanvas == null)
+        {
+            Debug.LogWarning("Object pool is null");
+        }
+
+        Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
+        Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
+        AboutPage_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_AboutPage"));
+        Narrative_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Narrative"));
+
+    }
+
+    public static void RefreshPool()
+    {
+        ObjectPoolCanvas.SetActive(true);
+
         Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
         Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
         AboutPage_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_AboutPage"));
@@ -60,10 +78,12 @@ public static class ObjPoolManager
             go.transform.SetParent(Narrative_PoolGO.transform);
         }
 
+        ObjectPoolCanvas.SetActive(false);
     }
 
     public static void RetrieveFromPool(Pool pool, ref GameObject returned)
     {
+
         if (pool.Equals(Pool.Bio))
         {
             if (Biographies_Pool.Count > 0)
@@ -91,9 +111,9 @@ public static class ObjPoolManager
             }
         }
 
-        if(pool.Equals(Pool.Narrative))
+        if (pool.Equals(Pool.Narrative))
         {
-            if(Narrative_Pool.Count >0)
+            if (Narrative_Pool.Count > 0)
             {
                 returned = Narrative_Pool[0];
                 Narrative_Pool.Remove(returned);
@@ -105,14 +125,14 @@ public static class ObjPoolManager
         }
     }
 
-    public static void DisablePools()
+    public static void BeginRetrieval()
     {
-        GameObject Bio_PoolGO = GameObject.Find("BioPagePool");
-        GameObject Button_PoolGO = GameObject.Find("ButtonPool");
-        GameObject About_PoolGO = GameObject.Find("AboutPagePool");
+        ObjectPoolCanvas.SetActive(true);
 
-        Bio_PoolGO.SetActive(false);
-        Button_PoolGO.SetActive(false);
-        About_PoolGO.SetActive(false);
     }
+    public static void EndRetrieval()
+    {
+       ObjectPoolCanvas.SetActive(false);
+    }
+
 }

@@ -10,6 +10,8 @@ public class DisplayedNarrativesList_Page : UIB_ScrollMenu
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
+        ObjPoolManager.BeginRetrieval();
+
         foreach (Biography bioJson in OrderedByName)
         {
             Name_Suffix = bioJson.Name.Replace(" ", "");
@@ -25,5 +27,8 @@ public class DisplayedNarrativesList_Page : UIB_ScrollMenu
                 np.SetupPage(bioJson.Name, "DancerPhotos/" + bioJson.Name.Replace(" ", "_"));
             }
         }
+
+        ObjPoolManager.EndRetrieval();
+
     }
 }

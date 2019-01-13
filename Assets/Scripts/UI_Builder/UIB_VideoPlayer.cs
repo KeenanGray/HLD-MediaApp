@@ -9,7 +9,7 @@ using UnityEngine.Video;
 
 namespace UI_Builder
 {
-    public class UIB_VideoPlayer : MonoBehaviour
+    public class UIB_VideoPlayer : MonoBehaviour, UIB_IPage
     {
 
         GameObject cover;
@@ -179,5 +179,20 @@ namespace UI_Builder
             return words;
         }
 
+        public void Init()
+        {
+            GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
+            GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
+
+        }
+
+        public void PageActivatedHandler()
+        {
+        }
+
+        public void PageDeActivatedHandler()
+        {
+            StopAllCoroutines();
+        }
     }
 }

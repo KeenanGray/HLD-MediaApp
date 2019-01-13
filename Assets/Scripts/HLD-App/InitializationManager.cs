@@ -36,7 +36,7 @@ public class InitializationManager : MonoBehaviour
             UAP_AccessibilityManager.StopSpeaking();
         }
         Debug.Log("TWOFINGERSINGLE");
-        UAP_AccessibilityManager.Say("",false,true,UAP_AudioQueue.EInterrupt.All);
+        UAP_AccessibilityManager.Say("", false, true, UAP_AudioQueue.EInterrupt.All);
     }
 
     private void Update()
@@ -45,6 +45,7 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+        yield return new WaitForSeconds(1.0f);
         AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
         //enable accessible instructins if plugin is on
         if (UAP_AccessibilityManager.IsActive())
@@ -83,6 +84,11 @@ public class InitializationManager : MonoBehaviour
             arf.enabled = true;
         }
 
+        foreach(UIB_PageContainer PageContainer in GetComponentsInChildren < UIB_PageContainer>())
+        {
+            PageContainer.Init();
+        }
+
         yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
 
         VideoCanvas.SetActive(true);
@@ -94,14 +100,9 @@ public class InitializationManager : MonoBehaviour
 
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
         {
-            try
-            {
-                p.Init();
-            }
-            catch
-            {
-                Debug.Log("Null page ");
-            }
+
+            p.Init();
+
         }
 
         foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
@@ -110,7 +111,9 @@ public class InitializationManager : MonoBehaviour
             if (p.gameObject.name == "Landing_Page")
                 yield return p.MoveScreenOut(true);
             else
+            {
                 p.StartCoroutine("MoveScreenOut", true);
+            }
         }
 
         var firstScreen = GameObject.Find("Landing_Page");

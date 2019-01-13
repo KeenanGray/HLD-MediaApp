@@ -50,7 +50,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     public void PageDeActivatedHandler()
     {
         var thing = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().myTools.source;
-        Resources.UnloadUnusedAssets();
+     //   Resources.UnloadUnusedAssets();
         if (thing != null)
             thing.Stop();
        

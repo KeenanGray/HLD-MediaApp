@@ -63,6 +63,8 @@ namespace UI_Builder
             //Make the buttons
             //They will be assigned to their buttons with 'Init'
             int traversalOrder = 0;
+            ObjPoolManager.BeginRetrieval();
+
             foreach (Biography b in OrderedByName)
             {
                 Name_Suffix = b.Name.Replace(" ","");
@@ -104,12 +106,14 @@ namespace UI_Builder
                     GetComponent<UIB_Page>().ActivateButtonsOnScreen();
                 }
             }
+            ObjPoolManager.EndRetrieval();
+
 
         }
 
         public void PageDeActivatedHandler()
         {
-            ObjPoolManager.Init();
+            ObjPoolManager.RefreshPool();
         }
 
         public abstract void MakeLinkedPages();
