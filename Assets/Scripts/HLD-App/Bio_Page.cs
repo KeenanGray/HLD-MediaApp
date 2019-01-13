@@ -12,7 +12,6 @@ public class Bio_Page : MonoBehaviour {
     public Image BioImage;
 
     // Use this for initialization
-    [ExecuteInEditMode]
     public void Initialize () {
         foreach(TextMeshProUGUI tm in GetComponentsInChildren<TextMeshProUGUI>()){
             if (tm.name == "Name")

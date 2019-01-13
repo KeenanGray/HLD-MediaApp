@@ -10,7 +10,7 @@ using System;
 public class UIB_AudioPlayerTools : MonoBehaviour
 {
 
-    AudioSource source;
+    public AudioSource source;
     Button playbutton;
     Button backButton;
     Button fwdButton;
@@ -31,7 +31,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     Transform ParentOfAudioToolComponents;
 
     // Use this for initialization
-    void Start()
+    public void Init()
     {
         ParentOfAudioToolComponents = transform.parent;
 
@@ -103,7 +103,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
                 timeScroll.GetComponent<EventTrigger>().triggers.Add(entry);
             }
 
-            timeScroll.onValueChanged.AddListener(SliderMoved);
         }
         if (timeScroll != null)
         {
@@ -156,16 +155,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         // AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
         AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true, true); });
         AudioTimerInput.text = "";
-        
-    }
-
-    private void SliderMoved(float arg0)
-    {
-        Debug.Log("Slider Moving");
-
-        // AudioTimerInput.MoveTextEnd(false);
-        // AudioTimerInput.MoveToEndOfLine(false,false);
-        // AudioTimerInput.caretPosition = 5;
 
     }
 
@@ -200,22 +189,27 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        time_label.text = ConvertToClockTime(source.time);
+        if (time_label != null)
+            time_label.text = ConvertToClockTime(source.time);
 
         if (timeScroll != null && !DragOccurring)
             timeScroll.value = Mathf.InverseLerp(0, source.clip.length, source.time);
 
-        //detect end of audio clip
-        if(float.Equals(source.time, source.clip.length))
+        if (source != null)
         {
-            OnAudioClipEnd();
+            //detect end of audio clip
+            if (float.Equals(source.time, source.clip.length))
+            {
+                OnAudioClipEnd();
+            }
         }
     }
+
     void OnAudioClipEnd()
     {
         timeScroll.value = 0;
         source.time = 0;
-        if(source.isPlaying)
+        if (source.isPlaying)
             PlayButtonPressed();
         playbutton.transform.GetChild(1).gameObject.SetActive(false); //turn off the play button
         playbutton.transform.GetChild(0).gameObject.SetActive(true); //turn on the pause button
@@ -226,7 +220,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         source.time = Mathf.Lerp(0, source.clip.length, timeScroll.value);
     }
 
-    void PlayButtonPressed()
+    public void PlayButtonPressed()
     {
         if (shouldContinuePlaying)
         {
@@ -270,7 +264,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             if (source.time < source.clip.length - 30)
                 source.time += 30;
             else
-                source.time = source.clip.length-.01f;
+                source.time = source.clip.length - .01f;
         }
     }
 
@@ -359,7 +353,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         if (timeScroll.value < 1)
             source.time = Mathf.Lerp(0, source.clip.length, timeScroll.value);
         else
-            source.time = source.clip.length-.1f;
+            source.time = source.clip.length - .1f;
 
         if (!source.isPlaying)
         {

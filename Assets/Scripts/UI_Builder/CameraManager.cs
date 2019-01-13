@@ -6,7 +6,7 @@ public class CameraManager : MonoBehaviour
 {
 
     GameObject FR;
-    FaceDetection fd;
+    FaceDetectionHLD fd;
 
     // Use this for initialization
     void Start()
@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
 
         if (FR != null)
         {
-            fd = FR.GetComponent<FaceDetection>();
+            fd = FR.GetComponent<FaceDetectionHLD>();
             if (fd == null)
             {
                 Debug.LogWarning("No object with this name");
