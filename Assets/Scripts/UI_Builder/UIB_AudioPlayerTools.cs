@@ -34,7 +34,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     public void Init()
     {
         ParentOfAudioToolComponents = transform.parent;
-
         shouldContinuePlaying = false;
 
         source = gameObject.GetComponentInChildren<AudioSource>();
@@ -47,6 +46,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         }
         if (playbutton != null)
         {
+            playbutton.onClick.RemoveAllListeners();
+
             playbutton.onClick.AddListener(PlayButtonPressed);
             playbutton.transform.GetChild(0).gameObject.SetActive(true); //turn on the play button
             playbutton.transform.GetChild(1).gameObject.SetActive(false); //turn off the pause button
@@ -207,7 +208,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
     void OnAudioClipEnd()
     {
-        timeScroll.value = 0;
+        Debug.Log("Haha");
+;        timeScroll.value = 0;
         source.time = 0;
         if (source.isPlaying)
             PlayButtonPressed();
@@ -245,8 +247,9 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             var sab = playbutton.GetComponent<Special_AccessibleButton>();
             sab.m_Text = "Play";
             sab.SelectItem(true);
+            return;
         }
-        else
+        else if(!source.isPlaying)
         {
             source.Play();
             playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
@@ -254,6 +257,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             var sab = playbutton.GetComponent<Special_AccessibleButton>();
             sab.m_Text = "Pause";
             sab.SelectItem(true);
+            return;
         }
     }
 
@@ -344,7 +348,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             source.Pause();
             DragOccurring = true;
         }
-        Debug.Log("Begin Dragging");
     }
 
     public void OnDragEnd()
@@ -360,8 +363,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             source.UnPause();
             DragOccurring = false;
         }
-
-        Debug.Log("End Dragging");
     }
 
 

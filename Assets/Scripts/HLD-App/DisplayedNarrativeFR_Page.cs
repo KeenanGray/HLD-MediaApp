@@ -8,34 +8,58 @@ public class DisplayedNarrativeFR_Page : MonoBehaviour, UIB_IPage
 {
     GameObject GoToListBtn;
     CameraManager DeviceCameraManager;
-
-    public bool ShouldRecreatePages;
-
+    
     public void Init()
     {
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        ShouldRecreatePages = false;
         DeviceCameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
         if (DeviceCameraManager == null)
             Debug.LogWarning("Primitive Error Handling");
+
+        foreach (UIB_Button button in GetComponentsInChildren<UIB_Button>())
+        {
+            if (button.name == "DISPLAYED-Info_Button")
+            {
+                Debug.Log("HERE");
+                button.GetComponent<Button>().onClick.AddListener(delegate {
+                    DeviceCameraManager.ShutDownCamera();
+                });
+            }
+        }
+
+        var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+        foreach (UIB_Button button in page.GetComponentsInChildren<UIB_Button>())
+        {
+            if (button.name == "DISPLAYED-Info_Button")
+            {
+                Debug.Log("HERE");
+                button.GetComponent<Button>().onClick.AddListener(delegate {
+                    DeviceCameraManager.ShutDownCamera();
+                });
+            }
+        }
     }
 
     public void PageActivatedHandler()
     {
-        DeviceCameraManager.StartFaceDetection();
+        var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+        page.OnActivated +=  delegate {
+            UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesFR_Page");
+        };
+
+        if (DeviceCameraManager.cameraIsRunning)
+            DeviceCameraManager.ResumeFaceDetection();
+        else
+            DeviceCameraManager.StartFaceDetection();
         GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
     }
 
     public void  PageDeActivatedHandler()
     {
-        if(!ShouldRecreatePages)
-            GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
-
-        DeviceCameraManager.EndFaceDetection();
-
-        ShouldRecreatePages = false;
+        GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
+        DeviceCameraManager.ShutDownCamera();
     }
 
     // Use this for initialization
@@ -45,15 +69,12 @@ public class DisplayedNarrativeFR_Page : MonoBehaviour, UIB_IPage
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void GoToList()
     {
-        ShouldRecreatePages = true;
-        GetComponent<UIB_Page>().DeActivate();
+        GetComponent<Canvas>().enabled = false;
+        UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesList_Page");
+        UIB_PageManager.LastPage = GameObject.Find("DisplayedNarrativesList_Page");
+        DeviceCameraManager.PauseFaceDetection();
+
     }
 }

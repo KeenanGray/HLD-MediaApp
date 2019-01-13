@@ -12,7 +12,7 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        AudioPlayerScreen = GameObject.Find("AudioPlayer");
+        AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
 
     }
 
@@ -28,7 +28,7 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
     {
         SetupAudioPlayer();
         AudioPlayerScreen.transform.SetParent(transform);
-
+        AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
     }
 
     public void PageDeActivatedHandler()
@@ -39,13 +39,4 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
             thing.Stop();
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

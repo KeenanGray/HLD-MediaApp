@@ -10,7 +10,6 @@ public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
 
-    GameObject VideoCanvas;
     GameObject AccessibilityInstructions;
 
     public float InitializeTime;
@@ -23,7 +22,6 @@ public class InitializationManager : MonoBehaviour
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
-        VideoCanvas = GameObject.Find("Front");
 
         UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
         StartCoroutine("Init");
@@ -55,6 +53,7 @@ public class InitializationManager : MonoBehaviour
         else
             AccessibilityInstructions.SetActive(false);
 
+        ObjPoolManager.Init();
 
         //on android we must check for OBB file
 
@@ -73,8 +72,6 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
 
-        ObjPoolManager.Init();
-
         t1 = Time.time;
 
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
@@ -83,16 +80,15 @@ public class InitializationManager : MonoBehaviour
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
-
+        UIB_PageContainer MainContainer = null;
         foreach(UIB_PageContainer PageContainer in GetComponentsInChildren < UIB_PageContainer>())
         {
-            PageContainer.Init();
+            MainContainer = PageContainer;
+            MainContainer.Init();
         }
 
         yield return GameObject.Find("DB_Manager").GetComponent<MongoLib>().UpdateFromDatabase();
-
-        VideoCanvas.SetActive(true);
-
+        
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
             ab.Init();
@@ -117,7 +113,7 @@ public class InitializationManager : MonoBehaviour
         }
 
         var firstScreen = GameObject.Find("Landing_Page");
-        firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
+        yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
 
         //if we finish initializing faster than expected, take a moment to finish the video
         t2 = Time.time;
@@ -128,9 +124,7 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("took " + elapsed + "s to initialize");
         else
             Debug.LogWarning("Took longer to initialize than expected");
-
-        VideoCanvas.SetActive(false);
-
+            
         UAP_AccessibilityManager.PauseAccessibility(false);
         var first = GameObject.Find("DISPLAYED-Code_Button");
 
@@ -138,6 +132,7 @@ public class InitializationManager : MonoBehaviour
 
         //        Debug.Log("Init Time " + Time.time);
 
+        MainContainer.DisableCover();
         yield break;
     }
 

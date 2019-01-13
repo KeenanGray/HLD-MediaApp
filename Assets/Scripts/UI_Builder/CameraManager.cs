@@ -7,12 +7,13 @@ public class CameraManager : MonoBehaviour
 
     GameObject FR;
     FaceDetectionHLD fd;
+    internal bool cameraIsRunning;
 
     // Use this for initialization
     void Start()
     {
         FR = GameObject.Find("FaceRecognizer");
-
+        cameraIsRunning = false;
         if (FR != null)
         {
             fd = FR.GetComponent<FaceDetectionHLD>();
@@ -35,12 +36,26 @@ public class CameraManager : MonoBehaviour
 
     public void StartFaceDetection()
     {
-        fd.StartCamera();
+        fd.CamInit();
+        fd.BeginRecognizer();
+        cameraIsRunning = true;
     }
 
-    public void EndFaceDetection()
+    public void PauseFaceDetection()
     {
-        fd.EndCamera();
+        fd.EndRecognizer();
+    }
+
+    public void ResumeFaceDetection()
+    {
+        fd.BeginRecognizer();
+    }
+
+    public void ShutDownCamera()
+    {
+        fd.CamShutdown();
+        cameraIsRunning = false;
+
     }
 
 }

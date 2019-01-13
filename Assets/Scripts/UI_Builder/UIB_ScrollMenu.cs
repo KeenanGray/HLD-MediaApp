@@ -56,7 +56,7 @@ namespace UI_Builder
 
         public void PageActivatedHandler()
         {
-
+            ObjPoolManager.RefreshPool();
             //Make the pages first
             MakeLinkedPages();
 

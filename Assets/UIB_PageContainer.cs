@@ -11,9 +11,12 @@ namespace UI_Builder {
      * this works around a slight border of pixels when using AspectRatioFitter - fit in canvas
      * */    
     public class UIB_PageContainer : MonoBehaviour {
-        
+
+        GameObject Cover;
         // Use this for initialization
         public void Init() {
+            Cover = transform.Find("CoverImage").gameObject;
+
             float offset = 1.0f;
             var arf = gameObject.AddComponent<AspectRatioFitter>();
             arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
@@ -26,10 +29,10 @@ namespace UI_Builder {
 
         }
 
-        // Update is called once per frame
-        void Update() {
-
+        public void DisableCover() {
+            Cover.SetActive(false);
         }
+
     }
 
 }

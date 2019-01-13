@@ -63,7 +63,6 @@ namespace UI_Builder
             if (rt == null)
             {
                 rt = GetComponent<RectTransform>();
-                Debug.LogWarning("difficulty finding rect transform attached to " + name);
             }
 
             rt.sizeDelta = new Vector2(UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
@@ -267,9 +266,8 @@ namespace UI_Builder
             PageOnScreen = true;
             GetComponent<AspectRatioFitter>().enabled = true;
 
-
-            OnActivated?.Invoke();
             UIB_PageManager.CurrentPage = gameObject;
+            OnActivated?.Invoke(); //should always be last
 
             yield break;
         }
@@ -301,12 +299,10 @@ namespace UI_Builder
             GetComponent<AspectRatioFitter>().enabled = false;
             DeActivateUAP();
 
-
-            OnDeActivated?.Invoke();
-
-            UIB_PageManager.LastPage = gameObject;
+            UIB_PageManager.LastPage = UIB_PageManager.CurrentPage;
             //toggle the canvas at the end to prevent flicker
             ToggleCanvas(false);
+            OnDeActivated?.Invoke(); //should always be last
 
             yield break;
         }

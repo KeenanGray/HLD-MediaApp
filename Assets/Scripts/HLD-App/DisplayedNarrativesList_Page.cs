@@ -18,7 +18,6 @@ public class DisplayedNarrativesList_Page : UIB_ScrollMenu
             GameObject go = null;
             ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
 
-
             if (go != null)
             {
                 go.transform.SetParent(Page_Parent.transform);

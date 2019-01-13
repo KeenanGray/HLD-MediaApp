@@ -30,20 +30,20 @@ public class FaceDetectionHLD : MonoBehaviour
     private bool initialized = false;
 
     LBPHFaceRecognizer recognizer;
+    bool recognize;
 
     private void Start()
     {
-        editorStart = false;
-    }
-    public void StartCamera()
-    {
-        // Initialize WebCamTexture
-        CamInit();
+        recognize = false;
     }
 
-    public void EndCamera()
+    public void BeginRecognizer()
     {
-        CamShutdown();
+        recognize = true;
+    }
+    public void EndRecognizer()
+    {
+        recognize = false;
     }
 
     void Update()
@@ -116,7 +116,6 @@ public class FaceDetectionHLD : MonoBehaviour
         recognizer = OpenCvSharp.Face.LBPHFaceRecognizer.Create();
         recognizer.Read(CvUtil.GetStreamingAssetsPath("trainer.yml"));
 
-
         // Start playback
         webCamTexture.Play();
     }
@@ -125,6 +124,7 @@ public class FaceDetectionHLD : MonoBehaviour
     {
         if (webCamTexture != null)
             webCamTexture.Stop();
+        rawImage.texture = null;
     }
 
     /// <summary>
@@ -150,41 +150,49 @@ public class FaceDetectionHLD : MonoBehaviour
         using (var gray = new Mat())
         {
             result = src.Clone();
-            Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
-            // Detect faces
-            OpenCvSharp.Rect[] faces = cascade.DetectMultiScale(
-                gray, 1.08, 3, HaarDetectionType.ScaleImage, new Size(124, 124));
-
-            // Render all detected faces
-            foreach (OpenCvSharp.Rect face in faces)
+            if (recognize)
             {
-                int id = -1;
-                double conf = -1;
-                int label = -1;
+                Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
-                using (var just = gray[face])
+                // Detect faces
+                OpenCvSharp.Rect[] faces = cascade.DetectMultiScale(
+                    gray, 1.08, 3, HaarDetectionType.ScaleImage, new Size(124, 124));
+
+                // Render all detected faces
+                foreach (OpenCvSharp.Rect face in faces)
                 {
-                    recognizer.Predict(just, out label, out conf);
+                    int id = -1;
+                    double conf = -1;
+                    int label = -1;
+
+                    using (var just = gray[face])
+                    {
+                        recognizer.Predict(just, out label, out conf);
+                    }
+
+                    if (conf > 60.0f)
+                    {
+                        //                    Debug.Log(label + " " + conf + " " + id);
+                        OpenPageFromFace(label);
+                    }
+
+                    var center = new Point
+                    {
+                        X = (int)(face.X + face.Width * 0.5),
+                        Y = (int)(face.Y + face.Height * 0.5)
+                    };
+                    var axes = new Size
+                    {
+                        Width = (int)(face.Width * 0.5),
+                        Height = (int)(face.Height * 0.5)
+                    };
+                    Cv2.Ellipse(result, center, axes, 0, 0, 360, new Scalar(255, 255, 255, 128), 4);
                 }
-
-                if (conf > 60.0f)
-                {
-                    Debug.Log(label + " " + conf + " " + id);
-                    OpenPageFromFace(label);
-                }
-
-                var center = new Point
-                {
-                    X = (int)(face.X + face.Width * 0.5),
-                    Y = (int)(face.Y + face.Height * 0.5)
-                };
-                var axes = new Size
-                {
-                    Width = (int)(face.Width * 0.5),
-                    Height = (int)(face.Height * 0.5)
-                };
-                Cv2.Ellipse(result, center, axes, 0, 0, 360, new Scalar(255, 255, 255, 128), 4);
+            }
+            else
+            {
+               // Debug.Log("recognizer is off");
             }
         }
         return result;
@@ -195,20 +203,25 @@ public class FaceDetectionHLD : MonoBehaviour
         var dancer = Enum.GetNames(typeof(DancersFromPhotos))[label];
         Debug.Log("Dancer " + dancer);
 
-
         switch (label)
         {
             case 0:
-                GameObject.Find(dancer + "_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-                GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<UIB_Page>().DeActivate();
+                GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
+                // GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+                //GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<UIB_Page>().DeActivate();
                 break;
             case 1:
-                GameObject.Find(dancer + "_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-                GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<UIB_Page>().DeActivate();
+                GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
+                // GameObject.Find(dancer + "_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+                // GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<UIB_Page>().DeActivate();
                 break;
             default:
                 break;
         }
+
+        var DeviceCameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
+        DeviceCameraManager.PauseFaceDetection();
+
     }
 
     private void OnDestroy()
@@ -216,16 +229,4 @@ public class FaceDetectionHLD : MonoBehaviour
         if (webCamTexture != null) webCamTexture.Stop();
     }
 
-    IEnumerator StartInEditor()
-    {
-        if (webCamTexture == null)
-        {
-            StartCamera();
-        }
-        else if (!webCamTexture.isPlaying)
-        {
-            StartCamera();
-        }
-        yield break;
-    }
 }

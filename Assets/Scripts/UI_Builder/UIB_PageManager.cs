@@ -14,8 +14,6 @@ public class UIB_PageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//        Debug.Log("Current Page:" + CurrentPage);
-//        Debug.Log("Last Page:" + LastPage);
-
+      //  Debug.Log("Currently On " + CurrentPage + " came from " + LastPage);
     }
 }

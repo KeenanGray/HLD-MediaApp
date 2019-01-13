@@ -27,14 +27,14 @@ public class UIB_AudioPlayer : MonoBehaviour {
         }
         foreach(AudioSource srcObj in GetComponentsInChildren<AudioSource>())
         {
-            if (srcObj.name == "AudioSource")
+            if (srcObj.name == "AudioSourceAndTools")
             {
                 src = srcObj; 
             }
         }
         foreach (UIB_AudioPlayerTools tools in GetComponentsInChildren<UIB_AudioPlayerTools>())
         {
-            if (tools.name == "AudioSource")
+            if (tools.name == "AudioSourceAndTools")
             {
                 myTools = tools;
             }
@@ -75,7 +75,7 @@ public class UIB_AudioPlayer : MonoBehaviour {
             //turn off the audioDescriptionBGPhoto;
             if (BgPhoto != null)
             {
-                BgPhoto.color = new Color(BgPhoto.color.r, BgPhoto.color.g, BgPhoto.color.b, 0);
+                BgPhoto.color = new Color(BgPhoto.color.r, BgPhoto.color.g, BgPhoto.color.b, 255);
             }
         }
         if (BgPhoto != null)
