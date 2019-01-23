@@ -1,201 +1,477 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using OpenCvSharp;
-using OpenCvSharp.Face;
+using System.Collections;
 using UnityEngine.UI;
-using System.Runtime.InteropServices;
-using NWH;
-using System;
 using UI_Builder;
+using System.Collections.Generic;
+
+#if UNITY_5_3 || UNITY_5_3_OR_NEWER
+using UnityEngine.SceneManagement;
+#endif
+using OpenCVForUnity;
+
 
 enum DancersFromPhotos
 {
+    CarmenSchoenster,
+    PeterTrojic,
+    zeroUnassignedAmy,
     LouisaMann,
-    PeterTrojic
+    JillianHollis,
+    DesmondCadogan,
+    MeredithFages,
+    AmyMeisner,
+    eightUnassignedJerron,
+    Leslie
 }
 
+/// <summary>
+/// WebCamTextureToMat Example
+/// An example of converting a WebCamTexture image to OpenCV's Mat format.
+/// </summary>
 public class FaceDetectionHLD : MonoBehaviour
 {
-    public bool editorStart;
+    /// <summary>
+    /// Set the name of the device to use.
+    /// </summary>
+    [SerializeField, TooltipAttribute("Set the name of the device to use.")]
+    public string requestedDeviceName = null;
 
-    public RawImage rawImage;
-    public int cameraIndex = 0;
+    /// <summary>
+    /// Set the width of WebCamTexture.
+    /// </summary>
+    [SerializeField, TooltipAttribute("Set the width of WebCamTexture.")]
+    public int requestedWidth = 640;
 
-    private WebCamTexture webCamTexture;
-    private CascadeClassifier haarCascade;
-    private Texture2D tex;
-    private Mat mat;
+    /// <summary>
+    /// Set the height of WebCamTexture.
+    /// </summary>
+    [SerializeField, TooltipAttribute("Set the height of WebCamTexture.")]
+    public int requestedHeight = 480;
 
-    private bool initialized = false;
+    /// <summary>
+    /// Set FPS of WebCamTexture.
+    /// </summary>
+    [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
+    public int requestedFPS = 30;
 
-    LBPHFaceRecognizer recognizer;
-    bool recognize;
+    /// <summary>
+    /// Set whether to use the front facing camera.
+    /// </summary>
+    [SerializeField, TooltipAttribute("Set whether to use the front facing camera.")]
+    public bool requestedIsFrontFacing = false;
 
-    private void Start()
+    /// <summary>
+    /// The webcam texture.
+    /// </summary>
+    public WebCamTexture webCamTexture;
+
+    /// <summary>
+    /// The webcam device.
+    /// </summary>
+    WebCamDevice webCamDevice;
+
+    /// <summary>
+    /// The rgba mat.
+    /// </summary>
+    Mat rgbaMat;
+
+    /// <summary>
+    /// The colors.
+    /// </summary>
+    Color32[] colors;
+
+    /// <summary>
+    /// The texture.
+    /// </summary>
+    Texture2D texture;
+
+    /// <summary>
+    /// Indicates whether this instance is waiting for initialization to complete.
+    /// </summary>
+    bool isInitWaiting = false;
+
+    /// <summary>
+    /// Indicates whether this instance has been initialized.
+    /// </summary>
+    bool hasInitDone = false;
+
+    CascadeClassifier haarCascade;
+    FaceRecognizer recognizer;
+    MatOfRect faces;
+    Point point;
+    Size size;
+    Mat gray;
+    Size sizeA;
+    Size sizeB;
+
+    int id;
+    double[] conf;
+    int[] label;
+
+    bool shouldRecognize = false;
+    public bool isRunning;
+    /// <summary>
+    /// The FPS monitor.
+    /// </summary>
+  // FpsMonitor fpsMonitor;
+
+    // Use this for initialization
+    void Start()
     {
-        recognize = false;
+        Initialize();
     }
 
-    public void BeginRecognizer()
+    /// <summary>
+    /// Initializes webcam texture.
+    /// </summary>
+    private void Initialize()
     {
-        recognize = true;
-    }
-    public void EndRecognizer()
-    {
-        recognize = false;
-    }
+        if (isInitWaiting)
+            return;
 
-    void Update()
-    {
-        if (editorStart)
-        {
-            editorStart = false;
-            StartCoroutine("StartInEditor");
-        }
+        haarCascade = new CascadeClassifier();
+        // haarCascade.load(Utils.getFilePath("lbpcascade_frontalface.xml"));
+        haarCascade.load(Utils.getFilePath("haarcascade_frontalface_alt.xml"));
 
-        // Wait for camera to return the first frame and then grab the correct width and height.
-        if (!initialized && CvUtil.CameraReturnedFirstFrame(webCamTexture))
-        {
-            // Initialize mat and tex. Avoid doing this in Update() due to high cost of GC.
-            tex = new Texture2D(webCamTexture.width, webCamTexture.height, TextureFormat.RGBA32, false);
-            mat = new Mat(webCamTexture.height, webCamTexture.width, MatType.CV_8UC4);
+        recognizer = OpenCVForUnity.LBPHFaceRecognizer.create();
+        recognizer.read(Utils.getFilePath("trainer.yml"));
 
-            // Load file needed for face detection.
-            haarCascade = new CascadeClassifier(
-                CvUtil.GetStreamingAssetsPath("haarcascade_frontalface_alt2.xml"));
+        faces = new MatOfRect();
+        point = new Point();
+        size = new Size();
+        sizeA = new Size();
+        sizeB = new Size();
+        gray = new Mat();
+        label = new int[1];
+        conf = new double[1];
 
-            initialized = true;
-        }
-        else
-        {
-            // Only call webcam update if needed
-            if (webCamTexture != null && webCamTexture.didUpdateThisFrame && webCamTexture.isPlaying)
-            {
-                CamUpdate();
+        requestedWidth = (int)(requestedHeight * (UIB_AspectRatioManager.ScreenHeight / UIB_AspectRatioManager.ScreenWidth));
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            // Set the requestedFPS parameter to avoid the problem of the WebCamTexture image becoming low light on some Android devices. (Pixel, pixel 2)
+            // https://forum.unity.com/threads/android-webcamtexture-in-low-light-only-some-models.520656/
+            // https://forum.unity.com/threads/released-opencv-for-unity.277080/page-33#post-3445178
+            if (requestedIsFrontFacing) {
+                int rearCameraFPS = requestedFPS;
+                requestedFPS = 15;
+                StartCoroutine (_Initialize ());
+                requestedFPS = rearCameraFPS;
+            } else {
+                StartCoroutine (_Initialize ());
             }
-        }
+#else
+        StartCoroutine(_Initialize());
+#endif
     }
 
-    void CamUpdate()
+    /// <summary>
+    /// Initializes webcam texture by coroutine.
+    /// </summary>
+    private IEnumerator _Initialize()
     {
-        // Get Mat from WebCamTexture
-        CvUtil.GetWebCamMat(webCamTexture, ref mat);
+        if (hasInitDone)
+            Dispose();
 
-        // Run face detection
-        mat = DetectFace(haarCascade, mat);
+        isInitWaiting = true;
 
-        // Convert Mat to Texture2D for display
-        CvConvert.MatToTexture2D(mat, ref tex);
-        if (rawImage == null)
-            Debug.LogWarning("Raw Image has not been assigned");
-
-        if (rawImage != null)
+        // Creates the camera
+        if (!String.IsNullOrEmpty(requestedDeviceName))
         {
-            // Assign Texture2D to GUI element
-            rawImage.texture = tex;
-
-            rawImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rawImage.texture.width, rawImage.texture.height);
-        }
-
-    }
-
-    /// <summary>
-    /// Initialize new WebCamTexture
-    /// </summary>
-    public void CamInit()
-    {
-        CvUtil.CheckIfCameraExists();
-        // Do not try to stop WebCamTexture if it does not exist
-        if (webCamTexture != null)
-            webCamTexture.Stop();
-
-        // Initialize new texture with requested device
-        webCamTexture = new WebCamTexture(WebCamTexture.devices[cameraIndex].name);
-
-        recognizer = OpenCvSharp.Face.LBPHFaceRecognizer.Create();
-        recognizer.Read(CvUtil.GetStreamingAssetsPath("trainer.yml"));
-
-        // Start playback
-        webCamTexture.Play();
-    }
-
-    public void CamShutdown()
-    {
-        if (webCamTexture != null)
-            webCamTexture.Stop();
-        rawImage.texture = null;
-    }
-
-    /// <summary>
-    /// Switches between multiple cameras if they exist.
-    /// </summary>
-    public void ChangeCamera()
-    {
-        cameraIndex++;
-
-        if (cameraIndex >= WebCamTexture.devices.Length)
-            cameraIndex = 0;
-
-        CamInit();
-    }
-
-    /// <summary>
-    /// Run face detection using Haar Cascades.
-    /// </summary>
-    private Mat DetectFace(CascadeClassifier cascade, Mat src)
-    {
-        Mat result;
-
-        using (var gray = new Mat())
-        {
-            result = src.Clone();
-
-            if (recognize)
+            int requestedDeviceIndex = -1;
+            if (Int32.TryParse(requestedDeviceName, out requestedDeviceIndex))
             {
-                Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
-
-                // Detect faces
-                OpenCvSharp.Rect[] faces = cascade.DetectMultiScale(
-                    gray, 1.08, 3, HaarDetectionType.ScaleImage, new Size(124, 124));
-
-                // Render all detected faces
-                foreach (OpenCvSharp.Rect face in faces)
+                if (requestedDeviceIndex >= 0 && requestedDeviceIndex < WebCamTexture.devices.Length)
                 {
-                    int id = -1;
-                    double conf = -1;
-                    int label = -1;
-
-                    using (var just = gray[face])
-                    {
-                        recognizer.Predict(just, out label, out conf);
-                    }
-
-                    if (conf > 60.0f)
-                    {
-                        //                    Debug.Log(label + " " + conf + " " + id);
-                        OpenPageFromFace(label);
-                    }
-
-                    var center = new Point
-                    {
-                        X = (int)(face.X + face.Width * 0.5),
-                        Y = (int)(face.Y + face.Height * 0.5)
-                    };
-                    var axes = new Size
-                    {
-                        Width = (int)(face.Width * 0.5),
-                        Height = (int)(face.Height * 0.5)
-                    };
-                    Cv2.Ellipse(result, center, axes, 0, 0, 360, new Scalar(255, 255, 255, 128), 4);
+                    webCamDevice = WebCamTexture.devices[requestedDeviceIndex];
+                    webCamTexture = new WebCamTexture(webCamDevice.name, requestedWidth, requestedHeight, requestedFPS);
                 }
             }
             else
             {
-               // Debug.Log("recognizer is off");
+                for (int cameraIndex = 0; cameraIndex < WebCamTexture.devices.Length; cameraIndex++)
+                {
+                    if (WebCamTexture.devices[cameraIndex].name == requestedDeviceName)
+                    {
+                        webCamDevice = WebCamTexture.devices[cameraIndex];
+                        webCamTexture = new WebCamTexture(webCamDevice.name, requestedWidth, requestedHeight, requestedFPS);
+                        break;
+                    }
+                }
+            }
+            if (webCamTexture == null)
+                Debug.LogWarning("Cannot find camera device " + requestedDeviceName + ".");
+        }
+
+        if (webCamTexture == null)
+        {
+
+            // Checks how many and which cameras are available on the device
+            for (int cameraIndex = 0; cameraIndex < WebCamTexture.devices.Length; cameraIndex++)
+            {
+                if (WebCamTexture.devices[cameraIndex].isFrontFacing == requestedIsFrontFacing)
+                {
+                    webCamDevice = WebCamTexture.devices[cameraIndex];
+                    webCamTexture = new WebCamTexture(webCamDevice.name, requestedWidth, requestedHeight, requestedFPS);
+                    break;
+                }
             }
         }
-        return result;
+
+        if (webCamTexture == null)
+        {
+
+            if (WebCamTexture.devices.Length > 0)
+            {
+                webCamDevice = WebCamTexture.devices[0];
+                webCamTexture = new WebCamTexture(webCamDevice.name, requestedWidth, requestedHeight, requestedFPS);
+            }
+            else
+            {
+                Debug.LogError("Camera device does not exist.");
+                isInitWaiting = false;
+                yield break;
+            }
+        }
+
+
+        // Starts the camera.
+        webCamTexture.Play();
+
+        while (true)
+        {
+            // If you want to use webcamTexture.width and webcamTexture.height on iOS, you have to wait until webcamTexture.didUpdateThisFrame == 1, otherwise these two values will be equal to 16. (http://forum.unity3d.com/threads/webcamtexture-and-error-0x0502.123922/).
+#if UNITY_IOS && !UNITY_EDITOR && (UNITY_4_6_3 || UNITY_4_6_4 || UNITY_5_0_0 || UNITY_5_0_1)
+                if (webCamTexture.width > 16 && webCamTexture.height > 16) {
+#else
+            if (webCamTexture.didUpdateThisFrame)
+            {
+#if UNITY_IOS && !UNITY_EDITOR && UNITY_5_2
+                    while (webCamTexture.width <= 16) {
+                        webCamTexture.GetPixels32 ();
+                        yield return new WaitForEndOfFrame ();
+                    } 
+#endif
+#endif
+                Debug.Log("name:" + webCamTexture.deviceName + " width:" + webCamTexture.width + " height:" + webCamTexture.height + " fps:" + webCamTexture.requestedFPS);
+                Debug.Log("videoRotationAngle:" + webCamTexture.videoRotationAngle + " videoVerticallyMirrored:" + webCamTexture.videoVerticallyMirrored + " isFrongFacing:" + webCamDevice.isFrontFacing);
+
+                isInitWaiting = false;
+                hasInitDone = true;
+
+                OnInited();
+
+                break;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Releases all resource.
+    /// </summary>
+    private void Dispose()
+    {
+        isInitWaiting = false;
+        hasInitDone = false;
+
+        if (webCamTexture != null)
+        {
+            webCamTexture.Stop();
+            WebCamTexture.Destroy(webCamTexture);
+            webCamTexture = null;
+        }
+        if (rgbaMat != null)
+        {
+            rgbaMat.Dispose();
+            rgbaMat = null;
+        }
+        if (texture != null)
+        {
+            texture = null;
+        }
+    }
+
+    /// <summary>
+    /// Raises the webcam texture initialized event.
+    /// </summary>
+    private void OnInited()
+    {
+        if (colors == null || colors.Length != webCamTexture.width * webCamTexture.height)
+            colors = new Color32[webCamTexture.width * webCamTexture.height];
+        if (texture == null || texture.width != webCamTexture.width || texture.height != webCamTexture.height)
+            texture = new Texture2D(webCamTexture.width, webCamTexture.height, TextureFormat.RGBA32, false);
+
+        rgbaMat = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4);
+
+        gameObject.GetComponent<Renderer>().material.mainTexture = texture;
+        //  gameObject.transform.localScale = new Vector3(webCamTexture.width, webCamTexture.height, 1);
+        gameObject.transform.localScale = new Vector3(UIB_AspectRatioManager.ScreenHeight, UIB_AspectRatioManager.ScreenWidth, 1);
+        //        Debug.Log("Screen.width " + Screen.width + " Screen.height " + Screen.height + " Screen.orientation " + Screen.orientation);
+
+        float width = rgbaMat.width();
+        float height = rgbaMat.height();
+
+        float widthScale = (float)Screen.width / width;
+        float heightScale = (float)Screen.height / height;
+        if (widthScale < heightScale)
+        {
+            Camera.main.orthographicSize = (width * (float)Screen.height / (float)Screen.width) / 2;
+        }
+        else
+        {
+            Camera.main.orthographicSize = height / 2;
+        }
+
+        isRunning = true;
+        StartCoroutine("DetectFaces");
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    /// <summary>
+    /// Raises the destroy event.
+    /// </summary>
+    void OnDestroy()
+    {
+        Dispose();
+    }
+
+    /// <summary>
+    /// Raises the back button click event.
+    /// </summary>
+    public void OnBackButtonClick()
+    {
+#if UNITY_5_3 || UNITY_5_3_OR_NEWER
+        SceneManager.LoadScene("OpenCVForUnityExample");
+#else
+            Application.LoadLevel ("OpenCVForUnityExample");
+#endif
+    }
+
+    /// <summary>
+    /// Raises the play button click event.
+    /// </summary>
+    public void OnPlayButtonClick()
+    {
+        if (hasInitDone)
+            webCamTexture.Play();
+    }
+
+    /// <summary>
+    /// Raises the pause button click event.
+    /// </summary>
+    public void OnPauseButtonClick()
+    {
+        if (hasInitDone)
+            webCamTexture.Pause();
+    }
+
+    /// <summary>
+    /// Raises the stop button click event.
+    /// </summary>
+    public void OnStopButtonClick()
+    {
+        if (hasInitDone)
+            webCamTexture.Stop();
+    }
+
+    public void BeginRecognizer()
+    {
+        //        Debug.Log("Cam beginning");
+        shouldRecognize = true;
+
+        if (webCamTexture == null)
+        {
+            StopCoroutine("DetectFaces");
+            Initialize();
+        }
+
+        /*    if (!webCamTexture.isPlaying)
+             {
+                 webCamTexture.Play();
+             }
+             */
+    }
+
+    public void EndRecognizer()
+    {
+        Debug.Log("Cam ending");
+        shouldRecognize = false;
+    }
+
+    public void ShutDownCamera()
+    {
+        Debug.Log("cam shutting down:");
+        webCamTexture.Stop();
+        Dispose();
+    }
+
+    Dictionary<int, int> facesDetected;
+    IEnumerator DetectFaces()
+    {
+        facesDetected = new Dictionary<int, int>();
+        while (true)
+        {
+            //            Debug.Log("ShouldRecognize " + shouldRecognize);
+            if (hasInitDone && webCamTexture.isPlaying && webCamTexture.didUpdateThisFrame)
+            {
+                Utils.webCamTextureToMat(webCamTexture, rgbaMat, colors);
+
+                if (shouldRecognize)
+                {
+                    // Detect faces
+                    sizeA.width = 124;
+                    sizeA.height = 124;
+                    OpenCVForUnity.Imgproc.cvtColor(rgbaMat, gray, OpenCVForUnity.Imgproc.COLOR_BGR2GRAY);
+                    haarCascade.detectMultiScale(gray, faces, 1.3f, 3, 0, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
+                                                     sizeA, sizeB);
+
+                    // Render all detected faces
+                    foreach (OpenCVForUnity.Rect face in faces.toArray())
+                    {
+                        if (recognizer != null)
+                        {
+                            recognizer.predict(gray.submat(face), label, conf);
+
+                            if (conf[0] > 30)
+                            {
+                               // Debug.Log("recognized " + Enum.GetNames(typeof(DancersFromPhotos))[label[0]] + label[0] + " with confidence " + (int)conf[0]);
+
+                                CountRecognizedFaces(label[0]);
+
+                                //OpenPageFromFace(label[0]);
+                            }
+
+                            //Create a circle around the player
+
+                            point.x = (int)(face.x + face.width * 0.5);
+                            point.y = (int)(face.y + face.height * 0.5);
+
+                            size.width = (int)(face.width * 0.5);
+                            size.height = (int)(face.height * 0.5);
+
+                            OpenCVForUnity.Imgproc.ellipse(rgbaMat, point, size, 0, 0, 360, new Scalar(255, 255, 255, 128), 4);
+
+                        }
+                        else
+                            Debug.Log("recongizer is null");
+
+                        yield return null;
+                    }
+                }
+                Utils.matToTexture2D(rgbaMat, texture, colors);
+            }
+            yield return null;
+        }
     }
 
     private void OpenPageFromFace(int label)
@@ -205,28 +481,32 @@ public class FaceDetectionHLD : MonoBehaviour
 
         switch (label)
         {
-            case 0:
-                GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
-                // GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-                //GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<UIB_Page>().DeActivate();
-                break;
-            case 1:
-                GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
-                // GameObject.Find(dancer + "_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-                // GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<UIB_Page>().DeActivate();
-                break;
             default:
+                GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
                 break;
         }
 
-        var DeviceCameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
-        DeviceCameraManager.PauseFaceDetection();
+      //  var DeviceCameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
+        EndRecognizer();
 
     }
 
-    private void OnDestroy()
+    void CountRecognizedFaces(int label)
     {
-        if (webCamTexture != null) webCamTexture.Stop();
-    }
+        if (facesDetected.ContainsKey(label))
+        {
+            facesDetected[label] = facesDetected[label] + 1;
+            Debug.Log("faces detected " + Enum.GetNames(typeof(DancersFromPhotos))[label] + " count: " + facesDetected[label]);
+        }
+        else
+        {
+            facesDetected.Add(label, 0);
+        }
 
+        if (facesDetected[label] > 11)
+        {
+            OpenPageFromFace(label);
+            facesDetected.Clear();
+        }
+    }
 }

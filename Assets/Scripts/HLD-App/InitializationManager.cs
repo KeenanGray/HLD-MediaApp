@@ -51,7 +51,12 @@ public class InitializationManager : MonoBehaviour
             AccessibilityInstructions.SetActive(true);
         }
         else
-            AccessibilityInstructions.SetActive(false);
+        {
+            if (AccessibilityInstructions != null)
+                AccessibilityInstructions.SetActive(false);
+            else
+                Debug.LogWarning("No accessibility instructions assigned");
+        }
 
         ObjPoolManager.Init();
 

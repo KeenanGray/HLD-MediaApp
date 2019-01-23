@@ -64,6 +64,7 @@ public class MongoLib : MonoBehaviour {
         collection_name = "The_Displayed";
         yield return StartCoroutine("GetCollectionFromDatabase");
         WriteJsonFromWeb(db_result, "Bios.json");
+        WriteJsonFromWeb(db_result, "Bios_Default.json");
         yield break;
     }
     IEnumerator UpdateWatch()
@@ -97,6 +98,8 @@ public class MongoLib : MonoBehaviour {
         collection_name = "D.I.S.P.L.A.Y.E.D";
         yield return StartCoroutine("GetCollectionFromDatabase");
         WriteJsonFromWeb(db_result, "AccessCode.json");
+        WriteJsonFromWeb(db_result, "AccessCode_Default.json");
+
         yield break;
     }
 
@@ -135,7 +138,7 @@ public class MongoLib : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Not sure what to put here");
+                Debug.Log("Not sure what to put here, there's no internet connection so maybe the app alerts the user?");
             }
             yield break;
         }

@@ -20,23 +20,25 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
     {
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetTitle("Audio Descriptions");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImage(null);
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("Audio/AudioDescriptions/Displayed_AudioDescriptions");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImage("BackGroundPhotos/AudioDescriptions");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("AudioDescriptions/Displayed_AudioDescriptions");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions(null);
     }
 
     public void PageActivatedHandler()
     {
         SetupAudioPlayer();
         AudioPlayerScreen.transform.SetParent(transform);
+        AudioPlayerScreen.transform.SetSiblingIndex(1);
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
     }
 
     public void PageDeActivatedHandler()
     {
-        var thing = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().myTools.source;
+        var thing = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().tools;
         //   Resources.UnloadUnusedAssets();
         if (thing != null)
-            thing.Stop();
+            thing.PlayMethod(2);
     }
 
 }

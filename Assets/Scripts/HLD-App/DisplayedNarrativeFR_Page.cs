@@ -7,24 +7,28 @@ using UnityEngine.UI;
 public class DisplayedNarrativeFR_Page : MonoBehaviour, UIB_IPage
 {
     GameObject GoToListBtn;
-    CameraManager DeviceCameraManager;
-    
+    FaceDetectionHLD fdHLD;
+
     public void Init()
     {
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        DeviceCameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
-        if (DeviceCameraManager == null)
-            Debug.LogWarning("Primitive Error Handling");
+        var tmp = GameObject.Find("CameraViewTexture");
+        if (tmp != null)
+            fdHLD = tmp.GetComponent<FaceDetectionHLD>();
+
+        if (fdHLD == null)
+            Debug.LogWarning("Warning:No Camera Manager is present for face recognition");
 
         foreach (UIB_Button button in GetComponentsInChildren<UIB_Button>())
         {
             if (button.name == "DISPLAYED-Info_Button")
             {
-                Debug.Log("HERE");
-                button.GetComponent<Button>().onClick.AddListener(delegate {
-                    DeviceCameraManager.ShutDownCamera();
+                button.GetComponent<Button>().onClick.AddListener(delegate
+                {
+                    if (fdHLD != null)
+                        fdHLD.ShutDownCamera();
                 });
             }
         }
@@ -34,9 +38,10 @@ public class DisplayedNarrativeFR_Page : MonoBehaviour, UIB_IPage
         {
             if (button.name == "DISPLAYED-Info_Button")
             {
-                Debug.Log("HERE");
-                button.GetComponent<Button>().onClick.AddListener(delegate {
-                    DeviceCameraManager.ShutDownCamera();
+                button.GetComponent<Button>().onClick.AddListener(delegate
+                {
+                    if (fdHLD != null)
+                        fdHLD.ShutDownCamera();
                 });
             }
         }
@@ -44,22 +49,38 @@ public class DisplayedNarrativeFR_Page : MonoBehaviour, UIB_IPage
 
     public void PageActivatedHandler()
     {
-        var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
-        page.OnActivated +=  delegate {
-            UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesFR_Page");
-        };
-
-        if (DeviceCameraManager.cameraIsRunning)
-            DeviceCameraManager.ResumeFaceDetection();
+        if (UAP_AccessibilityManager.IsActive())
+        {
+            var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+            page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+            GoToList();
+        }
         else
-            DeviceCameraManager.StartFaceDetection();
-        GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
+        {
+            var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+            page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+
+            page.OnActivated += delegate
+          {
+              UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesFR_Page");
+          };
+
+            if (fdHLD != null)
+            {
+                if (fdHLD.isRunning)
+                    fdHLD.BeginRecognizer();
+                else
+                    Debug.Log("here is something");
+            }
+        }
     }
 
-    public void  PageDeActivatedHandler()
+    public void PageDeActivatedHandler()
     {
         GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
-        DeviceCameraManager.ShutDownCamera();
+
+        if (fdHLD != null)
+            fdHLD.ShutDownCamera();
     }
 
     // Use this for initialization
@@ -74,7 +95,9 @@ public class DisplayedNarrativeFR_Page : MonoBehaviour, UIB_IPage
         GetComponent<Canvas>().enabled = false;
         UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesList_Page");
         UIB_PageManager.LastPage = GameObject.Find("DisplayedNarrativesList_Page");
-        DeviceCameraManager.PauseFaceDetection();
+
+        if (fdHLD != null)
+            fdHLD.EndRecognizer();
 
     }
 }
