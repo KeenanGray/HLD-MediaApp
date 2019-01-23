@@ -10,28 +10,31 @@ public class MatrixTransformForWebCamera : MonoBehaviour
     public float rotateSpeed = 30f;
     public void Update()
     {
+        if (GetComponent<FaceDetectionHLD>().webCamTexture != null){ 
+
         WebCamTexture wct = GetComponent<FaceDetectionHLD>().webCamTexture;
-        GameObject displayCamera;
+            GameObject displayCamera;
 
-        Quaternion rot = Quaternion.Euler(0, 0, 0);
+            Quaternion rot = Quaternion.Euler(0, 0, 0);
 
-        // Construct a rotation matrix and set it for the shader
-        if (wct != null) {
-            if(wct.videoRotationAngle == 0)
-            {
-                rot = Quaternion.Euler(0, 0, 180);
+            // Construct a rotation matrix and set it for the shader
+            if (wct != null) {
+                if (wct.videoRotationAngle == 0)
+                {
+                    rot = Quaternion.Euler(0, 0, 180);
+                }
+                else if (wct.videoRotationAngle == 90)
+                {
+                    rot = Quaternion.Euler(0, 0, (180));
+                }
             }
-            else if (wct.videoRotationAngle == 90)
+            else
             {
-                rot = Quaternion.Euler(0, 0, (180));
+                Debug.LogWarning("texture is null");
             }
-        }
-        else
-        {
-            Debug.LogWarning("texture is null");
-        }
 
-        Matrix4x4 m = Matrix4x4.TRS(new Vector3(0, 1, 0), rot, new Vector3(-1, -1, 1));
-        GetComponent<Renderer>().material.SetMatrix("_TextureRotation", m);
+            Matrix4x4 m = Matrix4x4.TRS(new Vector3(0, 1, 0), rot, new Vector3(-1, -1, 1));
+            GetComponent<Renderer>().material.SetMatrix("_TextureRotation", m);
+        }
     }
 }

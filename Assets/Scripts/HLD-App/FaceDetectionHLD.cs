@@ -22,7 +22,7 @@ enum DancersFromPhotos
     MeredithFages,
     AmyMeisner,
     eightUnassignedJerron,
-    Leslie
+    LeslieTaub
 }
 
 /// <summary>
@@ -98,10 +98,18 @@ public class FaceDetectionHLD : MonoBehaviour
 
     CascadeClassifier haarCascade;
     FaceRecognizer recognizer;
+
     MatOfRect faces;
+    MatOfRect faces2;
+
     Point point;
+    Point point2;
+
     Size size;
+    Size size2;
+
     Mat gray;
+    Mat gray2;
     Size sizeA;
     Size sizeB;
 
@@ -138,11 +146,19 @@ public class FaceDetectionHLD : MonoBehaviour
         recognizer.read(Utils.getFilePath("trainer.yml"));
 
         faces = new MatOfRect();
+        faces2 = new MatOfRect();
+
         point = new Point();
         size = new Size();
+        point2 = new Point();
+        size2 = new Size();
+
         sizeA = new Size();
         sizeB = new Size();
+
         gray = new Mat();
+        gray2 = new Mat();
+
         label = new int[1];
         conf = new double[1];
 
@@ -433,8 +449,13 @@ public class FaceDetectionHLD : MonoBehaviour
                     sizeA.height = 124;
                     OpenCVForUnity.Imgproc.cvtColor(rgbaMat, gray, OpenCVForUnity.Imgproc.COLOR_BGR2GRAY);
                     haarCascade.detectMultiScale(gray, faces, 1.3f, 3, 0, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
-                                                     sizeA, sizeB);
+                                                    sizeA, sizeB);
 
+                    OpenCVForUnity.Core.rotate(gray, gray2, OpenCVForUnity.Core.ROTATE_90_CLOCKWISE);
+
+
+                    haarCascade.detectMultiScale(gray2, faces2, 1.3f, 3, 0, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
+                                                    sizeA, sizeB);
                     // Render all detected faces
                     foreach (OpenCVForUnity.Rect face in faces.toArray())
                     {
@@ -445,9 +466,7 @@ public class FaceDetectionHLD : MonoBehaviour
                             if (conf[0] > 30)
                             {
                                // Debug.Log("recognized " + Enum.GetNames(typeof(DancersFromPhotos))[label[0]] + label[0] + " with confidence " + (int)conf[0]);
-
                                 CountRecognizedFaces(label[0]);
-
                                 //OpenPageFromFace(label[0]);
                             }
 
@@ -459,7 +478,37 @@ public class FaceDetectionHLD : MonoBehaviour
                             size.width = (int)(face.width * 0.5);
                             size.height = (int)(face.height * 0.5);
 
-                            OpenCVForUnity.Imgproc.ellipse(rgbaMat, point, size, 0, 0, 360, new Scalar(255, 255, 255, 128), 4);
+                         //   OpenCVForUnity.Imgproc.ellipse(rgbaMat, point, size, 0, 0, 360, new Scalar(255, 255, 255, 128), 4);
+
+                        }
+                        else
+                            Debug.Log("recongizer is null");
+
+                        yield return null;
+                    }
+
+                    foreach (OpenCVForUnity.Rect face2 in faces2.toArray())
+                    {
+                        if (recognizer != null)
+                        {
+                            recognizer.predict(gray2.submat(face2), label, conf);
+                            
+                            if (conf[0] > 30)
+                            {
+                                // Debug.Log("recognized " + Enum.GetNames(typeof(DancersFromPhotos))[label[0]] + label[0] + " with confidence " + (int)conf[0]);
+                                CountRecognizedFaces(label[0]);
+                                //OpenPageFromFace(label[0]);
+                            }
+
+                            //Create a circle around the player
+
+                            point2.y = (int)(face2.x + face2.width * 0.5);
+                            point2.x = (int)(face2.y + face2.height * 0.5);
+
+                            size2.width = (int)(face2.width * 0.5);
+                            size2.height = (int)(face2.height * 0.5);
+
+                           // OpenCVForUnity.Imgproc.ellipse(rgbaMat, point2, size2, 0, 0, 360, new Scalar(255, 0, 0, 150), 4);
 
                         }
                         else
@@ -482,7 +531,14 @@ public class FaceDetectionHLD : MonoBehaviour
         switch (label)
         {
             default:
-                GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
+                if (GameObject.Find(dancer + "_Button") != null)
+                {
+                    GameObject.Find(dancer + "_Button").GetComponent<Button>().onClick.Invoke();
+                }
+                else
+                {
+                    Debug.LogWarning("Page not found.");
+                }
                 break;
         }
 
@@ -503,7 +559,7 @@ public class FaceDetectionHLD : MonoBehaviour
             facesDetected.Add(label, 0);
         }
 
-        if (facesDetected[label] > 11)
+        if (facesDetected[label] > 7) //lucky number 7
         {
             OpenPageFromFace(label);
             facesDetected.Clear();

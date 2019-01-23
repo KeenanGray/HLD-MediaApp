@@ -93,7 +93,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
     public void PageDeActivatedHandler()
     {
-        ReturnToCameraView = false;
         if (AudioPlayerScreen != null)
         {
             var thing = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().tools;
@@ -107,7 +106,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
         if (ReturnToCameraView)
         {
-            Debug.Log("HERE");
+            Debug.Log("SHOULD RETURN");
             GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = true;
             GameObject.Find("CameraViewTexture").GetComponent<FaceDetectionHLD>().BeginRecognizer();
             //    UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesFR_Page");
