@@ -19,6 +19,9 @@ public class CompanyDancers_Page : UIB_ScrollMenu {
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
+        if (OrderedByName == null)
+            return;
+
         ObjPoolManager.BeginRetrieval();
         foreach (Biography bioJson in OrderedByName)
         {

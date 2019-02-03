@@ -46,8 +46,6 @@ namespace UI_Builder
             SourceJson = FileManager.ReadTextFile(json_file);
             if (SourceJson == null || SourceJson == "")
             {
-                //TODO:What else needs to be done prior to updating?
-                Debug.Log("No JSON read from file");
                 return;
             }
             myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
@@ -64,6 +62,9 @@ namespace UI_Builder
             //They will be assigned to their buttons with 'Init'
             int traversalOrder = 0;
             ObjPoolManager.BeginRetrieval();
+
+            if (OrderedByName == null)
+                return;
 
             foreach (Biography b in OrderedByName)
             {

@@ -37,28 +37,32 @@ namespace UI_Builder
 
         public delegate void Activated();
         public event Activated OnActivated;
-
         public delegate void DeActivated();
         public event Activated OnDeActivated;
+
+        public float rate = 1.0f;
+        public bool InternetRequired; //Kind of a misnamed variable: has more to do with whether files have been downloaded from web
 
         GameObject mainCanvas;
         GameObject subCanvas;
 
-        public List<RectTransform> views;
-        public RectTransform rt;
+        private List<RectTransform> views;
+
+        private RectTransform rt;
+
         RectTransform ViewContainer;
         GameObject View_Slider;
         RectTransform CurrentView;
         UnityEngine.UI.Button close_button;
-        public bool PageOnScreen;
-        public float rate = 1.0f;
+        private bool PageOnScreen;
+
 
         public void Init()
         {
             OnActivated += new Activated(PageActivatedHandler);
             OnDeActivated += new Activated(PageDeActivatedHandler);
 
-            //views = new List<RectTransform>();
+            // views = new List<RectTransform>();
 
             if (rt == null)
             {
@@ -84,38 +88,46 @@ namespace UI_Builder
                 //            Debug.LogWarning(gameObject.name + ": You need to create a button named \"close_button\" as a child of this gameobject, otherwise the screen will never be closed");
             }
 
-            //Get the container gameobject for each View
-            if (transform.Find("Views") != null)
-                ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
-            else
+            #region Views
+            //TODO: Someday i'll re-make the view system
+            if (views != null)
             {
-                //TODO: Someday i'll re-make the view system
-                //            Debug.LogWarning("No ViewContainerOnThisPage");
-                //return;
+                //Get the container gameobject for each View
+                if (transform.Find("Views") != null)
+                    ViewContainer = transform.Find("Views").GetComponent<RectTransform>();
+                else
+                {
+                    //            Debug.LogWarning("No ViewContainerOnThisPage");
+                    //return;
+                }
+
+                //Get the View_Slider
+                View_Slider = GameObject.Find("View_Slider");
+
+                //Collect the views for the game screen
+                RectTransform vrt;
+
+                foreach (UIB_View v in GetComponentsInChildren<UIB_View>())
+                {
+                    views.Add(v.GetComponent<RectTransform>());
+                    //TODO: Sort the list to ensure the screens appear in order
+                    vrt = v.GetComponent<RectTransform>();
+                    vrt.rect.Set(0, 0, UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
+                }
+
+
+                //Arrange the views side-by-side
+                for (int i = 0; i < views.Count; i++)
+                {
+                    vrt = views[i].GetComponent<RectTransform>();
+                    vrt.anchoredPosition = new Vector2(UIB_AspectRatioManager.ScreenWidth * i, 0);
+                }
+                if (views.Count > 0)
+                    CurrentView = views[0].GetComponent<RectTransform>();
+
+
             }
-
-            //Get the View_Slider
-            View_Slider = GameObject.Find("View_Slider");
-
-            //Collect the views for the game screen
-            RectTransform vrt;
-            foreach (UIB_View v in GetComponentsInChildren<UIB_View>())
-            {
-                views.Add(v.GetComponent<RectTransform>());
-                //TODO: Sort the list to ensure the screens appear in order
-                vrt = v.GetComponent<RectTransform>();
-                vrt.rect.Set(0, 0, UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
-            }
-
-            //Arrange the views side-by-side
-            for (int i = 0; i < views.Count; i++)
-            {
-                vrt = views[i].GetComponent<RectTransform>();
-                vrt.anchoredPosition = new Vector2(UIB_AspectRatioManager.ScreenWidth * i, 0);
-            }
-            if (views.Count > 0)
-                CurrentView = views[0].GetComponent<RectTransform>();
-
+            #endregion
             page_Canvas = gameObject.GetComponent<Canvas>();
             if (page_Canvas == null)
             {
@@ -123,8 +135,6 @@ namespace UI_Builder
             }
             else
                 page_Canvas.enabled = false;
-
-
         }
 
         private void OnDisable()
@@ -244,7 +254,8 @@ namespace UI_Builder
         //Other rates will allow the screen to slide in from the right.
         public IEnumerator MoveScreenIn(bool initializing = false)
         {
-            ToggleCanvas(true);
+            if (!(InternetRequired && !UIB_PageManager.InternetActive))
+                ToggleCanvas(true);
 
             float lerp = 0;
             var tmp = rate;
@@ -252,7 +263,7 @@ namespace UI_Builder
             if (initializing)
                 tmp = 1;
 
-            while (true)
+            while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
             {
                 rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector2(0, 0), lerp);
                 lerp += tmp;
@@ -299,7 +310,11 @@ namespace UI_Builder
             GetComponent<AspectRatioFitter>().enabled = false;
             DeActivateUAP();
 
-            UIB_PageManager.LastPage = UIB_PageManager.CurrentPage;
+            if (!UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().InternetRequired)
+            {
+                UIB_PageManager.LastPage = UIB_PageManager.CurrentPage;
+            }
+
             //toggle the canvas at the end to prevent flicker
             ToggleCanvas(false);
             OnDeActivated?.Invoke(); //should always be last
@@ -309,7 +324,6 @@ namespace UI_Builder
 
         public void DeActivate()
         {
-            //        Debug.Log("Deactivating Page " + gameObject.name);
             DeActivateButtonsOnScreen();
             DeActivateUAP();
 
@@ -325,15 +339,23 @@ namespace UI_Builder
 
         public void PageActivatedHandler()
         {
-            //     Debug.Log("Page Activated " + name);
-            //  gameObject.SetActive(true);
+            if (InternetRequired && !UIB_PageManager.InternetActive)
+            {
+                //if internet is necessary and we haven't downloaded the required files. do not allow access to this page
+                var tmpLastPage = UIB_PageManager.LastPage;
+                var go = GameObject.Find("InternetFileError_Page").GetComponent<UIB_Page>();
+                go.StartCoroutine("MoveScreenIn", false);
+                StartCoroutine("MoveScreenOut", true);
+                UIB_PageManager.LastPage = tmpLastPage;
+                return;
+            }
+
             ActivateButtonsOnScreen();
             ActivateUAP();
         }
 
         public void PageDeActivatedHandler()
         {
-            //            Debug.Log("Page De-Activated " + name);
             if (GetComponent<AccessibleUIGroupRoot>() != null)
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
         }

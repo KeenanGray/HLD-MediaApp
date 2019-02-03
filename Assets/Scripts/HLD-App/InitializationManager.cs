@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HLD;
 using UI_Builder;
 using UnityEditor;
 using UnityEngine;
@@ -77,7 +78,7 @@ public class InitializationManager : MonoBehaviour
         }
 
         UAP_AccessibilityManager.PauseAccessibility(true);
-        
+
         if (aspectManager == null)
         {
             Debug.LogWarning("Unable to find Aspect Manager");
@@ -91,8 +92,8 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
 
-        tmpColor= NoWifi.GetComponentInChildren<Image>().color;
-        NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r,tmpColor.g,tmpColor.b,0);
+        tmpColor = NoWifi.GetComponentInChildren<Image>().color;
+        NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 0);
 
         t1 = Time.time;
 
@@ -103,7 +104,7 @@ public class InitializationManager : MonoBehaviour
             arf.enabled = true;
         }
         UIB_PageContainer MainContainer = null;
-        foreach(UIB_PageContainer PageContainer in GetComponentsInChildren < UIB_PageContainer>())
+        foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
         {
             MainContainer = PageContainer;
             MainContainer.Init();
@@ -119,8 +120,24 @@ public class InitializationManager : MonoBehaviour
 
         db_Manager.Init();
 
-        ManageDatabaseFiles();
-        
+        switch (ManageDatabaseFiles())
+        {
+            case (DatabaseResult.SUCCESS):
+                Debug.Log("SUCCESS");
+                break;
+            case (DatabaseResult.FAILURE):
+                Debug.LogError("FAILURE");
+                break;
+            case (DatabaseResult.NOCONNECTION):
+                Debug.LogWarning("NO CONNECTION");
+                break;
+            case (DatabaseResult.RETRY):
+                Debug.Log("RETRY");
+                break; ;
+            default:
+                break;
+        }
+
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
             ab.Init();
@@ -163,7 +180,7 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("took " + elapsed + "s to initialize");
         else
             Debug.LogWarning("Took longer to initialize than expected");
-            
+
         UAP_AccessibilityManager.PauseAccessibility(false);
         var first = GameObject.Find("DISPLAYED-Code_Button");
 
@@ -175,7 +192,7 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-    private void ManageDatabaseFiles()
+    private DatabaseResult ManageDatabaseFiles()
     {
         //First check if we have local versions of the files
         if (CheckForLocalFiles())
@@ -185,12 +202,14 @@ public class InitializationManager : MonoBehaviour
             {
                 //If we have internet, compare versions of each files
                 UpdateFilesIfNecessary();
+                return DatabaseResult.SUCCESS;
             }
             else
             {
                 //No internet, we will continue with app based on most recent version.
                 //This function will add global UI button (no internet indicator) - click button to attempt an update
                 ActivateNoInternetMode();
+                return DatabaseResult.NOCONNECTION;
             }
         }
         else
@@ -202,15 +221,17 @@ public class InitializationManager : MonoBehaviour
                 //We have internet, 
                 //TODO: alert the user that we will be downloading data
                 DownloadFilesFromDatabase();
+                return DatabaseResult.RETRY;
             }
             else
             {
                 //We do not have internet
                 //Alert the user that the app will have very limited functionality until connected to the internet
-                Debug.Log("No internet, and limited files");
                 ActivateLimitedFunctionality();
+                return DatabaseResult.NOCONNECTION;
             }
         }
+        return DatabaseResult.SUCCESS;
     }
 
     private void ActivateLimitedFunctionality()
@@ -241,21 +262,44 @@ public class InitializationManager : MonoBehaviour
         tmpLandingPage = GameObject.Find("NoInternetModeLanding");
     }
 
-    private void UpdateFilesIfNecessary()
+    public void UpdateFilesIfNecessary()
     {
+        SetupArrayOfInterest();
         db_Manager.GetUpdatedObjects("hld-general");
         db_Manager.GetUpdatedObjects("hld-displayed");
     }
+
+    void SetupArrayOfInterest()
+    {
+        List<string> MatchingObjects = new List<string>();
+
+        var tmp = GetListOfDancers();
+        for (int i = 0; i < tmp.Length; i++)
+        {
+            MatchingObjects.Add(tmp[i]);
+        }
+        MatchingObjects.Add("Bios");
+        MatchingObjects.Add("AccessCode");
+        MatchingObjects.Add("Displayed_AudioDescriptions");
+        MatchingObjects.Add("ListOfDancers");
+
+        db_Manager.SetMatchingObjects(MatchingObjects);
+    }
+
+
 
     private bool CheckInternet()
     {
         switch (Application.internetReachability)
         {
             case NetworkReachability.NotReachable:
+                UIB_PageManager.InternetActive = false;
                 return false;
             case NetworkReachability.ReachableViaLocalAreaNetwork:
+                UIB_PageManager.InternetActive = true;
                 return true;
             case NetworkReachability.ReachableViaCarrierDataNetwork:
+                UIB_PageManager.InternetActive = true;
                 return false;
         }
         throw new NotImplementedException();
@@ -267,131 +311,165 @@ public class InitializationManager : MonoBehaviour
 
         //check for relevant json files
         //Here we are checking for Bios.json (containing dancer biographies) and the AccessCode for DISPLAYED section
-        if (FileManager.FileExists("hld-general/Bios.json") && FileManager.FileExists("hld-displayed/AccessCode.json"))
+        if (!(FileManager.FileExists("hld-general/Bios.json") && FileManager.FileExists("hld-displayed/AccessCode.json")))
+            return false;
+
+        //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
+
+        string[] ListOfDancers = null;
+        //Extract the list of dancers
+        //This is the list we are concerned about in the app
+        //This list can then be updated in real time to remove and add dancers to the app
+
+        //We will then ensure we have a picture for each dancer
+        ListOfDancers = GetListOfDancers();
+
+        if (ListOfDancers == null)
+            return false;
+
+        ///Get the picture file for each bio
+        var path = "/hld-general/Bio_Photos/";
+        foreach (string dancer in ListOfDancers)
         {
-            //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
-
-            //We now have to read Bios as and extract the list of dancers
-            //We will then ensure we have a picture for each dancer
-            var myObject = JsonUtility.FromJson<HLD.JSON_Structs.BiographyArray>(FileManager.ReadTextFile("hld-general/Bios.json"));
-            IOrderedEnumerable<HLD.JSON_Structs.Biography> OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
-
-
-            ///Get the picture file for each bio
-            var path = "/hld-general/Bio_Photos/";
-            foreach (HLD.JSON_Structs.Biography b in OrderedByName)
+            var filePath = path + dancer.Replace(" ", "_");
+            if (FileManager.FileExists(filePath + ".png") || FileManager.FileExists(filePath + ".jpg") || FileManager.FileExists(filePath + ".jpeg"))
             {
-                var filePath = path + b.Name.Replace(" ", "_");
-                if (FileManager.FileExists(filePath + ".png") || FileManager.FileExists(filePath + ".jpg") || FileManager.FileExists(filePath + ".jpeg"))
-                {
-//                    Debug.Log("File exists: " + filePath );
-                }
-                else
-                {
-                    Debug.Log("Bio picture file does not exist: " + filePath+".");
-                    return false;
-                }
+                //                    Debug.Log("File exists: " + filePath );
             }
-
-            //Next up: Check for the Audio Description
-            path = "/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3";
-            if (FileManager.FileExists(path))
-            { }
             else
+            {
+                Debug.Log("Bio picture file does not exist: " + filePath + ".");
                 return false;
-
-            #region MeOnDisplay
-            //Next check #MeOnDisplay Videos
-            path = "/hld-general/MeOnDisplay/";
-            foreach (HLD.JSON_Structs.Biography b in OrderedByName)
-            {
-                var filePath = path + b.Name.Replace(" ", "_");
-                if (FileManager.FileExists(filePath + ".mov") || FileManager.FileExists(filePath + ".mp4"))
-                {
-                }
-                else
-                {
-                    Debug.Log("Video file does not exist: " + filePath + ".");
-                    return false;
-                }
             }
-            // and Video Captions
-            path = "/hld-general/MeOnDisplay/VideoCaptions/";
-            foreach (HLD.JSON_Structs.Biography b in OrderedByName)
-            {
-                var filePath = path + b.Name.Replace(" ", "_");
-                if (FileManager.FileExists(filePath + ".txt"))
-                {
-                }
-                else
-                {
-                    Debug.Log("Video Captions file does not exist: " + filePath + ".");
-                    return false;
-                }
-            }
-            #endregion
-
-            #region Displayed Files
-            //Next check DISPLAYED audio
-            path = "/hld-displayed/Audio/";
-            foreach (HLD.JSON_Structs.Biography b in OrderedByName)
-            {
-                var filePath = path + b.Name.Replace(" ", "_");
-                if (FileManager.FileExists(filePath + ".wav") || FileManager.FileExists(filePath + ".mp3"))
-                {
-                }
-                else
-                {
-                    Debug.Log("Displayed Audio file does not exist: " + filePath + ".");
-                    return false;
-                }
-            }
-            //Next check #MeOnDisplay Videos
-            path = "/hld-displayed/Captions/";
-            foreach (HLD.JSON_Structs.Biography b in OrderedByName)
-            {
-                var filePath = path + b.Name.Replace(" ", "_");
-                if (FileManager.FileExists(filePath + ".txt"))
-                {
-                }
-                else
-                {
-                    Debug.Log("Captions file does not exist: " + filePath + ".");
-                    return false;
-                }
-            }
-            //Next check #MeOnDisplay Videos
-            path = "/hld-displayed/Photos/";
-            foreach (HLD.JSON_Structs.Biography b in OrderedByName)
-            {
-                var filePath = path + b.Name.Replace(" ", "_");
-                if (FileManager.FileExists(filePath + ".png") || FileManager.FileExists(filePath + ".jpg") || FileManager.FileExists(filePath + ".jpeg"))
-                {
-                }
-                else
-                {
-                    Debug.Log("#MeOnDisplay photo file does not exist: " + filePath + ".");
-                    return false;
-                }
-            }
-            #endregion
         }
 
-        return false;
+        //Next up: Check for the Audio Description
+        path = "/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3";
+        if (FileManager.FileExists(path))
+        { }
+        else
+        {
+            Debug.Log("/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3 not found");
+            return false;
+        }
+
+        #region MeOnDisplay
+        //Next check #MeOnDisplay Videos
+        path = "/hld-general/MeOnDisplay/";
+        foreach (string dancer in ListOfDancers)
+        {
+            var filePath = path + dancer.Replace(" ", "_");
+            if (FileManager.FileExists(filePath + ".mov") || FileManager.FileExists(filePath + ".mp4"))
+            {
+            }
+            else
+            {
+                Debug.Log("Video file does not exist: " + filePath + ".");
+                return false;
+            }
+        }
+        // and Video Captions
+        path = "/hld-general/MeOnDisplay/VideoCaptions/";
+        foreach (string dancer in ListOfDancers)
+        {
+            var filePath = path + dancer.Replace(" ", "_");
+            if (FileManager.FileExists(filePath + ".txt"))
+            {
+            }
+            else
+            {
+                Debug.Log("Video Captions file does not exist: " + filePath + ".");
+                return false;
+            }
+        }
+        #endregion
+
+        #region Displayed Files
+        //Next check DISPLAYED audio
+        path = "/hld-displayed/Audio/";
+        foreach (string dancer in ListOfDancers)
+        {
+            var filePath = path + dancer.Replace(" ", "_");
+            if (FileManager.FileExists(filePath + ".wav") || FileManager.FileExists(filePath + ".mp3"))
+            {
+            }
+            else
+            {
+                Debug.Log("Displayed Audio file does not exist: " + filePath + ".");
+                return false;
+            }
+        }
+        //Next check #MeOnDisplay Videos
+        path = "/hld-displayed/Captions/";
+        foreach (string dancer in ListOfDancers)
+        {
+            var filePath = path + dancer.Replace(" ", "_");
+            if (FileManager.FileExists(filePath + ".txt"))
+            {
+            }
+            else
+            {
+                Debug.Log("Captions file does not exist: " + filePath + ".");
+                return false;
+            }
+        }
+        //Next check #MeOnDisplay Videos
+        path = "/hld-displayed/Photos/";
+        foreach (string dancer in ListOfDancers)
+        {
+            var filePath = path + dancer.Replace(" ", "_");
+            if (FileManager.FileExists(filePath + ".png") || FileManager.FileExists(filePath + ".jpg") || FileManager.FileExists(filePath + ".jpeg"))
+            {
+            }
+            else
+            {
+                Debug.Log("#MeOnDisplay photo file does not exist: " + filePath + ".");
+                return false;
+            }
+        }
+        #endregion
+
+        //If we get here, we ahve all the files we want
+        return true;
     }
 
- /*  void InitializePlaceHolderJsonFiles()
+    private string[] GetListOfDancers()
     {
-        Debug.Log(Application.persistentDataPath);
+        string[] list;
+        if (FileManager.FileExists("hld-general/ListOfDancers.txt"))
+        {
+            list = FileManager.ReadTextFile("hld-general/ListOfDancers.txt").Split(',');
+        }
+        else
+        {
+            Debug.LogWarning("No list of dancers");
+            return null;
+        }
 
-        TextAsset code = Resources.Load<TextAsset>("Json/AccessCode_default");
-        TextAsset bios = Resources.Load<TextAsset>("Json/Bios_default");
-
-        MongoLib.WriteJsonUnModified(bios.text, "Bios.json");
-        MongoLib.WriteJsonUnModified(code.text, "AccessCode.json");
-
+        list = list.OrderBy(x => x).ToArray();
+        for (int i = 0; i < list.Length; i++)
+        {
+            //clean up newlines;
+            list[i] = list[i].Replace("\n", "");
+            list[i] = list[i].Replace("\r", "");
+            list[i] = list[i].TrimEnd(System.Environment.NewLine.ToCharArray());
+            list[i] = list[i].TrimStart(System.Environment.NewLine.ToCharArray());
+        }
+        return list;
     }
-    */   
+
+    /*  void InitializePlaceHolderJsonFiles()
+       {
+           Debug.Log(Application.persistentDataPath);
+
+           TextAsset code = Resources.Load<TextAsset>("Json/AccessCode_default");
+           TextAsset bios = Resources.Load<TextAsset>("Json/Bios_default");
+
+           MongoLib.WriteJsonUnModified(bios.text, "Bios.json");
+           MongoLib.WriteJsonUnModified(code.text, "AccessCode.json");
+
+       }
+       */
 
 }
 

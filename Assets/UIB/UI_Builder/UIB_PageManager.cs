@@ -11,7 +11,7 @@ public class UIB_PageManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        CurrentPage = GameObject.Find("Landing_Page");
 	}
 	
 	// Update is called once per frame

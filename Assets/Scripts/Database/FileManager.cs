@@ -275,6 +275,15 @@ namespace UI_Builder
             }
         }
 
+        internal static string GetFileNameFromKey(string key)
+        {
+            //remove the file ext
+            var val = key.Split('.')[0];
+            //split the string by '/' and get the last one
+            val = val.Split('/')[val.Split('/').Length - 1];
+            return val;
+        }
+
         public static string ReadTextFile(string fileName)
         {
             string destination = Application.persistentDataPath + "/" + fileName;
