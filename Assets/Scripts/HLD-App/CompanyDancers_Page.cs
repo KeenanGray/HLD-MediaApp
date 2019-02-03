@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class CompanyDancers_Page : UIB_ScrollMenu {
 
   //  ScrollRect scroll;
-    static string Bio_GameObject_Name = "Pages";
     GameObject Bio_Page_Root;
 
     //  private string BiographiesJSON;

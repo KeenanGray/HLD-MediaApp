@@ -13,7 +13,6 @@ public class MatrixTransformForWebCamera : MonoBehaviour
         if (GetComponent<HLD.FaceDetection>().webCamTexture != null){ 
 
         WebCamTexture wct = GetComponent<HLD.FaceDetection>().webCamTexture;
-            GameObject displayCamera;
 
             Quaternion rot = Quaternion.Euler(0, 0, 0);
 

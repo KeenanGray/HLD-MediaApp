@@ -45,9 +45,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     //list of dancer's, or the camera face recognizer
     public void PageActivatedHandler()
     {
-        Debug.Log("Last Page " + UIB_PageManager.LastPage);
-
-        Debug.Log("Deactivating UAP on list");
         var tmp = GameObject.Find("DisplayedNarrativesList_Page");
         tmp.GetComponent<UIB_Page>().DeActivateUAP();
         tmp = GameObject.Find("DisplayedNarrativesFR_Page");
@@ -80,29 +77,28 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
             GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = false;
         }
 
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetTitle(title);
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImage(photoPath);
+        UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer> ();
 
+        pageAudioPlayer.SetTitle(title);
+        pageAudioPlayer.SetImageFromFile(Application.persistentDataPath+ photoPath);
         var captionFile = "/hld-displayed/Captions/" + title.Replace(" ", "_")+".txt";
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions(captionFile);
-
-        AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
-
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().fileType = ".wav";
+        pageAudioPlayer.SetAudioCaptions(captionFile);
+        pageAudioPlayer.enabled = true;
+        pageAudioPlayer.fileType = ".wav";
         //TODO::this should use filemanger to check that file exists
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("file://" + Application.persistentDataPath + "/hld-displayed/Audio/"+ title.Split(' ')[0] + ".wav");//we only use first names for audio titles
+        pageAudioPlayer.SetAudio("file://" + Application.persistentDataPath + "/hld-displayed/Audio/"+ title.Replace(" ","_") + ".wav");
+        pageAudioPlayer.Tools.PlayMethod(1);
+        pageAudioPlayer.Init();
 
-        backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
         AudioPlayerScreen.transform.SetParent(transform);
         AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-1);
 
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = false;
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
-
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Tools.PlayMethod(1);
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
 
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Init();
+        backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
+
     }
 
     public void PageDeActivatedHandler()

@@ -26,7 +26,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     Scrollbar timeScroll;
 
     bool trig;
-    bool shouldContinuePlaying;
     private bool DragOccurring;
 
     Transform ParentOfAudioToolComponents;
@@ -35,7 +34,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     public void Init()
     {
         ParentOfAudioToolComponents = transform.parent;
-        shouldContinuePlaying = false;
 
         source = gameObject.GetComponentInChildren<AudioSource>();
 
@@ -179,7 +177,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
         AudioTimerInput.DeactivateInputField();
 
-        shouldContinuePlaying = true;
         playbutton.onClick.Invoke();
         //TODO:deselect the input field
     }

@@ -107,13 +107,12 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         Title.text = str;
     }
 
-    public void SetImage(string PathToImage)
+    public void SetImageFromResource(string PathToImage)
     {
         Sprite ImageToUse = null;
-        if (PathToImage == null)
-        {
 
-        }
+        if(PathToImage==null)
+        { }
         else
         {
             ImageToUse = Resources.Load<Sprite>(PathToImage) as Sprite;
@@ -121,13 +120,10 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
         if (ImageToUse != null)
         {
-            //Debug.Log(PathToImage + " : name " + ImageToUse.name);
+
         }
         else
         {
-            if (ImageToUse != null)
-                Debug.LogWarning("Failed to load " + PathToImage);
-            //turn off the audioDescriptionBGPhoto;
             if (BgPhoto != null)
             {
                 BgPhoto.preserveAspect = false;
@@ -141,6 +137,31 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         }
     }
 
+    public void SetImageFromFile(string PathToImage)
+    {
+        byte[] fileData = null;
+
+        if (FileManager.FileExists(PathToImage, UIB_FileTypes.Images))
+        {
+            fileData = FileManager.ReadFromBytes(PathToImage, UIB_FileTypes.Images);
+            if (fileData == null)
+            {
+                Debug.Log("HERE");
+                return;
+            }
+            Texture2D tex = new Texture2D(2, 2);
+            tex.LoadImage(fileData);
+            var newSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100.0f);
+            if (BgPhoto != null)
+            {
+                BgPhoto.sprite = newSprite;
+                BgPhoto.rectTransform.sizeDelta = new Vector2(1000, 1000);
+            }
+
+        }
+    }
+
+
     string url;
     public void SetAudio(string PathToAudio)
     {
@@ -152,7 +173,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
     IEnumerator GetAudioClip()
     {
-        Debug.Log(url);
         AudioClip AudioToUse = null;
 
         UnityWebRequest www= null;
@@ -313,12 +333,11 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
     public void PageActivatedHandler()
     {
-        Debug.Log("Activated");
-
+       // Debug.Log("Activated");
     }
 
     public void PageDeActivatedHandler()
     {
-        Debug.Log("DeActivated");
+       // Debug.Log("DeActivated");
     }
 }

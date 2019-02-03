@@ -20,7 +20,7 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
     {
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetTitle("Audio Descriptions");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImage("BackGroundPhotos/AudioDescriptions");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImageFromResource("BackGroundPhotos/AudioDescriptions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().fileType = ".mp3";
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("file://"+ Application.persistentDataPath + "/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions("/hld-general/AudioDescriptions/Displayed_AudioDescriptions.txt");

@@ -15,7 +15,7 @@ public class InitializationManager : MonoBehaviour
 
     GameObject AccessibilityInstructions;
 
-    HLD.S3_Access DB_Manager;
+    HLD.Database_Accessor db_Manager;
     public float InitializeTime;
     float t1;
     float t2;
@@ -110,12 +110,14 @@ public class InitializationManager : MonoBehaviour
         }
         if (GameObject.Find("DB_Manager") != null)
         {
-            DB_Manager = GameObject.Find("DB_Manager").GetComponent<HLD.S3_Access>();
+            db_Manager = GameObject.Find("DB_Manager").GetComponent<HLD.Database_Accessor>();
         }
-        if (DB_Manager == null)
+        if (db_Manager == null)
         {
             Debug.LogError("No Database Manager");
         }
+
+        db_Manager.Init();
 
         ManageDatabaseFiles();
         
@@ -224,8 +226,9 @@ public class InitializationManager : MonoBehaviour
     private void DownloadFilesFromDatabase()
     {
         //TODO: Alert the user we are about to begin a large download
-        DB_Manager.GetObjects("hld-general");
-        DB_Manager.GetObjects("hld-displayed");
+        Debug.LogWarning("Fetching Downloads from Database: If your are testing, it's possible a file is missing");
+        db_Manager.GetObjects("hld-general");
+        db_Manager.GetObjects("hld-displayed");
     }
 
     private void ActivateNoInternetMode()
@@ -240,8 +243,8 @@ public class InitializationManager : MonoBehaviour
 
     private void UpdateFilesIfNecessary()
     {
-        DB_Manager.GetUpdatedObjects("hld-general");
-        DB_Manager.GetUpdatedObjects("hld-displayed");
+        db_Manager.GetUpdatedObjects("hld-general");
+        db_Manager.GetUpdatedObjects("hld-displayed");
     }
 
     private bool CheckInternet()
@@ -273,6 +276,8 @@ public class InitializationManager : MonoBehaviour
             var myObject = JsonUtility.FromJson<HLD.JSON_Structs.BiographyArray>(FileManager.ReadTextFile("hld-general/Bios.json"));
             IOrderedEnumerable<HLD.JSON_Structs.Biography> OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
 
+
+            ///Get the picture file for each bio
             var path = "/hld-general/Bio_Photos/";
             foreach (HLD.JSON_Structs.Biography b in OrderedByName)
             {
@@ -283,7 +288,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("file does not exist: " + filePath+".");
+                    Debug.Log("Bio picture file does not exist: " + filePath+".");
                     return false;
                 }
             }
@@ -306,7 +311,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("file does not exist: " + filePath + ".");
+                    Debug.Log("Video file does not exist: " + filePath + ".");
                     return false;
                 }
             }
@@ -320,15 +325,14 @@ public class InitializationManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("file does not exist: " + filePath + ".");
+                    Debug.Log("Video Captions file does not exist: " + filePath + ".");
                     return false;
                 }
             }
-            return true;
             #endregion
 
             #region Displayed Files
-            //Next check #MeOnDisplay Videos
+            //Next check DISPLAYED audio
             path = "/hld-displayed/Audio/";
             foreach (HLD.JSON_Structs.Biography b in OrderedByName)
             {
@@ -338,7 +342,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("file does not exist: " + filePath + ".");
+                    Debug.Log("Displayed Audio file does not exist: " + filePath + ".");
                     return false;
                 }
             }
@@ -352,7 +356,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("file does not exist: " + filePath + ".");
+                    Debug.Log("Captions file does not exist: " + filePath + ".");
                     return false;
                 }
             }
@@ -366,7 +370,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("file does not exist: " + filePath + ".");
+                    Debug.Log("#MeOnDisplay photo file does not exist: " + filePath + ".");
                     return false;
                 }
             }

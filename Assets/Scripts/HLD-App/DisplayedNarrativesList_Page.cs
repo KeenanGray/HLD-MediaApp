@@ -23,7 +23,7 @@ public class DisplayedNarrativesList_Page : UIB_ScrollMenu
                 go.transform.SetParent(Page_Parent.transform);
                 go.name = (Name_Suffix + "_Page");
                 Narrative_Page np = go.GetComponent<Narrative_Page>();
-                np.SetupPage(bioJson.Name, "DancerPhotos/" + bioJson.Name.Replace(" ", "_"));
+                np.SetupPage(bioJson.Name, "/hld-displayed/Photos/" + bioJson.Name.Replace(" ", "_"));
             }
         }
 

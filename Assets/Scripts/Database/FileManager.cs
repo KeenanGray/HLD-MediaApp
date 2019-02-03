@@ -23,10 +23,7 @@ namespace UI_Builder
         //db name heroku_pm1crn83
         // Use this for initialization
         public TextAsset config;
-
-        private string collection_name;
-        private string db_result;
-
+        
         public float TimeOutLength;
 
         private void Start()
@@ -48,24 +45,6 @@ namespace UI_Builder
                 }
             }
             return v;
-        }
-
-        IEnumerator UpdateBiographies()
-        {
-            //Get the biographies from the database
-            collection_name = "The_Displayed";
-            yield return StartCoroutine("GetCollectionFromDatabase");
-            WriteJsonFromWeb(db_result, "Bios.json");
-            WriteJsonFromWeb(db_result, "Bios_Default.json");
-            yield break;
-        }
-        IEnumerator UpdateWatch()
-        {
-            //Get the biographies from the database
-            collection_name = "Watch";
-            yield return StartCoroutine("GetCollectionFromDatabase");
-            //  WriteJson(db_result, "Watch.json");
-            yield break;
         }
 
         internal static byte[] ReadFromBytes(string path, UIB_FileTypes kind)
@@ -104,35 +83,6 @@ namespace UI_Builder
 
             return fileData;
         }
-
-        IEnumerator UpdateAbout()
-        {
-            //Get the biographies from the database
-            collection_name = "About";
-            yield return StartCoroutine("GetCollectionFromDatabase");
-            //  WriteJson(db_result, "About.json");
-            yield break;
-        }
-        IEnumerator UpdateProgram()
-        {
-            //Get the biographies from the database
-            collection_name = "Program";
-            yield return StartCoroutine("GetCollectionFromDatabase");
-            //  WriteJson(db_result, "Program.json");
-            yield break;
-        }
-
-        IEnumerator UpdatePassCode()
-        {
-            //Get the biographies from the database
-            collection_name = "D.I.S.P.L.A.Y.E.D";
-            yield return StartCoroutine("GetCollectionFromDatabase");
-            WriteJsonFromWeb(db_result, "AccessCode.json");
-            WriteJsonFromWeb(db_result, "AccessCode_Default.json");
-
-            yield break;
-        }
-
 
         internal static void WriteFileFromResponse(GetObjectResponse response, string fileName)
         {
