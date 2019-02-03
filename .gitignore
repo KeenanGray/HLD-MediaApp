@@ -41,6 +41,7 @@ Assets/Plugins/*
 Assets/OpenCVForUnity/*
 Assets/Plugins.meta
 Assets/AWSSDK/*
-Examples/*
+Assets/Examples/*
 mongo_config.txt
 mongo_config.txt.meta
+.DS_Store
