@@ -38,6 +38,9 @@ sysinfo.txt
 Assets/Video
 
 Assets/Plugins/*
+Assets/OpenCVForUnity/*
 Assets/Plugins.meta
+Assets/AWSSDK/*
+Examples/*
 mongo_config.txt
 mongo_config.txt.meta
