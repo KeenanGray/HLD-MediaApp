@@ -238,6 +238,7 @@ public class InitializationManager : MonoBehaviour
     {
         //Bring up no internet logo. 
         UIB_PageManager.InternetActive = false;
+        NoWifi.GetComponentInParent<Canvas>().enabled = true;
         NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 130);
         NoWifi.GetComponent<Button>().interactable = true;
 

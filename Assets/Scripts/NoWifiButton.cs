@@ -40,9 +40,9 @@ public class NoWifiButton : MonoBehaviour
         Debug.Log("Internet is Available");
         UIB_PageManager.InternetActive = true;
 
-     //   tmpColor = GetComponentInChildren<Image>().color;
-     //   GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g,tmpColor.b,0);
-     //   GetComponent<Button>().interactable = false;
+        tmpColor = GetComponentInChildren<Image>().color;
+        GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g,tmpColor.b,0);
+        GetComponent<Button>().interactable = false;
 
         GameObject.Find("MainCanvas").GetComponent<InitializationManager>().UpdateFilesIfNecessary();
     }
