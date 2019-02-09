@@ -117,13 +117,11 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         if (ReturnToCameraView)
         {
             GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = true;
-            GameObject.Find("CameraViewTexture").GetComponent<HLD.FaceDetection>().BeginRecognizer();
         }
         else
         {
             GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = false;
             UIB_PageManager.LastPage = GameObject.Find("DisplayedNarrativesList_Page");
-            GameObject.Find("CameraViewTexture").GetComponent<HLD.FaceDetection>().EndRecognizer();
         }
     }
 
