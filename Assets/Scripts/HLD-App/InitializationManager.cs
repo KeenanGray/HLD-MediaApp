@@ -249,6 +249,8 @@ public class InitializationManager : MonoBehaviour
     {
         //TODO: Alert the user we are about to begin a large download
         Debug.LogWarning("Fetching Downloads from Database: If your are testing, it's possible a file is missing");
+
+        //How often can we call this download function before it costs too much $$$
         db_Manager.GetObjects("hld-general");
         db_Manager.GetObjects("hld-displayed");
     }
