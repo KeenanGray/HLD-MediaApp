@@ -456,11 +456,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTemplate: 1
-  views:
-  - {fileID: 224065836940564116}
-  rt: {fileID: 224650608154091758}
-  PageOnScreen: 0
   rate: 1
+  InternetRequired: 0
 --- !u!114 &114593852488988652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,7 +916,7 @@ GameObject:
   - component: {fileID: 114974379264515472}
   - component: {fileID: 114272367035250266}
   m_Layer: 5
-  m_Name: DisplayedNarrativesFR_Button
+  m_Name: DisplayedNarrativesBT_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

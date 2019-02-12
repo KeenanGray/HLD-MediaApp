@@ -103,7 +103,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
     public void SetTitle(string str)
     {
-        cover.SetActive(true);
+       // cover.SetActive(true);
         Title.text = str;
     }
 
@@ -165,9 +165,16 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     string url;
     public void SetAudio(string PathToAudio)
     {
-        StopAllCoroutines();
-        url = PathToAudio;
-        StartCoroutine("GetAudioClip");
+        // StopAllCoroutines();
+        // url = PathToAudio;
+        // StartCoroutine("GetAudioClip");
+        if (src != null)
+        {
+            Debug.Log("HEH " + PathToAudio);
+            src.clip = Resources.Load<AudioClip>(PathToAudio) as AudioClip;
+            src.time = 0;
+            Tools.Init();
+        }
     }
 
 
@@ -219,7 +226,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             Tools.Init();
         }
 
-        cover.SetActive(false);
+       // cover.SetActive(false);
 
         var AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Tools.PlayMethod(1);

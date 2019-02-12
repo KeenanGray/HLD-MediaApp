@@ -22,7 +22,7 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetTitle("Audio Descriptions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImageFromResource("BackGroundPhotos/AudioDescriptions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().fileType = ".mp3";
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("file://"+ Application.persistentDataPath + "/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("AudioDescriptions/Displayed_AudioDescriptions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions("/hld-general/AudioDescriptions/Displayed_AudioDescriptions.txt");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Init();
 

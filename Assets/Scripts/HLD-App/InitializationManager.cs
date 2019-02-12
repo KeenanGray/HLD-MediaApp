@@ -70,13 +70,7 @@ public class InitializationManager : MonoBehaviour
 
         ObjPoolManager.Init();
 
-        //on android we must check for OBB file
-
-        if (GooglePlayDownloader.RunningOnAndroid())
-        {
-            Debug.Log("Running on Android");
-        }
-
+      
         UAP_AccessibilityManager.PauseAccessibility(true);
 
         if (aspectManager == null)
@@ -288,8 +282,6 @@ public class InitializationManager : MonoBehaviour
 
         db_Manager.SetMatchingObjects(MatchingObjects);
     }
-
-
 
     private bool CheckInternet()
     {

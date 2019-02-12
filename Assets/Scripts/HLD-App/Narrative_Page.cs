@@ -15,6 +15,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
     string title;
     string photoPath;
+    string TopPageName = "DisplayedNarrativesBT_Page";
     public void Init()
     {
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
@@ -23,7 +24,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        backButton = transform.Find("Interface").Find("DisplayedNarrativesFR_Button").gameObject;
+        backButton = transform.Find("Interface").Find("DisplayedNarrativesBT_Button").gameObject;
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
 
@@ -47,7 +48,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     {
         var tmp = GameObject.Find("DisplayedNarrativesList_Page");
         tmp.GetComponent<UIB_Page>().DeActivateUAP();
-        tmp = GameObject.Find("DisplayedNarrativesFR_Page");
+        tmp = GameObject.Find(TopPageName);
         tmp.GetComponent<UIB_Page>().DeActivateUAP();
 
         var camefrom = UIB_PageManager.LastPage.name;
@@ -61,7 +62,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
             ReturnToCameraView = false;
         }
 
-        foreach(UIB_Button uibb in GameObject.Find("DisplayedNarrativesFR_Page").GetComponentsInChildren<UIB_Button>())
+        foreach(UIB_Button uibb in GameObject.Find(TopPageName).GetComponentsInChildren<UIB_Button>())
         {
             uibb.enabled = false;
             uibb.GetComponent<Button>().enabled = false;
@@ -74,7 +75,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
         if (UIB_PageManager.LastPage.name == "DisplayedNarrativesList_Page")
         {
-            GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = false;
+            GameObject.Find(TopPageName).GetComponent<Canvas>().enabled = false;
         }
 
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer> ();
@@ -86,7 +87,13 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         pageAudioPlayer.enabled = true;
         pageAudioPlayer.fileType = ".wav";
         //TODO::this should use filemanger to check that file exists
+
+#if UNITY_ANDROID
+        pageAudioPlayer.SetAudio("Narratives/"+ title.Replace(" ","_"));
+#else
         pageAudioPlayer.SetAudio("file://" + Application.persistentDataPath + "/hld-displayed/Audio/"+ title.Replace(" ","_") + ".wav");
+#endif
+
         pageAudioPlayer.Tools.PlayMethod(1);
         pageAudioPlayer.Init();
 
@@ -116,11 +123,11 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
         if (ReturnToCameraView)
         {
-            GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = true;
+            GameObject.Find(TopPageName).GetComponent<Canvas>().enabled = true;
         }
         else
         {
-            GameObject.Find("DisplayedNarrativesFR_Page").GetComponent<Canvas>().enabled = false;
+            GameObject.Find(TopPageName).GetComponent<Canvas>().enabled = false;
             UIB_PageManager.LastPage = GameObject.Find("DisplayedNarrativesList_Page");
         }
     }

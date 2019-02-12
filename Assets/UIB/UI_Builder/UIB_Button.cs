@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.SceneManagement;
 
 //This Script is used on buttons that will change the screen to another view of the app when pressed.
 
@@ -24,7 +25,8 @@ namespace UI_Builder
             SpecificPage,
             Video,
             Website,
-            Accessibletext
+            Accessibletext,
+            Scene
         }
 
         public static Image backgroundImage;
@@ -117,6 +119,9 @@ namespace UI_Builder
                      * Swipe up and down to navigate between elements on the page
                      * Swipe left and right to jump between blocks of elements
                      */                    
+                    break;
+                case UIB_Button_Activates.Scene:
+                    SceneManager.LoadScene(myText);
                     break;
                 default:
                     Debug.Log("No Activity for this button");

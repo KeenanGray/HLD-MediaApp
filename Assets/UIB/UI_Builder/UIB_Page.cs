@@ -310,11 +310,14 @@ namespace UI_Builder
             GetComponent<AspectRatioFitter>().enabled = false;
             DeActivateUAP();
 
-            if (!UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().InternetRequired)
+            Debug.Log("HERE " + UIB_PageManager.CurrentPage);
+            if (UIB_PageManager.CurrentPage != null)
             {
-                UIB_PageManager.LastPage = UIB_PageManager.CurrentPage;
+                if (!UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().InternetRequired)
+                {
+                    UIB_PageManager.LastPage = UIB_PageManager.CurrentPage;
+                }
             }
-
             //toggle the canvas at the end to prevent flicker
             ToggleCanvas(false);
             OnDeActivated?.Invoke(); //should always be last
