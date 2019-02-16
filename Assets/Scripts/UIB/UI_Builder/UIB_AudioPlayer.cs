@@ -137,6 +137,38 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         }
     }
 
+    public void SetImageAssetBundle(string PathToImage, string bundleString)
+    {
+        Sprite ImageToUse = null;
+        AssetBundle tmp = null;
+
+        foreach(AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+        {
+            if (b.name == bundleString)
+                tmp = b;
+        }
+
+        ImageToUse = tmp.LoadAsset<Sprite>(PathToImage);
+
+        if (ImageToUse != null)
+        {
+
+        }
+        else
+        {
+            if (BgPhoto != null)
+            {
+                BgPhoto.preserveAspect = false;
+                BgPhoto.color = new Color(BgPhoto.color.r, BgPhoto.color.g, BgPhoto.color.b, 255);
+            }
+        }
+        if (BgPhoto != null)
+        {
+            BgPhoto.sprite = ImageToUse;
+            BgPhoto.rectTransform.sizeDelta = new Vector2(1000, 1000);
+        }
+    }
+
     public void SetImageFromFile(string PathToImage)
     {
         byte[] fileData = null;
@@ -163,15 +195,17 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
 
     string url;
-    public void SetAudio(string PathToAudio)
+    public void SetAudio(string PathToAudio, string bundleString)
     {
-        // StopAllCoroutines();
-        // url = PathToAudio;
-        // StartCoroutine("GetAudioClip");
-        if (src != null)
+        AssetBundle tmp = null;
+        foreach(AssetBundle b in AssetBundle.GetAllLoadedAssetBundles()) {
+            if (b.name == bundleString)
+                tmp = b;
+        }
+        if (tmp != null && src!=null)
         {
-            Debug.Log("HEH " + PathToAudio);
-            src.clip = Resources.Load<AudioClip>(PathToAudio) as AudioClip;
+            Debug.Log(PathToAudio + ":" + bundleString);
+            src.clip = tmp.LoadAsset<AudioClip>(PathToAudio) as AudioClip;
             src.time = 0;
             Tools.Init();
         }
@@ -233,9 +267,9 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         yield break;
     }
 
-    public void SetAudioCaptions(string filePath)
+    public void SetAudioCaptions(string name, string filePath)
     {
-        var newText = FileManager.ReadTextFile(filePath);
+        var newText = FileManager.ReadTextAssetBundle(name, filePath);
 
         if (newText == null)
         {

@@ -17,6 +17,7 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
     // Use this for initialization
     public void Init()
     {
+        //TODO:Replace this with new code for Get list of dancers
         Dancers = new List<string>(){"Desmond Cadogan", "Chris Braz", "Peter Trojic", "Victoria Dombroski", "Tianshi Suo", "Tiffany Geigel", "Donald Lee",
                                       "Louisa Mann", "Leslie Taub", "Jerron Herman", "Kelly Ramis", "Nico Gonzales", "Meredith Fages", "Amy Meisner", "Jillian Hollis",
                                       "Jaclyn Rea", "Carmen Schoenster"};
@@ -27,17 +28,59 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
     }
 
-    void PlayVideo(string src)
+    void PlayVideoFromFile(string src)
     {
         var filename = "/hld-general/MeOnDisplay/VideoCaptions/" + src.Replace(" ", "_") + ".txt";
         string videoSource = Application.persistentDataPath + "/hld-general/MeOnDisplay/" + src.Replace(" ", "_") + ".mov";
 
-        TextAsset captions = new TextAsset(FileManager.ReadTextFile(filename));
+        TextAsset captions = new TextAsset(FileManager.ReadTextAssetBundle(filename, "hld/displayed/narratives/video"));
 
         var vp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<VideoPlayer>();
         vp.GetComponent<UIB_VideoPlayer>().SetVideoCaptions(captions);
 
         vp.url = videoSource;
+        StartCoroutine("PlayVideoCoroutine");
+    }
+
+    void PlayVideoFromAssetBundle(string src, string bundleString)
+    {
+        string videoStr = bundleString+"videos";
+        string captionStr = bundleString+"captions";
+
+        AssetBundle videoBundle = null;
+        AssetBundle captionsBundle = null;
+
+        var filename = src.Replace(" ", "_");
+
+        foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+        {
+            if (b.name == videoStr)
+                videoBundle = b;
+            if (b.name == captionStr)
+                captionsBundle = b;
+        }
+        var vp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<VideoPlayer>();
+
+        if (videoBundle != null)
+        {
+            var videoSource = videoBundle.LoadAsset<VideoClip>(filename);
+            vp.clip = videoSource;
+        }
+        else
+        {
+            Debug.LogWarning("no bundle with name " + videoStr);
+        }
+
+        if (captionsBundle != null)
+        {
+            TextAsset captions = captionsBundle.LoadAsset<TextAsset>(filename);
+            vp.GetComponent<UIB_VideoPlayer>().SetVideoCaptions(captions);
+        }
+        else
+        {
+            Debug.LogWarning("no bundle with name " + captionStr);
+        }
+
         StartCoroutine("PlayVideoCoroutine");
     }
 
@@ -79,7 +122,7 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
             {
                 b.name = dancer.Replace(" ", "_") + " video";
 
-                b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { PlayVideo(dancer); });
+                b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { PlayVideoFromAssetBundle(dancer, "hld/meondisplay/"); });
                 b.transform.SetParent(scroll.content.transform);
 
                 var ab = b.GetComponent<UI_Builder.UIB_Button>();

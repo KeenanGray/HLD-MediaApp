@@ -7,7 +7,6 @@ using UI_Builder;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
 using static HLD.JSON_Structs;
 
 public class InitializationManager : MonoBehaviour
@@ -21,12 +20,16 @@ public class InitializationManager : MonoBehaviour
     float t1;
     float t2;
 
+    int numberOfBundles = 8;
+    bool haveAllAssetBundles;
+
     private GameObject NoWifi;
     Color tmpColor;
     private GameObject tmpLandingPage;
 
     void Start()
     {
+        Debug.Log(Application.persistentDataPath);
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
@@ -70,7 +73,7 @@ public class InitializationManager : MonoBehaviour
 
         ObjPoolManager.Init();
 
-      
+
         UAP_AccessibilityManager.PauseAccessibility(true);
 
         if (aspectManager == null)
@@ -114,23 +117,9 @@ public class InitializationManager : MonoBehaviour
 
         db_Manager.Init();
 
-        switch (ManageDatabaseFiles())
-        {
-            case (DatabaseResult.SUCCESS):
-                Debug.Log("SUCCESS");
-                break;
-            case (DatabaseResult.FAILURE):
-                Debug.LogError("FAILURE");
-                break;
-            case (DatabaseResult.NOCONNECTION):
-                Debug.LogWarning("NO CONNECTION");
-                break;
-            case (DatabaseResult.RETRY):
-                Debug.Log("RETRY");
-                break; ;
-            default:
-                break;
-        }
+        haveAllAssetBundles = false;
+        yield return ManageAssetBundleFiles();
+
 
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
@@ -186,46 +175,43 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-    private DatabaseResult ManageDatabaseFiles()
+    private IEnumerator ManageAssetBundleFiles()
     {
         //First check if we have local versions of the files
-        if (CheckForLocalFiles())
+        yield return LoadAssetBundles();
+
+        //if we have local files, see if we have an internet connection
+        if (CheckInternet())
         {
-            //if we have local files, see if we have an internet connection
-            if (CheckInternet())
-            {
-                //If we have internet, compare versions of each files
-                UpdateFilesIfNecessary();
-                return DatabaseResult.SUCCESS;
-            }
-            else
-            {
-                //No internet, we will continue with app based on most recent version.
-                //This function will add global UI button (no internet indicator) - click button to attempt an update
-                ActivateNoInternetMode();
-                return DatabaseResult.NOCONNECTION;
-            }
+            //If we have internet, compare versions of each files
+            UpdateFilesIfNecessary();
+            yield break;
         }
         else
         {
-            //The app is missing one or all local files. 
-            //Check for internet
-            if (CheckInternet())
-            {
-                //We have internet, 
-                //TODO: alert the user that we will be downloading data
-                DownloadFilesFromDatabase();
-                return DatabaseResult.RETRY;
-            }
-            else
-            {
-                //We do not have internet
-                //Alert the user that the app will have very limited functionality until connected to the internet
-                ActivateLimitedFunctionality();
-                return DatabaseResult.NOCONNECTION;
-            }
+            //No internet, we will continue with app based on most recent version.
+            //This function will add global UI button (no internet indicator) - click button to attempt an update
+            ActivateNoInternetMode();
+            yield break;
         }
-        return DatabaseResult.SUCCESS;
+        //TODO: COme back and fix the internet checks with AWS if necessary: the asset bundle may be small enough to live inside the App
+        //The app is missing one or all local files. 
+        //Check for internet
+        if (CheckInternet())
+        {
+            //We have internet, 
+            //TODO: alert the user that we will be downloading data
+            DownloadFilesFromDatabase();
+            yield break;
+        }
+        else
+        {
+            //We do not have internet
+            //Alert the user that the app will have very limited functionality until connected to the internet
+            ActivateLimitedFunctionality();
+            yield break;
+        }
+        yield break;
     }
 
     private void ActivateLimitedFunctionality()
@@ -261,9 +247,7 @@ public class InitializationManager : MonoBehaviour
 
     public void UpdateFilesIfNecessary()
     {
-        SetupArrayOfInterest();
-        db_Manager.GetUpdatedObjects("hld-general");
-        db_Manager.GetUpdatedObjects("hld-displayed");
+        Debug.LogWarning("return here and check for updates to asset bundles");
     }
 
     void SetupArrayOfInterest()
@@ -300,148 +284,65 @@ public class InitializationManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    private bool CheckForLocalFiles()
+    private IEnumerator LoadAssetBundles()
     {
-        string persisantDataPath = Application.persistentDataPath + "/";
+        string persistantDataPath = Application.streamingAssetsPath;
 
-        //check for relevant json files
-        //Here we are checking for Bios.json (containing dancer biographies) and the AccessCode for DISPLAYED section
-        if (!(FileManager.FileExists("hld-general/Bios.json") && FileManager.FileExists("hld-displayed/AccessCode.json")))
-            return false;
+        //use the relevant asset bundle path for each platform
+#if UNITY_IOS && !UNITY_EDITOR
+        persistantDataPath+="/ios/";
+#elif UNITY_ANDROID && !UNITY_EDITOR
+        persistantDataPath+="/android/";
+#endif
+#if UNITY_EDITOR
+        //if we are in the editor just use ios files...i guess...
+        persistantDataPath += "/ios/";
+#endif
 
-        //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/general");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/bios/json");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/bios/photos");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/audio");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/captions");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/photos");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/audio");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/meondisplay/videos");
+        yield return tryLoadAssetBundle(persistantDataPath + "hld/meondisplay/captions");
 
-        string[] ListOfDancers = null;
-        //Extract the list of dancers
-        //This is the list we are concerned about in the app
-        //This list can then be updated in real time to remove and add dancers to the app
 
-        //We will then ensure we have a picture for each dancer
-        ListOfDancers = GetListOfDancers();
-
-        if (ListOfDancers == null)
-            return false;
-
-        ///Get the picture file for each bio
-        var path = "/hld-general/Bio_Photos/";
-        foreach (string dancer in ListOfDancers)
+        if (AssetBundle.GetAllLoadedAssetBundles().Count() == numberOfBundles)
         {
-            var filePath = path + dancer.Replace(" ", "_");
-            if (FileManager.FileExists(filePath + ".png") || FileManager.FileExists(filePath + ".jpg") || FileManager.FileExists(filePath + ".jpeg"))
-            {
-                //                    Debug.Log("File exists: " + filePath );
-            }
-            else
-            {
-                Debug.Log("Bio picture file does not exist: " + filePath + ".");
-                return false;
-            }
+            haveAllAssetBundles = true;
         }
-
-        //Next up: Check for the Audio Description
-        path = "/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3";
-        if (FileManager.FileExists(path))
-        { }
         else
         {
-            Debug.Log("/hld-general/AudioDescriptions/Displayed_AudioDescriptions.mp3 not found");
-            return false;
+            haveAllAssetBundles = false;
         }
 
-        #region MeOnDisplay
-        //Next check #MeOnDisplay Videos
-        path = "/hld-general/MeOnDisplay/";
-        foreach (string dancer in ListOfDancers)
-        {
-            var filePath = path + dancer.Replace(" ", "_");
-            if (FileManager.FileExists(filePath + ".mov") || FileManager.FileExists(filePath + ".mp4"))
-            {
-            }
-            else
-            {
-                Debug.Log("Video file does not exist: " + filePath + ".");
-                return false;
-            }
-        }
-        // and Video Captions
-        path = "/hld-general/MeOnDisplay/VideoCaptions/";
-        foreach (string dancer in ListOfDancers)
-        {
-            var filePath = path + dancer.Replace(" ", "_");
-            if (FileManager.FileExists(filePath + ".txt"))
-            {
-            }
-            else
-            {
-                Debug.Log("Video Captions file does not exist: " + filePath + ".");
-                return false;
-            }
-        }
-        #endregion
-
-        #region Displayed Files
-        //Next check DISPLAYED audio
-        path = "/hld-displayed/Audio/";
-        foreach (string dancer in ListOfDancers)
-        {
-            var filePath = path + dancer.Replace(" ", "_");
-            if (FileManager.FileExists(filePath + ".wav") || FileManager.FileExists(filePath + ".mp3"))
-            {
-            }
-            else
-            {
-                Debug.Log("Displayed Audio file does not exist: " + filePath + ".");
-                return false;
-            }
-        }
-        //Next check #MeOnDisplay Videos
-        path = "/hld-displayed/Captions/";
-        foreach (string dancer in ListOfDancers)
-        {
-            var filePath = path + dancer.Replace(" ", "_");
-            if (FileManager.FileExists(filePath + ".txt"))
-            {
-            }
-            else
-            {
-                Debug.Log("Captions file does not exist: " + filePath + ".");
-                return false;
-            }
-        }
-        //Next check #MeOnDisplay Videos
-        path = "/hld-displayed/Photos/";
-        foreach (string dancer in ListOfDancers)
-        {
-            var filePath = path + dancer.Replace(" ", "_");
-            if (FileManager.FileExists(filePath + ".png") || FileManager.FileExists(filePath + ".jpg") || FileManager.FileExists(filePath + ".jpeg"))
-            {
-            }
-            else
-            {
-                Debug.Log("#MeOnDisplay photo file does not exist: " + filePath + ".");
-                return false;
-            }
-        }
-        #endregion
-
-        //If we get here, we ahve all the files we want
-        return true;
+        //If we get here, we have all the files we want
+        yield break;
     }
 
     private string[] GetListOfDancers()
     {
+        AssetBundle tmp = null;
         string[] list;
-        if (FileManager.FileExists("hld-general/ListOfDancers.txt"))
+
+        foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            list = FileManager.ReadTextFile("hld-general/ListOfDancers.txt").Split(',');
+            if (b.name == "hld/general")
+                tmp = b;
         }
+        if (tmp != null)
+            list = tmp.LoadAsset<TextAsset>("listofdancers").ToString().Split(',');
+
         else
         {
             Debug.LogWarning("No list of dancers");
             return null;
         }
 
-        list = list.OrderBy(x => x).ToArray();
+        var str_list = list.OrderBy(x => x).ToArray();
         for (int i = 0; i < list.Length; i++)
         {
             //clean up newlines;
@@ -453,18 +354,29 @@ public class InitializationManager : MonoBehaviour
         return list;
     }
 
-    /*  void InitializePlaceHolderJsonFiles()
-       {
-           Debug.Log(Application.persistentDataPath);
+    private void OnDestroy()
+    {
+        /*  foreach (AssetBundle bundle in AssetBundle.GetAllLoadedAssetBundles())
+           {
+               bundle.Unload(false);
+           }
+           */
+    }
 
-           TextAsset code = Resources.Load<TextAsset>("Json/AccessCode_default");
-           TextAsset bios = Resources.Load<TextAsset>("Json/Bios_default");
+    IEnumerator tryLoadAssetBundle(string path)
+    {
+        var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
+        yield return bundleLoadRequest;
 
-           MongoLib.WriteJsonUnModified(bios.text, "Bios.json");
-           MongoLib.WriteJsonUnModified(code.text, "AccessCode.json");
+        var myLoadedAssetBundle = bundleLoadRequest.assetBundle;
 
-       }
-       */
+        if (myLoadedAssetBundle == null)
+        {
+            Debug.LogError("Failed to load AssetBundle " + myLoadedAssetBundle.name);
+            yield break;
+        }
 
+        yield break;
+    }
 }
 

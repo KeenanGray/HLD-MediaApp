@@ -38,19 +38,10 @@ public class ManageHiddenAccess : MonoBehaviour
 
     private void CheckIsCorrect(string arg0)
     {
-        var res = FileManager.ReadTextFile("hld-displayed/AccessCode.json");
+        var res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
         if (res != "")
         {
-            PassPhraseArray myObject = JsonUtility.FromJson<PassPhraseArray>(res);
-
-            //compare the two strings
-            //non-case sensitive
-            if (myObject == null)
-            {
-                Debug.LogError("Uh oh");
-                return;
-            }
-            if (arg0.ToLower() == myObject.data[0].Code.ToLower())
+            if (arg0.ToLower() == res.ToString().ToLower())
             {
                 /*    foreach (GameObject go in hiddenPages)
                   {
@@ -70,7 +61,7 @@ public class ManageHiddenAccess : MonoBehaviour
             }
             else
             {
-                Debug.Log("try enterring passcode " + myObject.data[0].Code);
+                Debug.Log("try enterring passcode " + res.ToString());
             }
 
         }

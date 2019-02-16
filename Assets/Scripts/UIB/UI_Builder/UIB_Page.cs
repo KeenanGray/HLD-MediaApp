@@ -150,6 +150,8 @@ namespace UI_Builder
         private void Start()
         {
             UIB_InputManager.SwipeDelegate += SwipeHandler;
+
+    
         }
 
         #region SwipeHandler
@@ -265,7 +267,7 @@ namespace UI_Builder
 
             while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
             {
-                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector2(0, 0), lerp);
+                rt.anchoredPosition = new Vector2(0, 0);
                 lerp += tmp;
                 if (rt.anchoredPosition == new Vector2(0, 0))
                 {
@@ -310,7 +312,6 @@ namespace UI_Builder
             GetComponent<AspectRatioFitter>().enabled = false;
             DeActivateUAP();
 
-            Debug.Log("HERE " + UIB_PageManager.CurrentPage);
             if (UIB_PageManager.CurrentPage != null)
             {
                 if (!UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().InternetRequired)

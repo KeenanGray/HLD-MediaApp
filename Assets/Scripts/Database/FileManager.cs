@@ -23,7 +23,7 @@ namespace UI_Builder
         //db name heroku_pm1crn83
         // Use this for initialization
         public TextAsset config;
-        
+
         public float TimeOutLength;
 
         private void Start()
@@ -307,6 +307,23 @@ namespace UI_Builder
                 return "";
             }
 
+        }
+
+        public static string ReadTextAssetBundle(string fileName, string bundleString)
+        {
+            AssetBundle tmp = null;
+            foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+            {
+                if (b.name == bundleString)
+                    tmp = b;
+            }
+            if (tmp != null)
+                return tmp.LoadAsset<TextAsset>(fileName).ToString();
+            else
+            {
+                Debug.LogError("Asset bundle not found " + bundleString);
+                return "";
+            }
         }
     }
 }

@@ -43,7 +43,7 @@ namespace UI_Builder
 
             scroll = GetComponentInChildren<ScrollRect>();
 
-            SourceJson = FileManager.ReadTextFile(json_file);
+            SourceJson = FileManager.ReadTextAssetBundle(json_file, "hld/bios/json");
             if (SourceJson == null || SourceJson == "")
             {
                 return;

@@ -57,7 +57,7 @@ public class Bio_Page : MonoBehaviour
         Description.text = str;
     }
 
-    public void SetImage(string PathToImage)
+    public void SetImageFromPath(string PathToImage)
     {
         byte[] fileData = null;
 
@@ -66,7 +66,6 @@ public class Bio_Page : MonoBehaviour
             fileData = FileManager.ReadFromBytes(PathToImage, UIB_FileTypes.Images);
             if (fileData == null)
             {
-                Debug.Log("HERE");
                 return;
             }
             Texture2D tex = new Texture2D(2, 2);
@@ -79,4 +78,34 @@ public class Bio_Page : MonoBehaviour
             }
         }
     }
+
+    public void SetImageFromAssetBundle(string name, string bundleString)
+    {
+        AssetBundle tmp = null;
+        foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+        {
+            if (b.name == bundleString)
+            {
+                tmp = b;
+            }
+        }
+        if (BioImage != null)
+        {
+            Sprite newSprite = tmp.LoadAsset<Sprite>(name);
+            if (newSprite != null)
+            {
+               // Debug.Log("loaded it");
+            }
+            else
+                Debug.Log("did not load " + name);
+
+            BioImage.sprite = tmp.LoadAsset<Sprite>(name);
+            BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
+        }
+        else
+        {
+            Debug.Log("bundle not found " + bundleString);
+        }
+    }
 }
+

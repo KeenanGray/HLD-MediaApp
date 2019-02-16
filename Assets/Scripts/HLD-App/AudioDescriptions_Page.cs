@@ -4,7 +4,8 @@ using UI_Builder;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
+public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
+{
     GameObject AudioPlayerScreen;
 
     public void Init()
@@ -22,8 +23,8 @@ public class AudioDescriptions_Page : MonoBehaviour,UIB_IPage {
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetTitle("Audio Descriptions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImageFromResource("BackGroundPhotos/AudioDescriptions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().fileType = ".mp3";
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("AudioDescriptions/Displayed_AudioDescriptions");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions("/hld-general/AudioDescriptions/Displayed_AudioDescriptions.txt");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("Audio_Captions", "hld/displayed/audio");
+        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions("displayed_captions", "/hld/displayed/captions");
         AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Init();
 
     }

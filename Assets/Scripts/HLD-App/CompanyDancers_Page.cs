@@ -39,7 +39,7 @@ public class CompanyDancers_Page : UIB_ScrollMenu {
                 {
                     bp.SetName(bioJson.Name);
                     bp.SetTitle(bioJson.Title);
-                    bp.SetImage(Application.persistentDataPath + "/hld-general/Bio_Photos/" + bioJson.Name.Replace(" ", "_"));
+                    bp.SetImageFromAssetBundle(bioJson.Name.Replace(" ", "_").ToLower(),"hld/bios/photos");
                     bp.SetDesc(bioJson.Bio);
                 }
             }

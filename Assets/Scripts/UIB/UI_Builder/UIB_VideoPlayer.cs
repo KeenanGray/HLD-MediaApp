@@ -11,7 +11,6 @@ namespace UI_Builder
 {
     public class UIB_VideoPlayer : MonoBehaviour, UIB_IPage
     {
-
         GameObject cover;
         GameObject CaptionsCanvas;
 
