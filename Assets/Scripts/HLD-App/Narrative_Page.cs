@@ -91,7 +91,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 #if UNITY_ANDROID
         pageAudioPlayer.SetAudio("Narratives/"+ title.Replace(" ","_"));
 #else
-        pageAudioPlayer.SetAudio("file://" + Application.persistentDataPath + "/hld-displayed/Audio/"+ title.Replace(" ","_") + ".wav");
+        pageAudioPlayer.SetAudio("Narratives/"+ title.Replace(" ","_"));
 #endif
 
         pageAudioPlayer.Tools.PlayMethod(1);
