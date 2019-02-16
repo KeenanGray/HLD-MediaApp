@@ -45,3 +45,4 @@ Assets/Examples/*
 mongo_config.txt
 mongo_config.txt.meta
 .DS_Store
+*/.DS_Store

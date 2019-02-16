@@ -16,7 +16,7 @@ public class InitializationManager : MonoBehaviour
 
     GameObject AccessibilityInstructions;
 
-    HLD.Database_Accessor db_Manager;
+    Database_Accessor db_Manager;
     public float InitializeTime;
     float t1;
     float t2;

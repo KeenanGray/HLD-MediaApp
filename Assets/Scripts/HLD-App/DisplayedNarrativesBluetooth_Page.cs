@@ -43,7 +43,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         iBeaconReceiver.BeaconRangeChangedEvent += OnBeaconRangeChanged;
         dancersDetected = new Dictionary<int, int>();
 
-        Debug.Log("1");
         BluetoothState.BluetoothStateChangedEvent += delegate (BluetoothLowEnergyState state)
         {
             switch (state)
