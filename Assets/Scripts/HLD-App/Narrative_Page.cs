@@ -89,7 +89,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         //TODO::this should use filemanger to check that file exists
 
 #if UNITY_ANDROID
-        pageAudioPlayer.SetAudio("Narratives/"+ title.Replace(" ","_"));
+        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/displayed/narratives/audio");
 #else
         pageAudioPlayer.SetAudio(title.Replace(" ","_"), "hld/displayed/narratives/audio");
 #endif
