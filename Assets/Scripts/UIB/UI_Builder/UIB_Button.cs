@@ -37,7 +37,7 @@ namespace UI_Builder
         public GameObject VO_Select;
         public UIB_Button_Activates Button_Opens;
         public TextMeshProUGUI buttonText;
-        public string myText;
+        public string s_link;
         private Color originalColor;
 
         public void Init()
@@ -104,14 +104,14 @@ namespace UI_Builder
                     break;
                 case UIB_Button_Activates.Website:
                     shouldDeActivatePage = false;
-                    if (myText != null)
-                        Application.OpenURL(myText);
+                    if (s_link != null)
+                        Application.OpenURL(s_link);
                     else
                         Debug.LogWarning("Button not assigned a url");
                     break;
                 case UIB_Button_Activates.Accessibletext:
                     shouldDeActivatePage = false;
-                    UAP_AccessibilityManager.SaySkippable(myText);
+                    UAP_AccessibilityManager.SaySkippable(s_link);
                     /*Accessibility Instructions
                      * 
                      * This app is integrated with the accessibility features of your phone
@@ -121,7 +121,7 @@ namespace UI_Builder
                      */                    
                     break;
                 case UIB_Button_Activates.Scene:
-                    SceneManager.LoadScene(myText);
+                    SceneManager.LoadScene(s_link);
                     break;
                 default:
                     Debug.Log("No Activity for this button");

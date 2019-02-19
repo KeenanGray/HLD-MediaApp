@@ -132,6 +132,7 @@ namespace HLD
                     filename = S3BucketName + "/" + filename;
                     FileManager.WriteFileFromResponse(response, filename);
                     Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
+                    InitializationManager.DownloadCount--;
                 }
             });
         }
@@ -189,7 +190,8 @@ namespace HLD
                     // Debug.Log("Got Response Printing now ");
                     responseObject.Response.S3Objects.ForEach((o) =>
                     {
-                        GetObject(o.Key, S3BucketName);
+                        Debug.Log("key:" + o.Key);
+                        //GetObject(o.Key, S3BucketName);
                     });
                 }
                 else
@@ -202,73 +204,73 @@ namespace HLD
         public void GetUpdatedObjects(string S3BucketName)
         {
             //This used too many requests
-           /* int localFilesCount = LocalFilesCount(S3BucketName);
-            int MatchedFilesCount = 0;
-            int CloudFilesCount = 0;
+            /* int localFilesCount = LocalFilesCount(S3BucketName);
+             int MatchedFilesCount = 0;
+             int CloudFilesCount = 0;
 
-            var request = new ListObjectsRequest()
-            {
-                BucketName = S3BucketName
-            };
+             var request = new ListObjectsRequest()
+             {
+                 BucketName = S3BucketName
+             };
 
-            DateTime S3LastModified = new DateTime();
-            DateTime localFilesLastModified = new DateTime();
+             DateTime S3LastModified = new DateTime();
+             DateTime localFilesLastModified = new DateTime();
 
-            Client.ListObjectsAsync(request, (responseObject) =>
-            {
-                if (responseObject.Exception == null)
-                {
-                    responseObject.Response.S3Objects.ForEach((o) =>
-                    {
-                        //do not include directories in count
-                        if (o.Key.Contains("."))
-                        {
-                            CloudFilesCount++;
+             Client.ListObjectsAsync(request, (responseObject) =>
+             {
+                 if (responseObject.Exception == null)
+                 {
+                     responseObject.Response.S3Objects.ForEach((o) =>
+                     {
+                         //do not include directories in count
+                         if (o.Key.Contains("."))
+                         {
+                             CloudFilesCount++;
 
-                            if (MatchingObjects.Contains(FileManager.GetFileNameFromKey(o.Key)))
-                                MatchedFilesCount++;
-                        }
+                             if (MatchingObjects.Contains(FileManager.GetFileNameFromKey(o.Key)))
+                                 MatchedFilesCount++;
+                         }
 
-                        S3LastModified = o.LastModified.ToUniversalTime();
-                        localFilesLastModified = Directory.GetLastAccessTimeUtc(Application.persistentDataPath);
-                        var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
+                         S3LastModified = o.LastModified.ToUniversalTime();
+                         localFilesLastModified = Directory.GetLastAccessTimeUtc(Application.persistentDataPath);
+                         var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
 
-                        //Compare the difference in time between the local directory and files in the cloud
-                        if (timeDiff < 0)
-                        {
-                            //Debug.Log("No change to local files required");
-                        }
-                        else if (timeDiff == 0)
-                        {
-                            Debug.LogWarning("same time - seems wierd if you get here.");
-                            GetObject(o.Key, S3BucketName);
-                        }
-                        else if (timeDiff > 0)
-                        {
-                            Debug.LogWarning("Downloading from the Cloud");
-                            GetObject(o.Key, S3BucketName);
-                            return;
-                        }
+                         //Compare the difference in time between the local directory and files in the cloud
+                         if (timeDiff < 0)
+                         {
+                             //Debug.Log("No change to local files required");
+                         }
+                         else if (timeDiff == 0)
+                         {
+                             Debug.LogWarning("same time - seems wierd if you get here.");
+                             GetObject(o.Key, S3BucketName);
+                         }
+                         else if (timeDiff > 0)
+                         {
+                             Debug.LogWarning("Downloading from the Cloud");
+                             GetObject(o.Key, S3BucketName);
+                             return;
+                         }
 
-                    });
+                     });
 
-                    //see if there are more files in the cloud than in the local filesystem.
-                    //Debug.Log(S3BucketName + ":Cloud Files (real) " + CloudFilesCount + ",Cloud Files (adj) " + MatchedFilesCount + ",Local Files " + localFilesCount);
+                     //see if there are more files in the cloud than in the local filesystem.
+                     //Debug.Log(S3BucketName + ":Cloud Files (real) " + CloudFilesCount + ",Cloud Files (adj) " + MatchedFilesCount + ",Local Files " + localFilesCount);
 
-                    if (CloudFilesCount > localFilesCount)
-                    {
-                        //time to redownload - there are updates
-                        Debug.LogWarning("Downloading from the Cloud");
-                        GetObjects(S3BucketName);
-                        return;
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("Got exception" + responseObject.Exception);
-                }
-            });
-            */
+                     if (CloudFilesCount > localFilesCount)
+                     {
+                         //time to redownload - there are updates
+                         Debug.LogWarning("Downloading from the Cloud");
+                         GetObjects(S3BucketName);
+                         return;
+                     }
+                 }
+                 else
+                 {
+                     Debug.LogWarning("Got exception" + responseObject.Exception);
+                 }
+             });
+             */
         }
 
         /// <summary>

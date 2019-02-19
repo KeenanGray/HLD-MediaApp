@@ -27,6 +27,9 @@ public class InitializationManager : MonoBehaviour
     Color tmpColor;
     private GameObject tmpLandingPage;
 
+    public static int DownloadCount = 0;
+    private bool hasAllFiles;
+
     void Start()
     {
         Debug.Log(Application.persistentDataPath);
@@ -37,6 +40,8 @@ public class InitializationManager : MonoBehaviour
 
         UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
         StartCoroutine("Init");
+
+        hasAllFiles = false;
     }
 
     private void StopSpeech()
@@ -178,44 +183,179 @@ public class InitializationManager : MonoBehaviour
     private IEnumerator ManageAssetBundleFiles()
     {
         //First check if we have local versions of the files
-        yield return LoadAssetBundles();
+        yield return CheckLocalFiles();
+        if (hasAllFiles)
+        {
+            Debug.Log("we have all the files");
+            yield return LoadAssetBundles();
+        }
+        else
+        {
+            Debug.Log("we don't have all the files");
+        }
+    }
 
-        //if we have local files, see if we have an internet connection
-        if (CheckInternet())
+    private IEnumerator CheckLocalFiles()
+    {
+        string persisantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
+        var platform = "ios/";
+#if UNITY_IOS && !UNITY_EDITOR
+        platform="/ios";
+#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+        platform = "/android";
+#endif
+
+        //check for relevant asset bundle files
+        //First check that platform specific assetbundle exists
+        var filename = "ios";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
         {
-            //If we have internet, compare versions of each files
-            UpdateFilesIfNecessary();
-            yield break;
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("file does not exist:" + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
         }
-        else
+
+        platform += "hld/";
+        //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
+        //Next up: Check for "general" asset bundle
+        filename = "general";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
         {
-            //No internet, we will continue with app based on most recent version.
-            //This function will add global UI button (no internet indicator) - click button to attempt an update
-            ActivateNoInternetMode();
-            yield break;
+            if (CheckInternet())
+            {
+                //Download the file
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
         }
-        //TODO: COme back and fix the internet checks with AWS if necessary: the asset bundle may be small enough to live inside the App
-        //The app is missing one or all local files. 
-        //Check for internet
-        if (CheckInternet())
+
+        filename = "bios/json";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
         {
-            //We have internet, 
-            //TODO: alert the user that we will be downloading data
-            DownloadFilesFromDatabase();
-            yield break;
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+
         }
-        else
+        filename = "bios/photos";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
         {
-            //We do not have internet
-            //Alert the user that the app will have very limited functionality until connected to the internet
-            ActivateLimitedFunctionality();
-            yield break;
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+
         }
+
+        filename = "displayed/audio";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+
+        }
+        filename = "displayed/narratives/audio";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+        }
+        filename = "displayed/narratives/captions";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+        }
+        filename = "displayed/narratives/photos";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+
+        }
+
+        filename = "meondisplay/captions";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+
+        }
+        filename = "meondisplay/videos";
+        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("HERE " + persisantDataPath + platform + filename);
+                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+            }
+            else
+                yield break;
+        }
+
+
+        while (DownloadCount > 0)
+        {
+            Debug.Log("we have downloads going");
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        //if we get here we have all the files
+        hasAllFiles = true;
         yield break;
     }
 
     private void ActivateLimitedFunctionality()
     {
+        //TODO: refactor this
+        /*
         //Bring up no internet logo. 
         UIB_PageManager.InternetActive = false;
         NoWifi.GetComponentInParent<Canvas>().enabled = true;
@@ -223,48 +363,44 @@ public class InitializationManager : MonoBehaviour
         NoWifi.GetComponent<Button>().interactable = true;
 
         tmpLandingPage = GameObject.Find("NoInternetCriticalLanding");
+        */
+    }
+
+    private void DownloadFileFromDatabase(string path, string fName)
+    {
+        //TODO: Alert the user we are about to begin a large download
+        //How often can we call this download function before it costs too much $$$
+        //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
+        Debug.Log("fName " + fName);
+        db_Manager.GetObject(fName, "heidi-latsky-dance");
+        DownloadCount++;
     }
 
     private void DownloadFilesFromDatabase()
     {
+        throw new NotImplementedException();
         //TODO: Alert the user we are about to begin a large download
         Debug.LogWarning("Fetching Downloads from Database: If your are testing, it's possible a file is missing");
+        db_Manager.GetObjects("heidi-latsky-dance");
 
-        //How often can we call this download function before it costs too much $$$
-        db_Manager.GetObjects("hld-general");
-        db_Manager.GetObjects("hld-displayed");
     }
 
     private void ActivateNoInternetMode()
     {
+        //TODO: Refactor this
+        /*
         //Bring up no internet logo. 
         UIB_PageManager.InternetActive = false;
         NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 130);
         NoWifi.GetComponent<Button>().interactable = true;
 
         tmpLandingPage = GameObject.Find("NoInternetModeLanding");
+        */
     }
 
     public void UpdateFilesIfNecessary()
     {
         Debug.LogWarning("return here and check for updates to asset bundles");
-    }
-
-    void SetupArrayOfInterest()
-    {
-        List<string> MatchingObjects = new List<string>();
-
-        var tmp = GetListOfDancers();
-        for (int i = 0; i < tmp.Length; i++)
-        {
-            MatchingObjects.Add(tmp[i]);
-        }
-        MatchingObjects.Add("Bios");
-        MatchingObjects.Add("AccessCode");
-        MatchingObjects.Add("Displayed_AudioDescriptions");
-        MatchingObjects.Add("ListOfDancers");
-
-        db_Manager.SetMatchingObjects(MatchingObjects);
     }
 
     private bool CheckInternet()
@@ -281,12 +417,12 @@ public class InitializationManager : MonoBehaviour
                 UIB_PageManager.InternetActive = true;
                 return false;
         }
-        throw new NotImplementedException();
+        return false;
     }
 
     private IEnumerator LoadAssetBundles()
     {
-        string persistantDataPath = Application.streamingAssetsPath;
+        string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance";
 
         //use the relevant asset bundle path for each platform
 #if UNITY_IOS && !UNITY_EDITOR
@@ -372,7 +508,7 @@ public class InitializationManager : MonoBehaviour
 
         if (myLoadedAssetBundle == null)
         {
-            Debug.LogError("Failed to load AssetBundle " + myLoadedAssetBundle.name);
+            Debug.LogError("Failed to load AssetBundle " + path);
             yield break;
         }
 

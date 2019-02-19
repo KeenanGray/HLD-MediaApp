@@ -20,19 +20,56 @@ namespace UI_Builder
         RenderTexture videoTexture;
         public GameObject OriginScreen;
 
+
         // Use this for initialization
         void Start()
         {
-            cover = transform.Find("Cover").gameObject;
-            CaptionsCanvas = transform.Find("CaptionsCanvas").gameObject;
+            foreach (Image i in GetComponentsInChildren<Image>())
+            {
+                if (i.name == "Cover")
+                    cover = i.gameObject;
+            }
+
+            foreach (Canvas c in GetComponentsInChildren<Canvas>())
+            {
+                if (c.gameObject.name == "CaptionsCanvas")
+                {
+                    CaptionsCanvas = c.gameObject;
+                }
+            }
+
             if (CaptionsCanvas == null)
                 Debug.LogError("no canvas");
-                
+
+            foreach (Button b in GetComponentsInChildren<Button>())
+            {
+                if (b.name == "Captions_Button")
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.GetComponentInChildren<TextMeshProUGUI>().faceColor = new Color32(255, 255, 255, 255);
+
+                    b.onClick.AddListener(delegate
+                    {
+                        if (CaptionsCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().enabled)
+                        {
+                            b.GetComponentInChildren<TextMeshProUGUI>().faceColor = new Color32(255, 255, 255, 255);
+                        }
+                        else
+                        {
+                            b.GetComponentInChildren<TextMeshProUGUI>().faceColor = new Color32(200, 197, 43, 255);
+                        }
+                        CaptionsCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().enabled = (!CaptionsCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().enabled);
+                    });
+                }
+                if (b.transform.parent.name == "BackButtonRoot")
+                {
+                    b.onClick.AddListener(OnStoppedByButton);
+                }
+            }
+
             myPlayer = GetComponent<VideoPlayer>();
             videoTexture = myPlayer.targetTexture;
 
-            UnityEngine.UI.Button b = GetComponentInChildren<UnityEngine.UI.Button>();
-            b.onClick.AddListener(OnStoppedByButton);
         }
 
         // Update is called once per frame
@@ -79,8 +116,8 @@ namespace UI_Builder
 
             var numberOfFrames = myPlayer.frameRate * myPlayer.frameCount;
             var lengthOfClip = myPlayer.frameCount / myPlayer.frameRate;
-            
-            double CurrLength = lengthOfClip-(myPlayer.frame/myPlayer.frameRate);
+
+            double CurrLength = lengthOfClip - (myPlayer.frame / myPlayer.frameRate);
 
             while (CurrLength - (t1 - t0) >= 0)
             {
@@ -111,10 +148,14 @@ namespace UI_Builder
         void OnClipEnd()
         {
             OnStoppedByButton();
-            GetComponentInParent<UIB_Page>().StartCoroutine("MoveScreenOut",false);
+            GetComponentInParent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
             var listPage = GameObject.Find("#MeOnDisplay_Page");
-            listPage.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn",false);
+            listPage.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
             UAP_AccessibilityManager.SelectElement(listPage);
+
+
+            //reset the videoplayer;
+            myPlayer.frame = 0;
 
         }
 
@@ -138,7 +179,7 @@ namespace UI_Builder
             var words = GetNumberOfLines();
 
             int start = 0;
-            int WordsPerLine = 6;
+            int WordsPerLine = 9;
             string line = "";
 
             //myClip.length
@@ -187,5 +228,6 @@ namespace UI_Builder
         {
             StopAllCoroutines();
         }
+
     }
 }

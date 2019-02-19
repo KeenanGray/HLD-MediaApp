@@ -184,8 +184,8 @@ namespace UI_Builder
 
         internal static bool FileExists(string fileName)
         {
-            string destination = Application.persistentDataPath + "/" + fileName;
-            //            Debug.Log(destination);
+            string destination = fileName;
+            //Debug.Log("file exists " + File.Exists(destination));
             return File.Exists(destination);
         }
         internal static bool FileExists(string path, UIB_FileTypes kind)

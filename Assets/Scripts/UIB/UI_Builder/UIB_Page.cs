@@ -151,7 +151,7 @@ namespace UI_Builder
         {
             UIB_InputManager.SwipeDelegate += SwipeHandler;
 
-    
+
         }
 
         #region SwipeHandler
@@ -256,8 +256,8 @@ namespace UI_Builder
         //Other rates will allow the screen to slide in from the right.
         public IEnumerator MoveScreenIn(bool initializing = false)
         {
-            if (!(InternetRequired && !UIB_PageManager.InternetActive))
-                ToggleCanvas(true);
+            //if (!(InternetRequired && !UIB_PageManager.InternetActive))
+            ToggleCanvas(true);
 
             float lerp = 0;
             var tmp = rate;
@@ -265,7 +265,8 @@ namespace UI_Builder
             if (initializing)
                 tmp = 1;
 
-            while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
+            // while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
+            while (true)
             {
                 rt.anchoredPosition = new Vector2(0, 0);
                 lerp += tmp;
@@ -345,13 +346,16 @@ namespace UI_Builder
         {
             if (InternetRequired && !UIB_PageManager.InternetActive)
             {
+                //TODO:REfactor this
                 //if internet is necessary and we haven't downloaded the required files. do not allow access to this page
+                /*
                 var tmpLastPage = UIB_PageManager.LastPage;
                 var go = GameObject.Find("InternetFileError_Page").GetComponent<UIB_Page>();
                 go.StartCoroutine("MoveScreenIn", false);
                 StartCoroutine("MoveScreenOut", true);
                 UIB_PageManager.LastPage = tmpLastPage;
                 return;
+                */
             }
 
             ActivateButtonsOnScreen();
