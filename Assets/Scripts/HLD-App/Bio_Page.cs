@@ -46,7 +46,7 @@ public class Bio_Page : MonoBehaviour
 
     public void SetName(string str)
     {
-        Name.text = str;
+        Name.text = "<b>"+str+"</b>";
     }
     public void SetTitle(string str)
     {

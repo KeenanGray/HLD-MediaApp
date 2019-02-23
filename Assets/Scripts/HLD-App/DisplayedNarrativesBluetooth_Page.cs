@@ -279,6 +279,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     private void OpenPageFromFace(int label)
     {
         var dancer = Enum.GetNames(typeof(DancerMajors))[label];
+        dancer = dancer.Replace("_", "");
         Debug.Log("Dancer " + dancer);
 
         switch (label)

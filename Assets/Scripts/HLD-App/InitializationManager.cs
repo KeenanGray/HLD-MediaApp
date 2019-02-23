@@ -14,6 +14,8 @@ public class InitializationManager : MonoBehaviour
     GameObject aspectManager;
 
     GameObject AccessibilityInstructions;
+    public static GameObject isDownloadingScreen;
+    GameObject blankPage;
 
     Database_Accessor db_Manager;
     public float InitializeTime;
@@ -23,9 +25,7 @@ public class InitializationManager : MonoBehaviour
     int numberOfBundles = 8;
     bool haveAllAssetBundles;
 
-    private GameObject NoWifi;
     Color tmpColor;
-    private GameObject tmpLandingPage;
 
     public static int DownloadCount = 0;
     private bool hasAllFiles;
@@ -37,6 +37,8 @@ public class InitializationManager : MonoBehaviour
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
+        isDownloadingScreen = GameObject.Find("IsDownloadingPage");
+        blankPage = GameObject.Find("BlankPage");
 
         UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
         StartCoroutine("Init");
@@ -86,17 +88,6 @@ public class InitializationManager : MonoBehaviour
             Debug.LogWarning("Unable to find Aspect Manager");
             yield break;
         }
-
-        NoWifi = GameObject.Find("NoWifiIcon");
-        if (NoWifi == null)
-        {
-            Debug.LogWarning("Unable to find NoWifi Logo");
-            yield break;
-        }
-
-        tmpColor = NoWifi.GetComponentInChildren<Image>().color;
-        NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 0);
-
         t1 = Time.time;
 
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
@@ -119,6 +110,8 @@ public class InitializationManager : MonoBehaviour
         {
             Debug.LogError("No Database Manager");
         }
+
+        StartCoroutine("CheckWifiAndDownloads");
 
         db_Manager.Init();
 
@@ -151,12 +144,6 @@ public class InitializationManager : MonoBehaviour
 
         var firstScreen = GameObject.Find("Landing_Page");
 
-        if (tmpLandingPage != null)//in some cases, we will move in a seperate warning screen
-        {
-            tmpLandingPage.GetComponent<UIB_Page>().StopAllCoroutines();
-            firstScreen = tmpLandingPage;
-        }
-
         yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
 
         //if we finish initializing faster than expected, take a moment to finish the video
@@ -186,6 +173,7 @@ public class InitializationManager : MonoBehaviour
         yield return CheckLocalFiles();
         if (hasAllFiles)
         {
+            blankPage.transform.SetAsLastSibling();
             Debug.Log("we have all the files");
             yield return LoadAssetBundles();
         }
@@ -197,159 +185,103 @@ public class InitializationManager : MonoBehaviour
 
     private IEnumerator CheckLocalFiles()
     {
-        string persisantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
+        string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
         var platform = "ios/";
+        var filename = "ios";
 #if UNITY_IOS && !UNITY_EDITOR
-        platform="/ios";
+        platform="ios/";
+        filename = "ios";
+
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-        platform = "/android";
+        platform = "android/";
+        filename = "android";
 #endif
 
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
-        var filename = "ios";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("file does not exist:" + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
-        }
+        TryDownloadFile(persistantDataPath, platform ,filename);
 
         platform += "hld/";
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
         filename = "general";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
-        }
+        TryDownloadFile(persistantDataPath, platform, filename);
+
 
         filename = "bios/json";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
+        TryDownloadFile(persistantDataPath, platform, filename);
 
-        }
         filename = "bios/photos";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
+        TryDownloadFile(persistantDataPath, platform, filename);
 
-        }
 
         filename = "displayed/audio";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
+        TryDownloadFile(persistantDataPath, platform, filename);
 
-        }
         filename = "displayed/narratives/audio";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
-        }
-        filename = "displayed/narratives/captions";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
-        }
-        filename = "displayed/narratives/photos";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
 
-        }
+        TryDownloadFile(persistantDataPath, platform, filename);
+
+
+        filename = "displayed/narratives/captions";
+        TryDownloadFile(persistantDataPath, platform, filename);
+
+
+        filename = "displayed/narratives/photos";
+
+        TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "meondisplay/captions";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
-        {
-            if (CheckInternet())
-            {
-                //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
+        TryDownloadFile(persistantDataPath, platform, filename);
 
-        }
+        //TODO:figure out video loading
+        /*
         filename = "meondisplay/videos";
-        if (!(FileManager.FileExists(persisantDataPath + platform + filename)))
+        if (!(FileManager.FileExists(persistantDataPath + platform + filename)))
         {
             if (CheckInternet())
             {
                 //Download the file
-                Debug.Log("HERE " + persisantDataPath + platform + filename);
-                DownloadFileFromDatabase(persisantDataPath + platform, platform + filename);
+                DownloadFileFromDatabase(persistantDataPath + platform, platform + filename);
             }
             else
                 yield break;
         }
-
-
-        while (DownloadCount > 0)
-        {
-            Debug.Log("we have downloads going");
-            yield return new WaitForSeconds(1.0f);
-        }
+        */
 
         //if we get here we have all the files
         hasAllFiles = true;
         yield break;
+    }
+
+    private void TryDownloadFile(string persistantDataPath, string platform, string filename )
+    {
+        if (!(FileManager.FileExists(persistantDataPath+platform+filename)))
+        {
+            if (CheckInternet())
+            {
+                //Download the file
+                Debug.Log("file does not exist:" + persistantDataPath+platform+filename);
+                DownloadFileFromDatabase(persistantDataPath + platform, platform + filename);
+            }
+            else
+            {
+                //no internet, load bundle from streaming assets
+                Debug.Log("loading bundle from streaming assets " + platform + filename);
+                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + platform + filename);
+            }
+        }
+        else
+        {
+            //we have the file check for update
+            if (CheckInternet())
+            {
+                Debug.Log("we have the file, check for update");
+                db_Manager.CheckIfObjectHasUpdate(persistantDataPath + platform + filename, platform + filename, "heidi-latsky-dance");
+            }
+
+        }
     }
 
     private void ActivateLimitedFunctionality()
@@ -371,9 +303,10 @@ public class InitializationManager : MonoBehaviour
         //TODO: Alert the user we are about to begin a large download
         //How often can we call this download function before it costs too much $$$
         //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
+        isDownloadingScreen.transform.SetAsLastSibling();
+
         Debug.Log("fName " + fName);
         db_Manager.GetObject(fName, "heidi-latsky-dance");
-        DownloadCount++;
     }
 
     private void DownloadFilesFromDatabase()
@@ -382,25 +315,11 @@ public class InitializationManager : MonoBehaviour
         //TODO: Alert the user we are about to begin a large download
         Debug.LogWarning("Fetching Downloads from Database: If your are testing, it's possible a file is missing");
         db_Manager.GetObjects("heidi-latsky-dance");
-
     }
 
     private void ActivateNoInternetMode()
     {
-        //TODO: Refactor this
-        /*
-        //Bring up no internet logo. 
-        UIB_PageManager.InternetActive = false;
-        NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 130);
-        NoWifi.GetComponent<Button>().interactable = true;
-
-        tmpLandingPage = GameObject.Find("NoInternetModeLanding");
-        */
-    }
-
-    public void UpdateFilesIfNecessary()
-    {
-        Debug.LogWarning("return here and check for updates to asset bundles");
+        throw new NotImplementedException();
     }
 
     private bool CheckInternet()
@@ -490,15 +409,6 @@ public class InitializationManager : MonoBehaviour
         return list;
     }
 
-    private void OnDestroy()
-    {
-        /*  foreach (AssetBundle bundle in AssetBundle.GetAllLoadedAssetBundles())
-           {
-               bundle.Unload(false);
-           }
-           */
-    }
-
     IEnumerator tryLoadAssetBundle(string path)
     {
         var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
@@ -513,6 +423,47 @@ public class InitializationManager : MonoBehaviour
         }
 
         yield break;
+    }
+
+    IEnumerator CheckWifiAndDownloads()
+    {
+        GameObject WifiInUseIcon;
+        GameObject NoWifiIcon;
+
+        while (true)
+        {
+
+            WifiInUseIcon = GameObject.Find("WifiIcon");
+            NoWifiIcon = GameObject.Find("NoWifiIcon");
+
+            if (CheckInternet())
+            {
+                NoWifiIcon.SetActive(false); ;
+            }
+            else
+            {
+                NoWifiIcon.SetActive(true); ;
+            }
+
+            while (DownloadCount > 0)
+            {
+                Debug.Log("we have downloads going");
+
+                if (!WifiInUseIcon.activeSelf)
+                {
+                    WifiInUseIcon.SetActive(false);
+                }
+                else
+                {
+                    WifiInUseIcon.SetActive(true);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+            }
+            WifiInUseIcon.SetActive(false);
+
+            yield return null;
+        }
     }
 }
 
