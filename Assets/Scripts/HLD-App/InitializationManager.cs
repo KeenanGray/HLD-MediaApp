@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using HLD;
 using UI_Builder;
@@ -90,7 +91,7 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
         t1 = Time.time;
-              
+
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
             arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
@@ -364,12 +365,26 @@ public class InitializationManager : MonoBehaviour
         {
             if (UIB_AssetBundleHelper.bundlesLoading[path])
             {
-               // Debug.Log("already got that one " + path);
+                Debug.Log("already got that one " + path);
                 yield break;
             }
         }
 
-        var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
+        AssetBundleCreateRequest bundleLoadRequest = null;
+        if (!File.Exists(path))
+        {
+            Debug.Log("file does not exist");
+            yield break;
+        }
+
+
+        bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
+
+        if (bundleLoadRequest == null)
+        {
+            yield break;
+        }
+
         yield return bundleLoadRequest;
 
         var myLoadedAssetBundle = bundleLoadRequest.assetBundle;
@@ -379,7 +394,6 @@ public class InitializationManager : MonoBehaviour
             Debug.LogError("Failed to load AssetBundle " + path);
             yield break;
         }
-
         yield break;
     }
 
@@ -405,7 +419,7 @@ public class InitializationManager : MonoBehaviour
 
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
-                    Debug.Log("we have downloads going");
+//                    Debug.Log("we have downloads going");
                     WifiInUseIcon.SetActive(true);
 
                 }
@@ -433,7 +447,7 @@ public class InitializationManager : MonoBehaviour
                      if (isAssetBundleLoaded(platform + "meondisplay/captions"))
                          yield return tryLoadAssetBundle(persistantDataPath + platform + "meondisplay/captions");
                                      */
-                    yield break;
+                    yield return null;
                 }
             }
             else

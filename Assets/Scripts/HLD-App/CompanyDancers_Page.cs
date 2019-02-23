@@ -18,10 +18,8 @@ public class CompanyDancers_Page : UIB_ScrollMenu {
 
     public void Init()
     {
-        Debug.Log("Called this");
         GetComponent<UIB_Page>().AssetBundleRequired = true;
         UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
-
     }
 
     //The implementation of the page generator for this pages submenu

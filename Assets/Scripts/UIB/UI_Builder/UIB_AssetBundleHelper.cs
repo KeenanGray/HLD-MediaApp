@@ -23,60 +23,71 @@ namespace UI_Builder
             else
             {
                 //we have not put the key in the dictionary
-               //Debug.Log("adding " + s);
+                //Debug.Log("adding " + s);
                 bundlesLoading.Add(s, false);
             }
-    
+
         }
 
         public IEnumerator LoadAssetBundlesInBackground()
         {
+            var size = bundlesLoading.Keys.Count;
+            var tmpArray = new string[size];
             while (true)
             {
-                Debug.Log("Waiting for asset bundles");
-                try
+                var s = "";
+                for (int i = 0; i < size; i++)
                 {
-                    foreach (string s in bundlesLoading.Keys)
+                    try
                     {
-                        //Debug.Log("s is " + s);
+                        bundlesLoading.Keys.CopyTo(tmpArray, 0);
+                        s = tmpArray[i];
                     }
-                }
-                catch (InvalidOperationException e)
-                {
-                    StartCoroutine("LoadAssetBundlesInBackground");
-                    yield break;
-                }
-
-                foreach (string s in bundlesLoading.Keys)
-                {
+                    catch (ArgumentException e)
+                    {
+                        Debug.Log(e);
+                        Debug.Log("size issue " + bundlesLoading.Keys.Count + " " + tmpArray.Length);
+                        tmpArray = new string[bundlesLoading.Keys.Count];
+                        i = 0;
+                        break;
+                    }
                     var newPath = Application.persistentDataPath + "/heidi-latsky-dance/" + InitializationManager.platform + s;
+
                     if (bundlesLoading[s])
                     {
-                        //we have the asset bundle loaded.
+                        continue;
                     }
                     else
                     {
                         //we need to load the asset bundle
-//                        Debug.Log("trying to load bundle " + newPath);
+                        //                        Debug.Log("trying to load bundle " + newPath);
+                        Debug.Log("trying to load bundle " + newPath);
+
                         yield return InitializationManager.tryLoadAssetBundle(newPath);
 
+                        //Take all the loaded asset bundles and mark them as "true"
                         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
                         {
                             bundlesLoading[b.name] = true;
+                        }
 
-                            if (!bundlesLoading.ContainsKey(newPath))
-                            {
-                                InsertAssetBundle(newPath);
-                                bundlesLoading[newPath] = true;
+                        //Add our new paths to the bundle arry
+                        if (!bundlesLoading.ContainsKey(newPath) && bundlesLoading[s])
+                        {
+                            Debug.Log("Adding entire path to bundleDict");
+                            InsertAssetBundle(newPath);
+                            bundlesLoading[newPath] = true;
 
-                                StartCoroutine("LoadAssetBundlesInBackground");
-                                yield break;
-
-                            }
+                            StartCoroutine("LoadAssetBundlesInBackground");
+                            yield break;
+                        }
+                        else
+                        {
                         }
                     }
                 }
                 yield return null;
+
             }
         }
     }
