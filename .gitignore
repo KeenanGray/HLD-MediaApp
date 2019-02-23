@@ -43,6 +43,7 @@ Assets/Plugins.meta
 Assets/AWSSDK/*
 Assets/Examples/*
 Assets/StreamingAssets/*
+Assets/AssetBundles/*
 
 mongo_config.txt
 mongo_config.txt.meta
