@@ -28,6 +28,8 @@ public class InitializationManager : MonoBehaviour
     Color tmpColor;
 
     public static int DownloadCount = 0;
+    public static int checkingForUpdates = 0;
+
     private bool hasAllFiles;
 
     void Start()
@@ -80,7 +82,6 @@ public class InitializationManager : MonoBehaviour
 
         ObjPoolManager.Init();
 
-
         UAP_AccessibilityManager.PauseAccessibility(true);
 
         if (aspectManager == null)
@@ -117,7 +118,6 @@ public class InitializationManager : MonoBehaviour
 
         haveAllAssetBundles = false;
         yield return ManageAssetBundleFiles();
-
 
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
@@ -200,7 +200,7 @@ public class InitializationManager : MonoBehaviour
 
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
-        TryDownloadFile(persistantDataPath, platform ,filename);
+        TryDownloadFile(persistantDataPath, platform, filename);
 
         platform += "hld/";
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
@@ -255,14 +255,14 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-    private void TryDownloadFile(string persistantDataPath, string platform, string filename )
+    private void TryDownloadFile(string persistantDataPath, string platform, string filename)
     {
-        if (!(FileManager.FileExists(persistantDataPath+platform+filename)))
+        if (!(FileManager.FileExists(persistantDataPath + platform + filename)))
         {
             if (CheckInternet())
             {
                 //Download the file
-                Debug.Log("file does not exist:" + persistantDataPath+platform+filename);
+                Debug.Log("file" + persistantDataPath + platform + filename + " does not exist download commencing download");
                 DownloadFileFromDatabase(persistantDataPath + platform, platform + filename);
             }
             else
@@ -305,7 +305,6 @@ public class InitializationManager : MonoBehaviour
         //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
         isDownloadingScreen.transform.SetAsLastSibling();
 
-        Debug.Log("fName " + fName);
         db_Manager.GetObject(fName, "heidi-latsky-dance");
     }
 
@@ -353,7 +352,7 @@ public class InitializationManager : MonoBehaviour
         //if we are in the editor just use ios files...i guess...
         persistantDataPath += "/ios/";
 #endif
-
+        /*
         yield return tryLoadAssetBundle(persistantDataPath + "hld/general");
         yield return tryLoadAssetBundle(persistantDataPath + "hld/bios/json");
         yield return tryLoadAssetBundle(persistantDataPath + "hld/bios/photos");
@@ -363,7 +362,7 @@ public class InitializationManager : MonoBehaviour
         yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/audio");
         yield return tryLoadAssetBundle(persistantDataPath + "hld/meondisplay/videos");
         yield return tryLoadAssetBundle(persistantDataPath + "hld/meondisplay/captions");
-
+        */
 
         if (AssetBundle.GetAllLoadedAssetBundles().Count() == numberOfBundles)
         {
@@ -427,41 +426,38 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator CheckWifiAndDownloads()
     {
-        GameObject WifiInUseIcon;
-        GameObject NoWifiIcon;
+        GameObject WifiInUseIcon = null;
+        GameObject NoWifiIcon = null;
+
+        WifiInUseIcon = GameObject.Find("Wifi_Icon");
+        NoWifiIcon = GameObject.Find("NoWifi_Icon");
 
         while (true)
         {
-
-            WifiInUseIcon = GameObject.Find("WifiIcon");
-            NoWifiIcon = GameObject.Find("NoWifiIcon");
+            if (WifiInUseIcon == null)
+                Debug.LogError("bad");
+            if (NoWifiIcon == null)
+                Debug.LogError("worse");
 
             if (CheckInternet())
             {
-                NoWifiIcon.SetActive(false); ;
+                NoWifiIcon.SetActive(false);
+                
+                if (DownloadCount > 0 && checkingForUpdates <= 0)
+                {
+                    Debug.Log("we have downloads going");
+                    WifiInUseIcon.SetActive(true);
+
+                }
+                else
+                {
+                    WifiInUseIcon.SetActive(false);
+                }
             }
             else
             {
                 NoWifiIcon.SetActive(true); ;
             }
-
-            while (DownloadCount > 0)
-            {
-                Debug.Log("we have downloads going");
-
-                if (!WifiInUseIcon.activeSelf)
-                {
-                    WifiInUseIcon.SetActive(false);
-                }
-                else
-                {
-                    WifiInUseIcon.SetActive(true);
-                }
-
-                yield return new WaitForSeconds(1.0f);
-            }
-            WifiInUseIcon.SetActive(false);
-
             yield return null;
         }
     }

@@ -9,10 +9,10 @@ public class CheckInternetButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        noWifiButton = GameObject.Find("NoWifiIcon");
+        noWifiButton = GameObject.Find("NoWifi_Icon");
         if (noWifiButton == null)
         {
-            Debug.LogWarning("chekc the name of the gameobject");
+            Debug.LogWarning("check the name of the gameobject");
         }
 
         GetComponent<Button>().onClick.AddListener(delegate

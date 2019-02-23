@@ -13,12 +13,11 @@ namespace UI_Builder
      * */
     public class UIB_PageContainer : MonoBehaviour
     {
-
         GameObject Cover;
         // Use this for initialization
         public void Init()
         {
-            Cover = transform.Find("CoverImage").gameObject;
+            Cover = GameObject.Find("CoverImage").gameObject;
 
             float offset = 1.0f;
             AspectRatioFitter arf;

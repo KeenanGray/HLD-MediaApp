@@ -148,6 +148,7 @@ namespace HLD
             DateTime localFilesLastModified = new DateTime();
 
             InitializationManager.DownloadCount++;
+            InitializationManager.checkingForUpdates++;
 
             Client.GetObjectMetadataAsync(request, (responseObject) =>
             {
@@ -156,18 +157,20 @@ namespace HLD
                     S3LastModified = responseObject.Response.LastModified.ToUniversalTime();
                     localFilesLastModified = File.GetLastWriteTimeUtc(path);
 
-                    Debug.Log("last modified " + S3LastModified + " local changed " + localFilesLastModified);
+//                    Debug.Log("last modified " + S3LastModified + " local changed " + localFilesLastModified);
                     var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
 
                     //Compare the difference in time between the local directory and files in the cloud
                     if (timeDiff < 0)
                     {
                         InitializationManager.DownloadCount--;
+                        InitializationManager.checkingForUpdates--;
                         Debug.Log("No change to local files required");
                     }
                     else if (timeDiff == 0)
                     {
                         InitializationManager.DownloadCount--;
+                        InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("same time - seems wierd if you get here.");
                         InitializationManager.isDownloadingScreen.transform.SetAsLastSibling();
                         GetObject(filename, S3BucketName);
@@ -175,15 +178,16 @@ namespace HLD
                     else if (timeDiff > 0)
                     {
                         InitializationManager.DownloadCount--;
+                        InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("Downloading from the Cloud " + filename);
                         InitializationManager.isDownloadingScreen.transform.SetAsLastSibling();
                         GetObject(filename, S3BucketName);
-                        return;
                     }
 
                 }
                 else {
                     InitializationManager.DownloadCount--;
+                    InitializationManager.checkingForUpdates--;
                     Debug.Log(responseObject.Exception);
                 }
 
