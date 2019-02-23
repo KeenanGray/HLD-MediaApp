@@ -144,6 +144,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
         foreach(AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
+            Debug.Log("b " + b.name + " bundle " + bundleString);
             if (b.name == bundleString)
                 tmp = b;
         }

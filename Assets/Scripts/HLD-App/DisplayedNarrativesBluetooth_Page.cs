@@ -43,6 +43,11 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         iBeaconReceiver.BeaconRangeChangedEvent += OnBeaconRangeChanged;
         dancersDetected = new Dictionary<int, int>();
 
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/photos");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/captions");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/audio");
+
+
         BluetoothState.BluetoothStateChangedEvent += delegate (BluetoothLowEnergyState state)
         {
             switch (state)
@@ -139,18 +144,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
           {
               UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesBluetooth_Page");
           };
-
-            /* if (fdHLD != null)
-             {
-                 if (fdHLD.isRunning)
-                     fdHLD.BeginRecognizer();
-                 else
-                 {
-                     StopCoroutine("InitializeRecognizer");
-                     StartCoroutine("InitializeRecognizer");
-                 }
-             }
-             */
 
 
             Debug.Log("restart scanner");

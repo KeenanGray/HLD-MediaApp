@@ -30,17 +30,15 @@ namespace UI_Builder
 
         protected BiographyArray myObject;
         protected IOrderedEnumerable<Biography> OrderedByName;
-        protected static bool loadingBundle;
 
         void UIB_IPage.Init()
         {
             GetComponent<UIB_Page>().AssetBundleRequired = true;
-            GetComponent<UIB_Page>().myAssetBundles.Add("bios/json");
+            UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/json");
 
-            if (GetComponent<UIB_Page>().AssetBundleRequired && !loadingBundle)
+            if (GetComponent<UIB_Page>().AssetBundleRequired)
             {
-                GetComponent<UIB_Page>().StartCoroutine("WaitForAssetBundle");
-                loadingBundle = true;
+                Debug.Log("do we have to do something here");
             }
 
             GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
@@ -71,6 +69,8 @@ namespace UI_Builder
 
         public void PageActivatedHandler()
         {
+            InitJsonList();
+
             ObjPoolManager.RefreshPool();
             //Make the pages first
             MakeLinkedPages();
@@ -82,7 +82,7 @@ namespace UI_Builder
 
             if (OrderedByName == null)
             {
-                Debug.LogWarning("Warning");
+                Debug.LogWarning("Warning: There was no list to iterate through on page activated");
                 return;
             }
 

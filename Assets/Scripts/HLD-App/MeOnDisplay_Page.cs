@@ -24,7 +24,8 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         scroll = GetComponentInChildren<ScrollRect>();
 
         GetComponent<UIB_Page>().AssetBundleRequired = true;
-        GetComponent<UIB_Page>().myAssetBundles.Add("hld/general/listofdancers");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/meondisplay/captions");
 
 
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;

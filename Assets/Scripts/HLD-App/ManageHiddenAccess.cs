@@ -34,46 +34,31 @@ public class ManageHiddenAccess : MonoBehaviour
         CodeButton = GameObject.Find("DISPLAYED-Code_Button");
         ls = GameObject.Find("LandingScreen");
 
-        GetComponent<UIB_Page>().AssetBundleRequired = true;
-        GetComponent<UIB_Page>().myAssetBundles.Add("hld/general/accesscode");
-
+        GetComponentInParent<UIB_Page>().AssetBundleRequired = true;
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
     }
 
     private void CheckIsCorrect(string arg0)
     {
         var res = "";
-        if (InitializationManager.isAssetBundleLoaded("hld/general"))
-            res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
-        else
-        {
-            InitializationManager.tryLoadAssetBundle("hld/general");
-            res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
-        }
+        res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+
         if (res != "")
         {
             if (arg0.ToLower() == res.ToString().ToLower())
             {
-                /*    foreach (GameObject go in hiddenPages)
-                  {
-                      go.SetActive(true);
-                  }
-
-
-                  GetComponentInParent<Page>().MoveScreenOut();
-                      ls.GetComponent<Page>().
-                MoveScreenIn();
-          */
                 //HACK: call coroutine twice for it to work?!?
                 StartCoroutine("OnCorrectCode");
                 StartCoroutine("OnCorrectCode");
-
-
             }
             else
             {
                 Debug.Log("try enterring passcode " + res.ToString());
             }
-
+        }
+        else
+        {
+            Debug.Log("res is not assigned");
         }
     }
 

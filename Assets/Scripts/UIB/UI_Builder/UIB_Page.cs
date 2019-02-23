@@ -42,7 +42,6 @@ namespace UI_Builder
 
         public float rate = 1.0f;
         public bool AssetBundleRequired; //Kind of a misnamed variable: has more to do with whether files have been downloaded from web
-        public List<string> myAssetBundles;
 
         GameObject mainCanvas;
         GameObject subCanvas;
@@ -68,7 +67,9 @@ namespace UI_Builder
             }
 
             if (AssetBundleRequired)
-                StartCoroutine("WaitForAssetBundle");
+            {
+                Debug.Log("do we have to do something here");
+            }
 
             rt.sizeDelta = new Vector2(UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
 
@@ -426,48 +427,7 @@ namespace UI_Builder
         }
         #endregion
 
-        IEnumerator WaitForAssetBundle()
-        {
-            bool result;
-
-            foreach (string str in myAssetBundles)
-            {
-
-                while (!InitializationManager.isAssetBundleLoaded("hld/" + str))
-                {
-                    Debug.Log("waiting for bundle " + str);
-                    yield return null;
-
-                    /*
-                    Debug.Log("waiting for " + str);
-
-                    if (InitializationManager.isAssetBundleLoaded("hld/" + str))
-                        yield break;
-                    else
-                        yield return InitializationManager.tryLoadAssetBundle(InitializationManager.persistantDataPath + InitializationManager.platform + str);
-
-                    if (InitializationManager.isAssetBundleLoaded("hld/" + str))
-                    {
-                        AssetBundleRequired = false;
-                        try
-                        {
-                            GetComponent<UIB_ScrollMenu>().InitJsonList();
-                        }
-                        catch
-                        {
-                            Debug.LogWarning("No ScrollMenu for this object");
-                        }
-                        Init();
-                        yield break;
-                    }
-                    yield return null;
-                                     */
-                }
-
-                yield return null;           
-            }
-        }
-
+     
 
     }
 }

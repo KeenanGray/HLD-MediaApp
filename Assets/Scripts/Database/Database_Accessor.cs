@@ -171,7 +171,6 @@ namespace HLD
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("same time - seems wierd if you get here.");
-                        InitializationManager.isDownloadingScreen.transform.SetAsLastSibling();
                         GetObject(filename, S3BucketName);
                     }
                     else if (timeDiff > 0)
@@ -179,7 +178,6 @@ namespace HLD
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("Downloading from the Cloud " + filename);
-                        InitializationManager.isDownloadingScreen.transform.SetAsLastSibling();
                         GetObject(filename, S3BucketName);
                     }
 

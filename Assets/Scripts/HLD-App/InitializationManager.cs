@@ -14,7 +14,6 @@ public class InitializationManager : MonoBehaviour
     GameObject aspectManager;
 
     GameObject AccessibilityInstructions;
-    public static GameObject isDownloadingScreen;
     GameObject blankPage;
 
     Database_Accessor db_Manager;
@@ -23,7 +22,6 @@ public class InitializationManager : MonoBehaviour
     float t2;
 
     int numberOfBundles = 8;
-    bool haveAllAssetBundles;
 
     Color tmpColor;
 
@@ -33,18 +31,15 @@ public class InitializationManager : MonoBehaviour
     private bool hasAllFiles;
     public static string persistantDataPath;
     public static string platform;
-    public static Dictionary<string, bool> bundlesLoading;
 
 
     void Start()
     {
-        bundlesLoading = new Dictionary<string, bool>();
         Debug.Log(Application.persistentDataPath);
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
-        isDownloadingScreen = GameObject.Find("IsDownloadingPage");
         blankPage = GameObject.Find("BlankPage");
 
         UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
@@ -95,13 +90,15 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
         t1 = Time.time;
-
+              
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
             arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
+
+
         UIB_PageContainer MainContainer = null;
         foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
         {
@@ -119,7 +116,6 @@ public class InitializationManager : MonoBehaviour
 
         db_Manager.Init();
 
-        haveAllAssetBundles = false;
         yield return ManageAssetBundleFiles();
 
         StartCoroutine("CheckWifiAndDownloads");
@@ -130,6 +126,11 @@ public class InitializationManager : MonoBehaviour
         }
 
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
+        {
+            p.Init();
+        }
+
+        foreach (CompanyDancers_Page p in GetComponentsInChildren<CompanyDancers_Page>())
         {
             p.Init();
         }
@@ -177,8 +178,7 @@ public class InitializationManager : MonoBehaviour
         if (hasAllFiles)
         {
             blankPage.transform.SetAsLastSibling();
-            //            Debug.Log("we have all the files");
-            yield return LoadAssetBundles();
+            GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
         }
         else
         {
@@ -205,34 +205,40 @@ public class InitializationManager : MonoBehaviour
         //First check that platform specific assetbundle exists
         TryDownloadFile(persistantDataPath, platform, filename);
 
-        platform += "hld/";
+        filename = "hld/" + filename;
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
         filename = "general";
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "bios/json";
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "bios/photos";
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "displayed/audio";
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "displayed/narratives/audio";
-
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "displayed/narratives/captions";
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
 
         filename = "displayed/narratives/photos";
-
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "meondisplay/captions";
+        filename = "hld/" + filename;
         TryDownloadFile(persistantDataPath, platform, filename);
 
         //TODO:figure out video loading
@@ -301,8 +307,6 @@ public class InitializationManager : MonoBehaviour
         //TODO: Alert the user we are about to begin a large download
         //How often can we call this download function before it costs too much $$$
         //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
-        isDownloadingScreen.transform.SetAsLastSibling();
-
         db_Manager.GetObject(fName, "heidi-latsky-dance");
     }
 
@@ -321,34 +325,6 @@ public class InitializationManager : MonoBehaviour
                 return false;
         }
         return false;
-    }
-
-    private IEnumerator LoadAssetBundles()
-    {
-        string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance";
-
-        //use the relevant asset bundle path for each platform
-#if UNITY_IOS && !UNITY_EDITOR
-        persistantDataPath+="/ios/";
-#elif UNITY_ANDROID && !UNITY_EDITOR
-        persistantDataPath+="/android/";
-#endif
-#if UNITY_EDITOR
-        //if we are in the editor just use ios files...i guess...
-        persistantDataPath += "/ios/";
-#endif
-
-        if (AssetBundle.GetAllLoadedAssetBundles().Count() == numberOfBundles)
-        {
-            haveAllAssetBundles = true;
-        }
-        else
-        {
-            haveAllAssetBundles = false;
-        }
-
-        //If we get here, we have all the files we want
-        yield break;
     }
 
     private string[] GetListOfDancers()
@@ -384,6 +360,15 @@ public class InitializationManager : MonoBehaviour
 
     public static IEnumerator tryLoadAssetBundle(string path)
     {
+        if (UIB_AssetBundleHelper.bundlesLoading.ContainsKey(path))
+        {
+            if (UIB_AssetBundleHelper.bundlesLoading[path])
+            {
+               // Debug.Log("already got that one " + path);
+                yield break;
+            }
+        }
+
         var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
         yield return bundleLoadRequest;
 
@@ -459,21 +444,6 @@ public class InitializationManager : MonoBehaviour
         }
     }
 
-    public static bool isAssetBundleLoaded(string bundleName)
-    {
-        foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
-        {
-            if (b.name == bundleName)
-            {
-                return true;
-            }
-            else
-            {
-                Debug.Log(b.name + ":" + false);
-            }
-        }
 
-        return false;
-    }
 }
 

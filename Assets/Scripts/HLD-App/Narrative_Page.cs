@@ -19,7 +19,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
     private void Start()
     {
-        GetComponent<UIB_Page>().AssetBundleRequired = true;
     }
 
 

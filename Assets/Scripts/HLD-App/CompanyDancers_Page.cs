@@ -16,18 +16,21 @@ public class CompanyDancers_Page : UIB_ScrollMenu {
     //  BioArray myObject;
     //  private IOrderedEnumerable<Biography> OrderedByName;
 
-    private void Start()
+    public void Init()
     {
+        Debug.Log("Called this");
         GetComponent<UIB_Page>().AssetBundleRequired = true;
-        GetComponent<UIB_Page>().myAssetBundles.Add("bios/photos");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
+
     }
 
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
+
         if (OrderedByName == null)
         {
-            Debug.LogWarning("Warning");
+            Debug.LogWarning("Warning: There was no list to iterate through");
             return;
         }
 
