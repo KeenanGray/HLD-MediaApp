@@ -9,18 +9,27 @@ using UnityEngine.UI;
 
 public class CompanyDancers_Page : UIB_ScrollMenu {
 
-  //  ScrollRect scroll;
+    //  ScrollRect scroll;
     GameObject Bio_Page_Root;
 
     //  private string BiographiesJSON;
     //  BioArray myObject;
     //  private IOrderedEnumerable<Biography> OrderedByName;
 
+    private void Start()
+    {
+        GetComponent<UIB_Page>().AssetBundleRequired = true;
+        GetComponent<UIB_Page>().myAssetBundles.Add("bios/photos");
+    }
+
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
         if (OrderedByName == null)
+        {
+            Debug.LogWarning("Warning");
             return;
+        }
 
         ObjPoolManager.BeginRetrieval();
         foreach (Biography bioJson in OrderedByName)

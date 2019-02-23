@@ -165,7 +165,6 @@ namespace HLD
                     {
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
-                        Debug.Log("No change to local files required");
                     }
                     else if (timeDiff == 0)
                     {

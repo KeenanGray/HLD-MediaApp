@@ -31,9 +31,14 @@ public class InitializationManager : MonoBehaviour
     public static int checkingForUpdates = 0;
 
     private bool hasAllFiles;
+    public static string persistantDataPath;
+    public static string platform;
+    public static Dictionary<string, bool> bundlesLoading;
+
 
     void Start()
     {
+        bundlesLoading = new Dictionary<string, bool>();
         Debug.Log(Application.persistentDataPath);
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
@@ -112,12 +117,12 @@ public class InitializationManager : MonoBehaviour
             Debug.LogError("No Database Manager");
         }
 
-        StartCoroutine("CheckWifiAndDownloads");
-
         db_Manager.Init();
 
         haveAllAssetBundles = false;
         yield return ManageAssetBundleFiles();
+
+        StartCoroutine("CheckWifiAndDownloads");
 
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
@@ -126,9 +131,7 @@ public class InitializationManager : MonoBehaviour
 
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
         {
-
             p.Init();
-
         }
 
         foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
@@ -174,7 +177,7 @@ public class InitializationManager : MonoBehaviour
         if (hasAllFiles)
         {
             blankPage.transform.SetAsLastSibling();
-            Debug.Log("we have all the files");
+            //            Debug.Log("we have all the files");
             yield return LoadAssetBundles();
         }
         else
@@ -185,8 +188,8 @@ public class InitializationManager : MonoBehaviour
 
     private IEnumerator CheckLocalFiles()
     {
-        string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
-        var platform = "ios/";
+        persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
+        platform = "ios/";
         var filename = "ios";
 #if UNITY_IOS && !UNITY_EDITOR
         platform="ios/";
@@ -208,13 +211,11 @@ public class InitializationManager : MonoBehaviour
         filename = "general";
         TryDownloadFile(persistantDataPath, platform, filename);
 
-
         filename = "bios/json";
         TryDownloadFile(persistantDataPath, platform, filename);
 
         filename = "bios/photos";
         TryDownloadFile(persistantDataPath, platform, filename);
-
 
         filename = "displayed/audio";
         TryDownloadFile(persistantDataPath, platform, filename);
@@ -222,7 +223,6 @@ public class InitializationManager : MonoBehaviour
         filename = "displayed/narratives/audio";
 
         TryDownloadFile(persistantDataPath, platform, filename);
-
 
         filename = "displayed/narratives/captions";
         TryDownloadFile(persistantDataPath, platform, filename);
@@ -277,10 +277,8 @@ public class InitializationManager : MonoBehaviour
             //we have the file check for update
             if (CheckInternet())
             {
-                Debug.Log("we have the file, check for update");
                 db_Manager.CheckIfObjectHasUpdate(persistantDataPath + platform + filename, platform + filename, "heidi-latsky-dance");
             }
-
         }
     }
 
@@ -306,19 +304,6 @@ public class InitializationManager : MonoBehaviour
         isDownloadingScreen.transform.SetAsLastSibling();
 
         db_Manager.GetObject(fName, "heidi-latsky-dance");
-    }
-
-    private void DownloadFilesFromDatabase()
-    {
-        throw new NotImplementedException();
-        //TODO: Alert the user we are about to begin a large download
-        Debug.LogWarning("Fetching Downloads from Database: If your are testing, it's possible a file is missing");
-        db_Manager.GetObjects("heidi-latsky-dance");
-    }
-
-    private void ActivateNoInternetMode()
-    {
-        throw new NotImplementedException();
     }
 
     private bool CheckInternet()
@@ -352,17 +337,6 @@ public class InitializationManager : MonoBehaviour
         //if we are in the editor just use ios files...i guess...
         persistantDataPath += "/ios/";
 #endif
-        /*
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/general");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/bios/json");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/bios/photos");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/audio");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/captions");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/photos");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/displayed/narratives/audio");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/meondisplay/videos");
-        yield return tryLoadAssetBundle(persistantDataPath + "hld/meondisplay/captions");
-        */
 
         if (AssetBundle.GetAllLoadedAssetBundles().Count() == numberOfBundles)
         {
@@ -408,7 +382,7 @@ public class InitializationManager : MonoBehaviour
         return list;
     }
 
-    IEnumerator tryLoadAssetBundle(string path)
+    public static IEnumerator tryLoadAssetBundle(string path)
     {
         var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
         yield return bundleLoadRequest;
@@ -428,6 +402,7 @@ public class InitializationManager : MonoBehaviour
     {
         GameObject WifiInUseIcon = null;
         GameObject NoWifiIcon = null;
+        string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
 
         WifiInUseIcon = GameObject.Find("Wifi_Icon");
         NoWifiIcon = GameObject.Find("NoWifi_Icon");
@@ -442,7 +417,7 @@ public class InitializationManager : MonoBehaviour
             if (CheckInternet())
             {
                 NoWifiIcon.SetActive(false);
-                
+
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
                     Debug.Log("we have downloads going");
@@ -452,14 +427,53 @@ public class InitializationManager : MonoBehaviour
                 else
                 {
                     WifiInUseIcon.SetActive(false);
+                    /*
+                      if (isAssetBundleLoaded(platform + "general"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "general");
+                     if (isAssetBundleLoaded(platform + "bios/json"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "bios/json");
+                     if (isAssetBundleLoaded(platform + "bios/photos"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "bios/photos");
+                     if (isAssetBundleLoaded(platform + "displayed/audio"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/audio");
+                     if (isAssetBundleLoaded(platform + "displayed/narratives/captions"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/narratives/captions");
+                     if (isAssetBundleLoaded(platform + "displayed/narratives/photos"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/narratives/photos");
+                     if (isAssetBundleLoaded(platform + "displayed/narratives/audio"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/narratives/audio");
+                     //TODO:Figure out videos
+                     //if (isAssetBundleLoaded(platform + "general"))
+                     // yield return tryLoadAssetBundle(persistantDataPath + platform + "meondisplay/videos");
+                     if (isAssetBundleLoaded(platform + "meondisplay/captions"))
+                         yield return tryLoadAssetBundle(persistantDataPath + platform + "meondisplay/captions");
+                                     */
+                    yield break;
                 }
             }
             else
             {
-                NoWifiIcon.SetActive(true); ;
+                NoWifiIcon.SetActive(true);
             }
             yield return null;
         }
+    }
+
+    public static bool isAssetBundleLoaded(string bundleName)
+    {
+        foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+        {
+            if (b.name == bundleName)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.Log(b.name + ":" + false);
+            }
+        }
+
+        return false;
     }
 }
 

@@ -16,6 +16,13 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     string title;
     string photoPath;
     string TopPageName = "DisplayedNarrativesBT_Page";
+
+    private void Start()
+    {
+        GetComponent<UIB_Page>().AssetBundleRequired = true;
+    }
+
+
     public void Init()
     {
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");

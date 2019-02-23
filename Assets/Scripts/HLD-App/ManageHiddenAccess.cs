@@ -34,11 +34,21 @@ public class ManageHiddenAccess : MonoBehaviour
         CodeButton = GameObject.Find("DISPLAYED-Code_Button");
         ls = GameObject.Find("LandingScreen");
 
+        GetComponent<UIB_Page>().AssetBundleRequired = true;
+        GetComponent<UIB_Page>().myAssetBundles.Add("hld/general/accesscode");
+
     }
 
     private void CheckIsCorrect(string arg0)
     {
-        var res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+        var res = "";
+        if (InitializationManager.isAssetBundleLoaded("hld/general"))
+            res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+        else
+        {
+            InitializationManager.tryLoadAssetBundle("hld/general");
+            res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+        }
         if (res != "")
         {
             if (arg0.ToLower() == res.ToString().ToLower())
@@ -86,7 +96,8 @@ public class ManageHiddenAccess : MonoBehaviour
             //TODO: Figure out why this hack works. 
             var gmobj = GameObject.Find("DISPLAYED-Info_Page");
 
-            gmobj.GetComponent<UIB_Page>().OnActivated +=delegate {
+            gmobj.GetComponent<UIB_Page>().OnActivated += delegate
+            {
                 GetComponentInParent<UIB_Page>().DeActivate();
             };
 
@@ -102,7 +113,7 @@ public class ManageHiddenAccess : MonoBehaviour
         }
 
         var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<UnityEngine.UI.Button>();
-        
+
         var ab = button.GetComponent<UIB_Button>();
         ab.Init();
         button.onClick.Invoke();
@@ -119,7 +130,7 @@ public class ManageHiddenAccess : MonoBehaviour
         audioDesc.GetComponent<UnityEngine.UI.Button>().enabled = true;
         audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
         yield return new WaitForSeconds(0.0f);
-        UAP_AccessibilityManager.SelectElement(audioDesc,true);
+        UAP_AccessibilityManager.SelectElement(audioDesc, true);
         yield break;
 
 

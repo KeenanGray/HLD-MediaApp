@@ -41,7 +41,8 @@ namespace UI_Builder
         public event Activated OnDeActivated;
 
         public float rate = 1.0f;
-        public bool InternetRequired; //Kind of a misnamed variable: has more to do with whether files have been downloaded from web
+        public bool AssetBundleRequired; //Kind of a misnamed variable: has more to do with whether files have been downloaded from web
+        public List<string> myAssetBundles;
 
         GameObject mainCanvas;
         GameObject subCanvas;
@@ -56,18 +57,18 @@ namespace UI_Builder
         UnityEngine.UI.Button close_button;
         private bool PageOnScreen;
 
-
         public void Init()
         {
             OnActivated += new Activated(PageActivatedHandler);
             OnDeActivated += new Activated(PageDeActivatedHandler);
 
-            // views = new List<RectTransform>();
-
             if (rt == null)
             {
                 rt = GetComponent<RectTransform>();
             }
+
+            if (AssetBundleRequired)
+                StartCoroutine("WaitForAssetBundle");
 
             rt.sizeDelta = new Vector2(UIB_AspectRatioManager.ScreenWidth, UIB_AspectRatioManager.ScreenHeight);
 
@@ -315,7 +316,7 @@ namespace UI_Builder
 
             if (UIB_PageManager.CurrentPage != null)
             {
-                if (!UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().InternetRequired)
+                if (!UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().AssetBundleRequired)
                 {
                     UIB_PageManager.LastPage = UIB_PageManager.CurrentPage;
                 }
@@ -344,7 +345,7 @@ namespace UI_Builder
 
         public void PageActivatedHandler()
         {
-            if (InternetRequired && !UIB_PageManager.InternetActive)
+            if (AssetBundleRequired && !UIB_PageManager.InternetActive)
             {
                 //TODO:REfactor this
                 //if internet is necessary and we haven't downloaded the required files. do not allow access to this page
@@ -425,8 +426,48 @@ namespace UI_Builder
         }
         #endregion
 
+        IEnumerator WaitForAssetBundle()
+        {
+            bool result;
+
+            foreach (string str in myAssetBundles)
+            {
+
+                while (!InitializationManager.isAssetBundleLoaded("hld/" + str))
+                {
+                    Debug.Log("waiting for bundle " + str);
+                    yield return null;
+
+                    /*
+                    Debug.Log("waiting for " + str);
+
+                    if (InitializationManager.isAssetBundleLoaded("hld/" + str))
+                        yield break;
+                    else
+                        yield return InitializationManager.tryLoadAssetBundle(InitializationManager.persistantDataPath + InitializationManager.platform + str);
+
+                    if (InitializationManager.isAssetBundleLoaded("hld/" + str))
+                    {
+                        AssetBundleRequired = false;
+                        try
+                        {
+                            GetComponent<UIB_ScrollMenu>().InitJsonList();
+                        }
+                        catch
+                        {
+                            Debug.LogWarning("No ScrollMenu for this object");
+                        }
+                        Init();
+                        yield break;
+                    }
+                    yield return null;
+                                     */
+                }
+
+                yield return null;           
+            }
+        }
+
 
     }
-
-
 }

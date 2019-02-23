@@ -7,7 +7,6 @@ using UI_Builder;
 
 public class Bio_Page : MonoBehaviour
 {
-
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Description;
@@ -89,8 +88,9 @@ public class Bio_Page : MonoBehaviour
                 tmp = b;
             }
         }
-        if (BioImage != null)
+        if (BioImage != null && tmp!=null)
         {
+            Debug.Log(tmp.name);
             Sprite newSprite = tmp.LoadAsset<Sprite>(name);
             if (newSprite != null)
             {

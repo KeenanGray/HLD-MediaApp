@@ -30,9 +30,19 @@ namespace UI_Builder
 
         protected BiographyArray myObject;
         protected IOrderedEnumerable<Biography> OrderedByName;
+        protected static bool loadingBundle;
 
         void UIB_IPage.Init()
         {
+            GetComponent<UIB_Page>().AssetBundleRequired = true;
+            GetComponent<UIB_Page>().myAssetBundles.Add("bios/json");
+
+            if (GetComponent<UIB_Page>().AssetBundleRequired && !loadingBundle)
+            {
+                GetComponent<UIB_Page>().StartCoroutine("WaitForAssetBundle");
+                loadingBundle = true;
+            }
+
             GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
             GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
@@ -43,6 +53,10 @@ namespace UI_Builder
 
             scroll = GetComponentInChildren<ScrollRect>();
 
+          
+        }
+        public void InitJsonList()
+        {
             SourceJson = FileManager.ReadTextAssetBundle(json_file, "hld/bios/json");
             if (SourceJson == null || SourceJson == "")
             {
@@ -50,6 +64,9 @@ namespace UI_Builder
             }
             myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
             OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
+
+           // foreach(Biography sr in OrderedByName)
+           //     Debug.Log(sr.Name);
         }
 
         public void PageActivatedHandler()
@@ -64,7 +81,10 @@ namespace UI_Builder
             ObjPoolManager.BeginRetrieval();
 
             if (OrderedByName == null)
+            {
+                Debug.LogWarning("Warning");
                 return;
+            }
 
             foreach (Biography b in OrderedByName)
             {
@@ -126,4 +146,5 @@ namespace UI_Builder
 
         public abstract void MakeLinkedPages();
     }
+
 }

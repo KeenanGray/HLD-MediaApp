@@ -9,7 +9,6 @@ using UnityEngine.Video;
 
 public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
 {
-
     List<string> Dancers;
     ScrollRect scroll;
     Special_AccessibleButton AccessibleButton = null;
@@ -23,6 +22,10 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
                                       "Jaclyn Rea", "Carmen Schoenster"};
 
         scroll = GetComponentInChildren<ScrollRect>();
+
+        GetComponent<UIB_Page>().AssetBundleRequired = true;
+        GetComponent<UIB_Page>().myAssetBundles.Add("hld/general/listofdancers");
+
 
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
@@ -105,6 +108,12 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
 
     public void PageActivatedHandler()
     {
+        if (GetComponent<UIB_Page>().AssetBundleRequired) {
+            Debug.Log("we need an asset bundle for this page");
+        }
+
+
+
         GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_VideoPlayer>().OriginScreen = gameObject;
 
         //sort alphabetically
