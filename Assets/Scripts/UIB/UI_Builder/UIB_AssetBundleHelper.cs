@@ -60,9 +60,6 @@ namespace UI_Builder
                     else
                     {
                         //we need to load the asset bundle
-                        //                        Debug.Log("trying to load bundle " + newPath);
-                        Debug.Log("trying to load bundle " + newPath);
-
                         yield return InitializationManager.tryLoadAssetBundle(newPath);
 
                         //Take all the loaded asset bundles and mark them as "true"
@@ -74,7 +71,7 @@ namespace UI_Builder
                         //Add our new paths to the bundle arry
                         if (!bundlesLoading.ContainsKey(newPath) && bundlesLoading[s])
                         {
-                            Debug.Log("Adding entire path to bundleDict");
+//                            Debug.Log("Adding entire path to bundleDict");
                             InsertAssetBundle(newPath);
                             bundlesLoading[newPath] = true;
 

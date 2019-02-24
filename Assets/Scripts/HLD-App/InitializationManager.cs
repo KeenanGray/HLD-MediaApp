@@ -365,7 +365,7 @@ public class InitializationManager : MonoBehaviour
         {
             if (UIB_AssetBundleHelper.bundlesLoading[path])
             {
-                Debug.Log("already got that one " + path);
+               // Debug.Log("already got that one " + path);
                 yield break;
             }
         }
@@ -373,7 +373,7 @@ public class InitializationManager : MonoBehaviour
         AssetBundleCreateRequest bundleLoadRequest = null;
         if (!File.Exists(path))
         {
-            Debug.Log("file does not exist");
+          //  Debug.Log("file does not exist");
             yield break;
         }
 

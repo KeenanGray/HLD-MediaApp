@@ -144,7 +144,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
         foreach(AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            Debug.Log("b " + b.name + " bundle " + bundleString);
             if (b.name == bundleString)
                 tmp = b;
         }
@@ -195,7 +194,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     }
 
 
-    string url;
     public void SetAudio(string PathToAudio, string bundleString)
     {
         AssetBundle tmp = null;
@@ -212,60 +210,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     }
 
 
-    IEnumerator GetAudioClip()
-    {
-        AudioClip AudioToUse = null;
-
-        UnityWebRequest www= null;
-        if (fileType == ".wav")
-        {
-            www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV);
-        }
-        else if (fileType == ".mp3")
-        {
-            www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG);
-        }
-        else
-        {
-            Debug.LogWarning("file type not specified");
-        }
-
-        if (www == null)
-            yield break;
-
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            while (!www.downloadHandler.isDone)
-            {
-                Debug.Log(www.downloadHandler.isDone);
-                yield return null;
-            }
-
-            AudioToUse = ((DownloadHandlerAudioClip)www.downloadHandler).audioClip;
-        }
-
-        if (AudioToUse == null)
-            Debug.Log("AUDIO IS NULL");
-
-        if (src != null)
-        {
-            src.clip = AudioToUse;
-            src.time = 0;
-            Tools.Init();
-        }
-
-       // cover.SetActive(false);
-
-        var AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Tools.PlayMethod(1);
-        yield break;
-    }
 
     public void SetAudioCaptions(string name, string filePath)
     {
