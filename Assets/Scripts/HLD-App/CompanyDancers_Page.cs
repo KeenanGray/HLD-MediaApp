@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UI_Builder;
-using static HLD.JSON_Structs;
 using System.Linq;
 using TMPro;
 using UnityEngine.UI;
+using HLD;
+using static HLD.JSON_Structs;
 
-public class CompanyDancers_Page : UIB_ScrollMenu {
+public class CompanyDancers_Page : HLD.ScrollMenu {
 
     //  ScrollRect scroll;
     GameObject Bio_Page_Root;
@@ -33,7 +34,9 @@ public class CompanyDancers_Page : UIB_ScrollMenu {
         }
 
         ObjPoolManager.BeginRetrieval();
-        foreach (Biography bioJson in OrderedByName)
+        var BiographyOrderedByName = (System.Linq.IOrderedEnumerable<Biography>)OrderedByName;
+
+        foreach (Biography bioJson in BiographyOrderedByName)
         {
             Name_Suffix = bioJson.Name.Replace(" ","");
             GameObject go = null;

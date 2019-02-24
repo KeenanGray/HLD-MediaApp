@@ -288,6 +288,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         var maxNearVol=.6f;
         var maxImmediatevol=1;
 
+        if (mybeacons == null)
+            return;
+
         foreach (Beacon b in mybeacons)
         {
             var DancerFromBeacon = Enum.GetName(typeof(DancerMajors), b.major - 1).ToString();

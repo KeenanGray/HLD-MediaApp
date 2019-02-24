@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UI_Builder;
 using UnityEngine;
 using UnityEngine.UI;
 using static HLD.JSON_Structs;
 
-namespace UI_Builder
+namespace HLD
 {
-    public interface UIB_IScrollMenu
+    public interface IScrollMenu
     {
         void MakeLinkedPages();
     }
 
     [RequireComponent(typeof(ScrollRect))]
-    public abstract class UIB_ScrollMenu : MonoBehaviour, UIB_IPage, UIB_IScrollMenu
+    public abstract class ScrollMenu : MonoBehaviour, UIB_IPage, IScrollMenu
     {
         protected ScrollRect scroll;
         protected string SourceJson;
@@ -28,8 +29,8 @@ namespace UI_Builder
 
         protected string Name_Suffix;
 
-        protected BiographyArray myObject;
-        protected IOrderedEnumerable<Biography> OrderedByName;
+        protected UIB_Struct myObject;
+        protected IOrderedEnumerable<UIB_Struct> OrderedByName;
 
         void UIB_IPage.Init()
         {
@@ -55,13 +56,13 @@ namespace UI_Builder
         }
         public void InitJsonList()
         {
-            SourceJson = FileManager.ReadTextAssetBundle(json_file, "hld/bios/json");
+            SourceJson = UIB_FileManager.ReadTextAssetBundle(json_file, "hld/bios/json");
             if (SourceJson == null || SourceJson == "")
             {
                 return;
             }
             myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
-            OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
+            OrderedByName = (System.Linq.IOrderedEnumerable<UIB_Struct>)((BiographyArray)myObject).data.OrderBy(x => x.Name.Split(' ')[1]);
 
            // foreach(Biography sr in OrderedByName)
            //     Debug.Log(sr.Name);

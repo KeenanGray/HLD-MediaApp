@@ -101,7 +101,7 @@ namespace HLD
                 if (response.ResponseStream != null)
                 {
                     filename = S3BucketName + "/" + filename;
-                    FileManager.WriteFileFromResponse(response, filename);
+                    UIB_FileManager.WriteFileFromResponse(response, filename);
                     Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
                     InitializationManager.DownloadCount--;
                 }

@@ -37,7 +37,7 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         var filename = "/hld-general/MeOnDisplay/VideoCaptions/" + src.Replace(" ", "_") + ".txt";
         string videoSource = Application.persistentDataPath + "/hld-general/MeOnDisplay/" + src.Replace(" ", "_") + ".mov";
 
-        TextAsset captions = new TextAsset(FileManager.ReadTextAssetBundle(filename, "hld/displayed/narratives/video"));
+        TextAsset captions = new TextAsset(UIB_FileManager.ReadTextAssetBundle(filename, "hld/displayed/narratives/video"));
 
         var vp = GameObject.FindWithTag("App_VideoPlayer").GetComponent<VideoPlayer>();
         vp.GetComponent<UIB_VideoPlayer>().SetVideoCaptions(captions);

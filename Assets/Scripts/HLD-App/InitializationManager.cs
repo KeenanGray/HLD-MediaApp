@@ -8,7 +8,6 @@ using UI_Builder;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static HLD.JSON_Structs;
 
 public class InitializationManager : MonoBehaviour
 {
@@ -30,9 +29,6 @@ public class InitializationManager : MonoBehaviour
     public static int checkingForUpdates = 0;
 
     private bool hasAllFiles;
-    public static string persistantDataPath;
-    public static string platform;
-
 
     void Start()
     {
@@ -40,13 +36,7 @@ public class InitializationManager : MonoBehaviour
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
-        aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
-        blankPage = GameObject.Find("BlankPage");
-
-        UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
         StartCoroutine("Init");
-
-        hasAllFiles = false;
     }
 
     private void StopSpeech()
@@ -66,6 +56,14 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+        UIB_PlatformManager.Init();
+        hasAllFiles = false;
+
+        aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
+        blankPage = GameObject.Find("BlankPage");
+
+        UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
+        
         yield return new WaitForSeconds(1.0f);
         AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
         //enable accessible instructins if plugin is on
@@ -83,7 +81,6 @@ public class InitializationManager : MonoBehaviour
 
         ObjPoolManager.Init();
 
-        UAP_AccessibilityManager.PauseAccessibility(true);
 
         if (aspectManager == null)
         {
@@ -166,8 +163,6 @@ public class InitializationManager : MonoBehaviour
 
         UAP_AccessibilityManager.SelectElement(first, true); ;
 
-        //        Debug.Log("Init Time " + Time.time);
-
         MainContainer.DisableCover();
         yield break;
     }
@@ -189,58 +184,47 @@ public class InitializationManager : MonoBehaviour
 
     private IEnumerator CheckLocalFiles()
     {
-        persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
-        platform = "ios/";
-        var filename = "ios";
-#if UNITY_IOS && !UNITY_EDITOR
-        platform="ios/";
-        filename = "ios";
-
-#endif
-#if UNITY_ANDROID && !UNITY_EDITOR
-        platform = "android/";
-        filename = "android";
-#endif
+        UIB_PlatformManager.persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
 
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
-        TryDownloadFile(persistantDataPath, platform, filename);
+        var filename = UIB_PlatformManager.platform+"/";
 
         filename = "hld/" + filename;
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
-        filename = "general";
+        filename =  "general";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "bios/json";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "bios/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "displayed/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "displayed/narratives/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "displayed/narratives/captions";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
 
         filename = "displayed/narratives/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "meondisplay/captions";
         filename = "hld/" + filename;
-        TryDownloadFile(persistantDataPath, platform, filename);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         //TODO:figure out video loading
         /*
@@ -264,7 +248,7 @@ public class InitializationManager : MonoBehaviour
 
     private void TryDownloadFile(string persistantDataPath, string platform, string filename)
     {
-        if (!(FileManager.FileExists(persistantDataPath + platform + filename)))
+        if (!(UIB_FileManager.FileExists(persistantDataPath + platform + filename)))
         {
             if (CheckInternet())
             {
@@ -357,44 +341,6 @@ public class InitializationManager : MonoBehaviour
             list[i] = list[i].TrimStart(System.Environment.NewLine.ToCharArray());
         }
         return list;
-    }
-
-    public static IEnumerator tryLoadAssetBundle(string path)
-    {
-        if (UIB_AssetBundleHelper.bundlesLoading.ContainsKey(path))
-        {
-            if (UIB_AssetBundleHelper.bundlesLoading[path])
-            {
-               // Debug.Log("already got that one " + path);
-                yield break;
-            }
-        }
-
-        AssetBundleCreateRequest bundleLoadRequest = null;
-        if (!File.Exists(path))
-        {
-          //  Debug.Log("file does not exist");
-            yield break;
-        }
-
-
-        bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
-
-        if (bundleLoadRequest == null)
-        {
-            yield break;
-        }
-
-        yield return bundleLoadRequest;
-
-        var myLoadedAssetBundle = bundleLoadRequest.assetBundle;
-
-        if (myLoadedAssetBundle == null)
-        {
-            Debug.LogError("Failed to load AssetBundle " + path);
-            yield break;
-        }
-        yield break;
     }
 
     IEnumerator CheckWifiAndDownloads()

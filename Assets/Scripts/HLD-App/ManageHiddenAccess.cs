@@ -41,7 +41,7 @@ public class ManageHiddenAccess : MonoBehaviour
     private void CheckIsCorrect(string arg0)
     {
         var res = "";
-        res = FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+        res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
 
         if (res != "")
         {

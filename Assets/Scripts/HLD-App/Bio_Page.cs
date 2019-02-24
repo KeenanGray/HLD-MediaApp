@@ -60,9 +60,9 @@ public class Bio_Page : MonoBehaviour
     {
         byte[] fileData = null;
 
-        if (FileManager.FileExists(PathToImage, UIB_FileTypes.Images))
+        if (UIB_FileManager.FileExists(PathToImage))
         {
-            fileData = FileManager.ReadFromBytes(PathToImage, UIB_FileTypes.Images);
+            fileData = UIB_FileManager.ReadFromBytes(PathToImage, UIB_FileTypes.Images);
             if (fileData == null)
             {
                 return;
