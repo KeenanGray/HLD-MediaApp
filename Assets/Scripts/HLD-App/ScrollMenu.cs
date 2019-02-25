@@ -52,7 +52,7 @@ namespace HLD
 
             scroll = GetComponentInChildren<ScrollRect>();
 
-          
+
         }
         public void InitJsonList()
         {
@@ -64,8 +64,8 @@ namespace HLD
             myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
             OrderedByName = (System.Linq.IOrderedEnumerable<UIB_Struct>)((BiographyArray)myObject).data.OrderBy(x => x.Name.Split(' ')[1]);
 
-           // foreach(Biography sr in OrderedByName)
-           //     Debug.Log(sr.Name);
+            // foreach(Biography sr in OrderedByName)
+            //     Debug.Log(sr.Name);
         }
 
         public void PageActivatedHandler()
@@ -89,7 +89,7 @@ namespace HLD
 
             foreach (Biography b in OrderedByName)
             {
-                Name_Suffix = b.Name.Replace(" ","");
+                Name_Suffix = b.Name.Replace(" ", "");
                 GameObject go = null;
                 ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
                 if (go != null)
@@ -115,15 +115,16 @@ namespace HLD
 
                     UIB_btn.SetButtonText(b.Name);
                     UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
-//                    Debug.Log("DancerPhotos/"+ b.Name.Replace(" ", "_"));
+                    //                    Debug.Log("DancerPhotos/"+ b.Name.Replace(" ", "_"));
 
-                    foreach(Image image in transform.GetComponentsInParent<Image>()) {
-//                        Debug.Log("name " + image.gameObject.name);
-                   //     UIB_Button.backgroundImage = GameObject.Find("J");
+                    foreach (Image image in transform.GetComponentsInParent<Image>())
+                    {
+                        //                        Debug.Log("name " + image.gameObject.name);
+                        //     UIB_Button.backgroundImage = GameObject.Find("J");
 
                     }
                     //custom backgrounds
-                    UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_"))as Sprite;
+                    UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_")) as Sprite;
 
                     //For some reason you have to do this
                     //So that the names appear in the right order for accessibility
@@ -138,6 +139,12 @@ namespace HLD
                 }
             }
             ObjPoolManager.EndRetrieval();
+
+            scroll.GetComponent<UIB_ScrollingMenu>().playedOnce = false;
+            scroll.GetComponent<UIB_ScrollingMenu>().Playing = false;
+            scroll.GetComponent<UIB_ScrollingMenu>().Setup();
+
+
         }
 
         public void PageDeActivatedHandler()

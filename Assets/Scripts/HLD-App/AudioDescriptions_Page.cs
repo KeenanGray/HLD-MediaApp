@@ -34,7 +34,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
     {
         SetupAudioPlayer();
         AudioPlayerScreen.transform.SetParent(transform);
-        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount);
+        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-2);
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
     }
 

@@ -21,7 +21,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     {
     }
 
-
     public void Init()
     {
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
@@ -30,7 +29,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        backButton = transform.Find("Interface").Find("DisplayedNarrativesBT_Button").gameObject;
+        backButton = transform.Find("DisplayedNarrativesBT_Button").gameObject;
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
 
@@ -104,7 +103,8 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         pageAudioPlayer.Init();
 
         AudioPlayerScreen.transform.SetParent(transform);
-        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-1);
+        //    AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-1);
+        AudioPlayerScreen.transform.SetAsFirstSibling();
 
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = false;
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;

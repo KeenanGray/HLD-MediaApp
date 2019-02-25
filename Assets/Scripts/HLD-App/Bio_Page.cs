@@ -12,6 +12,10 @@ public class Bio_Page : MonoBehaviour
     public TextMeshProUGUI Description;
     public Image BioImage;
 
+    private void Start()
+    {
+        Initialize();
+    }
     // Use this for initialization
     public void Initialize()
     {
@@ -19,9 +23,9 @@ public class Bio_Page : MonoBehaviour
         {
             if (tm.name == "Name")
                 Name = tm;
-            else if (tm.name == "Title")
+            if (tm.name == "Title")
                 Title = tm;
-            else if (tm.name == "Description")
+            if (tm.name == "Description")
                 Description = tm;
         }
         foreach (Image i in GetComponentsInChildren<Image>())
@@ -33,7 +37,7 @@ public class Bio_Page : MonoBehaviour
         }
 
         Name.text = "";
-        Title.text = "";
+//        Title.text = "";
         Description.text = "";
     }
 
@@ -45,15 +49,16 @@ public class Bio_Page : MonoBehaviour
 
     public void SetName(string str)
     {
-        Name.text = "<b>"+str+"</b>";
+        Name.text = "<b>" + str + "</b>";
     }
     public void SetTitle(string str)
     {
-        Title.text = str;
+        //Title.text = str;
     }
     public void SetDesc(string str)
     {
-        Description.text = str;
+        if (Description != null)
+            Description.text = str;
     }
 
     public void SetImageFromPath(string PathToImage)
@@ -88,19 +93,19 @@ public class Bio_Page : MonoBehaviour
                 tmp = b;
             }
         }
-        if (BioImage != null && tmp!=null)
+        if (BioImage != null && tmp != null)
         {
             Debug.Log(tmp.name);
             Sprite newSprite = tmp.LoadAsset<Sprite>(name);
             if (newSprite != null)
             {
-               // Debug.Log("loaded it");
+                // Debug.Log("loaded it");
             }
             else
                 Debug.Log("did not load " + name);
 
             BioImage.sprite = tmp.LoadAsset<Sprite>(name);
-            BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
+            //  BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
         }
         else
         {
