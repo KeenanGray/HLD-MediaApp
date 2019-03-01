@@ -52,6 +52,7 @@ public class InitializationManager : MonoBehaviour
 
     private void Update()
     {
+
     }
 
     IEnumerator Init()
@@ -63,7 +64,7 @@ public class InitializationManager : MonoBehaviour
         blankPage = GameObject.Find("BlankPage");
 
         UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
-        
+
         yield return new WaitForSeconds(1.0f);
         AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
         //enable accessible instructins if plugin is on
@@ -74,13 +75,24 @@ public class InitializationManager : MonoBehaviour
         else
         {
             if (AccessibilityInstructions != null)
+            {
+                //turn off label and move viewport down.
                 AccessibilityInstructions.SetActive(false);
+                var adjust = 1.5f;
+                AccessibilityInstructions.transform.Translate(new Vector3(0, adjust, 0));
+
+            }
             else
                 Debug.LogWarning("No accessibility instructions assigned");
         }
 
         ObjPoolManager.Init();
 
+        //set scroll rects to top
+        foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
+        {
+            sb.value = 1;
+        }
 
         if (aspectManager == null)
         {
@@ -188,12 +200,12 @@ public class InitializationManager : MonoBehaviour
 
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
-        var filename = UIB_PlatformManager.platform+"/";
+        var filename = UIB_PlatformManager.platform + "/";
 
         filename = "hld/" + filename;
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
-        filename =  "general";
+        filename = "general";
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
@@ -279,9 +291,6 @@ public class InitializationManager : MonoBehaviour
         /*
         //Bring up no internet logo. 
         UIB_PageManager.InternetActive = false;
-        NoWifi.GetComponentInParent<Canvas>().enabled = true;
-        NoWifi.GetComponentInChildren<Image>().color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 130);
-        NoWifi.GetComponent<Button>().interactable = true;
 
         tmpLandingPage = GameObject.Find("NoInternetCriticalLanding");
         */
@@ -346,59 +355,34 @@ public class InitializationManager : MonoBehaviour
     IEnumerator CheckWifiAndDownloads()
     {
         GameObject WifiInUseIcon = null;
-        GameObject NoWifiIcon = null;
         string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
 
-        WifiInUseIcon = GameObject.Find("Wifi_Icon");
-        NoWifiIcon = GameObject.Find("NoWifi_Icon");
+        WifiInUseIcon = GameObject.Find("DownloadIcon");
 
         while (true)
         {
             if (WifiInUseIcon == null)
-                Debug.LogError("bad");
-            if (NoWifiIcon == null)
-                Debug.LogError("worse");
+            {
+                Debug.Log("Bad");
+            }
 
             if (CheckInternet())
             {
-                NoWifiIcon.SetActive(false);
 
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
-//                    Debug.Log("we have downloads going");
+                    //                    Debug.Log("we have downloads going");
                     WifiInUseIcon.SetActive(true);
-
                 }
                 else
                 {
                     WifiInUseIcon.SetActive(false);
-                    /*
-                      if (isAssetBundleLoaded(platform + "general"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "general");
-                     if (isAssetBundleLoaded(platform + "bios/json"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "bios/json");
-                     if (isAssetBundleLoaded(platform + "bios/photos"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "bios/photos");
-                     if (isAssetBundleLoaded(platform + "displayed/audio"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/audio");
-                     if (isAssetBundleLoaded(platform + "displayed/narratives/captions"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/narratives/captions");
-                     if (isAssetBundleLoaded(platform + "displayed/narratives/photos"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/narratives/photos");
-                     if (isAssetBundleLoaded(platform + "displayed/narratives/audio"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "displayed/narratives/audio");
-                     //TODO:Figure out videos
-                     //if (isAssetBundleLoaded(platform + "general"))
-                     // yield return tryLoadAssetBundle(persistantDataPath + platform + "meondisplay/videos");
-                     if (isAssetBundleLoaded(platform + "meondisplay/captions"))
-                         yield return tryLoadAssetBundle(persistantDataPath + platform + "meondisplay/captions");
-                                     */
+
                     yield return null;
                 }
             }
             else
             {
-                NoWifiIcon.SetActive(true);
             }
             yield return null;
         }

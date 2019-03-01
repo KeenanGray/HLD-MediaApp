@@ -523,6 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be6233ad9a894330b8db12bb0ac8c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBackButton: 1
   Special_Background: {fileID: 0}
   newScreen: {fileID: 0}
   VO_Select: {fileID: 0}

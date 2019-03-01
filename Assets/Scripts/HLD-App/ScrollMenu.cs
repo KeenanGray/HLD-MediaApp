@@ -29,8 +29,8 @@ namespace HLD
 
         protected string Name_Suffix;
 
-        protected UIB_Struct myObject;
-        protected IOrderedEnumerable<UIB_Struct> OrderedByName;
+        protected BiographyArray myObject;
+        protected IOrderedEnumerable<Biography> OrderedByName;
 
         void UIB_IPage.Init()
         {
@@ -39,7 +39,7 @@ namespace HLD
 
             if (GetComponent<UIB_Page>().AssetBundleRequired)
             {
-                Debug.Log("do we have to do something here");
+                //Debug.Log("do we have to do something here");
             }
 
             GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
@@ -62,7 +62,7 @@ namespace HLD
                 return;
             }
             myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
-            OrderedByName = (System.Linq.IOrderedEnumerable<UIB_Struct>)((BiographyArray)myObject).data.OrderBy(x => x.Name.Split(' ')[1]);
+            OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
 
             // foreach(Biography sr in OrderedByName)
             //     Debug.Log(sr.Name);

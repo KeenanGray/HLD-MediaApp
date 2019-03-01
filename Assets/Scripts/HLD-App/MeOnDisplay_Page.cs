@@ -27,7 +27,6 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
         UIB_AssetBundleHelper.InsertAssetBundle("hld/meondisplay/captions");
 
-
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
     }
@@ -157,10 +156,9 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         }
         ObjPoolManager.EndRetrieval();
 
-
-        var theScroll = transform.Find("Interface").GetComponentInChildren<ScrollRect>().gameObject;
-        theScroll.SetActive(false);
-        theScroll.SetActive(true);
+        var theScroll = transform.Find("UIB_ScrollingMenu");
+        theScroll.GetComponent<UIB_ScrollingMenu>().playedOnce=false;
+        theScroll.GetComponent<UIB_ScrollingMenu>().Setup();
 
         GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_Page>().DeActivate();
         GetComponent<UIB_Page>().ActivateButtonsOnScreen();

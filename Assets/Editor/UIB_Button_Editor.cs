@@ -13,6 +13,7 @@ namespace UI_Builder
         SerializedProperty VO_Select;
         SerializedProperty NewPage;
         SerializedProperty myText;
+        SerializedProperty BackButton;
 
         public Object source;
         void OnEnable()
@@ -21,6 +22,8 @@ namespace UI_Builder
             NewPage = serializedObject.FindProperty("newScreen");
             VO_Select = serializedObject.FindProperty("VO_Select");
             myText = serializedObject.FindProperty("myText");
+            BackButton = serializedObject.FindProperty("isBackButton");
+
         }
 
         public override void OnInspectorGUI()
@@ -29,6 +32,8 @@ namespace UI_Builder
 
             EditorGUILayout.PropertyField(VO_Select, new GUIContent("Voiceover select"));
             EditorGUILayout.PropertyField(Opens, new GUIContent("Button Opens"));
+            EditorGUILayout.PropertyField(BackButton, new GUIContent("Is Back Button"));
+
 
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.Website.ToString())
             {
@@ -43,7 +48,6 @@ namespace UI_Builder
                 serializedObject.ApplyModifiedProperties();
                 return;
             }
-
 
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.Accessibletext.ToString())
             {

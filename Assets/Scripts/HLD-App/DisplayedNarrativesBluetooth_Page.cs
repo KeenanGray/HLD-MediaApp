@@ -37,6 +37,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     Dictionary<string, GameObject> AudioPlayers;
     GameObject AudioPlayerPrefab;
 
+    string PageName = "DisplayedNarrativesBT_Page";
+    string ListName = "DisplayedNarrativesList_Page";
+
     public void Init()
     {
         DebugText.text = "";
@@ -49,7 +52,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/captions");
         UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/audio");
 
-
+#if TARGET_IPHONE_SIMULATOR
         BluetoothState.BluetoothStateChangedEvent += delegate (BluetoothLowEnergyState state)
         {
             switch (state)
@@ -79,14 +82,12 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         };
 
         StartCoroutine("StartupBluetoothService");
+#endif
 
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
         var tmp = GameObject.Find("CameraViewTexture");
-
-        //  if (fdHLD == null)
-        //      Debug.LogWarning("Warning:No Camera Manager is present for face recognition");
 
         foreach (UIB_Button button in GetComponentsInChildren<UIB_Button>())
         {
@@ -99,7 +100,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             }
         }
 
-        var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+        var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
         foreach (UIB_Button button in page.GetComponentsInChildren<UIB_Button>())
         {
             if (button.name == "DISPLAYED-Info_Button")
@@ -117,12 +118,16 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     public void PageActivatedHandler()
     {
+        if (UIB_PageManager.LastPage.name != ListName)
+        {
+            Debug.Log(UIB_PageManager.LastPage);
+        }
         foreach (UIB_Button uibb in GetComponentsInChildren<UIB_Button>())
         {
             uibb.enabled = true;
             uibb.GetComponent<Button>().enabled = true;
         }
-        foreach (UIB_Button uibb in GameObject.Find("DisplayedNarrativesList_Page").GetComponentsInChildren<UIB_Button>())
+        foreach (UIB_Button uibb in GameObject.Find(ListName).GetComponentsInChildren<UIB_Button>())
         {
             uibb.enabled = true;
             uibb.GetComponent<Button>().enabled = true;
@@ -130,32 +135,43 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         if (UAP_AccessibilityManager.IsActive())
         {
-            var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+            var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
             page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+
+            if (UIB_PageManager.LastPage.name == PageName)
+                page.GetComponent<Canvas>().enabled = false;
             GoToList();
             return;
         }
         else
         {
-            var page = GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>();
+            var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
+
+            page.OnActivated += myDelegate();
+            page.GetComponent<UIB_Page>().Init();
             page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
 
-            page.OnActivated += delegate
-          {
-              UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesBluetooth_Page");
-          };
+            page.OnActivated -= myDelegate();
 
             iBeaconReceiver.Scan();
         }
     }
 
+    private UIB_Page.Activated myDelegate()
+    {
+        return delegate
+        {
+            UIB_PageManager.CurrentPage = GameObject.Find(PageName);
+        };
+    }
+
     public void PageDeActivatedHandler()
     {
-        GameObject.Find("DisplayedNarrativesList_Page").GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
+        GameObject.Find(ListName).GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
 
         iBeaconReceiver.Stop();
 
-        foreach(GameObject go in AudioPlayers.Values)
+        foreach (GameObject go in AudioPlayers.Values)
         {
             Destroy(go);
         }
@@ -168,13 +184,19 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     {
         GoToListBtn = GameObject.Find("ListOfDancersButton");
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
+
+        //get the back button and set it up to help go back. 
+        transform.Find("BackButtonRoot").GetComponentInChildren<Button>().onClick.AddListener(delegate
+        {
+            GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
+        });
     }
 
     void GoToList()
     {
         GetComponent<Canvas>().enabled = false;
-        UIB_PageManager.CurrentPage = GameObject.Find("DisplayedNarrativesList_Page");
-        UIB_PageManager.LastPage = GameObject.Find("DisplayedNarrativesList_Page");
+        UIB_PageManager.CurrentPage = GameObject.Find(ListName);
+        UIB_PageManager.LastPage = GameObject.Find(ListName);
 
         foreach (UIB_Button uibb in GetComponentsInChildren<UIB_Button>())
         {
@@ -182,7 +204,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             uibb.GetComponent<Button>().enabled = false;
         }
 
-        foreach (UIB_Button uibb in GameObject.Find("DisplayedNarrativesList_Page").GetComponentsInChildren<UIB_Button>())
+        foreach (UIB_Button uibb in GameObject.Find(ListName).GetComponentsInChildren<UIB_Button>())
         {
             uibb.enabled = true;
             uibb.GetComponent<Button>().enabled = true;
@@ -283,10 +305,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     void CheckBeaconsForDistance()
     {
 
-        var minNearVol=0.1f;
-        var minImmediateVol=0.3f;
-        var maxNearVol=.6f;
-        var maxImmediatevol=1;
+        var minNearVol = 0.1f;
+        var minImmediateVol = 0.3f;
+        var maxNearVol = .6f;
+        var maxImmediatevol = 1;
 
         if (mybeacons == null)
             return;
@@ -294,7 +316,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         foreach (Beacon b in mybeacons)
         {
             var DancerFromBeacon = Enum.GetName(typeof(DancerMajors), b.major - 1).ToString();
-            //Debug.Log("Checking Beacon " + b.major + ", " + b.range + ", " + b.strength + ", " + b.rssi + ", ");
 
             if (b.range == BeaconRange.IMMEDIATE)
             {
@@ -376,7 +397,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     {
         var dancer = Enum.GetNames(typeof(DancerMajors))[label];
         dancer = dancer.Replace("_", "");
-        Debug.Log("Dancer " + dancer);
 
         switch (label)
         {
@@ -408,7 +428,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         cnt++;
         if (dancersDetected.ContainsKey(label))
         {
-            Debug.Log("label " + label);
             dancersDetected[label] = dancersDetected[label] + 1;
             Debug.Log("detected " + Enum.GetNames(typeof(DancerMajors))[label - 1] + " count: " + dancersDetected[label]);
         }
