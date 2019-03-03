@@ -102,13 +102,6 @@ namespace HLD
                     //update parent for accessibility
                     var sab = go.GetComponent<Special_AccessibleButton>();
 
-                    //TODO accessibility select the first element in the list
-                    //get the button for the biographies and tell it to select
-                    //the first element in the list
-                    if (traversalOrder == 0)
-                    {
-                    }
-
                     sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
                     sab.m_ManualPositionOrder = traversalOrder;
                     traversalOrder++;
@@ -126,16 +119,16 @@ namespace HLD
                     //custom backgrounds
                     UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_")) as Sprite;
 
+                    go.GetComponent<Button>().enabled = true;
+                    go.GetComponent<UAP_BaseElement>().enabled = true;
+
                     //For some reason you have to do this
                     //So that the names appear in the right order for accessibility
                     gameObject.SetActive(false);
                     gameObject.SetActive(true);
 
-                    //set the text in the button to right align.
-                    go.GetComponentInChildren<TextMeshProUGUI>().alignment = TMPro.TextAlignmentOptions.Right;
-
                     UIB_btn.Init();
-                    GetComponent<UIB_Page>().ActivateButtonsOnScreen();
+                   // GetComponent<UIB_Page>().ActivateButtonsOnScreen();
                 }
             }
             ObjPoolManager.EndRetrieval();

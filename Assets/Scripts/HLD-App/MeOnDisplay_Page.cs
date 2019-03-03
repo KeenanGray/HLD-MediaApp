@@ -161,8 +161,8 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         theScroll.GetComponent<UIB_ScrollingMenu>().Setup();
 
         GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_Page>().DeActivate();
-        GetComponent<UIB_Page>().ActivateButtonsOnScreen();
 
+        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
     }
 
     public void PageDeActivatedHandler()

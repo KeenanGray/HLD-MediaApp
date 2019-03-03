@@ -25,8 +25,6 @@ public class InternetFileErrorPage : MonoBehaviour, UIB_IPage
                 tmp.gameObject.transform.parent.GetComponent<Button>().enabled = true;
             }
         }
-        GetComponent<UIB_Page>().ActivateButtonsOnScreen();
-        GetComponent<UIB_Page>().ActivateUAP();
 
     }
 

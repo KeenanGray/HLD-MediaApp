@@ -8,7 +8,7 @@ using UI_Builder;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
@@ -25,10 +25,15 @@ public class InitializationManager : MonoBehaviour
 
     Color tmpColor;
 
-    public static int DownloadCount = 0;
+    public static float DownloadCount = 0;
     public static int checkingForUpdates = 0;
+    public static float PercentDownloaded = 0;
+    public static float TotalDownloads { get; private set; }
+
+    public TextMeshProUGUI percentText;
 
     private bool hasAllFiles;
+
 
     void Start()
     {
@@ -57,6 +62,22 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+        try
+        {
+            percentText = GameObject.Find("DownloadPercent").GetComponent<TextMeshProUGUI>();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Failed to find GameObject: " + e);
+        }
+        try
+        {
+            UAP_AccessibilityManager.PauseAccessibility(true);
+        }
+        catch (Exception e)
+        {
+
+        }
         UIB_PlatformManager.Init();
         hasAllFiles = false;
 
@@ -68,23 +89,6 @@ public class InitializationManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
         //enable accessible instructins if plugin is on
-        if (UAP_AccessibilityManager.IsActive())
-        {
-            AccessibilityInstructions.SetActive(true);
-        }
-        else
-        {
-            if (AccessibilityInstructions != null)
-            {
-                //turn off label and move viewport down.
-                AccessibilityInstructions.SetActive(false);
-                var adjust = 1.5f;
-                AccessibilityInstructions.transform.Translate(new Vector3(0, adjust, 0));
-
-            }
-            else
-                Debug.LogWarning("No accessibility instructions assigned");
-        }
 
         ObjPoolManager.Init();
 
@@ -171,6 +175,23 @@ public class InitializationManager : MonoBehaviour
             Debug.LogWarning("Took longer to initialize than expected");
 
         UAP_AccessibilityManager.PauseAccessibility(false);
+        if (UAP_AccessibilityManager.IsActive())
+        {
+            AccessibilityInstructions.SetActive(true);
+        }
+        else
+        {
+            if (AccessibilityInstructions != null)
+            {
+                //turn off label and move viewport down.
+                AccessibilityInstructions.SetActive(false);
+                var adjust = 1.5f;
+                AccessibilityInstructions.transform.Translate(new Vector3(0, adjust, 0));
+
+            }
+            else
+                Debug.LogWarning("No accessibility instructions assigned");
+        }
         var first = GameObject.Find("DISPLAYED-Code_Button");
 
         UAP_AccessibilityManager.SelectElement(first, true); ;
@@ -202,6 +223,9 @@ public class InitializationManager : MonoBehaviour
         //First check that platform specific assetbundle exists
         var filename = UIB_PlatformManager.platform + "/";
 
+        StartCoroutine("UpdateDownloadPercent");
+
+        TotalDownloads = 8;
         filename = "hld/" + filename;
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
@@ -217,14 +241,6 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
-        filename = "displayed/audio";
-        filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
-
-        filename = "displayed/narratives/audio";
-        filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
-
         filename = "displayed/narratives/captions";
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
@@ -235,6 +251,14 @@ public class InitializationManager : MonoBehaviour
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "meondisplay/captions";
+        filename = "hld/" + filename;
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+
+        filename = "displayed/audio";
+        filename = "hld/" + filename;
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+
+        filename = "displayed/narratives/audio";
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
@@ -377,15 +401,29 @@ public class InitializationManager : MonoBehaviour
                 else
                 {
                     WifiInUseIcon.SetActive(false);
-
-                    yield return null;
                 }
+                yield return null;
+
             }
             else
             {
             }
             yield return null;
         }
+    }
+
+    IEnumerator UpdateDownloadPercent()
+    {
+        while (PercentDownloaded < 100)
+        {
+            if (TotalDownloads > 0)
+            {
+                PercentDownloaded = ((TotalDownloads - DownloadCount) / TotalDownloads )* 100;
+                percentText.text = PercentDownloaded + "%";
+            }
+            yield return null;
+        }
+        yield break;
     }
 
 

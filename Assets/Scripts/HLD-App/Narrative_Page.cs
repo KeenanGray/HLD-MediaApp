@@ -52,9 +52,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     public void PageActivatedHandler()
     {
         var tmp = GameObject.Find("DisplayedNarrativesList_Page");
-        tmp.GetComponent<UIB_Page>().DeActivateUAP();
         tmp = GameObject.Find(TopPageName);
-        tmp.GetComponent<UIB_Page>().DeActivateUAP();
 
         var camefrom = UIB_PageManager.LastPage.name;
 

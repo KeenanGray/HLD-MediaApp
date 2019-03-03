@@ -25,6 +25,12 @@ public class UIB_EditorTools : ScriptableWizard
     {
         //Android Build
         BuildPlayerOptions androidPlayerOptions = new BuildPlayerOptions();
+
+        PlayerSettings.Android.keystoreName = "/Users/keenangray/Docs/AndroidKeystore/keystore.keystore";
+        PlayerSettings.Android.keystorePass = "michigan45";
+        PlayerSettings.Android.keyaliasName = "hld";
+        PlayerSettings.Android.keyaliasPass = "michigan45";
+
         androidPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity", "Assets/Scenes/BluetoothSim.unity" };
         androidPlayerOptions.locationPathName = "Builds/AndroidBuild.apk";
         androidPlayerOptions.target = BuildTarget.Android;

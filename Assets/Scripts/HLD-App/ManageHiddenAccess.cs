@@ -30,7 +30,8 @@ public class ManageHiddenAccess : MonoBehaviour
     public void Start()
     {
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
-        GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
+        GetComponent<TMP_InputField>().onSubmit.AddListener(CheckIsCorrect);
+        GetComponent<TMP_InputField>().shouldHideMobileInput = true;
         CodeButton = GameObject.Find("DISPLAYED-Code_Button");
         ls = GameObject.Find("LandingScreen");
 
