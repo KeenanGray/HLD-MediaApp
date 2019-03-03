@@ -118,43 +118,27 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     public void PageActivatedHandler()
     {
+        GetComponent<Canvas>().enabled = true;
+
         if (UIB_PageManager.LastPage.name != ListName)
         {
-            Debug.Log(UIB_PageManager.LastPage);
+            Debug.Log(UIB_PageManager.LastPage + " JDKFLD J");
         }
-        foreach (UIB_Button uibb in GetComponentsInChildren<UIB_Button>())
-        {
-            uibb.enabled = true;
-            uibb.GetComponent<Button>().enabled = true;
-        }
-        foreach (UIB_Button uibb in GameObject.Find(ListName).GetComponentsInChildren<UIB_Button>())
-        {
-            uibb.enabled = true;
-            uibb.GetComponent<Button>().enabled = true;
-        }
+       
 
-        if (UAP_AccessibilityManager.IsActive())
-        {
-            var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
-            page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+        var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
+        page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
 
-            if (UIB_PageManager.LastPage.name == PageName)
-                page.GetComponent<Canvas>().enabled = false;
-            // GoToList();
-        }
-        else
-        {
-            var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
-            StartCoroutine(page.GetComponent<UIB_Page>().ResetUAP(false));
+        page.OnActivated += myDelegate();
+        page.GetComponent<UIB_Page>().Init();
+        page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
 
-            page.OnActivated += myDelegate();
-            page.GetComponent<UIB_Page>().Init();
-            page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+        page.OnActivated -= myDelegate();
 
-            page.OnActivated -= myDelegate();
+        iBeaconReceiver.Scan();
 
-            iBeaconReceiver.Scan();
-        }
+        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
+      
     }
 
     private UIB_Page.Activated myDelegate()
@@ -163,7 +147,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         {
             UIB_PageManager.CurrentPage = GameObject.Find(PageName);
             var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
-            StartCoroutine(GetComponent<UIB_Page>().ResetUAP(false));
         };
     }
 
@@ -188,11 +171,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         GoToListBtn = GameObject.Find("ListOfDancersButton");
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
 
-        //get the back button and set it up to help go back. 
-        transform.Find("BackButtonRoot").GetComponentInChildren<Button>().onClick.AddListener(delegate
-        {
-            GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
-        });
+       
     }
 
     void GoToList()

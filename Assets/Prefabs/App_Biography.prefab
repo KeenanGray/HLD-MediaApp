@@ -363,6 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTemplate: 1
+  ActivateUAPOnEnter: 0
   rate: 1
   AssetBundleRequired: 0
 --- !u!223 &827926362303474490
@@ -711,7 +712,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1460.2, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1403688126572118851

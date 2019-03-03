@@ -10,9 +10,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 {
     GameObject backButton;
     GameObject AudioPlayerScreen;
-
-    bool ReturnToCameraView;
-
+    
     string title;
     string photoPath;
     string TopPageName = "DisplayedNarrativesBT_Page";
@@ -29,11 +27,10 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        backButton = transform.Find("DisplayedNarrativesBT_Button").gameObject;
+        backButton = transform.GetChild(0).Find("DisplayedNarrativesBT_Button").gameObject;
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
 
-        ReturnToCameraView = false;
     }
 
     internal void SetupPage(string Title, string bgPhotoPath)
@@ -53,33 +50,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     {
         var tmp = GameObject.Find("DisplayedNarrativesList_Page");
         tmp = GameObject.Find(TopPageName);
-
-        var camefrom = UIB_PageManager.LastPage.name;
-
-        if (camefrom == "DisplayedNarrativesFR_Page")
-        {
-            ReturnToCameraView = true;
-        }
-        else
-        {
-            ReturnToCameraView = false;
-        }
-
-        foreach(UIB_Button uibb in GameObject.Find(TopPageName).GetComponentsInChildren<UIB_Button>())
-        {
-            uibb.enabled = false;
-            uibb.GetComponent<Button>().enabled = false;
-        }
-        foreach (UIB_Button uibb in GameObject.Find("DisplayedNarrativesList_Page").GetComponentsInChildren<UIB_Button>())
-        {
-            uibb.enabled = false;
-            uibb.GetComponent<Button>().enabled = false;
-        }
-
-        if (UIB_PageManager.LastPage.name == "DisplayedNarrativesList_Page")
-        {
-            GameObject.Find(TopPageName).GetComponent<Canvas>().enabled = false;
-        }
 
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer> ();
 
@@ -125,15 +95,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
             AudioPlayerScreen.transform.SetParent(GameObject.Find("Pages").transform);
         }
 
-        if (ReturnToCameraView)
-        {
-            GameObject.Find(TopPageName).GetComponent<Canvas>().enabled = true;
-        }
-        else
-        {
-            GameObject.Find(TopPageName).GetComponent<Canvas>().enabled = false;
-            UIB_PageManager.LastPage = GameObject.Find("DisplayedNarrativesList_Page");
-        }
     }
 
 
