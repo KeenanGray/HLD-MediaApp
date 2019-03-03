@@ -44,17 +44,6 @@ public class InitializationManager : MonoBehaviour
         StartCoroutine("Init");
     }
 
-    private void StopSpeech()
-    {
-        if (UAP_AccessibilityManager.IsSpeaking())
-        {
-            UAP_AccessibilityManager.StopSpeaking();
-        }
-        Debug.Log("TWOFINGERSINGLE");
-        UAP_AccessibilityManager.Say("", false, true, UAP_AudioQueue.EInterrupt.All);
-
-    }
-
     private void Update()
     {
 
@@ -70,21 +59,23 @@ public class InitializationManager : MonoBehaviour
         {
             Debug.Log("Failed to find GameObject: " + e);
         }
+
         try
         {
             UAP_AccessibilityManager.PauseAccessibility(true);
         }
         catch (Exception e)
         {
-
+            Debug.LogWarning(e);
+            StartCoroutine("Init");
+            yield break;
         }
+
         UIB_PlatformManager.Init();
         hasAllFiles = false;
 
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
         blankPage = GameObject.Find("BlankPage");
-
-        UAP_AccessibilityManager.RegisterOnTwoFingerSingleTapCallback(StopSpeech);
 
         yield return new WaitForSeconds(1.0f);
         AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
@@ -174,6 +165,8 @@ public class InitializationManager : MonoBehaviour
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
+
+        Debug.Log("UNPAUSING");
         UAP_AccessibilityManager.PauseAccessibility(false);
         if (UAP_AccessibilityManager.IsActive())
         {
@@ -192,8 +185,13 @@ public class InitializationManager : MonoBehaviour
             else
                 Debug.LogWarning("No accessibility instructions assigned");
         }
-        var first = GameObject.Find("DISPLAYED-Code_Button");
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+       UAP_AccessibilityManager.Say("Please suspend TalkBack during play.");
+
+        yield return new WaitForSeconds(1.0f);
+#endif
+        var first = GameObject.Find("DISPLAYED-Code_Button");
         UAP_AccessibilityManager.SelectElement(first, true); ;
 
         MainContainer.DisableCover();
@@ -418,7 +416,7 @@ public class InitializationManager : MonoBehaviour
         {
             if (TotalDownloads > 0)
             {
-                PercentDownloaded = ((TotalDownloads - DownloadCount) / TotalDownloads )* 100;
+                PercentDownloaded = ((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
                 percentText.text = PercentDownloaded + "%";
             }
             yield return null;

@@ -47,6 +47,8 @@ public class UIB_EditorTools : ScriptableWizard
         if (androidSummary.result == BuildResult.Failed)
         {
             Debug.Log("Build failed");
+            return;
+
         }
 
         //IOS Build
