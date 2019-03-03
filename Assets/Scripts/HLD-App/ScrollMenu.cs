@@ -128,7 +128,6 @@ namespace HLD
                     gameObject.SetActive(true);
 
                     UIB_btn.Init();
-                   // GetComponent<UIB_Page>().ActivateButtonsOnScreen();
                 }
             }
             ObjPoolManager.EndRetrieval();
@@ -136,7 +135,6 @@ namespace HLD
             scroll.GetComponent<UIB_ScrollingMenu>().playedOnce = false;
             scroll.GetComponent<UIB_ScrollingMenu>().Playing = false;
             scroll.GetComponent<UIB_ScrollingMenu>().Setup();
-
 
         }
 

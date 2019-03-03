@@ -95,7 +95,6 @@ public class Bio_Page : MonoBehaviour
         }
         if (BioImage != null && tmp != null)
         {
-            Debug.Log(tmp.name);
             Sprite newSprite = tmp.LoadAsset<Sprite>(name);
             if (newSprite != null)
             {

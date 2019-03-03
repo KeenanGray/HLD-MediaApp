@@ -57,6 +57,9 @@ public class CompanyDancers_Page : HLD.ScrollMenu {
                 }
             }
         }
+
         ObjPoolManager.EndRetrieval();
+        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
+
     }
 }

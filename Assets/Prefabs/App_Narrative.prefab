@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 114205795260099146}
   - component: {fileID: 114938836310721394}
   - component: {fileID: 114092828189243918}
-  - component: {fileID: 114593852488988652}
   - component: {fileID: 114103042644992388}
   - component: {fileID: 4038402513690006267}
   m_Layer: 0
@@ -124,29 +123,6 @@ MonoBehaviour:
   isTemplate: 1
   rate: 1
   AssetBundleRequired: 0
---- !u!114 &114593852488988652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588890224646698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b8ed8a1982c3745b6fb7dd1a6cce2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PopUp: 0
-  m_AllowExternalJoining: 0
-  m_Priority: 0
-  m_ContainerName: 
-  m_IsLocalizationKey: 0
-  m_2DNavigation: 0
-  m_ConstrainToContainerUp: 0
-  m_ConstrainToContainerDown: 0
-  m_ConstrainToContainerLeft: 0
-  m_ConstrainToContainerRight: 0
-  m_AllowTouchExplore: 1
 --- !u!114 &114103042644992388
 MonoBehaviour:
   m_ObjectHideFlags: 0

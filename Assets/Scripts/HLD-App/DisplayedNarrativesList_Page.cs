@@ -31,5 +31,6 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
 
         ObjPoolManager.EndRetrieval();
 
+
     }
 }

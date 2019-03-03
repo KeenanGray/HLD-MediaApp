@@ -140,12 +140,12 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
             if (UIB_PageManager.LastPage.name == PageName)
                 page.GetComponent<Canvas>().enabled = false;
-            GoToList();
-            return;
+            // GoToList();
         }
         else
         {
             var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
+            StartCoroutine(page.GetComponent<UIB_Page>().ResetUAP(false));
 
             page.OnActivated += myDelegate();
             page.GetComponent<UIB_Page>().Init();
@@ -162,6 +162,8 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         return delegate
         {
             UIB_PageManager.CurrentPage = GameObject.Find(PageName);
+            var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
+            StartCoroutine(GetComponent<UIB_Page>().ResetUAP(false));
         };
     }
 
@@ -175,6 +177,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         {
             Destroy(go);
         }
+
         AudioPlayers.Clear();
 
     }
@@ -198,17 +201,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         UIB_PageManager.CurrentPage = GameObject.Find(ListName);
         UIB_PageManager.LastPage = GameObject.Find(ListName);
 
-        foreach (UIB_Button uibb in GetComponentsInChildren<UIB_Button>())
-        {
-            uibb.enabled = false;
-            uibb.GetComponent<Button>().enabled = false;
-        }
+        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(false));
+        StartCoroutine(UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().ResetUAP(true));
 
-        foreach (UIB_Button uibb in GameObject.Find(ListName).GetComponentsInChildren<UIB_Button>())
-        {
-            uibb.enabled = true;
-            uibb.GetComponent<Button>().enabled = true;
-        }
 
         iBeaconReceiver.Stop();
     }
