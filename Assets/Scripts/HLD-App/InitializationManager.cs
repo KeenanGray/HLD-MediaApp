@@ -182,11 +182,6 @@ public class InitializationManager : MonoBehaviour
                 Debug.LogWarning("No accessibility instructions assigned");
         }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-       UAP_AccessibilityManager.Say("Please suspend TalkBack during play.");
-
-        yield return new WaitForSeconds(1.0f);
-#endif
         var first = GameObject.Find("DISPLAYED-Code_Button");
         UAP_AccessibilityManager.SelectElement(first, true); ;
 
