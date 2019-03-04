@@ -20,9 +20,7 @@ public class InitializationManager : MonoBehaviour
     public float InitializeTime;
     float t1;
     float t2;
-
-    int numberOfBundles = 8;
-
+    
     Color tmpColor;
 
     public static float DownloadCount = 0;
@@ -165,8 +163,6 @@ public class InitializationManager : MonoBehaviour
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
-
-        Debug.Log("UNPAUSING");
         UAP_AccessibilityManager.PauseAccessibility(false);
         if (UAP_AccessibilityManager.IsActive())
         {

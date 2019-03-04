@@ -95,7 +95,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             {
                 button.GetComponent<Button>().onClick.AddListener(delegate
                 {
-
+                    GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
                 });
             }
         }

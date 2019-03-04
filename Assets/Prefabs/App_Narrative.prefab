@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224650608154091758}
-  - component: {fileID: 114240834203795284}
+  - component: {fileID: 4038402513690006267}
   - component: {fileID: 222039581141078604}
   - component: {fileID: 114205795260099146}
   - component: {fileID: 114938836310721394}
   - component: {fileID: 114092828189243918}
   - component: {fileID: 114103042644992388}
-  - component: {fileID: 4038402513690006267}
+  - component: {fileID: 3852592120646510931}
   m_Layer: 0
   m_Name: App_Narrative
   m_TagString: App_Narrative
@@ -43,20 +43,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &114240834203795284
-MonoBehaviour:
+--- !u!223 &4038402513690006267
+Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588890224646698}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
-  delegates: []
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!222 &222039581141078604
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -136,27 +143,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b00b3a32b4aa4895b0b543b03865d75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!223 &4038402513690006267
-Canvas:
+--- !u!114 &3852592120646510931
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588890224646698}
   m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1001 &6399959138452518225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277,15 +280,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: DisplayedNarrativesBT_Button
       objectReference: {fileID: 0}
-    - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
-        type: 3}
-      propertyPath: newScreen
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 3}
       propertyPath: m_Text
       value: Back To The Final Walkthrough
+      objectReference: {fileID: 0}
+    - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
+        type: 3}
+      propertyPath: newScreen
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 3}

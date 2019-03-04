@@ -31,6 +31,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
 
+
     }
 
     internal void SetupPage(string Title, string bgPhotoPath)
@@ -80,6 +81,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
         backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
 
+        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
     }
 
     public void PageDeActivatedHandler()
