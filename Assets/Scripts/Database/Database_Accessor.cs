@@ -94,6 +94,8 @@ namespace HLD
         /// </summary>
         public void GetObject(string filename, string S3BucketName)
         {
+            Debug.Log("Downloading " + S3BucketName + "/" + filename);
+
             InitializationManager.DownloadCount++;
             Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
             {

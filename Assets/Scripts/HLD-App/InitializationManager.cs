@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using HLD;
+using TMPro;
 using UI_Builder;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
@@ -49,6 +46,8 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+        UIB_PlatformManager.Init();
+
         try
         {
             percentText = GameObject.Find("DownloadPercent").GetComponent<TextMeshProUGUI>();
@@ -65,11 +64,10 @@ public class InitializationManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogWarning(e);
-            StartCoroutine("Init");
-            yield break;
+            //StartCoroutine("Init");
+            //yield break;
         }
 
-        UIB_PlatformManager.Init();
         hasAllFiles = false;
 
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
@@ -100,7 +98,6 @@ public class InitializationManager : MonoBehaviour
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
-
 
         UIB_PageContainer MainContainer = null;
         foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
@@ -284,8 +281,8 @@ public class InitializationManager : MonoBehaviour
             else
             {
                 //no internet, load bundle from streaming assets
-                Debug.Log("loading bundle from streaming assets " + platform + filename);
-                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + platform + filename);
+                //Debug.Log("loading bundle from streaming assets " + platform + filename);
+                //AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + platform + filename);
             }
         }
         else

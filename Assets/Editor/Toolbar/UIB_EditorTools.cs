@@ -50,7 +50,7 @@ public class UIB_EditorTools : ScriptableWizard
             return;
 
         }
-
+        /*
         //IOS Build
         BuildPlayerOptions iosBuildPlayerOptions = new BuildPlayerOptions();
         iosBuildPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity", "Assets/Scenes/BluetoothSim.unity" };
@@ -70,5 +70,6 @@ public class UIB_EditorTools : ScriptableWizard
         {
             Debug.Log("IOS Build failed");
         }
+        */
     }
 }
