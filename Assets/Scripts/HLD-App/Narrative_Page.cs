@@ -30,8 +30,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         backButton = transform.GetChild(0).Find("DisplayedNarrativesBT_Button").gameObject;
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
-
-
     }
 
     internal void SetupPage(string Title, string bgPhotoPath)
@@ -96,6 +94,8 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
             AudioPlayerScreen.GetComponent<Canvas>().enabled = false;
             AudioPlayerScreen.transform.SetParent(GameObject.Find("Pages").transform);
         }
+
+        GameObject.Find("DisplayedNarrativesBT_Page").GetComponent<DisplayedNarrativesBluetooth_Page>().StopBTAudio();
 
     }
 
