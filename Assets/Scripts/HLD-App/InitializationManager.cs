@@ -57,6 +57,20 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("Failed to find GameObject: " + e);
         }
 
+#if UNITY_ANDROID
+      Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
+  
+        if(UAP_AccessibilityManager.GetAndroidAccessibility()){
+        Debug.Log("Accessibility ON");
+        UAP_AccessibilityManager.EnableAccessibility(true);
+        }
+        else{
+        Debug.Log("Accessibility OFF");
+        UAP_AccessibilityManager.EnableAccessibility(false);
+        }
+
+#endif
+
         try
         {
             UAP_AccessibilityManager.PauseAccessibility(true);
