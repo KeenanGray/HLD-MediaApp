@@ -17,13 +17,14 @@ public class InitializationManager : MonoBehaviour
     public float InitializeTime;
     float t1;
     float t2;
-    
+
     Color tmpColor;
 
-    public static float DownloadCount = 0;
+    public static int DownloadCount = 0;
+    public static int TotalDownloads { get; private set; }
+
     public static int checkingForUpdates = 0;
     public static float PercentDownloaded = 0;
-    public static float TotalDownloads { get; private set; }
 
     public TextMeshProUGUI percentText;
 
@@ -185,8 +186,8 @@ public class InitializationManager : MonoBehaviour
             {
                 //turn off label and move viewport down.
                 AccessibilityInstructions.SetActive(false);
-                var adjust = 1.5f;
-                AccessibilityInstructions.transform.Translate(new Vector3(0, adjust, 0));
+                var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height;
+                AccessibilityInstructions.transform.parent.Translate(new Vector3(0, adjust, 0));
 
             }
             else
@@ -408,6 +409,13 @@ public class InitializationManager : MonoBehaviour
             else
             {
             }
+            if ((DownloadCount == TotalDownloads) || hasAllFiles)
+            {
+                WifiInUseIcon.SetActive(false);
+
+                yield break;
+            }
+
             yield return null;
         }
     }

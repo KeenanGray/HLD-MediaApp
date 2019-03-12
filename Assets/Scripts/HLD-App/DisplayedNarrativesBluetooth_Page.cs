@@ -165,7 +165,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     public void PageDeActivatedHandler()
     {
-        Debug.Log("HERE");
         GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
         GameObject.Find(ListName).GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
 

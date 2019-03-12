@@ -30,6 +30,7 @@ public class ManageHiddenAccess : MonoBehaviour
     public void Start()
     {
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
+        GetComponent<TMP_InputField>().onSelect.AddListener(MoveUpForScreenKeyboard);
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
         GetComponent<TMP_InputField>().shouldHideMobileInput = true;
         CodeButton = GameObject.Find("DISPLAYED-Code_Button");
@@ -39,8 +40,21 @@ public class ManageHiddenAccess : MonoBehaviour
         UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
     }
 
+    private void MoveUpForScreenKeyboard(string arg0)
+    {
+        Debug.Log("KLJL");
+        //todo: keyboard screen height on platform? or just move specific amount?
+        var adjust = UIB_AspectRatioManager.ScreenHeight/4;
+        transform.GetComponentInParent<Mask>().transform.Translate(new Vector3(0, adjust, 0));
+    }
+
     private void CheckIsCorrect(string arg0)
     {
+        Debug.Log("KLJL");
+        //todo: keyboard screen height on platform? or just move specific amount?
+        var adjust = -1 * UIB_AspectRatioManager.ScreenHeight / 4;
+        transform.GetComponentInParent<Mask>().transform.Translate(new Vector3(0, adjust, 0));
+
         var res = "";
         res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
 
