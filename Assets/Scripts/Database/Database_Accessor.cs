@@ -51,6 +51,8 @@ namespace HLD
             get { return RegionEndpoint.GetBySystemName(S3Region); }
         }
 
+        public static Dictionary<string, int> FallbackCounter;
+
         public void Init()
         {
             IdentityPoolId = "us-east-1:1d281ad5-139a-45ae-915d-bcd555a2e228";
@@ -95,6 +97,8 @@ namespace HLD
         public void GetObject(string filename, string S3BucketName)
         {
             Debug.Log("Downloading " + S3BucketName + "/" + filename);
+
+         //   var configg= new Awsc
 
             InitializationManager.DownloadCount++;
             Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
@@ -159,7 +163,7 @@ namespace HLD
                     S3LastModified = responseObject.Response.LastModified.ToUniversalTime();
                     localFilesLastModified = File.GetLastWriteTimeUtc(path);
 
-//                    Debug.Log("last modified " + S3LastModified + " local changed " + localFilesLastModified);
+                    //                    Debug.Log("last modified " + S3LastModified + " local changed " + localFilesLastModified);
                     var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
 
                     //Compare the difference in time between the local directory and files in the cloud
@@ -184,18 +188,57 @@ namespace HLD
                     }
 
                 }
-                else {
+                else
+                {
                     InitializationManager.DownloadCount--;
                     InitializationManager.checkingForUpdates--;
                     Debug.Log(responseObject.Exception);
                 }
 
             });
-
-
         }
 
-       
+        internal void GetObjectWithFallback(string filename, string S3BucketName)
+        {
+            if (FallbackCounter == null)
+            {
+                FallbackCounter = new Dictionary<string, int>();
+            }
+            var count = 0;
+            if (FallbackCounter.ContainsKey(filename))
+            {
 
+            }
+            else
+                FallbackCounter.Add(filename, count);
+
+            Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
+            
+            InitializationManager.DownloadCount++;
+            Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
+            {
+                var response = responseObj.Response;
+                FallbackCounter[filename]++;
+
+                if (response.ResponseStream != null)
+                {
+                    filename = S3BucketName + "/" + filename;
+                    UIB_FileManager.WriteFileFromResponse(response, filename);
+                    Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
+                    InitializationManager.DownloadCount--;
+                }
+                else
+                {
+
+                }
+
+                if (FallbackCounter[filename] > 60 * 10)
+                {
+
+                }
+            });
+        }
+
+      
     }
 }

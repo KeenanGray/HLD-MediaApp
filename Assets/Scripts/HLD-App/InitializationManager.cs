@@ -20,8 +20,8 @@ public class InitializationManager : MonoBehaviour
 
     Color tmpColor;
 
-    public static int DownloadCount = 0;
-    public static int TotalDownloads { get; private set; }
+    public static float DownloadCount = 0;
+    public static float TotalDownloads { get; private set; }
 
     public static int checkingForUpdates = 0;
     public static float PercentDownloaded = 0;
@@ -238,16 +238,7 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
-        filename = "bios/photos";
-        filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
-
         filename = "displayed/narratives/captions";
-        filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
-
-
-        filename = "displayed/narratives/photos";
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
@@ -255,13 +246,27 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
-        filename = "displayed/audio";
+        filename = "bios/photos";
+        filename = "hld/" + filename;
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+
+        filename = "displayed/narratives/photos";
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         filename = "displayed/narratives/audio";
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+
+        /*
+         * These files will live in asset bundle on app as well
+         * if they can't be downloaded after 60 seconds - fallback to asset bundle        
+         * */
+        filename = "displayed/audio";
+        filename = "hld/" + filename;
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename,true);
+
+
 
         //TODO:figure out video loading
         /*
@@ -283,7 +288,7 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-    private void TryDownloadFile(string persistantDataPath, string platform, string filename)
+    private void TryDownloadFile(string persistantDataPath, string platform, string filename, bool fallbackUsingBundle = false)
     {
         if (!(UIB_FileManager.FileExists(persistantDataPath + platform + filename)))
         {
@@ -291,13 +296,13 @@ public class InitializationManager : MonoBehaviour
             {
                 //Download the file
                 Debug.Log("file" + persistantDataPath + platform + filename + " does not exist download commencing download");
-                DownloadFileFromDatabase(persistantDataPath + platform, platform + filename);
+                DownloadFileFromDatabase(persistantDataPath + platform, platform + filename, fallbackUsingBundle);
             }
             else
             {
                 //no internet, load bundle from streaming assets
-                //Debug.Log("loading bundle from streaming assets " + platform + filename);
-                //AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + platform + filename);
+                Debug.Log("loading bundle from streaming assets " + platform + filename);
+                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + platform + filename);
             }
         }
         else
@@ -321,12 +326,16 @@ public class InitializationManager : MonoBehaviour
         */
     }
 
-    private void DownloadFileFromDatabase(string path, string fName)
+    private void DownloadFileFromDatabase(string path, string fName, bool fallbackUsingBundle = false)
     {
         //TODO: Alert the user we are about to begin a large download
         //How often can we call this download function before it costs too much $$$
         //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
-        db_Manager.GetObject(fName, "heidi-latsky-dance");
+        if (fallbackUsingBundle){
+            db_Manager.GetObjectWithFallback(fName, "heidi-latsky-dance");
+        }
+        else
+            db_Manager.GetObject(fName, "heidi-latsky-dance");
     }
 
     private bool CheckInternet()
@@ -341,7 +350,7 @@ public class InitializationManager : MonoBehaviour
                 return true;
             case NetworkReachability.ReachableViaCarrierDataNetwork:
                 UIB_PageManager.InternetActive = true;
-                return false;
+                return true;
         }
         return false;
     }
@@ -393,7 +402,7 @@ public class InitializationManager : MonoBehaviour
 
             if (CheckInternet())
             {
-
+                // Debug.Log("We have internet");
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
                     //                    Debug.Log("we have downloads going");
@@ -409,8 +418,9 @@ public class InitializationManager : MonoBehaviour
             else
             {
             }
-            if ((DownloadCount == TotalDownloads) || hasAllFiles)
+            if (PercentDownloaded.Equals(100))
             {
+                Debug.Log("exiting wifi check after " + Time.time);
                 WifiInUseIcon.SetActive(false);
 
                 yield break;
@@ -426,7 +436,7 @@ public class InitializationManager : MonoBehaviour
         {
             if (TotalDownloads > 0)
             {
-                PercentDownloaded = ((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
+                PercentDownloaded = (float)((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
                 percentText.text = PercentDownloaded + "%";
             }
             yield return null;

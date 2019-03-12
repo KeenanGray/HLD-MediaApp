@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 {
+
+    public static List<string> DancerMajorsList;
+
     enum DancerMajors
     {
         Chris_Braz,
@@ -260,7 +263,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                
             }
         }
-
     }
 
     void CheckBeaconsForDistance()
