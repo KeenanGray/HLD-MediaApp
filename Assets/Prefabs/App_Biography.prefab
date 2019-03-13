@@ -247,8 +247,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 899752304140583002}
-  - {fileID: 7000568448605139088}
   - {fileID: 4603900439535576295}
+  - {fileID: 7000568448605139088}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -712,7 +712,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 100, y: 0}
   m_SizeDelta: {x: 1460.2, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1403688126572118851
@@ -1016,7 +1016,7 @@ RectTransform:
   m_Children:
   - {fileID: 4603900440332905833}
   m_Father: {fileID: 1396833644972283216}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.46770832, y: 0}
   m_AnchorMax: {x: 0.46770832, y: 0.8177293}
@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1372,7 +1372,7 @@ PrefabInstance:
     - target: {fileID: 224082080476126946, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224082080476126946, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 3}
@@ -1443,15 +1443,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: CompanyDancers_Button
       objectReference: {fileID: 0}
-    - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
-        type: 3}
-      propertyPath: newScreen
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 3}
       propertyPath: m_Text
       value: Back To Company Dancers Page
+      objectReference: {fileID: 0}
+    - target: {fileID: 114695659588900408, guid: 10dd5e185675b4002a5c0c37ea155677,
+        type: 3}
+      propertyPath: newScreen
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10dd5e185675b4002a5c0c37ea155677, type: 3}
