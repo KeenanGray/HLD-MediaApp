@@ -10,7 +10,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 {
 
     public static List<string> DancerMajorsList;
-
+    //these values need to be incremented by 1 in the bluetooth setting
     enum DancerMajors
     {
         Chris_Braz,
@@ -268,9 +268,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     void CheckBeaconsForDistance()
     {
 
-        var minNearVol = 0.1f;
-        var minImmediateVol = 0.3f;
-        var maxNearVol = .6f;
+        var minNearVol = 0.5f;
+        var minImmediateVol = 0.75f;
+        var maxNearVol = .75f;
         var maxImmediatevol = 1;
 
         if (mybeacons == null)
@@ -279,6 +279,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         foreach (Beacon b in mybeacons)
         {
             var DancerFromBeacon = Enum.GetName(typeof(DancerMajors), b.major - 1).ToString();
+            Debug.Log("beacon " + DancerFromBeacon + " found at range " + b.range);
 
             if (b.range == BeaconRange.IMMEDIATE)
             {
