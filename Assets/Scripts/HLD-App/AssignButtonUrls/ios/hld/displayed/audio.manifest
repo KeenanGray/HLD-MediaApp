@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 3343666415
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 57b1dc4ef3ad01f20b720d7c7ff21cd9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a31e1505e189a9885bcbe2bbbab40e9b
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+Assets:
+- Assets/hld/displayed/audio/captions.txt
+- Assets/hld/displayed/audio/audio_captions.mp3
+Dependencies: []

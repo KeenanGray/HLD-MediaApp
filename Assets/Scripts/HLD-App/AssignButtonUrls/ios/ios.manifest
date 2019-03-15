@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 494359515
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: hld/displayed/narratives/audio
+      Dependencies: {}
+    Info_1:
+      Name: hld/displayed/narratives/captions
+      Dependencies: {}
+    Info_2:
+      Name: hld/displayed/narratives/photos
+      Dependencies: {}
+    Info_3:
+      Name: hld/displayed/audio
+      Dependencies: {}
+    Info_4:
+      Name: hld/bios/photos
+      Dependencies: {}
+    Info_5:
+      Name: hld/bios/json
+      Dependencies: {}
+    Info_6:
+      Name: hld/general
+      Dependencies: {}
+    Info_7:
+      Name: hld/meondisplay/captions
+      Dependencies: {}

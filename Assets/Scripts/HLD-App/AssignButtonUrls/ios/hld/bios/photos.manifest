@@ -1,0 +1,35 @@
+ManifestFileVersion: 0
+CRC: 20329775
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 763474b44f0dd5efe06e926fc0cf4262
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ea5a42e0fd8ea905efa7aa926a3b8944
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/hld/bios/Meredith_Fages.jpg
+- Assets/hld/bios/Jaclyn_Rea.jpg
+- Assets/hld/bios/Amy_Meisner.jpg
+- Assets/hld/bios/Leslie_Taub.jpg
+- Assets/hld/bios/Louisa_Mann.jpg
+- Assets/hld/bios/Tiffany_Geigel.jpg
+- Assets/hld/bios/Peter_Trojic.jpg
+- Assets/hld/bios/Kelly_Ramis.jpg
+- Assets/hld/bios/Tianshi_Suo.jpg
+- Assets/hld/bios/Sabatino_Verlezza.jpg
+- Assets/hld/bios/Desmond_Cadogan.jpg
+- Assets/hld/bios/Chris_Braz.jpg
+- Assets/hld/bios/Victoria_Dombroski.jpeg
+- Assets/hld/bios/Jerron_Herman.jpg
+- Assets/hld/bios/Donald_Lee.jpg
+- Assets/hld/bios/Jillian_Hollis.jpg
+- Assets/hld/bios/Carmen_Schoenster.png
+- Assets/hld/bios/Nico_Gonzales.png
+Dependencies: []

@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 1416401743
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 38ae0b7b1a465bbdd57712ded4e9a52a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+Assets:
+- Assets/hld/displayed/Narratives/Audio/Tiffany_Geigel.wav
+- Assets/hld/displayed/Narratives/Audio/Chris_Braz.wav
+- Assets/hld/displayed/Narratives/Audio/Leslie_Taub.wav
+- Assets/hld/displayed/Narratives/Audio/Kelly_Ramis.wav
+- Assets/hld/displayed/Narratives/Audio/Victoria_Dombroski.wav
+- Assets/hld/displayed/Narratives/Audio/Nico_Gonzales.wav
+- Assets/hld/displayed/Narratives/Audio/Jerron_Herman.wav
+- Assets/hld/displayed/Narratives/Audio/Meredith_Fages.wav
+- Assets/hld/displayed/Narratives/Audio/Tianshi_Suo.wav
+- Assets/hld/displayed/Narratives/Audio/Peter_Trojic.wav
+- Assets/hld/displayed/Narratives/Audio/Desmond_Cadogan.wav
+- Assets/hld/displayed/Narratives/Audio/Louisa_Mann.wav
+- Assets/hld/displayed/Narratives/Audio/Donald_Lee.wav
+- Assets/hld/displayed/Narratives/Audio/Carmen_Schoenster.wav
+- Assets/hld/displayed/Narratives/Audio/Jillian_Hollis.wav
+- Assets/hld/displayed/Narratives/Audio/Jaclyn_Rea.wav
+- Assets/hld/displayed/Narratives/Audio/Amy_Meisner.wav
+Dependencies: []

@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UI_Builder;
+using System;
 
 public class Bio_Page : MonoBehaviour
 {
@@ -36,9 +37,19 @@ public class Bio_Page : MonoBehaviour
             }
         }
 
+        GetComponent<UIB_Page>().OnActivated += OnBioPageActivated;
+
         Name.text = "";
 //        Title.text = "";
         Description.text = "";
+    }
+
+    private void OnBioPageActivated()
+    {
+        //HACK:
+        GetComponentInChildren<UIB_ScrollingMenu>().enabled = false;
+        GetComponentInChildren<UIB_ScrollingMenu>().enabled = true;
+
     }
 
     // Update is called once per frame

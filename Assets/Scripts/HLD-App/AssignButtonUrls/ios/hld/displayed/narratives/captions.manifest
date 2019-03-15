@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 2679017949
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 33c847cc20447b58ec61f417fbee23ca
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/hld/displayed/Narratives/Captions/Meredith_Fages.txt
+- Assets/hld/displayed/Narratives/Captions/Jaclyn_Rea.txt
+- Assets/hld/displayed/Narratives/Captions/Jillian_Hollis.txt
+- Assets/hld/displayed/Narratives/Captions/Carmen_Schoenster.txt
+- Assets/hld/displayed/Narratives/Captions/Donald_Lee.txt
+- Assets/hld/displayed/Narratives/Captions/Peter_Trojic.txt
+- Assets/hld/displayed/Narratives/Captions/Tiffany_Geigel.txt
+- Assets/hld/displayed/Narratives/Captions/Chris_Braz.txt
+- Assets/hld/displayed/Narratives/Captions/Louisa_Mann.txt
+- Assets/hld/displayed/Narratives/Captions/Victoria_Dombroski.txt
+- Assets/hld/displayed/Narratives/Captions/Tianshi_Suo.txt
+- Assets/hld/displayed/Narratives/Captions/Amy_Meisner.txt
+- Assets/hld/displayed/Narratives/Captions/Kelly_Ramis.txt
+- Assets/hld/displayed/Narratives/Captions/Jerron_Herman.txt
+- Assets/hld/displayed/Narratives/Captions/Nico_Gonzales.txt
+- Assets/hld/displayed/Narratives/Captions/Leslie_Taub.txt
+- Assets/hld/displayed/Narratives/Captions/Desmond_Cadogan.txt
+Dependencies: []

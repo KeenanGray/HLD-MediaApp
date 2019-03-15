@@ -186,9 +186,9 @@ public class InitializationManager : MonoBehaviour
             {
                 //turn off label and move viewport down.
                 var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height/2f;
-                Debug.Log("adjust " + adjust);
+//                Debug.Log("adjust " + adjust);
                 var parent1 = AccessibilityInstructions.transform.parent.parent.parent;
-                Debug.Log("parent1 " + parent1.name);
+//                Debug.Log("parent1 " + parent1.name);
                 parent1.Translate(new Vector3(0, adjust, 0));
                 AccessibilityInstructions.SetActive(false);
 
