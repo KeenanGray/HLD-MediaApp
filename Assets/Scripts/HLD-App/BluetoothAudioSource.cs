@@ -11,8 +11,10 @@ public class BluetoothAudioSource : MonoBehaviour
     private bool hasCaptions;
     TextAsset AudioCaptions;
 
+    public float knownRSSI;
     int startCount;
     int endCount;
+    int unknownCount;
 
     AudioSource src;
 
@@ -26,6 +28,12 @@ public class BluetoothAudioSource : MonoBehaviour
 
         startCount = 0;
         endCount = 0;
+        unknownCount = 0;
+
+        if (hasCaptions == false)
+        {
+
+        }
     }
 
     public void SetAudio(string PathToAudio, string bundleString)
@@ -105,7 +113,6 @@ public class BluetoothAudioSource : MonoBehaviour
     public void SetPhoto(string PathToAudio, string bundleString)
     {
         var image = GetComponentInChildren<Image>();
-        Debug.Log("Image " + image);
 
         AssetBundle tmp = null;
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
@@ -121,10 +128,30 @@ public class BluetoothAudioSource : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (src != null)
+        {
+            src.Pause();
+            paused = true;
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (src != null)
+        {
+            paused = false;
+            src.Play();
+        }
+    }
+
     int newStart;
     int iterator;
     bool wait;
-    IEnumerator PlayCaptionsWithAudio()
+    private bool paused;
+
+    public IEnumerator PlayCaptionsWithAudio()
     {
         wait = true;
         newStart = 0;
@@ -134,7 +161,10 @@ public class BluetoothAudioSource : MonoBehaviour
         int WordsPerLine = 9;
 
         if (AudioCaptions == null)
+        {
+            Debug.Log("No captions");
             yield break;
+        }
 
         //set up video captions
         TextMeshProUGUI tmp = captionsCanvas;
@@ -143,12 +173,16 @@ public class BluetoothAudioSource : MonoBehaviour
 
         while (true)
         {
+            if (paused)
+            {
+                yield return null;
+            }
             string line = "";
 
             var TimePerLine = (src.clip.length - 2)
                     /
                 (words.Length / WordsPerLine);
-
+                    
             int word = (int)(words.Length * (src.time / src.clip.length));
 
             int start = 0;
@@ -181,10 +215,13 @@ public class BluetoothAudioSource : MonoBehaviour
             //break if skipped
             if (wait)
             {
+//                Debug.Log("wait");
                 yield return new WaitForSeconds(TimePerLine);
             }
             else
             {
+                Debug.Log("no wait");
+
                 yield return null;
             }
             wait = true;
@@ -251,6 +288,21 @@ public class BluetoothAudioSource : MonoBehaviour
         if (reset)
         {
             endCount = 0;
+        }
+        return tmp;
+    }
+
+    internal void IncrementUnknown()
+    {
+        unknownCount++;
+    }
+
+    internal int getUnknownCount(bool reset = false)
+    {
+        var tmp = unknownCount;
+        if (reset)
+        {
+            unknownCount = 0;
         }
         return tmp;
     }

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class AdjustCellSizeForComponents : MonoBehaviour
 {
     GridLayoutGroup grg;
-    float og_FontSize=1;
+    float og_FontSize = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +33,9 @@ public class AdjustCellSizeForComponents : MonoBehaviour
         }
         catch (Exception e)
         {
+            if (rt == null)
+                Debug.LogWarning(e);
+
             return;
         }
 
