@@ -478,12 +478,11 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(" we haven't updated the code-button, no info-button found" + e );
+                    Debug.Log(" we haven't updated the code-button, no info-button found. " + e );
                 }
             }
             else
             {
-                Debug.Log("we have access " + PlayerPrefs.GetString(key));
                 //We have access.
                 //Change the code page to the info page
                 try
@@ -495,12 +494,28 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("We have probably already updated the code-button to the info-button" + e);
+                    Debug.Log("We have probably already updated the code-button to the info-button. " + e);
                 }
 
             }
 
             //Swap info button for code button
+        }
+        else
+        {
+            //if you do not have the player pref
+            //set info page to code page
+            try
+            {
+                var gb = GameObject.Find(key.Replace("-Info_Page", "-Info_Button"));
+                gb.name = key.Replace("Info_Page", "Code_Button");
+                gb.GetComponent<UIB_Button>().Init();
+                //PlayerPrefs.DeleteKey(key);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
+            }
         }
     }
 

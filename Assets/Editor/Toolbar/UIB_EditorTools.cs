@@ -21,7 +21,7 @@ public class UIB_EditorTools : ScriptableWizard
     }
 
     [MenuItem("Tools/Build Mobile")]
-    public static void MyBuild()
+    public static void BuildMobile()
     {
         //Android Build
         BuildPlayerOptions androidPlayerOptions = new BuildPlayerOptions();
@@ -71,5 +71,11 @@ public class UIB_EditorTools : ScriptableWizard
             Debug.Log("IOS Build failed");
         }
 
+    }
+
+    [MenuItem("Tools/Delete Player Prefs")]
+    public static void DeletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }
