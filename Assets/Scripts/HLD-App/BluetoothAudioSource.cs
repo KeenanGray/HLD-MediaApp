@@ -8,6 +8,11 @@ using UnityEngine.UI;
 
 public class BluetoothAudioSource : MonoBehaviour
 {
+
+    public GameObject img;
+    public GameObject text;
+    public GameObject nameText;
+
     private bool hasCaptions;
     TextAsset AudioCaptions;
 
@@ -24,7 +29,7 @@ public class BluetoothAudioSource : MonoBehaviour
     {
         src = GetComponent<AudioSource>();
         AudioCaptions = new TextAsset("");
-        captionsCanvas = GetComponentInChildren<TextMeshProUGUI>();
+        captionsCanvas = text.GetComponentInChildren<TextMeshProUGUI>();
 
         startCount = 0;
         endCount = 0;
@@ -50,6 +55,8 @@ public class BluetoothAudioSource : MonoBehaviour
         if (tmp != null && src != null)
         {
             src.clip = tmp.LoadAsset<AudioClip>(PathToAudio) as AudioClip;
+            Debug.Log(PathToAudio);
+            nameText.GetComponentInChildren<TextMeshProUGUI>().text = PathToAudio.Split('/')[PathToAudio.Split('/').Length-1];
             //src.time = 0;
         }
     }
@@ -71,7 +78,6 @@ public class BluetoothAudioSource : MonoBehaviour
             Debug.Log("Could not find audio clip");
             return;
         }
-        Debug.Log("readied clip " + src.clip.name);
         src.Play();
         src.Pause();
     }

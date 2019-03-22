@@ -6,8 +6,7 @@ using TMPro;
 
 public class BluetoothMenuAspectFitter : MonoBehaviour
 {
-    GameObject img;
-    GameObject text;
+  
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,9 +18,6 @@ public class BluetoothMenuAspectFitter : MonoBehaviour
     {
         if (!gameObject.activeSelf)
             return;
-
-        img = transform.GetChild(0).Find("Image").gameObject;
-        text = transform.GetChild(0).Find("Text").gameObject;
 
         var childCount = 0;
         try
@@ -60,11 +56,12 @@ public class BluetoothMenuAspectFitter : MonoBehaviour
             boxSizeAdjust = 5;
             textScaleAdjust = 2;
         }
-        var width = transform.parent.parent.GetComponent<RectTransform>().rect.width / boxSizeAdjust;
-        img.GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
+
+        var width = transform.parent.GetComponent<RectTransform>().rect.width / boxSizeAdjust;
+        GetComponent<BluetoothAudioSource>().img.GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
 
         //        Debug.Log(UIB_AspectRatioManager_Editor.ScreenWidth + ":" + width);
-        text.GetComponent<RectTransform>().sizeDelta = new Vector2 (UIB_AspectRatioManager.ScreenWidth, width);
-        text.GetComponent<TextMeshProUGUI>().fontSize = 50 * textScaleAdjust;
+        GetComponent<BluetoothAudioSource>().text.GetComponent<RectTransform>().sizeDelta = new Vector2 (UIB_AspectRatioManager.ScreenWidth, width);
+        GetComponent<BluetoothAudioSource>().text.GetComponent<TextMeshProUGUI>().fontSize = 50 * textScaleAdjust;
     }
 }
