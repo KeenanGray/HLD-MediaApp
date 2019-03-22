@@ -135,8 +135,36 @@ public class InitializationManager : MonoBehaviour
 
         StartCoroutine("CheckWifiAndDownloads");
 
+        //initialize each button
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
+            //before initializing buttons, we may change some names based on player_prefs
+            var initialButtonName = "DISPLAYED-Code_Button";
+            var key = "DISPLAYED-Info_Page";
+            if (ab.name == initialButtonName)
+            {
+                // if we have entered passcode previously.
+                //If date of passcode entry doesn't check out. we don't change the name
+                if (PlayerPrefs.HasKey(key))
+                {
+                    var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key));
+                 
+                    if(codeEntered.AddHours(48).CompareTo(DateTime.Now) < 0)
+                    {
+                        //we have exceeded our timeframe
+                        //clear out player pref 
+                        PlayerPrefs.DeleteKey(key);
+                        }
+                    else
+                    {
+                        //code was entered less than 48 hours ago
+                        //Swap code button for info button
+                        GameObject.Find(initialButtonName).name = key.Replace("_Page", "_Button");
+                   }
+                }
+
+            }
+
             ab.Init();
         }
 
@@ -185,10 +213,10 @@ public class InitializationManager : MonoBehaviour
             if (AccessibilityInstructions != null)
             {
                 //turn off label and move viewport down.
-                var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height/2f;
-//                Debug.Log("adjust " + adjust);
+                var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height / 2f;
+                //                Debug.Log("adjust " + adjust);
                 var parent1 = AccessibilityInstructions.transform.parent.parent.parent;
-//                Debug.Log("parent1 " + parent1.name);
+                //                Debug.Log("parent1 " + parent1.name);
                 parent1.Translate(new Vector3(0, adjust, 0));
                 AccessibilityInstructions.SetActive(false);
 
@@ -268,7 +296,7 @@ public class InitializationManager : MonoBehaviour
          * */
         filename = "displayed/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename,true);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename, true);
 
 
 
@@ -335,7 +363,8 @@ public class InitializationManager : MonoBehaviour
         //TODO: Alert the user we are about to begin a large download
         //How often can we call this download function before it costs too much $$$
         //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
-        if (fallbackUsingBundle){
+        if (fallbackUsingBundle)
+        {
             db_Manager.GetObjectWithFallback(fName, "heidi-latsky-dance");
         }
         else

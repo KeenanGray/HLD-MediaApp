@@ -11,6 +11,9 @@ public class ManageHiddenAccess : MonoBehaviour
     GameObject AudioDescription_Button = null;
     GameObject CodeButton;
 
+    public string CodeButtonName;
+    public string PageLinkButtonName;
+
     public class PassPhraseArray
     {
         public Passphrase[] data;
@@ -32,14 +35,23 @@ public class ManageHiddenAccess : MonoBehaviour
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
         GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
         GetComponent<TMP_InputField>().shouldHideMobileInput = true;
-        CodeButton = GameObject.Find("DISPLAYED-Code_Button");
+
+        if (CodeButtonName == null || CodeButtonName == "")
+        {
+            CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
+        }
+
+        if (PageLinkButtonName == null || PageLinkButtonName == "")
+        {
+            PageLinkButtonName = gameObject.name.Split('_')[0] + "-Info_Button";
+        }
+
+        CodeButton = GameObject.Find(CodeButtonName);
         ls = GameObject.Find("LandingScreen");
 
         GetComponentInParent<UIB_Page>().AssetBundleRequired = true;
         UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
     }
-
- 
 
     private void CheckIsCorrect(string arg0)
     {
@@ -78,12 +90,12 @@ public class ManageHiddenAccess : MonoBehaviour
 
         if (CodeButton != null)
         {
-            CodeButton.name = "DISPLAYED-Info_Button";
-
-            // go.GetComponent<UIB_Button>().Init();
+            CodeButton.name = PageLinkButtonName;
 
             //TODO: Figure out why this hack works. 
-            var gmobj = GameObject.Find("DISPLAYED-Info_Page");
+            var pageName = PageLinkButtonName.Replace("_Button", "_Page");
+            Debug.Log("Pagen::" + pageName);
+            var gmobj = GameObject.Find(pageName);
 
             gmobj.GetComponent<UIB_Page>().OnActivated += delegate
             {
@@ -95,6 +107,8 @@ public class ManageHiddenAccess : MonoBehaviour
             CodeButton.SetActive(true);
             CodeButton.GetComponent<UIB_Button>().Init();
 
+            //add a player-pref that states we have accessed this page
+            PlayerPrefs.SetString(pageName, DateTime.Now.ToString());
         }
         else
         {

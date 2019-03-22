@@ -117,17 +117,15 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         StartCoroutine("StartupBluetoothService");
     }
 
-
-    public void OnApplicationPause(bool pause)
+    public void OnApplicationFocus(bool focus)
     {
-        Debug.Log("HERE");
-        if (pause)
+        if (!focus)
         {
-          
+            WhenApplicationPauses();
         }
         else
         {
-           
+            WhenApplicationUnpauses();
         }
     }
 
@@ -151,16 +149,19 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     async void WhenApplicationPauses()
     {
-        Debug.Log("Waiting 1 second...");
-        await new WaitForBackgroundThread();
-        await Task.Delay(TimeSpan.FromSeconds(1));
-        Debug.Log("Done!");
-        // await new WaitForBackgroundThread();
+        //await new WaitForBackgroundThread();
+        //for (int i = 0; i < 100; i++)
+        //{
+        //    Debug.Log("Scanning In Background");
+        //    await Task.Delay(TimeSpan.FromSeconds(1.0f));
+        //}
+        //await new WaitForSeconds(1.0f);
     }
 
     async void WhenApplicationUnpauses()
     {
-        await new WaitForUpdate();
+        //await new WaitForUpdate();
+        //Debug.Log("Finished In Background");
     }
 
     public void PageActivatedHandler()
