@@ -6,6 +6,7 @@ using TMPro;
 using UI_Builder;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
@@ -139,31 +140,9 @@ public class InitializationManager : MonoBehaviour
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
             //before initializing buttons, we may change some names based on player_prefs
-            var initialButtonName = "DISPLAYED-Code_Button";
-            var key = "DISPLAYED-Info_Page";
-            if (ab.name == initialButtonName)
-            {
-                // if we have entered passcode previously.
-                //If date of passcode entry doesn't check out. we don't change the name
-                if (PlayerPrefs.HasKey(key))
-                {
-                    var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key));
-                 
-                    if(codeEntered.AddHours(48).CompareTo(DateTime.Now) < 0)
-                    {
-                        //we have exceeded our timeframe
-                        //clear out player pref 
-                        PlayerPrefs.DeleteKey(key);
-                        }
-                    else
-                    {
-                        //code was entered less than 48 hours ago
-                        //Swap code button for info button
-                        GameObject.Find(initialButtonName).name = key.Replace("_Page", "_Button");
-                   }
-                }
 
-            }
+            if (ab.name == "DISPLAYED-Code_Button")
+                CheckAndUpdateLinks("DISPLAYED-Info_Page");
 
             ab.Init();
         }
@@ -478,5 +457,56 @@ public class InitializationManager : MonoBehaviour
     }
 
 
-}
 
+    private void CheckAndUpdateLinks(string key)
+    {
+        // if we have entered passcode previously.
+        //If date of passcode entry doesn't check out. we don't change the name
+        if (PlayerPrefs.HasKey(key))
+        {
+            var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key));
+            
+            if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
+            {
+              //exceeded time limit. Reactivte code-entry page
+                try
+                {
+                    var gb = GameObject.Find(key.Replace("-Info_Page", "-Info_Button"));
+                    gb.name = key.Replace("Info_Page", "Code_Button");
+                    gb.GetComponent<UIB_Button>().Init();
+                    //PlayerPrefs.DeleteKey(key);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(" we haven't updated the code-button, no info-button found" + e );
+                }
+            }
+            else
+            {
+                Debug.Log("we have access " + PlayerPrefs.GetString(key));
+                //We have access.
+                //Change the code page to the info page
+                try
+                {
+                    var gb = GameObject.Find(key.Replace("-Info_Page", "-Code_Button"));
+                    gb.name = key.Replace("Info_Page", "Info_Button");
+                    gb.GetComponent<UIB_Button>().Init();
+
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("We have probably already updated the code-button to the info-button" + e);
+                }
+
+            }
+
+            //Swap info button for code button
+        }
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+       CheckAndUpdateLinks("DISPLAYED-Info_Page");
+    }
+
+}

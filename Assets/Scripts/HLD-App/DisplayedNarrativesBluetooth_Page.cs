@@ -147,8 +147,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     }
 #endif
 
-    async void WhenApplicationPauses()
+    void WhenApplicationPauses()
     {
+       //await new  WaitForUpdate();
         //await new WaitForBackgroundThread();
         //for (int i = 0; i < 100; i++)
         //{
@@ -158,8 +159,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         //await new WaitForSeconds(1.0f);
     }
 
-    async void WhenApplicationUnpauses()
+    void WhenApplicationUnpauses()
     {
+        //await new WaitForUpdate();
         //await new WaitForUpdate();
         //Debug.Log("Finished In Background");
     }

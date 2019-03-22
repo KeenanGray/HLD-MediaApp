@@ -87,6 +87,8 @@ public class ManageHiddenAccess : MonoBehaviour
     IEnumerator OnCorrectCode()
     {
         yield return new WaitForEndOfFrame();
+        CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
+        CodeButton = GameObject.Find(CodeButtonName);
 
         if (CodeButton != null)
         {
@@ -94,7 +96,6 @@ public class ManageHiddenAccess : MonoBehaviour
 
             //TODO: Figure out why this hack works. 
             var pageName = PageLinkButtonName.Replace("_Button", "_Page");
-            Debug.Log("Pagen::" + pageName);
             var gmobj = GameObject.Find(pageName);
 
             gmobj.GetComponent<UIB_Page>().OnActivated += delegate
@@ -108,7 +109,7 @@ public class ManageHiddenAccess : MonoBehaviour
             CodeButton.GetComponent<UIB_Button>().Init();
 
             //add a player-pref that states we have accessed this page
-            PlayerPrefs.SetString(pageName, DateTime.Now.ToString());
+            PlayerPrefs.SetString(pageName, DateTime.UtcNow.ToString());
         }
         else
         {
