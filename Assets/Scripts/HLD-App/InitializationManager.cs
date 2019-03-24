@@ -499,9 +499,8 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    if (enabled.GetType() == typeof(NullReferenceException))
+                    if (e.GetType() == typeof(NullReferenceException))
                     {
-                        //Debug.Log("We have probably already updated the code-button to the info-button. " + e);
                     }
                 }
             }
@@ -520,14 +519,17 @@ public class InitializationManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+
+                }
             }
         }
     }
 
     private void OnApplicationFocus(bool focus)
     {
-       CheckAndUpdateLinks("DISPLAYED-Info_Page");
+        CheckAndUpdateLinks("DISPLAYED-Info_Page");
     }
 
 }

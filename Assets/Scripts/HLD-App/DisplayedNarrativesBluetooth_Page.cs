@@ -545,8 +545,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         }
         if (AudioPlayers == null)
         {
+#if !UNITY_EDITOR
             Debug.Log("No Audio Players Found");
             return;
+#endif
         }
 
         List<GameObject> sortedBeacons = new List<GameObject>();

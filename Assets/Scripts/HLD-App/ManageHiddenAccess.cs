@@ -1,18 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using System;
 using UnityEngine.UI;
 using UI_Builder;
+using UnityEngine.EventSystems;
 
-public class ManageHiddenAccess : MonoBehaviour
+public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 {
     GameObject AudioDescription_Button = null;
     GameObject CodeButton;
 
     public string CodeButtonName;
     public string PageLinkButtonName;
+
+    private GameObject frame;
+    private Vector2 moveDist;
+    private Vector2 initPos;
+    private Vector2 initSize;
+
+    string oldValue;
+    bool hasMoved;
 
     public class PassPhraseArray
     {
@@ -33,8 +41,11 @@ public class ManageHiddenAccess : MonoBehaviour
     public void Start()
     {
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
-        GetComponent<TMP_InputField>().onEndEdit.AddListener(CheckIsCorrect);
-        GetComponent<TMP_InputField>().shouldHideMobileInput = true;
+        GetComponent<InputField>().onEndEdit.AddListener(CheckIsCorrect);
+        GetComponent<InputField>().onEndEdit.AddListener(fieldDeSelected);
+        GetComponent<InputField>().onValueChanged.AddListener(valueChanged);
+
+        GetComponent<InputField>().shouldHideMobileInput = true;
 
         if (CodeButtonName == null || CodeButtonName == "")
         {
@@ -51,10 +62,111 @@ public class ManageHiddenAccess : MonoBehaviour
 
         GetComponentInParent<UIB_Page>().AssetBundleRequired = true;
         UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
+
+        frame = GetComponentInParent<Mask>().gameObject;
+        initSize = frame.GetComponent<RectTransform>().sizeDelta;
+        initPos = frame.GetComponent<RectTransform>().localPosition;
+
+        oldValue = "";
     }
+
+    private void valueChanged(string currentVal)
+    {
+        if(currentVal.Length > oldValue.Length)
+        {
+            //say character added and full sentence
+            UAP_AccessibilityManager.Say(currentVal[currentVal.Length-1].ToString() + " added " + currentVal);
+        }
+        else
+        {
+            //say character deleted
+            if (UAP_AccessibilityManager.IsActive())
+            {
+                UAP_AccessibilityManager.Say(oldValue[oldValue.Length-1].ToString() + " deleted");
+            }
+        }
+        oldValue = currentVal;
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        fieldSelected();
+    }
+
+    private void fieldSelected()
+    {
+        StartCoroutine("fieldSelectedCo");
+    }
+
+    IEnumerator fieldSelectedCo()
+    {
+        hasMoved = false;
+
+        //move the text field up so it is not obscured by keyboard
+        var h = 0f;
+        if (TouchScreenKeyboard.isSupported)
+        {
+            while (!TouchScreenKeyboard.visible)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else
+        {
+#if UNITY_EDITOR
+            Debug.LogError("Mobile keyboard not supported");
+#endif
+        }
+
+        h = TouchScreenKeyboard.area.height;
+
+#if UNITY_EDITOR
+        h = 873; //iphone X
+        h = 264; //ipad 12-9
+#endif
+        //we have to change the mask size in case movement causes colision with logo and back button
+        var sizeAdjust = new Vector2(0, GetComponent<RectTransform>().rect.height * 3);
+        frame.GetComponent<RectTransform>().sizeDelta -= sizeAdjust;
+        moveDist = new Vector2(0, h);
+
+        //set to elevated position;
+        frame.GetComponent<RectTransform>().anchoredPosition += moveDist;
+        hasMoved = true;
+        yield break;
+    }
+
+    private void fieldDeSelected(string arg0)
+    {
+        if (TouchScreenKeyboard.isSupported)
+        {
+            if (hasMoved && !TouchScreenKeyboard.visible)
+            {
+                //set back to initial position;
+                frame.GetComponent<RectTransform>().localPosition = initPos;
+                frame.GetComponent<RectTransform>().sizeDelta = new Vector2(initSize.x, initSize.y);
+                hasMoved = false;
+            }
+        }
+        else
+        {
+            //set back to initial position;
+            frame.GetComponent<RectTransform>().localPosition = initPos;
+            frame.GetComponent<RectTransform>().sizeDelta = new Vector2(initSize.x, initSize.y);
+            hasMoved = false;
+        }
+    }
+
 
     private void CheckIsCorrect(string arg0)
     {
+        if (TouchScreenKeyboard.isSupported)
+        {
+            if (GetComponent<InputField>().touchScreenKeyboard.status != TouchScreenKeyboard.Status.Done)
+            {
+                Debug.Log("NOT DONE");
+                return;
+            }
+        }
 
         var res = "";
         res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
@@ -67,11 +179,11 @@ public class ManageHiddenAccess : MonoBehaviour
             }
             else
             {
-                Debug.Log("try enterring passcode " + res.ToString());
-
+                //  Debug.Log("try enterring passcode " + res.ToString());
                 if (UAP_AccessibilityManager.IsActive())
                 {
-                    UAP_AccessibilityManager.Say("Incorrect Code: Enter Code again");
+                    GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().m_AudioQueue.GetComponent<UAP_AudioQueue>().Stop();
+                    UAP_AccessibilityManager.SayAs("Incorrect Code: Enter Code again", UAP_AudioQueue.EAudioType.App);
                 }
             }
         }
@@ -91,9 +203,11 @@ public class ManageHiddenAccess : MonoBehaviour
     {
         if (UAP_AccessibilityManager.IsActive())
         {
+            UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject());
+            UAP_AccessibilityManager.StopSpeaking();
             UAP_AccessibilityManager.Say("Correct Code: Welcome to the show.", false, true, UAP_AudioQueue.EInterrupt.All);
         }
-        GetComponent<TMP_InputField>().enabled = false;
+        GetComponent<InputField>().enabled = false;
 
         yield return new WaitForSeconds(1.0f);
 
@@ -101,7 +215,7 @@ public class ManageHiddenAccess : MonoBehaviour
         while (UAP_AccessibilityManager.IsSpeaking())
             yield return new WaitForSeconds(0.25f);
 
-        GetComponent<TMP_InputField>().enabled = true;
+        GetComponent<InputField>().enabled = true;
 
         //HACK: call coroutine twice for it to work?!?
 
@@ -113,6 +227,7 @@ public class ManageHiddenAccess : MonoBehaviour
     IEnumerator OnCorrectCode2()
     {
         yield return new WaitForEndOfFrame();
+        GetComponent<InputField>().text = "";
         CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
         CodeButton = GameObject.Find(CodeButtonName);
 
@@ -164,5 +279,4 @@ public class ManageHiddenAccess : MonoBehaviour
         yield break;
 
     }
-
 }

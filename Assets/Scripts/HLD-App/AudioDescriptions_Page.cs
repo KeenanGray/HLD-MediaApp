@@ -20,13 +20,14 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
 
     internal void SetupAudioPlayer()
     {
+        var audioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetTitle("Audio Descriptions");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetImageFromResource("BackGroundPhotos/AudioDescriptions");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().fileType = ".mp3";
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudio("Audio_Captions", "hld/displayed/audio");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().SetAudioCaptions("captions", "hld/displayed/audio");
-        AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Init();
+        audioPlayer.SetTitle("Audio Descriptions");
+        audioPlayer.SetImageFromResource("BackGroundPhotos/AudioDescriptions",1000);
+        audioPlayer.fileType = ".mp3";
+        audioPlayer.SetAudio("Audio_Captions", "hld/displayed/audio");
+        audioPlayer.SetAudioCaptions("captions", "hld/displayed/audio");
+        audioPlayer.Init();
     }
 
     public void PageActivatedHandler()
