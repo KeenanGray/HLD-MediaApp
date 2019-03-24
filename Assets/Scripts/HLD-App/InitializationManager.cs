@@ -48,8 +48,14 @@ public class InitializationManager : MonoBehaviour
 
     IEnumerator Init()
     {
+        //set T1 for timing Init;
+        t1 = Time.time;
+
+        // Disable screen dimming
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         UIB_PlatformManager.Init();
-        
+
         try
         {
             UAP_AccessibilityManager.PauseAccessibility(true);
@@ -87,13 +93,29 @@ public class InitializationManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("No blankpage " + e);
+            yield break;
+        }
+        try
+        {
+            aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
+        }
+        catch (Exception e)
+        {
+            Debug.Log("no aspect ratio manager " + e);
+            yield break;
         }
 
-        yield return ManageAssetBundleFiles();
+        //this coroutine checks the local files and starts any necessary downloads
+        StartCoroutine("CheckLocalFiles");
 
-        hasCheckedFiles = false;
+        //this coroutine continously checks if we have wifi and downloads are happening
+        //it updates the download icon accordingly
         StartCoroutine("CheckWifiAndDownloads");
 
+        //this coroutine updates download percentage over time
+        StartCoroutine("UpdateDownloadPercent");
+
+        //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID
       Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
   
@@ -107,12 +129,11 @@ public class InitializationManager : MonoBehaviour
         }
 
 #endif
-        aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
-
+        //why is this yield here??;
         yield return new WaitForSeconds(1.0f);
-        AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
-        //enable accessible instructins if plugin is on
 
+        //initialize objects in the object pools
+        //todo:tag this for eventual replacement with better pages/buttons 
         ObjPoolManager.Init();
 
         //set scroll rects to top
@@ -120,14 +141,8 @@ public class InitializationManager : MonoBehaviour
         {
             sb.value = 1;
         }
-
-        if (aspectManager == null)
-        {
-            Debug.LogWarning("Unable to find Aspect Manager");
-            yield break;
-        }
-        t1 = Time.time;
-
+        //turn aspect ratio fitters on
+        //causes all pages to share origin with canvas and be correct dimensions
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
             arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
@@ -135,6 +150,8 @@ public class InitializationManager : MonoBehaviour
             arf.enabled = true;
         }
 
+        //Set the main page container
+        //Can't remember why i did this
         UIB_PageContainer MainContainer = null;
         foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
         {
@@ -153,29 +170,26 @@ public class InitializationManager : MonoBehaviour
             ab.Init();
         }
 
+        //initialize each page
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
         {
             p.Init();
         }
 
+        //initialize companty dancers page
+        //TODO: might not need this
         foreach (CompanyDancers_Page p in GetComponentsInChildren<CompanyDancers_Page>())
         {
             p.Init();
         }
 
-        foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
-        {
-            //TODO:Fix this bad bad shit
-            if (p.gameObject.name == "Landing_Page")
-                yield return p.MoveScreenOut(true);
-            else
-            {
-                p.StartCoroutine("MoveScreenOut", true);
-            }
-        }
+        //this coroutine waits until we have checked for all the files
+        //then it begins loading asset bundles in the background
+        //it must be started after pages have initialized
+        StartCoroutine("ManageAssetBundleFiles");
 
+        //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");
-
         yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
 
         //if we finish initializing faster than expected, take a moment to finish the video
@@ -188,6 +202,7 @@ public class InitializationManager : MonoBehaviour
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
+        //unpause accessibility manger to read first button
         UAP_AccessibilityManager.PauseAccessibility(false);
         if (UAP_AccessibilityManager.IsActive())
         {
@@ -195,6 +210,8 @@ public class InitializationManager : MonoBehaviour
         }
         else
         {
+            //remove the accessibility instructions button
+            //todo: possibly remove this - might want to have accessibility instructions for all users
             if (AccessibilityInstructions != null)
             {
                 //turn off label and move viewport down.
@@ -204,16 +221,15 @@ public class InitializationManager : MonoBehaviour
                 //                Debug.Log("parent1 " + parent1.name);
                 parent1.Translate(new Vector3(0, adjust, 0));
                 AccessibilityInstructions.SetActive(false);
-
-
             }
             else
                 Debug.LogWarning("No accessibility instructions assigned");
         }
-
+        //select the first button with UAP
         var first = GameObject.Find("DISPLAYED-Code_Button");
         UAP_AccessibilityManager.SelectElement(first, true); ;
 
+        //remove the cover
         MainContainer.DisableCover();
         yield break;
     }
@@ -222,15 +238,13 @@ public class InitializationManager : MonoBehaviour
     {
         //First check if we have local versions of the files
         yield return CheckLocalFiles();
-        if (hasCheckedFiles)
-        {
-            blankPage.transform.SetAsLastSibling();
-            GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
-        }
-        else
+        while (!hasCheckedFiles)
         {
             Debug.Log("we don't have all the files");
+            yield return null;
         }
+        blankPage.transform.SetAsLastSibling();
+        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
     }
 
     private IEnumerator CheckLocalFiles()
@@ -240,8 +254,6 @@ public class InitializationManager : MonoBehaviour
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
         var filename = UIB_PlatformManager.platform + "/";
-
-        StartCoroutine("UpdateDownloadPercent");
 
         TotalDownloads = 8;
         filename = "hld/" + filename;
@@ -421,7 +433,6 @@ public class InitializationManager : MonoBehaviour
                 // Debug.Log("We have internet");
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
-                    //                    Debug.Log("we have downloads going");
                     WifiInUseIcon.SetActive(true);
                 }
                 else
