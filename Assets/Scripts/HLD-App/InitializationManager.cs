@@ -29,7 +29,7 @@ public class InitializationManager : MonoBehaviour
 
     public TextMeshProUGUI percentText;
 
-    private bool hasAllFiles;
+    private bool hasCheckedFiles;
 
 
     void Start()
@@ -49,6 +49,15 @@ public class InitializationManager : MonoBehaviour
     IEnumerator Init()
     {
         UIB_PlatformManager.Init();
+        
+        try
+        {
+            UAP_AccessibilityManager.PauseAccessibility(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
 
         try
         {
@@ -57,7 +66,33 @@ public class InitializationManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("Failed to find GameObject: " + e);
+            yield break;
         }
+
+        try
+        {
+            db_Manager = GameObject.Find("DB_Manager").GetComponent<HLD.Database_Accessor>();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("No database manager" + e);
+            yield break;
+        }
+        db_Manager.Init();
+
+        try
+        {
+            blankPage = GameObject.Find("BlankPage");
+        }
+        catch (Exception e)
+        {
+            Debug.Log("No blankpage " + e);
+        }
+
+        yield return ManageAssetBundleFiles();
+
+        hasCheckedFiles = false;
+        StartCoroutine("CheckWifiAndDownloads");
 
 #if UNITY_ANDROID
       Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
@@ -72,24 +107,7 @@ public class InitializationManager : MonoBehaviour
         }
 
 #endif
-
-        try
-        {
-            UAP_AccessibilityManager.PauseAccessibility(true);
-        }
-        catch (Exception e)
-        {
-            if (enabled.GetType() == typeof(NullReferenceException))
-            {
-
-            }
-          
-        }
-
-        hasAllFiles = false;
-
         aspectManager = GameObject.FindGameObjectWithTag("MainCanvas");
-        blankPage = GameObject.Find("BlankPage");
 
         yield return new WaitForSeconds(1.0f);
         AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
@@ -123,20 +141,6 @@ public class InitializationManager : MonoBehaviour
             MainContainer = PageContainer;
             MainContainer.Init();
         }
-        if (GameObject.Find("DB_Manager") != null)
-        {
-            db_Manager = GameObject.Find("DB_Manager").GetComponent<HLD.Database_Accessor>();
-        }
-        if (db_Manager == null)
-        {
-            Debug.LogError("No Database Manager");
-        }
-
-        db_Manager.Init();
-
-        yield return ManageAssetBundleFiles();
-
-        StartCoroutine("CheckWifiAndDownloads");
 
         //initialize each button
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
@@ -218,7 +222,7 @@ public class InitializationManager : MonoBehaviour
     {
         //First check if we have local versions of the files
         yield return CheckLocalFiles();
-        if (hasAllFiles)
+        if (hasCheckedFiles)
         {
             blankPage.transform.SetAsLastSibling();
             GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
@@ -279,8 +283,6 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename, true);
 
-
-
         //TODO:figure out video loading
         /*
         filename = "meondisplay/videos";
@@ -297,7 +299,7 @@ public class InitializationManager : MonoBehaviour
         */
 
         //if we get here we have all the files
-        hasAllFiles = true;
+        hasCheckedFiles = true;
         yield break;
     }
 
@@ -308,7 +310,7 @@ public class InitializationManager : MonoBehaviour
             if (CheckInternet())
             {
                 //Download the file
-                Debug.Log("file" + persistantDataPath + platform + filename + " does not exist download commencing download");
+                //Debug.Log("file" + persistantDataPath + platform + filename + " does not exist download commencing download");
                 DownloadFileFromDatabase(persistantDataPath + platform, platform + filename, fallbackUsingBundle);
             }
             else
@@ -467,10 +469,10 @@ public class InitializationManager : MonoBehaviour
         if (PlayerPrefs.HasKey(key))
         {
             var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key));
-            
+
             if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
             {
-              //exceeded time limit. Reactivte code-entry page
+                //exceeded time limit. Reactivte code-entry page
                 try
                 {
                     var gb = GameObject.Find(key.Replace("-Info_Page", "-Info_Button"));
@@ -482,7 +484,7 @@ public class InitializationManager : MonoBehaviour
                 {
                     if (enabled.GetType() == typeof(NullReferenceException))
                     {
-                     //   Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
+                        //   Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
                     }
                 }
             }

@@ -96,7 +96,7 @@ namespace HLD
         /// </summary>
         public void GetObject(string filename, string S3BucketName)
         {
-            Debug.Log("Downloading " + S3BucketName + "/" + filename);
+            //Debug.Log("Downloading " + S3BucketName + "/" + filename);
 
          //   var configg= new Awsc
 
@@ -212,7 +212,7 @@ namespace HLD
             else
                 FallbackCounter.Add(filename, count);
 
-            Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
+            //Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
             
             InitializationManager.DownloadCount++;
             Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>

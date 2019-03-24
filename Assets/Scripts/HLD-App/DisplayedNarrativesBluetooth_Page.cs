@@ -543,12 +543,11 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 //at far range let's not do anything
             }
         }
+
         if (AudioPlayers == null)
         {
-#if !UNITY_EDITOR
             Debug.Log("No Audio Players Found");
             return;
-#endif
         }
 
         List<GameObject> sortedBeacons = new List<GameObject>();
@@ -748,7 +747,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         WaitForSeconds wait = new WaitForSeconds(.25f);
         while (true)
         {
-            CheckBeaconsForDistance();
+            if (UIB_PageManager.CurrentPage == gameObject)
+            {
+                CheckBeaconsForDistance();
+            }
             yield return wait;
         }
     }
