@@ -79,9 +79,11 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e);
-            //StartCoroutine("Init");
-            //yield break;
+            if (enabled.GetType() == typeof(NullReferenceException))
+            {
+
+            }
+          
         }
 
         hasAllFiles = false;
@@ -478,7 +480,10 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(" we haven't updated the code-button, no info-button found. " + e );
+                    if (enabled.GetType() == typeof(NullReferenceException))
+                    {
+                     //   Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
+                    }
                 }
             }
             else
@@ -494,11 +499,12 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("We have probably already updated the code-button to the info-button. " + e);
+                    if (enabled.GetType() == typeof(NullReferenceException))
+                    {
+                        //Debug.Log("We have probably already updated the code-button to the info-button. " + e);
+                    }
                 }
-
             }
-
             //Swap info button for code button
         }
         else

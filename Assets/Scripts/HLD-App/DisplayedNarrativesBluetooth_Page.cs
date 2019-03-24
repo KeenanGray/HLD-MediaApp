@@ -46,6 +46,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     string PageName = "DisplayedNarrativesBT_Page";
     string ListName = "DisplayedNarrativesList_Page";
+    bool PlayMultiple;
+
+    string ToggleStartingText = "";
 
     public void Init()
     {
@@ -149,7 +152,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     void WhenApplicationPauses()
     {
-       //await new  WaitForUpdate();
+        //await new  WaitForUpdate();
         //await new WaitForBackgroundThread();
         //for (int i = 0; i < 100; i++)
         //{
@@ -223,6 +226,14 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
     }
 
+    internal void StopPlaying(BluetoothAudioSource bluetoothAudioSource)
+    {
+        var key = bluetoothAudioSource.name.Replace("_Bluetooth_Audio", "");
+        //Debug.Log(key);
+        AudioPlayers.Remove(key);
+        Destroy(bluetoothAudioSource.gameObject);
+    }
+
     private UIB_Page.DeActivated myDeactivatedDelegate()
     {
         return delegate
@@ -272,6 +283,30 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         DancerMajorsList = new List<string>();
         GoToListBtn = GameObject.Find("ListOfDancersButton");
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
+
+        var ToggleButton = GameObject.Find("ToggleMultipleButton");
+        ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
+        ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
+        PlayMultiple = true;
+    }
+
+    private void ToggleMultiple()
+    {
+        PlayMultiple = !PlayMultiple;
+        var t = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
+        var tLabel = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<Special_AccessibleButton>();
+
+        if (PlayMultiple)
+        {
+            t.text = ToggleStartingText;
+            tLabel.m_Text = ToggleStartingText;
+        }
+        else
+        {
+            var label = "Play Multiple Dancers";
+            t.text = label;
+            tLabel.m_Text = label;
+        }
     }
 
     void GoToList()
@@ -333,7 +368,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             {
                 var DancerFromBeacon = DancerMajorsList[i - 1];
 
-                if (i == 1)
+                if (i == 10)
                 {
                     if (AudioPlayers.ContainsKey(DancerFromBeacon))
                     {
@@ -348,12 +383,13 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
                     }
                 }
-                else if (i == 5)
+
+                else if (i == 2)
                 {
                     if (AudioPlayers.ContainsKey(DancerFromBeacon))
                     {
                         //we already have a player set up for that dancer, let's bring up the volume.
-                        AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = .6f;
+                        AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = .25f;
                         playBeacon(.6f, DancerFromBeacon);
                     }
                     else
@@ -363,12 +399,12 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
                     }
                 }
-                else if (i == 13)
+                else if (i == 6)
                 {
                     if (AudioPlayers.ContainsKey(DancerFromBeacon))
                     {
                         //we already have a player set up for that dancer, let's bring up the volume.
-                        AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = .8f;
+                        AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = .3f;
                         playBeacon(.8f, DancerFromBeacon);
                     }
                     else
@@ -523,15 +559,33 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             var count = 0;
             foreach (GameObject go in sortedBeacons)
             {
+                if (!PlayMultiple && count == 0)
+                {
+                    //we want to solo just one track
+                    go.transform.SetSiblingIndex(0);
+                    go.GetComponent<BluetoothAudioSource>().SetPlaying(true);
+                }
+                else if (!PlayMultiple && count > 0)
+                {
+                    //other tracks should be set off.
+                    go.GetComponent<BluetoothAudioSource>().SetPlaying(false);
+                }
+                else if (PlayMultiple)
+                {
+                    //We want to play all the tracks
+                    go.GetComponent<BluetoothAudioSource>().SetPlaying(true);
+                }
+
                 if (go.GetComponent<AudioSource>().isPlaying)
                 {
                     if (count == 0)
                     {
-                        Debug.Log("MAXING " + go.name);
+                        //Debug.Log("MAXING " + go.name);
                         go.GetComponent<AudioSource>().volume = 1.0f;
                     }
                     else
                     {
+                        go.SetActive(true);
                         go.GetComponent<AudioSource>().volume = HLD.Utilities.Map(go.GetComponent<BluetoothAudioSource>().knownRSSI, minImmediateRSSI, maxImmediateRSSI, 0.15f, .35f);
                     }
                 }
@@ -574,19 +628,16 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     private void DisableAudioPlayer(GameObject go, string dancer)
     {
-        go.SetActive(false);
-        //we already have a player set up for that dancer, stop playing audio
-        //and remove the object after 1 seconds
-        //go.GetComponent<BluetoothAudioSource>().Stop();
-        //Destroy(go, 1.0f);
-        //AudioPlayers.Remove(dancer);
+        go.GetComponent<BluetoothAudioSource>().viewing = false;
+        go.GetComponent<BluetoothAudioSource>().SetPlaying(false);
     }
 
     private void playBeacon(float v, string dancerFromBeacon)
     {
         AudioPlayers[dancerFromBeacon].SetActive(true);
         AudioPlayers[dancerFromBeacon].GetComponent<BluetoothAudioSource>().setVolume(v);
-        AudioPlayers[dancerFromBeacon].GetComponent<BluetoothAudioSource>().Play();
+        AudioPlayers[dancerFromBeacon].GetComponent<BluetoothAudioSource>().viewing = true;
+        AudioPlayers[dancerFromBeacon].GetComponent<BluetoothAudioSource>().SetPlaying(true);
     }
 
     private void InstantiateBlueToothObject(string dancerFromBeacon)

@@ -26,21 +26,34 @@ public class AdjustCellSizeForComponents : MonoBehaviour
         if (transform.childCount <= 0)
             return;
 
-        RectTransform rt = null;
+        RectTransform hrt = null;
         try
         {
-            rt = GetComponentInChildren<HorizontalLayoutGroup>().GetComponent<RectTransform>();
+            hrt = GetComponentInChildren<HorizontalLayoutGroup>().GetComponent<RectTransform>();
         }
         catch (Exception e)
         {
-            if (rt == null)
+            if (hrt == null)
                 Debug.LogWarning(e);
 
             return;
         }
 
-        var cellX = rt.rect.width;
-        var cellY = rt.rect.height;
+        RectTransform vrt = null;
+        try
+        {
+            vrt = GetComponentInChildren<VerticalLayoutGroup>().GetComponent<RectTransform>();
+        }
+        catch (Exception e)
+        {
+            if (vrt == null)
+                Debug.LogWarning(e);
+
+            return;
+        }
+
+        var cellX = hrt.rect.width;
+        var cellY = hrt.rect.height + vrt.rect.height;
 
         var cellsize = new Vector2(cellX, cellY);
         grg.cellSize = cellsize;

@@ -6,7 +6,7 @@ namespace HLD
 {
     public static class Utilities
     {
-        public static float Map(this float from, float fromMin, float fromMax, float toMin, float toMax)
+        public static float Map(float from, float fromMin, float fromMax, float toMin, float toMax)
         {
             var fromAbs = from - fromMin;
             var fromMaxAbs = fromMax - fromMin;

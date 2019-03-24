@@ -55,7 +55,7 @@ public class ManageHiddenAccess : MonoBehaviour
 
     private void CheckIsCorrect(string arg0)
     {
-      
+
         var res = "";
         res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
 
@@ -63,13 +63,16 @@ public class ManageHiddenAccess : MonoBehaviour
         {
             if (arg0.ToLower() == res.ToString().ToLower())
             {
-                //HACK: call coroutine twice for it to work?!?
-                StartCoroutine("OnCorrectCode");
-                StartCoroutine("OnCorrectCode");
+                StartCoroutine("OnCorrectCode1");
             }
             else
             {
                 Debug.Log("try enterring passcode " + res.ToString());
+
+                if (UAP_AccessibilityManager.IsActive())
+                {
+                    UAP_AccessibilityManager.Say("Incorrect Code: Enter Code again");
+                }
             }
         }
         else
@@ -84,7 +87,30 @@ public class ManageHiddenAccess : MonoBehaviour
 
     }
 
-    IEnumerator OnCorrectCode()
+    IEnumerator OnCorrectCode1()
+    {
+        if (UAP_AccessibilityManager.IsActive())
+        {
+            UAP_AccessibilityManager.Say("Correct Code: Welcome to the show.", false, true, UAP_AudioQueue.EInterrupt.All);
+        }
+        GetComponent<TMP_InputField>().enabled = false;
+
+        yield return new WaitForSeconds(1.0f);
+
+
+        while (UAP_AccessibilityManager.IsSpeaking())
+            yield return new WaitForSeconds(0.25f);
+
+        GetComponent<TMP_InputField>().enabled = true;
+
+        //HACK: call coroutine twice for it to work?!?
+
+        yield return OnCorrectCode2();
+        yield return OnCorrectCode2();
+
+    }
+
+    IEnumerator OnCorrectCode2()
     {
         yield return new WaitForEndOfFrame();
         CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
@@ -136,7 +162,6 @@ public class ManageHiddenAccess : MonoBehaviour
         yield return new WaitForSeconds(0.0f);
         UAP_AccessibilityManager.SelectElement(audioDesc, true);
         yield break;
-
 
     }
 

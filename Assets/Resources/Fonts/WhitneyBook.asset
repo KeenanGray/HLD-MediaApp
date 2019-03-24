@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: WhitneyBook
   m_EditorClassIdentifier: 
-  hashCode: -2073591963
+  hashCode: -592740551
   material: {fileID: 21914774834097844}
   materialHashCode: -1041678258
   fontAssetType: 1
