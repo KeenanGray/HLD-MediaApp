@@ -927,6 +927,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIB_Text (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5072,6 +5077,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIB_Text (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8041,7 +8051,7 @@ PrefabInstance:
     - target: {fileID: 1859335433395799188, guid: f6ee77809bff24ebd8fb796845d34b38,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0011595312
+      value: -0.0005491606
       objectReference: {fileID: 0}
     - target: {fileID: 931511439539921314, guid: f6ee77809bff24ebd8fb796845d34b38,
         type: 3}
@@ -10446,6 +10456,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UIB_Text noedit
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
@@ -24348,6 +24363,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIB_Text (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -31148,6 +31168,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UIB_Text (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
@@ -40220,6 +40245,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIB_Text (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43416,6 +43446,31 @@ PrefabInstance:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4149695882718161872, guid: 01144d2e230354c9a8d7e82685351cff,
+        type: 3}
+      propertyPath: m_inputSource
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149695882718161872, guid: 01144d2e230354c9a8d7e82685351cff,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149695882718161872, guid: 01144d2e230354c9a8d7e82685351cff,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032938732423913233, guid: 01144d2e230354c9a8d7e82685351cff,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032938732423913233, guid: 01144d2e230354c9a8d7e82685351cff,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114094289276124582, guid: 01144d2e230354c9a8d7e82685351cff, type: 3}
     - {fileID: 114679322765210784, guid: 01144d2e230354c9a8d7e82685351cff, type: 3}
@@ -44898,6 +44953,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIB_Text (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 9060501449971041443, guid: 450b1b5c5993a4a59b7be80dd42811ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9060501449971041442, guid: 450b1b5c5993a4a59b7be80dd42811ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -46282,7 +46342,7 @@ PrefabInstance:
     - target: {fileID: 1859335433395799188, guid: f6ee77809bff24ebd8fb796845d34b38,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00024414062
+      value: 0.0007324219
       objectReference: {fileID: 0}
     - target: {fileID: 931511439539921314, guid: f6ee77809bff24ebd8fb796845d34b38,
         type: 3}
@@ -77658,7 +77718,7 @@ PrefabInstance:
     - target: {fileID: 1859335433395799188, guid: f6ee77809bff24ebd8fb796845d34b38,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00012209344
+      value: 0.0020752184
       objectReference: {fileID: 0}
     - target: {fileID: 931511439539921314, guid: f6ee77809bff24ebd8fb796845d34b38,
         type: 3}
