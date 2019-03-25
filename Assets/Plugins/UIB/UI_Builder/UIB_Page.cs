@@ -179,10 +179,14 @@ namespace UI_Builder
                 return;
 
             var touches = swipe.fingers;
-
             //we swipe if 1 touch && no UAP OR 2 touch and UAP
             //AND swipe is full, direction is right, and page canvas is enabled
-            if ((!UAP_AccessibilityManager.IsActive() && touches == 1) || (UAP_AccessibilityManager.IsActive() && touches == 2) 
+            Debug.Log("HERE " + ((!UAP_AccessibilityManager.IsActive() && touches == 1) || (UAP_AccessibilityManager.IsActive() && touches == 2)));
+            Debug.Log("1 " + (swipe.full));
+            Debug.Log("2 " + (swipe.dir==Direction.RIGHT));
+            Debug.Log("3 " + (gameObject.GetComponent<Canvas>().enabled = true));
+
+            if (((!UAP_AccessibilityManager.IsActive() && touches == 1) || (UAP_AccessibilityManager.IsActive() && touches == 2))
             && swipe.full && swipe.dir == Direction.RIGHT && gameObject.GetComponent<Canvas>().enabled)
             {
                 var minDistance = Screen.width / 2.8;
@@ -206,202 +210,202 @@ namespace UI_Builder
             }
         }
 
-    #endregion
+        #endregion
 
-    #region ViewHandling
-    //Views are pieces of pages that can be slid in and out. 
-    //Views are under development and not used in the HLD app
-    //TODO: create View Handling
+        #region ViewHandling
+        //Views are pieces of pages that can be slid in and out. 
+        //Views are under development and not used in the HLD app
+        //TODO: create View Handling
 
-    #endregion
+        #endregion
 
-    //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
-    //Other rates will allow the screen to slide in from the right.
-    public IEnumerator MoveScreenIn(bool initializing = false)
-    {
-        //if (!(InternetRequired && !UIB_PageManager.InternetActive))
-        ToggleCanvas(true);
-
-        float lerp = 0;
-        var tmp = rate;
-
-        if (initializing)
-            tmp = 1;
-
-        // while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
-        while (true)
+        //When a button is pressed, the app screen will slide in at a specified rate. Rate=1.0f will move instantly reveal the screen,
+        //Other rates will allow the screen to slide in from the right.
+        public IEnumerator MoveScreenIn(bool initializing = false)
         {
-            rt.anchoredPosition = new Vector2(0, 0);
-            lerp += tmp;
-            if (rt.anchoredPosition == new Vector2(0, 0))
+            //if (!(InternetRequired && !UIB_PageManager.InternetActive))
+            ToggleCanvas(true);
+
+            float lerp = 0;
+            var tmp = rate;
+
+            if (initializing)
+                tmp = 1;
+
+            // while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
+            while (true)
             {
-                break;
+                rt.anchoredPosition = new Vector2(0, 0);
+                lerp += tmp;
+                if (rt.anchoredPosition == new Vector2(0, 0))
+                {
+                    break;
+                }
+
+                yield return null;
             }
+            PageOnScreen = true;
+            GetComponent<AspectRatioFitter>().enabled = true;
 
-            yield return null;
-        }
-        PageOnScreen = true;
-        GetComponent<AspectRatioFitter>().enabled = true;
+            OnActivated?.Invoke(); //should always be last
 
-        OnActivated?.Invoke(); //should always be last
-
-        yield break;
-    }
-
-    //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
-    public IEnumerator MoveScreenOut(bool initializing = false)
-    {
-        //  yield return new WaitForEndOfFrame();
-        rt.anchoredPosition = new Vector3(0, 0, 0);
-        float lerp = 0;
-
-        var tmp = rate;
-        if (initializing)
-            tmp = 1;
-        try
-        {
-            GetComponentInChildren<Canvas>().enabled = false;
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
+            yield break;
         }
 
-        while (true)
+        //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
+        public IEnumerator MoveScreenOut(bool initializing = false)
         {
-            rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(UIB_AspectRatioManager.ScreenHeight, 0, 0), lerp);
-            lerp += tmp;
+            //  yield return new WaitForEndOfFrame();
+            rt.anchoredPosition = new Vector3(0, 0, 0);
+            float lerp = 0;
 
-            if (Mathf.Approximately(rt.anchoredPosition.x, UIB_AspectRatioManager.ScreenHeight) ||
-            rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
-            {
-                break;
-            }
-            yield return null;
-        }
-        PageOnScreen = false;
-        GetComponent<AspectRatioFitter>().enabled = false;
-
-        //toggle the canvas at the end to prevent flicker
-        ToggleCanvas(false);
-        OnDeActivated?.Invoke(); //should always be last
-
-        yield break;
-    }
-
-    public void DeActivate()
-    {
-        StartCoroutine("MoveScreenOut", false);
-    }
-
-    public void PageActivatedHandler()
-    {
-        if (AssetBundleRequired && !UIB_PageManager.InternetActive)
-        {
-            //TODO:REfactor this
-            //if internet is necessary and we haven't downloaded the required files. do not allow access to this page
-            /*
-            var tmpLastPage = UIB_PageManager.LastPage;
-            var go = GameObject.Find("InternetFileError_Page").GetComponent<UIB_Page>();
-            go.StartCoroutine("MoveScreenIn", false);
-            StartCoroutine("MoveScreenOut", true);
-            UIB_PageManager.LastPage = tmpLastPage;
-            return;
-            */
-        }
-
-        // ActivateUAP();
-
-        //Say the newly selected element when the page loads
-        if (UAP_AccessibilityManager.IsActive())
-        {
-            StartCoroutine("SayNewItem");
-        }
-
-        if (ActivateUAPOnEnter)
-            StartCoroutine(ResetUAP(true));
-
-    }
-
-    public void PageDeActivatedHandler()
-    {
-        if (gameObject.name == UIB_PageManager.CurrentPage.name)
-        {
-            UAP_AccessibilityManager.GetCurrentFocusObject().gameObject.GetComponent<UAP_BaseElement>().enabled = false;
-        }
-        if (GetComponent<AccessibleUIGroupRoot>() != null)
-            GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
-
-        StartCoroutine(ResetUAP(false));
-    }
-
-    public IEnumerator ResetUAP(bool toggle)
-    {
-        foreach (Button b in GetComponentsInChildren<Button>())
-        {
-            b.enabled = toggle;
-        }
-        foreach (UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>())
-        {
-            uap.enabled = toggle;
-        }
-
-        foreach (AccessibleUIGroupRoot agui in GetComponentsInChildren<AccessibleUIGroupRoot>())
-        {
-            agui.enabled = false;
-            agui.enabled = true;
-        }
-
-        foreach (AccessibleUIGroupRoot ugui in GetComponentsInChildren<AccessibleUIGroupRoot>())
-        {
-            ugui.enabled = toggle;
-        }
-
-        if (toggle)
-        {
-            //select the first element
+            var tmp = rate;
+            if (initializing)
+                tmp = 1;
             try
             {
-                UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.TrueFirstElement());
+                GetComponentInChildren<Canvas>().enabled = false;
             }
             catch (Exception e)
             {
-                Debug.LogWarning(e);
+                Debug.Log(e);
+            }
+
+            while (true)
+            {
+                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(UIB_AspectRatioManager.ScreenHeight, 0, 0), lerp);
+                lerp += tmp;
+
+                if (Mathf.Approximately(rt.anchoredPosition.x, UIB_AspectRatioManager.ScreenHeight) ||
+                rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
+                {
+                    break;
+                }
+                yield return null;
+            }
+            PageOnScreen = false;
+            GetComponent<AspectRatioFitter>().enabled = false;
+
+            //toggle the canvas at the end to prevent flicker
+            ToggleCanvas(false);
+            OnDeActivated?.Invoke(); //should always be last
+
+            yield break;
+        }
+
+        public void DeActivate()
+        {
+            StartCoroutine("MoveScreenOut", false);
+        }
+
+        public void PageActivatedHandler()
+        {
+            if (AssetBundleRequired && !UIB_PageManager.InternetActive)
+            {
+                //TODO:REfactor this
+                //if internet is necessary and we haven't downloaded the required files. do not allow access to this page
+                /*
+                var tmpLastPage = UIB_PageManager.LastPage;
+                var go = GameObject.Find("InternetFileError_Page").GetComponent<UIB_Page>();
+                go.StartCoroutine("MoveScreenIn", false);
+                StartCoroutine("MoveScreenOut", true);
+                UIB_PageManager.LastPage = tmpLastPage;
+                return;
+                */
+            }
+
+            // ActivateUAP();
+
+            //Say the newly selected element when the page loads
+            if (UAP_AccessibilityManager.IsActive())
+            {
+                StartCoroutine("SayNewItem");
+            }
+
+            if (ActivateUAPOnEnter)
+                StartCoroutine(ResetUAP(true));
+
+        }
+
+        public void PageDeActivatedHandler()
+        {
+            if (gameObject.name == UIB_PageManager.CurrentPage.name)
+            {
+                UAP_AccessibilityManager.GetCurrentFocusObject().gameObject.GetComponent<UAP_BaseElement>().enabled = false;
+            }
+            if (GetComponent<AccessibleUIGroupRoot>() != null)
+                GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
+
+            StartCoroutine(ResetUAP(false));
+        }
+
+        public IEnumerator ResetUAP(bool toggle)
+        {
+            foreach (Button b in GetComponentsInChildren<Button>())
+            {
+                b.enabled = toggle;
+            }
+            foreach (UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>())
+            {
+                uap.enabled = toggle;
+            }
+
+            foreach (AccessibleUIGroupRoot agui in GetComponentsInChildren<AccessibleUIGroupRoot>())
+            {
+                agui.enabled = false;
+                agui.enabled = true;
+            }
+
+            foreach (AccessibleUIGroupRoot ugui in GetComponentsInChildren<AccessibleUIGroupRoot>())
+            {
+                ugui.enabled = toggle;
+            }
+
+            if (toggle)
+            {
+                //select the first element
+                try
+                {
+                    UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.TrueFirstElement());
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning(e);
+                }
+            }
+            yield break;
+        }
+
+        #region Helpers
+        public void SetOnScreen(bool Enabled)
+        {
+            PageOnScreen = Enabled;
+        }
+
+        void ToggleCanvas(bool set)
+        {
+            if (page_Canvas == null)
+            {
+                Debug.Log("No Canvas on " + name);
+            }
+            else
+            {
+                //                Debug.Log("canvas enabled " + page_Canvas.enabled);
+                page_Canvas.enabled = set;
             }
         }
-        yield break;
-    }
+        #endregion
 
-    #region Helpers
-    public void SetOnScreen(bool Enabled)
-    {
-        PageOnScreen = Enabled;
-    }
-
-    void ToggleCanvas(bool set)
-    {
-        if (page_Canvas == null)
+        IEnumerator SayNewItem()
         {
-            Debug.Log("No Canvas on " + name);
-        }
-        else
-        {
-            //                Debug.Log("canvas enabled " + page_Canvas.enabled);
-            page_Canvas.enabled = set;
-        }
-    }
-    #endregion
+            if (UAP_AccessibilityManager.IsSpeaking())
+                yield break;
+            UAP_AccessibilityManager.StopSpeaking();
+            yield return new WaitForSeconds(1.0f);
+            //  UAP_AccessibilityManager.Say(GameObject.Find("Active Item Frame").GetComponentsInParent<UAP_BaseElement>()[0].m_Text);
 
-    IEnumerator SayNewItem()
-    {
-        if (UAP_AccessibilityManager.IsSpeaking())
             yield break;
-        UAP_AccessibilityManager.StopSpeaking();
-        yield return new WaitForSeconds(1.0f);
-        //  UAP_AccessibilityManager.Say(GameObject.Find("Active Item Frame").GetComponentsInParent<UAP_BaseElement>()[0].m_Text);
+        }
 
-        yield break;
     }
-
-}
 }

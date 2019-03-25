@@ -57,8 +57,8 @@ public class UIB_InputManager : MonoBehaviour
 
     private void Start()
     {
-        //SwipeDelegate += PrintSwipeData;
-        //TapDelegate += PrintTapData;
+        SwipeDelegate += PrintSwipeData;
+        TapDelegate += PrintTapData;
 
         StartCoroutine("CheckSwipeInput");
       // StartCoroutine("ContinousSwipeDetection");
@@ -153,10 +153,15 @@ public class UIB_InputManager : MonoBehaviour
                     if (Input.touches[0].phase == TouchPhase.Began)
                     {
                         clearInputs = false;
-                        firstPoint = Input.mousePosition;
+                        firstPoint = Input.touches[0].position;
                         StartTime = Time.time;
                     }
                 }
+#if UNITY_EDITOR
+                clearInputs = false;
+                firstPoint = Input.mousePosition;
+                StartTime = Time.time;
+#endif
             }
 
 #if UNITY_EDITOR
@@ -235,7 +240,7 @@ public class UIB_InputManager : MonoBehaviour
         }
     }
 
-    #region continousSwipeDetection
+#region continousSwipeDetection
     IEnumerator ContinousSwipeDetection()
     {
         var touches = 0;
@@ -294,7 +299,7 @@ public class UIB_InputManager : MonoBehaviour
             yield return null;
         }
     }
-    #endregion
+#endregion
     float tapCD = 0.5f;
     IEnumerator CheckTapInput()
     {
