@@ -105,6 +105,17 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
 
+        try
+        {
+            AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
+        }
+        catch (Exception e)
+        {
+            Debug.Log("no instructions " + e);
+            yield break;
+        }
+
+
         //this coroutine checks the local files and starts any necessary downloads
         StartCoroutine("CheckLocalFiles");
 
@@ -132,9 +143,16 @@ public class InitializationManager : MonoBehaviour
         //why is this yield here??;
         yield return new WaitForSeconds(1.0f);
 
-        //initialize objects in the object pools
-        //todo:tag this for eventual replacement with better pages/buttons 
-        ObjPoolManager.Init();
+       
+
+        //Set the main page container
+        //Can't remember why i did this
+        UIB_PageContainer MainContainer = null;
+        foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
+        {
+            MainContainer = PageContainer;
+            MainContainer.Init();
+        }
 
         //set scroll rects to top
         foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
@@ -148,15 +166,6 @@ public class InitializationManager : MonoBehaviour
             arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
-        }
-
-        //Set the main page container
-        //Can't remember why i did this
-        UIB_PageContainer MainContainer = null;
-        foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
-        {
-            MainContainer = PageContainer;
-            MainContainer.Init();
         }
 
         //initialize each button
@@ -182,6 +191,10 @@ public class InitializationManager : MonoBehaviour
         {
             p.Init();
         }
+
+        //initialize objects in the object pools
+        //todo:tag this for eventual replacement with better pages/buttons 
+        ObjPoolManager.Init();
 
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background

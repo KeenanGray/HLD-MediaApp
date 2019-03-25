@@ -284,28 +284,35 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         GoToListBtn = GameObject.Find("ListOfDancersButton");
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
 
-        var ToggleButton = GameObject.Find("ToggleMultipleButton");
+        ToggleButton = GameObject.Find("ToggleMultipleButton");
         ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
+        ToggleButton.transform.Find("ToggleOff").gameObject.SetActive(false);
+        ToggleButton.transform.Find("ToggleOn").gameObject.SetActive(true);
         ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
         PlayMultiple = true;
     }
 
+    public GameObject ToggleButton { get; private set; }
     private void ToggleMultiple()
     {
         PlayMultiple = !PlayMultiple;
+        ToggleButton.transform.Find("ToggleOn").gameObject.SetActive(PlayMultiple);
+        ToggleButton.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
+
         var t = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
+        var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<Special_AccessibleLabel>();
+
         var tLabel = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<Special_AccessibleButton>();
 
         if (PlayMultiple)
         {
             t.text = ToggleStartingText;
             tLabel.m_Text = ToggleStartingText;
+            uap_T.m_Text = ToggleStartingText + " On ";
         }
         else
         {
-            var label = "Play Multiple Dancers";
-            t.text = label;
-            tLabel.m_Text = label;
+            uap_T.m_Text = ToggleStartingText + " Off ";
         }
     }
 

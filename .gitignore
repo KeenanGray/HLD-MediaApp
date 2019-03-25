@@ -37,7 +37,17 @@ sysinfo.txt
 
 Assets/Video
 
-Assets/Plugins/*
+Assets/Plugins/Android/*
+Assets/Plugins/AsyncAwaitUtil/*
+Assets/Plugins/AWSSDK/*
+Assets/Plugins/iBeacon/*
+Assets/Plugins/NativeCamera/*
+Assets/Plugins/SWAN Dev/*
+Assets/Plugins/UAP/*
+Assets/Plugins/x86_64/*
+Assets/Plugins/libsqlite3
+
+
 Assets/OpenCVForUnity/*
 Assets/Plugins.meta
 Assets/AWSSDK/*
