@@ -192,6 +192,17 @@ public class InitializationManager : MonoBehaviour
             p.Init();
         }
 
+        foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
+        {
+            //TODO:Fix this bad bad shit
+            if (p.gameObject.name == "Landing_Page")
+                yield return p.MoveScreenOut(true);
+            else
+            {
+                p.StartCoroutine("MoveScreenOut", true);
+            }
+        }
+
         //initialize objects in the object pools
         //todo:tag this for eventual replacement with better pages/buttons 
         ObjPoolManager.Init();

@@ -288,7 +288,11 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
         ToggleButton.transform.Find("ToggleOff").gameObject.SetActive(false);
         ToggleButton.transform.Find("ToggleOn").gameObject.SetActive(true);
+
         ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
+        var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        uap_T.m_Text = ToggleStartingText + " Off ";
+
         PlayMultiple = true;
     }
 
@@ -300,20 +304,20 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         ToggleButton.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
 
         var t = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
-        var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<Special_AccessibleLabel>();
-
-        var tLabel = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<Special_AccessibleButton>();
+        var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        Debug.Log("J " + uap_T.name);
 
         if (PlayMultiple)
         {
             t.text = ToggleStartingText;
-            tLabel.m_Text = ToggleStartingText;
-            uap_T.m_Text = ToggleStartingText + " On ";
+            uap_T.m_Text = ToggleStartingText + " Off ";
         }
         else
         {
-            uap_T.m_Text = ToggleStartingText + " Off ";
+            uap_T.m_Text = ToggleStartingText + " On ";
         }
+
+        UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject(),true);
     }
 
     void GoToList()
