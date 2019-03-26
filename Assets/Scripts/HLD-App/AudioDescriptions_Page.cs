@@ -15,7 +15,6 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
 
         UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/audio");
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
-
     }
 
     internal void SetupAudioPlayer()
