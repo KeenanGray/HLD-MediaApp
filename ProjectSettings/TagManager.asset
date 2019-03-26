@@ -11,6 +11,7 @@ TagManager:
   - App_Biography
   - App_AboutPage
   - App_Narrative
+  - LockedPageButton
   layers:
   - Default
   - TransparentFX

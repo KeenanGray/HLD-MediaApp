@@ -1,19 +1,22 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(UIB_ScrollingMenu))]
-[CanEditMultipleObjects]
-public class UIB_SrollingMenu_Editor : Editor
+namespace UI_Builder
 {
-    private void OnSceneGUI()
+    [CustomEditor(typeof(UIB_ScrollingMenu))]
+    [CanEditMultipleObjects]
+    public class UIB_SrollingMenu_Editor : Editor
     {
-        if (Selection.gameObjects.Length == 1)
+        private void OnSceneGUI()
         {
-            foreach (GameObject go in Selection.gameObjects)
+            if (Selection.gameObjects.Length == 1)
             {
-                if (go.GetComponent<UIB_ScrollingMenu>() != null)
+                foreach (GameObject go in Selection.gameObjects)
                 {
-                    go.GetComponent<UIB_ScrollingMenu>().Setup();
+                    if (go.GetComponent<UIB_ScrollingMenu>() != null)
+                    {
+                        go.GetComponent<UIB_ScrollingMenu>().Setup();
+                    }
                 }
             }
         }

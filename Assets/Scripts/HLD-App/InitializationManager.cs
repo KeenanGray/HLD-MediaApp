@@ -203,6 +203,12 @@ public class InitializationManager : MonoBehaviour
             }
         }
 
+        //initialize each scrolling menu
+        foreach (UIB_ScrollingMenu uibSM in GetComponentsInChildren<UIB_ScrollingMenu>())
+        {
+            uibSM.Init();
+        }
+
         //initialize objects in the object pools
         //todo:tag this for eventual replacement with better pages/buttons 
         ObjPoolManager.Init();
@@ -236,6 +242,7 @@ public class InitializationManager : MonoBehaviour
         {
             //remove the accessibility instructions button
             //todo: possibly remove this - might want to have accessibility instructions for all users
+            /*
             if (AccessibilityInstructions != null)
             {
                 //turn off label and move viewport down.
@@ -248,6 +255,7 @@ public class InitializationManager : MonoBehaviour
             }
             else
                 Debug.LogWarning("No accessibility instructions assigned");
+                */               
         }
         //select the first button with UAP
         var first = GameObject.Find("DISPLAYED-Code_Button");
@@ -510,7 +518,7 @@ public class InitializationManager : MonoBehaviour
                 //exceeded time limit. Reactivte code-entry page
                 try
                 {
-                    var gb = GameObject.Find(key.Replace("-Info_Page", "-Info_Button"));
+                    var gb = GameObject.FindWithTag("LockedPageButton");
                     gb.name = key.Replace("Info_Page", "Code_Button");
                     gb.GetComponent<UIB_Button>().Init();
                     //PlayerPrefs.DeleteKey(key);
@@ -529,7 +537,7 @@ public class InitializationManager : MonoBehaviour
                 //Change the code page to the info page
                 try
                 {
-                    var gb = GameObject.Find(key.Replace("-Info_Page", "-Code_Button"));
+                    var gb = GameObject.FindWithTag("LockedPageButton");
                     gb.name = key.Replace("Info_Page", "Info_Button");
                     gb.GetComponent<UIB_Button>().Init();
 
@@ -549,7 +557,7 @@ public class InitializationManager : MonoBehaviour
             //set info page to code page
             try
             {
-                var gb = GameObject.Find(key.Replace("-Info_Page", "-Info_Button"));
+                var gb = GameObject.FindWithTag("LockedPageButton");
                 gb.name = key.Replace("Info_Page", "Code_Button");
                 gb.GetComponent<UIB_Button>().Init();
                 //PlayerPrefs.DeleteKey(key);

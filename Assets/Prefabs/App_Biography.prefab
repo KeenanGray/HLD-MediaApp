@@ -1148,17 +1148,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShouldScroll: 1
-  ImageColor: {r: 0, g: 0, b: 0, a: 0}
+  AutoFormat: 1
   normal_ButtonColor: {r: 0, g: 0, b: 0, a: 0}
   pressed_ButtonColor: {r: 0, g: 0, b: 0, a: 0}
   highlight_ButtonColor: {r: 0, g: 0, b: 0, a: 0}
   disabled_ButtonColor: {r: 0, g: 0, b: 0, a: 0}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
+  TextBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
   font: {fileID: 11400000, guid: 2fb0da80e4169452e84bead6b7fa925c, type: 2}
   fontSize: 70
   alignment: 257
   padding: 100
-  Playing: 0
+  Playing: 1
   playedOnce: 1
 --- !u!1 &4603900440332905834
 GameObject:

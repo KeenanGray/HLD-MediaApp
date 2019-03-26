@@ -72,17 +72,17 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void valueChanged(string currentVal)
     {
-        if(currentVal.Length > oldValue.Length)
+        if (currentVal.Length > oldValue.Length)
         {
             //say character added and full sentence
-            UAP_AccessibilityManager.Say(currentVal[currentVal.Length-1].ToString() + " added " + currentVal);
+            UAP_AccessibilityManager.Say(currentVal[currentVal.Length - 1].ToString() + " added " + currentVal);
         }
         else
         {
             //say character deleted
             if (UAP_AccessibilityManager.IsActive())
             {
-                UAP_AccessibilityManager.Say(oldValue[oldValue.Length-1].ToString() + " deleted");
+                UAP_AccessibilityManager.Say(oldValue[oldValue.Length - 1].ToString() + " deleted");
             }
         }
         oldValue = currentVal;
@@ -209,8 +209,8 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
         GetComponent<InputField>().enabled = false;
 
-        yield return new WaitForSeconds(1.0f);
-
+        if (UAP_AccessibilityManager.IsActive())
+            yield return new WaitForSeconds(1.0f);
 
         while (UAP_AccessibilityManager.IsSpeaking())
             yield return new WaitForSeconds(0.25f);
