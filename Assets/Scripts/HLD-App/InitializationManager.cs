@@ -62,7 +62,10 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e);
+            if (e.GetType() == typeof(NullReferenceException))
+            {
+
+            }
         }
 
         try
@@ -143,7 +146,7 @@ public class InitializationManager : MonoBehaviour
         //why is this yield here??;
         yield return new WaitForSeconds(1.0f);
 
-       
+
 
         //Set the main page container
         //Can't remember why i did this
@@ -255,7 +258,7 @@ public class InitializationManager : MonoBehaviour
             }
             else
                 Debug.LogWarning("No accessibility instructions assigned");
-                */               
+                */
         }
         //select the first button with UAP
         var first = GameObject.Find("DISPLAYED-Code_Button");

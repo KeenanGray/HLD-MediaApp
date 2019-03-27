@@ -53,8 +53,11 @@ namespace UI_Builder
             }
         }
 
+
+
         public void Init()
         {
+
             if (gameObject.name == "App_SubMenuButton")
             {
                 return;
@@ -156,17 +159,31 @@ namespace UI_Builder
         {
             GetComponentInChildren<TextMeshProUGUI>().text = newtext;
             GetComponent<Special_AccessibleButton>().AutoFillTextLabel();
-
         }
 
         private void OnEnable()
         {
+            SetDisplayedButton();
+            //   GetComponentInChildren<TextMeshProUGUI>().color = originalColor;
+        }
 
+        void SetDisplayedButton()
+        {
+            if (gameObject.name == "DISPLAYED-Info_Button" || gameObject.name == "DISPLAYED-Code_Button")
+            {
+                try
+                {
+                    GetComponentInChildren<TextMeshProUGUI>().color = new Color(200, 197, 43,255);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning(e);
+                }
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-          
             Color32 highlightColor = new Color32(200, 197, 43, 255);
             if (GetComponent<UnityEngine.UI.Button>().image.sprite != null)
                 originalColor = GetComponent<UnityEngine.UI.Button>().image.color;
@@ -182,16 +199,10 @@ namespace UI_Builder
 
             if (buttonText != null)
             {
-                originalColor = buttonText.GetComponent<TextMeshProUGUI>().color;
-
-                //TODO: reconsider this wierd special case
-                //just for the displayed button
-                if (buttonText.GetComponent<TextMeshProUGUI>().color == highlightColor)
-                    buttonText.GetComponent<TextMeshProUGUI>().color = new Color32(200, 197, 43, 255);
-
-                originalColor = buttonText.GetComponent<TextMeshProUGUI>().color;
+                //  originalColor = buttonText.GetComponent<TextMeshProUGUI>().color;
                 buttonText.GetComponent<TextMeshProUGUI>().color = highlightColor;
             }
+            SetDisplayedButton();
 
         }
 
@@ -202,6 +213,9 @@ namespace UI_Builder
 
             if (buttonText != null)
                 buttonText.GetComponent<TextMeshProUGUI>().color = originalColor;
+
+            SetDisplayedButton();
+
         }
 
         public void SetVO(GameObject target)

@@ -11,7 +11,6 @@ using UnityEngine.UI;
 
 public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 {
-
     public static List<string> DancerMajorsList;
     //these values need to be incremented by 1 in the bluetooth setting
     /*
@@ -37,7 +36,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
       }
       */
     GameObject GoToListBtn;
-    public TextMeshProUGUI DebugText;
     iBeaconReceiver beaconr;
     private List<Beacon> mybeacons;
 
@@ -52,7 +50,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     public void Init()
     {
-        DebugText.text = "";
         beaconr = GetComponent<iBeaconReceiver>();
         mybeacons = new List<Beacon>();
         iBeaconReceiver.BeaconRangeChangedEvent += OnBeaconRangeChanged;
@@ -658,7 +655,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         tmp.name = dancerFromBeacon + "_Bluetooth_Audio";
         try
         {
-            tmp.transform.SetParent(GameObject.Find("BluetoothGridPanel").transform);
+            tmp.transform.SetParent(GameObject.Find("AudioSourceList").transform);
         }
         catch(Exception e)
         {

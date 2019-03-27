@@ -181,11 +181,7 @@ namespace UI_Builder
             var touches = swipe.fingers;
             //we swipe if 1 touch && no UAP OR 2 touch and UAP
             //AND swipe is full, direction is right, and page canvas is enabled
-            Debug.Log("HERE " + ((!UAP_AccessibilityManager.IsActive() && touches == 1) || (UAP_AccessibilityManager.IsActive() && touches == 2)));
-            Debug.Log("1 " + (swipe.full));
-            Debug.Log("2 " + (swipe.dir==Direction.RIGHT));
-            Debug.Log("3 " + (gameObject.GetComponent<Canvas>().enabled = true));
-
+         
             if (((!UAP_AccessibilityManager.IsActive() && touches == 1) || (UAP_AccessibilityManager.IsActive() && touches == 2))
             && swipe.full && swipe.dir == Direction.RIGHT && gameObject.GetComponent<Canvas>().enabled)
             {

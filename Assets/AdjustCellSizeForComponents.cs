@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(GridLayoutGroup))]
+[RequireComponent(typeof(VerticalLayoutGroup))]
 [ExecuteInEditMode]
 public class AdjustCellSizeForComponents : MonoBehaviour
 {
@@ -56,6 +56,6 @@ public class AdjustCellSizeForComponents : MonoBehaviour
         var cellY = hrt.rect.height + vrt.rect.height;
 
         var cellsize = new Vector2(cellX, cellY);
-        grg.cellSize = cellsize;
+       // grg.cellSize = cellsize;
     }
 }

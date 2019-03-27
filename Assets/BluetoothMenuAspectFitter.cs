@@ -4,6 +4,7 @@ using UnityEngine;
 using UI_Builder;
 using TMPro;
 
+[ExecuteInEditMode]
 public class BluetoothMenuAspectFitter : MonoBehaviour
 {
   
@@ -61,7 +62,7 @@ public class BluetoothMenuAspectFitter : MonoBehaviour
         GetComponent<BluetoothAudioSource>().img.GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
 
         //        Debug.Log(UIB_AspectRatioManager_Editor.ScreenWidth + ":" + width);
-        GetComponent<BluetoothAudioSource>().text.GetComponent<RectTransform>().sizeDelta = new Vector2 (UIB_AspectRatioManager.ScreenWidth, width);
-        GetComponent<BluetoothAudioSource>().text.GetComponent<TextMeshProUGUI>().fontSize = 50 * textScaleAdjust;
+     //   GetComponent<BluetoothAudioSource>().text.GetComponent<RectTransform>().sizeDelta = new Vector2 (UIB_AspectRatioManager.ScreenWidth, width);
+     //   GetComponent<BluetoothAudioSource>().text.GetComponent<TextMeshProUGUI>().fontSize = 50 * textScaleAdjust;
     }
 }

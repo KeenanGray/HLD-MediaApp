@@ -8,11 +8,9 @@ using UnityEngine.UI;
 
 namespace UI_Builder
 {
-    [ExecuteInEditMode]
     public class UIB_ScrollingMenu : MonoBehaviour
     {
         public bool ShouldScroll;
-        public static bool hasRun;
         public bool AutoFormat;
 
         //public Color ImageColor;
@@ -37,15 +35,12 @@ namespace UI_Builder
         {
             Setup();
             Playing = true;
+            Init();
+
         }
 
         private void Update()
         {
-            if (!hasRun)
-            {
-                Init();
-                hasRun = true;
-            }
         }
 
         public void Init()
@@ -56,7 +51,7 @@ namespace UI_Builder
             var rt = GameObject.FindWithTag("MainCanvas").GetComponent<RectTransform>();
             var myRt = GetComponent<RectTransform>();
 
-            var percentageScreenSize = .8f;
+            var percentageScreenSize = .76f;
 
             //myRt.sizeDelta = new Vector2(rt.rect.width, (rt.sizeDelta.y * (rt.anchorMax.y - rt.anchorMin.y) * percentageScreenSize));
             var logo = GameObject.Find("Logo").GetComponent<RectTransform>();
@@ -67,24 +62,25 @@ namespace UI_Builder
             myRt.pivot = new Vector2(0, 0);
             myRt.anchoredPosition = new Vector2(0, 0);
 
-
             var contentRect = GetComponent<ScrollRect>().content.GetComponent<RectTransform>();
 
             //if height is greater
-            if (contentRect.sizeDelta.y > myRt.rect.height)
+            if (contentRect.sizeDelta.y >= myRt.rect.height)
             {
                 contentRect.pivot = new Vector2(0, 1);
                 contentRect.anchorMin = new Vector2(0, 0);
                 contentRect.anchorMax = new Vector2(0, 0);
-                contentRect.anchoredPosition = new Vector2(0, 0);
+                contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, 0);
             }
             else
             {
                 contentRect.pivot = new Vector2(0, 0);
                 contentRect.anchorMin = new Vector2(0, 0);
                 contentRect.anchorMax = new Vector2(0, 0);
-                contentRect.anchoredPosition = new Vector2(0, 0);
+                contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, 0);
             }
+
+            myRt.anchoredPosition = new Vector3(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y + 60);
         }
 
         private void OnEnable()
