@@ -656,7 +656,14 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     {
         GameObject tmp = Instantiate(AudioPlayerPrefab);
         tmp.name = dancerFromBeacon + "_Bluetooth_Audio";
-        tmp.transform.SetParent(GameObject.Find("BluetoothGridPanel").transform);
+        try
+        {
+            tmp.transform.SetParent(GameObject.Find("BluetoothGridPanel").transform);
+        }
+        catch(Exception e)
+        {
+            Debug.LogError("Failed to get grid for these components " + e);
+        }
 
         tmp.transform.localScale = new Vector3(1, 1, 1);
 

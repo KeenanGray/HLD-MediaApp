@@ -29,7 +29,15 @@ public class BluetoothAudioSource : MonoBehaviour
 
     public void Init()
     {
-        src = GetComponent<AudioSource>();
+        try
+        {
+            src = GetComponent<AudioSource>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
+
         AudioCaptions = new TextAsset("");
         captionsCanvas = text.GetComponentInChildren<TextMeshProUGUI>();
 
@@ -48,15 +56,7 @@ public class BluetoothAudioSource : MonoBehaviour
 
     private void Update()
     {
-        if (src.isPlaying)
-        {
-            //check if the clip is finished
-            if ((int)src.time >= (int)src.clip.length)
-            {
-               //Debug.Log("clip over");
-                clipEnded = true;
-            }
-        }
+
     }
 
     public void SetAudio(string PathToAudio, string bundleString)
@@ -89,6 +89,8 @@ public class BluetoothAudioSource : MonoBehaviour
         }
         src.Play();
         src.Pause();
+
+        StartCoroutine("CheckIsFinished");
     }
 
     internal void Stop()
@@ -192,7 +194,7 @@ public class BluetoothAudioSource : MonoBehaviour
 
             captionsCanvas.text = line;
 
- 
+
             yield return new WaitForSeconds(TimePerLine);
             start = start + WordsPerLine;
 
@@ -307,6 +309,23 @@ public class BluetoothAudioSource : MonoBehaviour
             nameText.SetActive(false);
             text.SetActive(false);
             img.SetActive(false);
+        }
+    }
+
+    IEnumerator CheckIsFinished()
+    {
+        while (true)
+        {
+            if (src.isPlaying)
+            {
+                //check if the clip is finished
+                if ((int)src.time >= (int)src.clip.length)
+                {
+                    //Debug.Log("clip over");
+                    clipEnded = true;
+                }
+            }
+            yield return null;
         }
     }
 }
