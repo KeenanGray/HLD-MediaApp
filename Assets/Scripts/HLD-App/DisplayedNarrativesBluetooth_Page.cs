@@ -283,8 +283,11 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         ToggleButton = GameObject.Find("ToggleMultipleButton");
         ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
-        ToggleButton.transform.Find("ToggleOff").gameObject.SetActive(false);
-        ToggleButton.transform.Find("ToggleOn").gameObject.SetActive(true);
+
+        OnOff = GameObject.Find("ToggleMultipleOnOff");
+
+        OnOff.transform.Find("ToggleOff").gameObject.SetActive(false);
+        OnOff.transform.Find("ToggleOn").gameObject.SetActive(true);
 
         ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
         var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
@@ -297,12 +300,11 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     private void ToggleMultiple()
     {
         PlayMultiple = !PlayMultiple;
-        ToggleButton.transform.Find("ToggleOn").gameObject.SetActive(PlayMultiple);
-        ToggleButton.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
+        OnOff.transform.Find("ToggleOn").gameObject.SetActive(PlayMultiple);
+        OnOff.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
 
         var t = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
         var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
-        Debug.Log("J " + uap_T.name);
 
         if (PlayMultiple)
         {
@@ -314,7 +316,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             uap_T.m_Text = ToggleStartingText + " On ";
         }
 
-        UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject(),true);
+        UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject(), true);
     }
 
     void GoToList()
@@ -397,7 +399,21 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                     if (AudioPlayers.ContainsKey(DancerFromBeacon))
                     {
                         //we already have a player set up for that dancer, let's bring up the volume.
-                        AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = .25f;
+                        try
+                        {
+                            AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = .25f;
+                        }
+                        catch (Exception e)
+                        {
+                            //if the clip finshed playing we deleted it.
+                            //Have to remove the obejct from this list
+                            if (enabled.GetType() == typeof(MissingReferenceException))
+                            {
+                                Debug.Log("got it");
+                                AudioPlayers.Remove(DancerFromBeacon);
+                            }
+
+                        }
                         playBeacon(.6f, DancerFromBeacon);
                     }
                     else
@@ -436,7 +452,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 DisableAudioPlayer(AudioPlayers[DancerFromBeacon13], DancerFromBeacon13);
 
             }
-
         }
 #endif
 
@@ -461,12 +476,14 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             return;
 #endif
 
+        var printDebug = "";
         foreach (Beacon b in mybeacons)
         {
             var DancerFromBeacon = DancerMajorsList[b.major - 1];
             var absRSSI = Math.Abs(b.rssi);
 
-            var accuracyTarget = 3.0f;
+            printDebug += "Beacon " + DancerFromBeacon + " rssi:" + b.rssi + " acc:" + b.accuracy + ":" + b.range + "\n";
+
             /*
             if (b.range != BeaconRange.UNKNOWN)
             {
@@ -491,16 +508,16 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 if (AudioPlayers.ContainsKey(DancerFromBeacon))
                 {
                     //we already have a player set up for that dancer, let's bring up the volume.
-                    if (b.rssi > minImmediateRSSI && b.rssi < maxImmediateRSSI && b.accuracy < accuracyTarget && b.accuracy > 0)
+                    if (b.accuracy < 1.5f)
                     {
+                        //turn on player
                         if (CheckBeaconToStart(AudioPlayers[DancerFromBeacon]))
                         {
-                            Debug.Log("Near " + DancerFromBeacon + " rssi:" + b.rssi + " acc:" + b.accuracy + ":" + b.strength);
                             AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = b.rssi;
                             playBeacon(HLD.Utilities.Map(b.rssi, minImmediateRSSI, maxImmediateRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
                         }
                     }
-                    else if (b.rssi < minImmediateRSSI && b.accuracy > 2)
+                    else
                     {
                         if (CheckBeaconToEnd(AudioPlayers[DancerFromBeacon]))
                         {
@@ -522,18 +539,17 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             {
                 if (AudioPlayers.ContainsKey(DancerFromBeacon))
                 {
-                    /*  if (AudioPlayers[DancerFromBeacon].GetComponent<AudioSource>().isPlaying)
-                      {
-                          //play far beacons that are not yet disabled at a quarter of the volume
-                          playBeacon(HLD.Utilities.Map(b.rssi, minImmediateRSSI, maxImmediateRSSI, minImmediateVol, maxImmediatevol) * .25f, DancerFromBeacon);
-                      }
-                      */
-                    //perhaps if the accuracy is lower than 10, we may still be close enough
-                    if (b.rssi > minFarRSSI && b.rssi <= maxFarRSSI && b.accuracy < accuracyTarget && b.accuracy > 0)
+                    if (b.accuracy < 1.5f)
                     {
-                        Debug.Log("Far " + DancerFromBeacon + " rssi:" + b.rssi + " acc:" + b.accuracy + ":" + b.strength);
+                        //turn on beacon
+                        if (CheckBeaconToStart(AudioPlayers[DancerFromBeacon]))
+                        {
+                            AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = b.rssi;
+                            playBeacon(HLD.Utilities.Map(b.rssi, minFarRSSI, maxFarRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
+                        }
+                        //
                     }
-                    else if (b.rssi < minFarRSSI && b.accuracy > 1)
+                    else
                     {
                         if (CheckBeaconToEnd(AudioPlayers[DancerFromBeacon]))
                         {
@@ -551,6 +567,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 //at far range let's not do anything
             }
         }
+        Debug.Log("Beacon Debug " + printDebug);
 
         if (AudioPlayers == null)
         {
@@ -558,10 +575,33 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             return;
         }
 
+        List<string> sList = new List<string>();
+
+        foreach(string s in AudioPlayers.Keys)
+        {
+            if (AudioPlayers[s] == null)
+            {
+                //Debug.Log("YES ");
+                sList.Add(s);   
+            }
+            else
+            {
+                //Debug.Log("NO");
+            }
+        }
+
+        foreach (string s in sList)
+        {
+            AudioPlayers.Remove(s);
+        }
+        sList.Clear();
+
+
         List<GameObject> sortedBeacons = new List<GameObject>();
         if (AudioPlayers.Values.Count > 0)
         {
             sortedBeacons = AudioPlayers.Values.ToList();
+            var nullBeacons = new List<GameObject>();
 
             sortedBeacons = sortedBeacons.OrderBy(go => go.GetComponent<BluetoothAudioSource>().knownRSSI).ToList();
             sortedBeacons.Reverse();
@@ -657,7 +697,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         {
             tmp.transform.SetParent(GameObject.Find("AudioSourceList").transform);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError("Failed to get grid for these components " + e);
         }
@@ -729,6 +769,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     Dictionary<int, int> dancersDetected;
     int detectionsRecquired = 2;
     int cnt = 0;
+    private GameObject OnOff;
 
     void CountRecognized(int label)
     {

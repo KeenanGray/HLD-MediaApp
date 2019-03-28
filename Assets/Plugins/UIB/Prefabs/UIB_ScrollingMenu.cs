@@ -36,7 +36,6 @@ namespace UI_Builder
             Setup();
             Playing = true;
             Init();
-
         }
 
         private void Update()

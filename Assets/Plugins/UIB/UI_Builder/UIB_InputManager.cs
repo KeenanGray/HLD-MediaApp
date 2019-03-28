@@ -57,8 +57,8 @@ public class UIB_InputManager : MonoBehaviour
 
     private void Start()
     {
-        SwipeDelegate += PrintSwipeData;
-        TapDelegate += PrintTapData;
+      //  SwipeDelegate += PrintSwipeData;
+      //  TapDelegate += PrintTapData;
 
         StartCoroutine("CheckSwipeInput");
       // StartCoroutine("ContinousSwipeDetection");

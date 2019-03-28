@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using HLD;
 using UI_Builder;
 using UnityEngine;
+using UnityEngine.UI;
 using static HLD.JSON_Structs;
 
 public class DisplayedNarrativesList_Page : HLD.ScrollMenu
@@ -30,7 +32,31 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
         }
 
         ObjPoolManager.EndRetrieval();
+    }
 
+    private void Start()
+    {
+        GetComponent<UIB_Page>().OnActivated += onPageActivated;
+    }
 
+    private void onPageActivated()
+    {
+        StartCoroutine("updateWait");
+    }
+
+    IEnumerator updateWait()
+    {
+        var scrollrect = GetComponentInChildren<ScrollRect>();
+        scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1700);
+
+        /*
+        while (scrollrect.content.GetComponent<RectTransform>().rect.height <= 0)
+        {
+            Debug.Log("HERE 1");
+            yield return null;
+        }
+        */
+        scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scrollrect.GetComponent<RectTransform>().rect.height);
+        yield break;
     }
 }

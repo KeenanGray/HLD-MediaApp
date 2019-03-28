@@ -56,7 +56,22 @@ public class BluetoothAudioSource : MonoBehaviour
 
     private void Update()
     {
+        if (src.time.CompareTo(src.clip.length - 0.1f) < 0)
+        {
+        }
+        else
+        {
+            Debug.Log("clip finished");
+            StartCoroutine("DestroyAtEndOfFrame");
+        }
+    }
 
+    IEnumerator DestroyAtEndOfFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        Destroy(gameObject);
+
+        yield break;
     }
 
     public void SetAudio(string PathToAudio, string bundleString)
@@ -169,8 +184,14 @@ public class BluetoothAudioSource : MonoBehaviour
 
         while (true)
         {
+            if (src == null)
+            {
+                yield break;
+            }
+
             if (!src.isPlaying)
             {
+                Debug.Log("paused");
                 yield return null;
             }
 
@@ -194,11 +215,12 @@ public class BluetoothAudioSource : MonoBehaviour
 
             captionsCanvas.text = line;
 
+            if (src.isPlaying)
+            {
+                yield return new WaitForSeconds(TimePerLine);
+                start = start + WordsPerLine;
 
-            yield return new WaitForSeconds(TimePerLine);
-            start = start + WordsPerLine;
-
-
+            }
             if (clipEnded && captionsEnded)
             {
                 GetComponentInParent<DisplayedNarrativesBluetooth_Page>().StopPlaying(this);
