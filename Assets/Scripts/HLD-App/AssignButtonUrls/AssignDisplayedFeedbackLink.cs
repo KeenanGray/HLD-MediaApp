@@ -12,8 +12,9 @@ namespace HLD
         void Start()
         {
             var b = GetComponent<UIB_Button>();
-            b.Button_Opens = UIB_Button.UIB_Button_Activates.Website;
-            b.s_link = "https://docs.google.com/forms/d/1xmYLQdBNLt6yKRAB4H1dwPjzNV4BQA5EuYhGR655hvw/edit";
+            b.Button_Opens = UIB_Button.UIB_Button_Activates.InAppUrl;
+            b.Title = "D.I.S.P.L.A.Y.E.D Feedback";
+            b.s_link = "https://docs.google.com/forms/d/e/1FAIpQLSdQloPNXW4MrAlN2uycWdWSkkBtVFmCpMgTP0ELNGkXr6zuxw/viewform";
         }
     }
 }

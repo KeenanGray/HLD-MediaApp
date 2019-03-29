@@ -337,6 +337,8 @@ namespace UI_Builder
 
         public IEnumerator ResetUAP(bool toggle)
         {
+            Debug.Log("my " + gameObject.name + " " + toggle);
+
             foreach (Button b in GetComponentsInChildren<Button>())
             {
                 b.enabled = toggle;

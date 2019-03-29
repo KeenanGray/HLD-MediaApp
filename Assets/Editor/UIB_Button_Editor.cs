@@ -13,6 +13,7 @@ namespace UI_Builder
         SerializedProperty VO_Select;
         SerializedProperty NewPage;
         SerializedProperty myText;
+        SerializedProperty myTitle;
         SerializedProperty BackButton;
 
         public Object source;
@@ -21,7 +22,8 @@ namespace UI_Builder
             Opens = serializedObject.FindProperty("Button_Opens");
             NewPage = serializedObject.FindProperty("newScreen");
             VO_Select = serializedObject.FindProperty("VO_Select");
-            myText = serializedObject.FindProperty("myText");
+            myText = serializedObject.FindProperty("s_link");
+            myTitle = serializedObject.FindProperty("Title");
             BackButton = serializedObject.FindProperty("isBackButton");
 
         }
@@ -42,6 +44,14 @@ namespace UI_Builder
                 return;
             }
 
+            if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.InAppUrl.ToString())
+            {
+                EditorGUILayout.PropertyField(myText, new GUIContent("Url"));
+              //  EditorGUILayout.PropertyField(myTitle, new GUIContent("Title"));
+                serializedObject.ApplyModifiedProperties();
+                return;
+            }
+
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.Scene.ToString())
             {
                 EditorGUILayout.PropertyField(myText, new GUIContent("Scene Name"));
@@ -54,11 +64,10 @@ namespace UI_Builder
                 //EditorGUILayout.PropertyField(myText, new GUIContent("Text to Say"));
                 EditorStyles.textField.wordWrap = true;
                 myText.stringValue = EditorGUILayout.TextArea(myText.stringValue);
-      
-        serializedObject.ApplyModifiedProperties();
+                serializedObject.ApplyModifiedProperties();
                 return;
             }
-//            Debug.Log("Opens " + Opens.enumDisplayNames[Opens.enumValueIndex]);
+            //            Debug.Log("Opens " + Opens.enumDisplayNames[Opens.enumValueIndex]);
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.None.ToString())
             {
                 EditorGUILayout.HelpBox("Button is not set to open anything", MessageType.Info);

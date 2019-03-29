@@ -60,11 +60,12 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (e.GetType() == typeof(NullReferenceException))
+            if (enabled.GetType() == typeof(NullReferenceException))
             {
 
             }
         }
+
 
         try
         {
@@ -115,7 +116,6 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("no instructions " + e);
             yield break;
         }
-
 
         //this coroutine checks the local files and starts any necessary downloads
         StartCoroutine("CheckLocalFiles");
@@ -233,34 +233,39 @@ public class InitializationManager : MonoBehaviour
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
-        //unpause accessibility manger to read first button
-        UAP_AccessibilityManager.PauseAccessibility(false);
-        if (UAP_AccessibilityManager.IsActive())
+        if (UAP_AccessibilityManager.IsEnabled())
         {
-            AccessibilityInstructions.SetActive(true);
-        }
-        else
-        {
-            //remove the accessibility instructions button
-            //todo: possibly remove this - might want to have accessibility instructions for all users
-            /*
-            if (AccessibilityInstructions != null)
+            //unpause accessibility manger to read first button
+            UAP_AccessibilityManager.PauseAccessibility(false);
+            if (UAP_AccessibilityManager.IsActive())
             {
-                //turn off label and move viewport down.
-                var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height / 2f;
-                //                Debug.Log("adjust " + adjust);
-                var parent1 = AccessibilityInstructions.transform.parent.parent.parent;
-                //                Debug.Log("parent1 " + parent1.name);
-                parent1.Translate(new Vector3(0, adjust, 0));
-                AccessibilityInstructions.SetActive(false);
+                AccessibilityInstructions.SetActive(true);
             }
             else
-                Debug.LogWarning("No accessibility instructions assigned");
-                */
+            {
+                //remove the accessibility instructions button
+                //todo: possibly remove this - might want to have accessibility instructions for all users
+                /*
+                if (AccessibilityInstructions != null)
+                {
+                    //turn off label and move viewport down.
+                    var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height / 2f;
+                    //                Debug.Log("adjust " + adjust);
+                    var parent1 = AccessibilityInstructions.transform.parent.parent.parent;
+                    //                Debug.Log("parent1 " + parent1.name);
+                    parent1.Translate(new Vector3(0, adjust, 0));
+                    AccessibilityInstructions.SetActive(false);
+                }
+                else
+                    Debug.LogWarning("No accessibility instructions assigned");
+                    */
+            }
+
+            //select the first button with UAP
+            var first = GameObject.Find("DISPLAYED-Code_Button");
+            UAP_AccessibilityManager.SelectElement(first, true); ;
         }
-        //select the first button with UAP
-        var first = GameObject.Find("DISPLAYED-Code_Button");
-        UAP_AccessibilityManager.SelectElement(first, true); ;
+
 
         //remove the cover
         MainContainer.DisableCover();
@@ -497,6 +502,12 @@ public class InitializationManager : MonoBehaviour
             if (TotalDownloads > 0)
             {
                 PercentDownloaded = (float)((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
+                if (PercentDownloaded > 0)
+                { }
+                else
+                {
+                    PercentDownloaded = 0;
+                }
                 percentText.text = PercentDownloaded + "%";
             }
             yield return null;

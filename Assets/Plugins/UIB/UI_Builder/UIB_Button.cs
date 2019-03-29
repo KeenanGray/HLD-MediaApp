@@ -26,8 +26,11 @@ namespace UI_Builder
             Video,
             Website,
             Accessibletext,
-            Scene
+            Scene,
+            InAppUrl
         }
+
+        public static InAppBrowser.DisplayOptions options;
 
         public bool isBackButton;
         public static Image backgroundImage;
@@ -39,6 +42,8 @@ namespace UI_Builder
         public UIB_Button_Activates Button_Opens;
         public GameObject buttonText;
         public string s_link;
+        public string Title;
+
         private Color originalColor;
 
         void Start()
@@ -51,6 +56,16 @@ namespace UI_Builder
             {
                 Debug.LogError("no buttonText " + gameObject.name);
             }
+
+
+            //in app url options
+            options = new InAppBrowser.DisplayOptions();
+            options.displayURLAsPageTitle = false;
+            options.browserBackgroundColor = ColorUtility.ToHtmlStringRGB(new Color(0, 0, 0, 255));
+        //    options.textColor = ColorUtility.ToHtmlStringRGB(new Color(200, 197, 43, 255));
+            options.hidesHistoryButtons = true;
+           // options.barBackgroundColor = ColorUtility.ToHtmlStringRGB(new Color(200, 197, 43, 255));
+
         }
 
 
@@ -121,16 +136,19 @@ namespace UI_Builder
                     else
                         Debug.LogWarning("Button not assigned a url");
                     break;
+                case UIB_Button_Activates.InAppUrl:
+                    shouldDeActivatePage = false;
+                    if (s_link != null)
+                    {
+                        options.pageTitle = Title;
+                        InAppBrowser.OpenURL(s_link, options);
+                    }
+                    else
+                        Debug.LogWarning("Button not assigned a url");
+                    break;
                 case UIB_Button_Activates.Accessibletext:
                     shouldDeActivatePage = false;
                     UAP_AccessibilityManager.SaySkippable(s_link);
-                    /*Accessibility Instructions
-                     * 
-                     * This app is integrated with the accessibility features of your phone
-                     * The controls may differ slightly from what you are used to.
-                     * Swipe up and down to navigate between elements on the page
-                     * Swipe left and right to jump between blocks of elements
-                     */
                     break;
                 case UIB_Button_Activates.Scene:
                     SceneManager.LoadScene(s_link);
@@ -173,12 +191,15 @@ namespace UI_Builder
             {
                 try
                 {
-                   // GetComponentInChildren<TextMeshProUGUI>().color = new Color(200, 197, 43,255);
+                    // GetComponentInChildren<TextMeshProUGUI>().color = new Color(200, 197, 43,255);
                     buttonText.GetComponent<TextMeshProUGUI>().color = new Color32(200, 197, 43, 255);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning(e);
+                    if (enabled.GetType() == typeof(NullReferenceException))
+                    {
+
+                    }
                 }
             }
         }
@@ -190,7 +211,7 @@ namespace UI_Builder
                 originalColor = GetComponent<UnityEngine.UI.Button>().image.color;
             else
                 originalColor = new Color32(230, 230, 230, 255);
-               
+
             if (buttonText != null)
             {
                 //  originalColor = buttonText.GetComponent<TextMeshProUGUI>().color;

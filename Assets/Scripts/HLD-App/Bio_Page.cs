@@ -50,6 +50,8 @@ public class Bio_Page : MonoBehaviour
         GetComponentInChildren<UIB_ScrollingMenu>().enabled = false;
         GetComponentInChildren<UIB_ScrollingMenu>().enabled = true;
 
+        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
+
     }
 
     // Update is called once per frame

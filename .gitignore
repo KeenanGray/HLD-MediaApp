@@ -46,14 +46,15 @@ Assets/Plugins/SWAN Dev/*
 Assets/Plugins/UAP/*
 Assets/Plugins/x86_64/*
 Assets/Plugins/libsqlite3
-
-
+Assets/Plugins/InAppBrowser
+Assets/Plugins/iOS
 Assets/OpenCVForUnity/*
 Assets/Plugins.meta
 Assets/AWSSDK/*
 Assets/Examples/*
 Assets/StreamingAssets/*
 Assets/AssetBundles/*
+Assets/Plugins/PlaymakerAction
 
 mongo_config.txt
 mongo_config.txt.meta
