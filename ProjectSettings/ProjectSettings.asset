@@ -497,7 +497,7 @@ PlayerSettings:
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
   cameraUsageDescription: 
-  locationUsageDescription: Bluetooth Low Energy proximity Detection
+  locationUsageDescription: Detection of iBeacons during dance performance
   microphoneUsageDescription: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144

@@ -173,7 +173,8 @@ namespace UI_Builder
             {
                 try
                 {
-                    GetComponentInChildren<TextMeshProUGUI>().color = new Color(200, 197, 43,255);
+                   // GetComponentInChildren<TextMeshProUGUI>().color = new Color(200, 197, 43,255);
+                    buttonText.GetComponent<TextMeshProUGUI>().color = new Color32(200, 197, 43, 255);
                 }
                 catch (Exception e)
                 {
@@ -189,21 +190,13 @@ namespace UI_Builder
                 originalColor = GetComponent<UnityEngine.UI.Button>().image.color;
             else
                 originalColor = new Color32(230, 230, 230, 255);
-
-            if (GetComponent<UnityEngine.UI.Button>().image.sprite != null)
-            {
-                if (GetComponent<UnityEngine.UI.Button>().image.sprite.name == "X_w")
-                    GetComponent<UnityEngine.UI.Button>().image.color = highlightColor;
-                return;
-            }
-
+               
             if (buttonText != null)
             {
                 //  originalColor = buttonText.GetComponent<TextMeshProUGUI>().color;
                 buttonText.GetComponent<TextMeshProUGUI>().color = highlightColor;
             }
             SetDisplayedButton();
-
         }
 
         public void OnPointerExit(PointerEventData eventData)

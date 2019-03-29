@@ -64,6 +64,23 @@ public class BluetoothAudioSource : MonoBehaviour
             Debug.Log("clip finished");
             StartCoroutine("DestroyAtEndOfFrame");
         }
+
+        var strMap = 0.5f;
+        if (src.volume < 1.0f)
+        {
+            strMap = HLD.Utilities.Map(src.volume, 0, 1, 0, 200);
+        }
+        else
+        {
+            strMap = 255;
+        }
+
+        Color32 clr = nameText.GetComponent<TextMeshProUGUI>().color;
+        var iStrMap = (byte)strMap;
+
+        nameText.GetComponent<TextMeshProUGUI>().color = new Color32(clr.r, clr.g, clr.b, iStrMap);
+        captionsCanvas.GetComponent<TextMeshProUGUI>().color = new Color32(clr.r, clr.g, clr.b, iStrMap);
+        img.GetComponent<Image>().color = new Color32(clr.r, clr.g, clr.b, iStrMap);
     }
 
     IEnumerator DestroyAtEndOfFrame()
@@ -116,6 +133,7 @@ public class BluetoothAudioSource : MonoBehaviour
     internal void setVolume(float strength)
     {
         var clr = nameText.GetComponent<TextMeshProUGUI>().color;
+        /*
         var strMap = 1f;
 
         if (strength < 1.0f)
@@ -124,7 +142,7 @@ public class BluetoothAudioSource : MonoBehaviour
         nameText.GetComponent<TextMeshProUGUI>().color = new Color(clr.r, clr.g, clr.b, strMap);
         captionsCanvas.GetComponent<TextMeshProUGUI>().color = new Color(clr.r, clr.g, clr.b, strMap);
         img.GetComponent<Image>().color = new Color(clr.r, clr.g, clr.b, strength);
-
+        */
         src.volume = strength;
     }
 
@@ -191,13 +209,12 @@ public class BluetoothAudioSource : MonoBehaviour
 
             if (!src.isPlaying)
             {
-                Debug.Log("paused");
                 yield return null;
             }
 
             string line = "";
 
-            word = (int)HLD.Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time, src.clip.length);
+            word = (int)HLD.Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
 
             if (word < 0)
                 yield return null;

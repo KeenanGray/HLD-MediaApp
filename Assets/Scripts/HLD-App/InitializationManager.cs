@@ -19,8 +19,6 @@ public class InitializationManager : MonoBehaviour
     float t1;
     float t2;
 
-    Color tmpColor;
-
     public static float DownloadCount = 0;
     public static float TotalDownloads { get; private set; }
 
