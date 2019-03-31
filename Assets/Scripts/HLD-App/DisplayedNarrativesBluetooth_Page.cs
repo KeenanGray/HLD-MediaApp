@@ -407,7 +407,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                         {
                             //if the clip finshed playing we deleted it.
                             //Have to remove the obejct from this list
-                            if (enabled.GetType() == typeof(MissingReferenceException))
+                            if (e.GetType() == typeof(MissingReferenceException))
                             {
                                 Debug.Log("got it");
                                 AudioPlayers.Remove(DancerFromBeacon);

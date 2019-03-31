@@ -60,7 +60,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (enabled.GetType() == typeof(NullReferenceException))
+            if (e.GetType() == typeof(NullReferenceException))
             {
 
             }
@@ -274,8 +274,6 @@ public class InitializationManager : MonoBehaviour
 
     private IEnumerator ManageAssetBundleFiles()
     {
-        //First check if we have local versions of the files
-        yield return CheckLocalFiles();
         while (!hasCheckedFiles)
         {
             Debug.Log("we don't have all the files");
@@ -325,13 +323,9 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
-        /*
-         * These files will live in asset bundle on app as well
-         * if they can't be downloaded after 60 seconds - fallback to asset bundle        
-         * */
         filename = "displayed/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename, true);
+        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
 
         //TODO:figure out video loading
         /*
@@ -375,6 +369,7 @@ public class InitializationManager : MonoBehaviour
             //we have the file check for update
             if (CheckInternet())
             {
+                Debug.Log("getting here on initial download?!?!?");
                 db_Manager.CheckIfObjectHasUpdate(persistantDataPath + platform + filename, platform + filename, "heidi-latsky-dance");
             }
         }
@@ -461,6 +456,7 @@ public class InitializationManager : MonoBehaviour
 
         while (true)
         {
+            Debug.Log("DL Count " + DownloadCount + " checking for " + checkingForUpdates);
             if (WifiInUseIcon == null)
             {
                 Debug.Log("Bad");
@@ -468,7 +464,7 @@ public class InitializationManager : MonoBehaviour
 
             if (CheckInternet())
             {
-                // Debug.Log("We have internet");
+                //Debug.Log("We have internet");
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
                     WifiInUseIcon.SetActive(true);
@@ -482,6 +478,7 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
+                Debug.Log("Don't be here ");
             }
             if (PercentDownloaded.Equals(100))
             {
@@ -537,7 +534,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    if (enabled.GetType() == typeof(NullReferenceException))
+                    if (e.GetType() == typeof(NullReferenceException))
                     {
                         //   Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
                     }

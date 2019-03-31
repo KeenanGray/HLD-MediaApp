@@ -68,7 +68,7 @@ public class BluetoothAudioSource : MonoBehaviour
         var strMap = 0.5f;
         if (src.volume < 1.0f)
         {
-            strMap = HLD.Utilities.Map(src.volume, 0, 1, 0, 200);
+            strMap = HLD.Utilities.Map(src.volume, 0, 1, 0, 255);
         }
         else
         {
@@ -164,17 +164,11 @@ public class BluetoothAudioSource : MonoBehaviour
         }
     }
 
-    int newStart;
-    int iterator;
-    bool wait;
     internal bool viewing;
 
     public IEnumerator PlayCaptionsWithAudio()
     {
-        wait = true;
-        newStart = 0;
-        iterator = 0;
-
+ 
         var words = GetNumberOfWords();
         int WordsPerLine = 12;
 

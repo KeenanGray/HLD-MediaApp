@@ -102,9 +102,10 @@ namespace HLD
                 var response = responseObj.Response;
                 if (response.ResponseStream != null)
                 {
-                    filename = S3BucketName + "/" + filename;
-                    UIB_FileManager.WriteFileFromResponse(response, filename);
-                    Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
+                    Debug.Log("response " + response.ResponseStream);
+                     filename = S3BucketName + "/" + filename;
+                     UIB_FileManager.WriteFileFromResponse(response, filename);
+                     Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
                     InitializationManager.DownloadCount--;
                 }
             });
@@ -196,6 +197,7 @@ namespace HLD
 
         internal void GetObjectWithFallback(string filename, string S3BucketName)
         {
+            throw new NotImplementedException();
             if (FallbackCounter == null)
             {
                 FallbackCounter = new Dictionary<string, int>();
@@ -209,7 +211,7 @@ namespace HLD
                 FallbackCounter.Add(filename, count);
 
             //Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
-            
+
             InitializationManager.DownloadCount++;
             Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
             {
@@ -235,6 +237,6 @@ namespace HLD
             });
         }
 
-      
+
     }
 }
