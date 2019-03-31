@@ -182,7 +182,8 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
                 //  Debug.Log("try enterring passcode " + res.ToString());
                 if (UAP_AccessibilityManager.IsActive())
                 {
-                    GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().m_AudioQueue.GetComponent<UAP_AudioQueue>().Stop();
+                    UAP_AccessibilityManager.Say(" \n\r");
+                    GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().SayPause(.1f);
                     UAP_AccessibilityManager.SayAs("Incorrect Code: Enter Code again", UAP_AudioQueue.EAudioType.App);
                 }
             }
