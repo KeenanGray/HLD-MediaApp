@@ -32,7 +32,6 @@ public class InitializationManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(Application.persistentDataPath);
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
@@ -285,7 +284,6 @@ public class InitializationManager : MonoBehaviour
 
     private IEnumerator CheckLocalFiles()
     {
-        UIB_PlatformManager.persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
 
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
@@ -297,35 +295,35 @@ public class InitializationManager : MonoBehaviour
         //Next up: Check for "general" asset bundle
         filename = "general";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "bios/json";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/narratives/captions";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "meondisplay/captions";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "bios/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/narratives/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/narratives/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(UIB_PlatformManager.persistantDataPath, UIB_PlatformManager.platform, filename);
+        TryDownloadFile(filename);
 
         //TODO:figure out video loading
         /*
@@ -347,21 +345,27 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-    private void TryDownloadFile(string persistantDataPath, string platform, string filename, bool fallbackUsingBundle = false)
+    private void TryDownloadFile(string filename, bool fallbackUsingBundle = false)
     {
-        if (!(UIB_FileManager.FileExists(persistantDataPath + platform + filename)))
+        if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename)))
         {
+            //we don't have the file, firs thing to do is copy it from streaming assets
+            UIB_FileManager.WriteFromStreamingToPersistent(filename);
+
+            AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
+            //if we are not in the Unity Editor, delete the streaming assets files to save space
+#if !UNITY_EDITOR
+
+#endif
             if (CheckInternet())
             {
                 //Download the file
-                //Debug.Log("file" + persistantDataPath + platform + filename + " does not exist download commencing download");
-                DownloadFileFromDatabase(persistantDataPath + platform, platform + filename, fallbackUsingBundle);
+                //Debug.Log("file" + UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename + " does not exist download commencing download");
+                //DownloadFileFromDatabase(UIB_PlatformManager.platform + filename, fallbackUsingBundle);
             }
             else
             {
-                //no internet, load bundle from streaming assets
-                Debug.Log("loading bundle from streaming assets " + platform + filename);
-                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + platform + filename);
+                //
             }
         }
         else
@@ -369,8 +373,7 @@ public class InitializationManager : MonoBehaviour
             //we have the file check for update
             if (CheckInternet())
             {
-                Debug.Log("getting here on initial download?!?!?");
-                db_Manager.CheckIfObjectHasUpdate(persistantDataPath + platform + filename, platform + filename, "heidi-latsky-dance");
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
         }
     }
@@ -386,7 +389,7 @@ public class InitializationManager : MonoBehaviour
         */
     }
 
-    private void DownloadFileFromDatabase(string path, string fName, bool fallbackUsingBundle = false)
+    private void DownloadFileFromDatabase(string fName, bool fallbackUsingBundle = false)
     {
         //TODO: Alert the user we are about to begin a large download
         //How often can we call this download function before it costs too much $$$
@@ -450,13 +453,13 @@ public class InitializationManager : MonoBehaviour
     IEnumerator CheckWifiAndDownloads()
     {
         GameObject WifiInUseIcon = null;
-        string persistantDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
+        string persistantDataPath = UIB_PlatformManager.persistentDataPath;
 
         WifiInUseIcon = GameObject.Find("DownloadIcon");
 
         while (true)
         {
-            Debug.Log("DL Count " + DownloadCount + " checking for " + checkingForUpdates);
+            //Debug.Log("DL Count " + DownloadCount + " checking for " + checkingForUpdates);
             if (WifiInUseIcon == null)
             {
                 Debug.Log("Bad");
@@ -482,7 +485,7 @@ public class InitializationManager : MonoBehaviour
             }
             if (PercentDownloaded.Equals(100))
             {
-                Debug.Log("exiting wifi check after " + Time.time);
+                Debug.Log("Finished File Check and Downloads " + Time.time + " Seconds");
                 WifiInUseIcon.SetActive(false);
 
                 yield break;

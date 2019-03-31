@@ -5,12 +5,12 @@ namespace UI_Builder
 {
     public class UIB_PlatformManager
     {
-        public static string persistantDataPath;
+        public static string persistentDataPath;
         public static string platform;
 
         public static void Init()
         {
-            persistantDataPath = Application.persistentDataPath;
+            UIB_PlatformManager.persistentDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
 
             platform = "android/";
 #if UNITY_IOS && !UNITY_EDITOR
@@ -19,6 +19,8 @@ namespace UI_Builder
 #if UNITY_ANDROID && !UNITY_EDITOR
         platform = "android/";
 #endif
+            Debug.Log(UIB_PlatformManager.persistentDataPath);
+
         }
 
     }

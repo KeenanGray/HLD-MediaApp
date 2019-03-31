@@ -85,8 +85,6 @@ namespace UI_Builder
 
         public static void WriteFileFromResponse(GetObjectResponse response, string fileName)
         {
-            string destination = Application.persistentDataPath + "/";
-
             //check if the directory exists
             //split filepath into directory and filename
             int cont = 0;
@@ -106,10 +104,11 @@ namespace UI_Builder
                     directory = directory + "/" + i;
                 }
             }
-            //            Debug.Log("file " + name);
-            //            Debug.Log("dir " + directory);
+            // Debug.Log("file " + name);
+            // Debug.Log("dir " + directory);
 
-            var newpath = destination + "/" + directory;
+            var newpath = UIB_PlatformManager.persistentDataPath + directory.Replace("/heidi-latsky-dance/", "");
+
             if (!Directory.Exists(newpath))
             {
                 Directory.CreateDirectory(newpath);
@@ -132,7 +131,7 @@ namespace UI_Builder
 
         void WriteJsonFromWeb(string data, string fileName)
         {
-            string destination = Application.persistentDataPath + "/" + fileName;
+            string destination = UIB_PlatformManager.persistentDataPath + "/" + fileName;
             FileStream file;
             StreamReader sr;
             StreamWriter sw;
@@ -225,7 +224,7 @@ namespace UI_Builder
 
         public static void WriteJsonUnModified(string data, string fileName)
         {
-            string destination = Application.persistentDataPath + "/" + fileName;
+            string destination = UIB_PlatformManager.persistentDataPath + "/" + fileName;
             FileStream file;
             StreamReader sr;
             StreamWriter sw;
@@ -285,7 +284,7 @@ namespace UI_Builder
 
         public static string ReadTextFile(string fileName)
         {
-            string destination = Application.persistentDataPath + "/" + fileName;
+            string destination = UIB_PlatformManager.persistentDataPath + "/" + fileName;
             StreamReader sr;
 
             string jsonStr = "";
@@ -323,6 +322,53 @@ namespace UI_Builder
                 Debug.LogError("Asset bundle not found " + bundleString);
                 return "";
             }
+        }
+
+        public static void WriteFromStreamingToPersistent(string fileName)
+        {
+            var src = Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + fileName;
+            var dest = UIB_PlatformManager.persistentDataPath + "/" + UIB_PlatformManager.platform + fileName;
+
+
+            //check if the src directory exists
+            if (FileExists(src))
+            {
+                //check if the dest directory exists
+                if (!FileExists(dest))
+                {
+                    //create the directory
+                    string directory = "";
+                    var cont = 0;
+                    var name = "";
+
+                    foreach (string i in dest.Split('/'))
+                    {
+                        cont++;
+                        if (cont >= dest.Split('/').Length)
+                        {
+                            name = dest.Split('/')[cont - 1];
+                            break;
+                        }
+                        else
+                        {
+                            directory = directory + "/" + i;
+                        }
+                    }
+                    // Debug.Log("file " + name);
+                    Debug.Log("dir " + directory);
+
+                    Directory.CreateDirectory(directory);
+
+                }
+
+                Debug.Log("writing: " + src + " to dest: " + dest);
+                FileUtil.CopyFileOrDirectory(src, dest);
+            }
+            else
+            {
+                throw new Exception("NO BUNDLE EXCEPTION::No asset bundle with this path found in streaming assets. " + dest);
+            }
+
         }
     }
 }

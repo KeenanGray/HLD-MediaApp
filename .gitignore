@@ -56,6 +56,8 @@ Assets/StreamingAssets/*
 Assets/AssetBundles/*
 Assets/Plugins/PlaymakerAction
 
+Assets/hld
+
 mongo_config.txt
 mongo_config.txt.meta
 .DS_Store

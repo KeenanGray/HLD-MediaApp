@@ -97,15 +97,16 @@ namespace HLD
         public void GetObject(string filename, string S3BucketName)
         {
             InitializationManager.DownloadCount++;
+
             Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
             {
                 var response = responseObj.Response;
                 if (response.ResponseStream != null)
                 {
-                    Debug.Log("response " + response.ResponseStream);
-                     filename = S3BucketName + "/" + filename;
-                     UIB_FileManager.WriteFileFromResponse(response, filename);
-                     Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
+                    //Debug.Log("response " + response.ResponseStream);
+                    filename = S3BucketName + "/" + filename;
+                    UIB_FileManager.WriteFileFromResponse(response, filename);
+                    Directory.SetLastAccessTime(UIB_PlatformManager.persistentDataPath, DateTime.Now);
                     InitializationManager.DownloadCount--;
                 }
             });
@@ -189,7 +190,7 @@ namespace HLD
                 {
                     InitializationManager.DownloadCount--;
                     InitializationManager.checkingForUpdates--;
-                    Debug.Log(responseObject.Exception);
+                    Debug.LogWarning(responseObject.Exception);
                 }
 
             });
