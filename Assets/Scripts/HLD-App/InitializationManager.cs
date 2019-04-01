@@ -528,7 +528,7 @@ public class InitializationManager : MonoBehaviour
         {
             var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
 
-            Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
+            //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
 
             if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
             {
@@ -554,7 +554,7 @@ public class InitializationManager : MonoBehaviour
                 //Change the code page to the info page
                 try
                 {
-                    Debug.Log("THINK WE HAVE ACCESS");
+                    //Debug.Log("THINK WE HAVE ACCESS");
                     var gb = GameObject.FindWithTag("LockedPageButton");
                     gb.name = key.Replace("Info_Page", "Info_Button");
                     gb.GetComponent<UIB_Button>().Init();

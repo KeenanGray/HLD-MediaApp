@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using System;
 using UI_Builder;
 
-public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
+public class UIB_AudioPlayerTools : MonoBehaviour
 {
     public delegate void BeginDrag();
     public static event BeginDrag AudioDragSelected;
@@ -49,7 +49,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
     {
         oldValue = "";
         frame = GetComponentInParent<Mask>().gameObject;
-
+        initSize = frame.GetComponent<RectTransform>().sizeDelta;
+        initPos = frame.GetComponent<RectTransform>().localPosition;
         ParentOfAudioToolComponents = transform.parent;
 
         source = gameObject.GetComponentInChildren<AudioSource>();
@@ -173,6 +174,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
 
         AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
         AudioTimerInput.onEndEdit.AddListener(OnInputFieldSubmitted);
+        AudioTimerInput.onEndEdit.AddListener(fieldDeSelected);
+
         // AudioTimerInput.OnSubmit.AddListener(OnInputFieldSubmitted);
 
     }
@@ -336,12 +339,12 @@ public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
                 break;
             case 1:
                 //Force Start
-                Debug.Log("Force to play");
+               //Debug.Log("Force to play");
                 PlayHelperStart();
                 break;
             case 2:
                 //Force Stop
-                Debug.Log("Force to stop");
+                //Debug.Log("Force to stop");
                 PlayHelperStop();
                 break;
             default:
@@ -513,6 +516,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
+        Debug.Log("HERE");
         fieldSelected();
     }
     private void fieldSelected()
@@ -524,7 +528,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
     {
         hasMoved = false;
 
-        Debug.Log("moving");
         //move the text field up so it is not obscured by keyboard
         var h = 0f;
         if (TouchScreenKeyboard.isSupported)
@@ -548,7 +551,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
         h = 264; //ipad 12-9
 #endif
         //we have to change the mask size in case movement causes colision with logo and back button
-        var sizeAdjust = new Vector2(0, GetComponent<RectTransform>().rect.height * 3);
+        var sizeAdjust = new Vector2(0, GetComponent<RectTransform>().rect.height * 1.9f);
         frame.GetComponent<RectTransform>().sizeDelta -= sizeAdjust;
         moveDist = new Vector2(0, h);
 
