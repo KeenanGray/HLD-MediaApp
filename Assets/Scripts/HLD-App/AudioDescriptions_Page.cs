@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UI_Builder;
 using UnityEngine;
@@ -35,14 +36,42 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         AudioPlayerScreen.transform.SetParent(transform);
         AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-2);
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
+
+        try
+        {
+            GetComponentInChildren<UIB_AudioPlayerTools>().LoadtimeCodeToPrefs();
+        }
+        catch (Exception e)
+        {
+            if (e.GetType() == typeof(NullReferenceException))
+            {
+
+            }
+        }
     }
 
     public void PageDeActivatedHandler()
     {
+        try
+        {
+            GetComponentInChildren<UIB_AudioPlayerTools>().SavetimeCodeToPrefs();
+        }
+        catch (Exception e)
+        {
+            if(e.GetType() == typeof(NullReferenceException))
+            {
+
+            }
+        }
+
         var thing = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().Tools;
-        //   Resources.UnloadUnusedAssets();
         if (thing != null)
+        {
             thing.PlayMethod(2);
+        }
+        else
+        {
+        }
     }
 
 }

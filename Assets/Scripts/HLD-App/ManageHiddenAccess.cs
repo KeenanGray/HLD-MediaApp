@@ -175,6 +175,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         {
             if (arg0.ToLower() == res.ToString().ToLower())
             {
+                Debug.Log("Answered " + arg0.ToLower() + " " + res.ToString().ToLower());
                 StartCoroutine("OnCorrectCode1");
             }
             else

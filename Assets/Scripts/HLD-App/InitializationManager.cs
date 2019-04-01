@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using System.Linq;
 using HLD;
 using TMPro;
@@ -64,6 +65,9 @@ public class InitializationManager : MonoBehaviour
 
             }
         }
+
+        //this player pref should get set at app launch so that it resets the timecode in the audio-desc;
+        PlayerPrefs.SetInt("desc_timecode", 0);
 
 
         try
@@ -354,9 +358,8 @@ public class InitializationManager : MonoBehaviour
 
             AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
             //if we are not in the Unity Editor, delete the streaming assets files to save space
-#if !UNITY_EDITOR
 
-#endif
+
             if (CheckInternet())
             {
                 //Download the file
@@ -523,7 +526,9 @@ public class InitializationManager : MonoBehaviour
         //If date of passcode entry doesn't check out. we don't change the name
         if (PlayerPrefs.HasKey(key))
         {
-            var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key));
+            var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
+
+            Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
 
             if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
             {
@@ -549,6 +554,7 @@ public class InitializationManager : MonoBehaviour
                 //Change the code page to the info page
                 try
                 {
+                    Debug.Log("THINK WE HAVE ACCESS");
                     var gb = GameObject.FindWithTag("LockedPageButton");
                     gb.name = key.Replace("Info_Page", "Info_Button");
                     gb.GetComponent<UIB_Button>().Init();
@@ -569,6 +575,7 @@ public class InitializationManager : MonoBehaviour
             //set info page to code page
             try
             {
+                Debug.Log("No key has been set -- fresh install");
                 var gb = GameObject.FindWithTag("LockedPageButton");
                 gb.name = key.Replace("Info_Page", "Code_Button");
                 gb.GetComponent<UIB_Button>().Init();

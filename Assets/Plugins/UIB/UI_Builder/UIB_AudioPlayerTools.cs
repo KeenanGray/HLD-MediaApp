@@ -6,8 +6,9 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System;
+using UI_Builder;
 
-public class UIB_AudioPlayerTools : MonoBehaviour
+public class UIB_AudioPlayerTools : MonoBehaviour, ISelectHandler
 {
     public delegate void BeginDrag();
     public static event BeginDrag AudioDragSelected;
@@ -19,9 +20,17 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     Button playbutton;
     Button backButton;
     Button fwdButton;
-    TextMeshProUGUI time_label;
+    Text time_label;
     TextMeshProUGUI maxtime_label;
-    TMP_InputField AudioTimerInput;
+    InputField AudioTimerInput;
+
+    private GameObject frame;
+    private Vector2 initPos;
+    private Vector2 initSize;
+    private Vector2 moveDist;
+
+    string oldValue;
+    bool hasMoved;
 
     GameObject AudioPlayerData;
 
@@ -38,6 +47,9 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     // Use this for initialization
     public void Init()
     {
+        oldValue = "";
+        frame = GetComponentInParent<Mask>().gameObject;
+
         ParentOfAudioToolComponents = transform.parent;
 
         source = gameObject.GetComponentInChildren<AudioSource>();
@@ -121,25 +133,26 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             Debug.LogWarning("No time scroll button");
         }
 
-        //Add time field for audio length
-        foreach (TextMeshProUGUI tl in transform.parent.GetComponentsInChildren<TextMeshProUGUI>())
-        {
-            if (tl.gameObject.name.Equals("DisplayText"))
-                time_label = tl;
-        }
-        if (time_label != null)
-        {
+        /*  //Add time field for audio length
+          foreach (Text tl in transform.parent.GetComponentsInChildren<Text>())
+          {
+              if (tl.gameObject.name.Contains("DisplayText"))
+                  time_label = tl;
+          }
+          if (time_label != null)
+          {
 
-        }
-        else
-        {
-            Debug.LogWarning("No time_label");
-        }
+          }
+          else
+          {
+              Debug.LogWarning("No time_label");
+          }
+          */
 
         //Add time field for audio length
         foreach (TextMeshProUGUI tl in ParentOfAudioToolComponents.GetComponentsInChildren<TextMeshProUGUI>())
         {
-            if (tl.gameObject.name.Equals("MaxTime_Text"))
+            if (tl.gameObject.name.Contains("MaxTime_Text"))
                 maxtime_label = tl;
         }
         if (maxtime_label != null)
@@ -152,41 +165,39 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         }
 
         //Set up the input field
-        AudioTimerInput = ParentOfAudioToolComponents.GetComponentInChildren<TMP_InputField>();
+        AudioTimerInput = ParentOfAudioToolComponents.GetComponentInChildren<InputField>();
 
-        time_label = AudioTimerInput.transform.GetChild(0).Find("DisplayText").GetComponent<TextMeshProUGUI>();
+        time_label = GameObject.Find("DisplayText noedit").GetComponent<Text>();
         if (time_label == null)
             Debug.LogWarning("Uh Oh gameObject is missing");
 
         AudioTimerInput.onValueChanged.AddListener(OnInputFieldChanged);
-        AudioTimerInput.onSubmit.AddListener(OnInputFieldSubmitted);
-        // AudioTimerInput.onSubmit.AddListener(delegate { playbutton.onClick.Invoke(); });
-        AudioTimerInput.onSelect.AddListener(delegate { AudioTimerInput.MoveToEndOfLine(true, true); });
-        AudioTimerInput.text = "";
+        AudioTimerInput.onEndEdit.AddListener(OnInputFieldSubmitted);
+        // AudioTimerInput.OnSubmit.AddListener(OnInputFieldSubmitted);
 
-
-        UIB_InputManager.TouchDelegate += TapHandler;
     }
 
-    private void TapHandler(Touch[] touches, int taps)
+    public void LoadtimeCodeToPrefs()
     {
-        var count = touches.Length;
-#if UNITY_EDITOR
-        if (Input.GetKey(KeyCode.LeftAlt))
-            count = 3;
-#endif
-        if (count == 3 && GetComponentInParent<Canvas>().enabled)
+        if (PlayerPrefs.HasKey("desc_timecode"))
         {
-            Debug.Log("3 touch");
-            PlayMethod();
+            source.Play();
+            source.time = PlayerPrefs.GetInt("desc_timecode");
+            source.Pause();
         }
+    }
+
+    public void SavetimeCodeToPrefs()
+    {
+        var outstr = "";
+        PlayerPrefs.SetInt("desc_timecode", StringToSecondsCount(AudioTimerInput.text, ref outstr));
     }
 
     private void OnInputFieldSubmitted(string arg0)
     {
         string str = time_label.text.Split(':')[0] + time_label.text.Split(':')[1];
 
-        AudioTimerInput.text = "";
+        //AudioTimerInput.text = "";
         if (source.clip.length > StringToSecondsCount(str, ref arg0))
         {
             source.time = StringToSecondsCount(str, ref arg0);
@@ -198,15 +209,55 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
         AudioTimerInput.DeactivateInputField();
 
-        playbutton.onClick.Invoke();
+        if (GetComponentInParent<UIB_Page>().gameObject.GetComponent<Canvas>().isActiveAndEnabled)
+        {
+            PlayMethod(1);
+        }
+
+        if (TouchScreenKeyboard.isSupported)
+        {
+            if (GetComponent<InputField>().touchScreenKeyboard.status == TouchScreenKeyboard.Status.Done)
+            {
+                PlayMethod(1);
+            }
+        }
         //TODO:deselect the input field
     }
 
     int timerIndex;
     private void OnInputFieldChanged(string arg0)
     {
+        var currentVal = arg0;
+        if (currentVal.Length > oldValue.Length)
+        {
+            if (currentVal.Length != 5)
+            {
+                //say character added and full sentence
+                UAP_AccessibilityManager.Say(currentVal[currentVal.Length - 1].ToString() + " added ", true, true, UAP_AudioQueue.EInterrupt.All);
+            }
+            else
+            {
+                // UAP_AccessibilityManager.Say(currentVal, true, true, UAP_AudioQueue.EInterrupt.All);
+            }
+        }
+        else
+        {
+            //say character deleted
+            if (UAP_AccessibilityManager.IsActive())
+            {
+
+                UAP_AccessibilityManager.Say(oldValue[oldValue.Length - 1].ToString() + " deleted", true, true, UAP_AudioQueue.EInterrupt.All);
+            }
+        }
+        oldValue = currentVal;
+
         var outstr = "";
         time_label.text = ConvertToClockTime(StringToSecondsCount(AudioTimerInput.text, ref outstr));
+        UAP_AccessibilityManager.Say(AudioTimerInput.GetComponent<Special_AccessibleTimeCode>().GetTargetGameObject().GetComponent<Text>().text);
+
+        if (!AudioTimerInput.isFocused)
+            UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject());
+
     }
 
     // Update is called once per frame
@@ -265,7 +316,9 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     {
         if (source == null)
         {
-            //            Debug.LogWarning("Warning: No Audio Source to Play");
+#if UNITY_EDITOR
+            Debug.LogWarning("Warning: No Audio Source to Play");
+#endif
             return;
         }
         switch (option)
@@ -283,10 +336,12 @@ public class UIB_AudioPlayerTools : MonoBehaviour
                 break;
             case 1:
                 //Force Start
+                Debug.Log("Force to play");
                 PlayHelperStart();
                 break;
             case 2:
                 //Force Stop
+                Debug.Log("Force to stop");
                 PlayHelperStop();
                 break;
             default:
@@ -324,19 +379,16 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
     void FwdButtonPressed()
     {
-        if (source.isPlaying)
+        if (source.time < source.clip.length - 30)
         {
-            if (source.time < source.clip.length - 30)
-            {
-                source.time += 30;
-            }
-            else
-            {
-                source.time = source.clip.length - .01f;
-            }
-            AudioPlayerData.GetComponent<UIB_AudioPlayer>().SetCaptionsStart();
-
+            source.time += 30;
         }
+        else
+        {
+            source.time = source.clip.length - .01f;
+        }
+        AudioPlayerData.GetComponent<UIB_AudioPlayer>().SetCaptionsStart();
+
     }
 
     void BackButtonPressed()
@@ -399,12 +451,11 @@ public class UIB_AudioPlayerTools : MonoBehaviour
                 sec = v[2] + "" + v[3];
                 break;
             default:
-                v = "";
-                min = "00";
-                sec = "00";
-
+                min = v[0] + "" + v[1];
+                sec = v[2] + "" + v[3];
                 AudioTimerInput.OnSelect(null);
-                OnInputFieldSubmitted(min + ":" + sec + v);
+                AudioTimerInput.DeactivateInputField();
+                //  OnInputFieldSubmitted(min + ":" + sec + v);
                 break;
         }
         outStr = min + ":" + sec + v;
@@ -460,5 +511,71 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         yield break;
     }
 
+    public void OnSelect(BaseEventData eventData)
+    {
+        fieldSelected();
+    }
+    private void fieldSelected()
+    {
+        StartCoroutine("fieldSelectedCo");
+    }
 
+    IEnumerator fieldSelectedCo()
+    {
+        hasMoved = false;
+
+        Debug.Log("moving");
+        //move the text field up so it is not obscured by keyboard
+        var h = 0f;
+        if (TouchScreenKeyboard.isSupported)
+        {
+            while (!TouchScreenKeyboard.visible)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else
+        {
+#if UNITY_EDITOR
+            Debug.LogError("Mobile keyboard not supported");
+#endif
+        }
+
+        h = TouchScreenKeyboard.area.height;
+
+#if UNITY_EDITOR
+        h = 873; //iphone X
+        h = 264; //ipad 12-9
+#endif
+        //we have to change the mask size in case movement causes colision with logo and back button
+        var sizeAdjust = new Vector2(0, GetComponent<RectTransform>().rect.height * 3);
+        frame.GetComponent<RectTransform>().sizeDelta -= sizeAdjust;
+        moveDist = new Vector2(0, h);
+
+        //set to elevated position;
+        frame.GetComponent<RectTransform>().anchoredPosition += moveDist;
+        hasMoved = true;
+        yield break;
+    }
+
+    private void fieldDeSelected(string arg0)
+    {
+        if (TouchScreenKeyboard.isSupported)
+        {
+            if (hasMoved && !TouchScreenKeyboard.visible)
+            {
+                //set back to initial position;
+                frame.GetComponent<RectTransform>().localPosition = initPos;
+                frame.GetComponent<RectTransform>().sizeDelta = new Vector2(initSize.x, initSize.y);
+                hasMoved = false;
+            }
+        }
+        else
+        {
+            //set back to initial position;
+            frame.GetComponent<RectTransform>().localPosition = initPos;
+            frame.GetComponent<RectTransform>().sizeDelta = new Vector2(initSize.x, initSize.y);
+            hasMoved = false;
+        }
+    }
 }

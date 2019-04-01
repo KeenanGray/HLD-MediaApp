@@ -181,7 +181,7 @@ namespace UI_Builder
             var touches = swipe.fingers;
             //we swipe if 1 touch && no UAP OR 2 touch and UAP
             //AND swipe is full, direction is right, and page canvas is enabled
-         
+
             if (((!UAP_AccessibilityManager.IsActive() && touches == 1) || (UAP_AccessibilityManager.IsActive() && touches == 2))
             && swipe.full && swipe.dir == Direction.RIGHT && gameObject.GetComponent<Canvas>().enabled)
             {
@@ -335,10 +335,9 @@ namespace UI_Builder
             StartCoroutine(ResetUAP(false));
         }
 
+        public static bool paused = false;
         public IEnumerator ResetUAP(bool toggle)
         {
-//            Debug.Log("my " + gameObject.name + " " + toggle);
-
             foreach (Button b in GetComponentsInChildren<Button>())
             {
                 b.enabled = toggle;
@@ -371,6 +370,7 @@ namespace UI_Builder
                     Debug.LogWarning(e);
                 }
             }
+
             yield break;
         }
 

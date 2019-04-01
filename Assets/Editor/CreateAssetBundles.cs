@@ -14,19 +14,28 @@ public class CreateAssetBundles
         }
         if (!Directory.Exists(assetBundleDirectory + "/ios"))
         {
-            Directory.CreateDirectory(assetBundleDirectory+"/ios");
+            Directory.CreateDirectory(assetBundleDirectory + "/ios");
         }
-        if (!Directory.Exists(assetBundleDirectory+"/android"))
+        if (!Directory.Exists(assetBundleDirectory + "/android"))
         {
-            Directory.CreateDirectory(assetBundleDirectory+"/android");
+            Directory.CreateDirectory(assetBundleDirectory + "/android");
         }
 
 
-        BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/ios", 
-        BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.iOS);
+        //Chunk based compression
+        // BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/ios",
+        // BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.iOS);
 
 
-        BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/android",
-  BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+        // BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/android",
+        // BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+
+        //default compression
+         BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/ios",
+         BuildAssetBundleOptions.None, BuildTarget.iOS);
+
+
+         BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/android",
+         BuildAssetBundleOptions.None, BuildTarget.Android);
     }
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Amazon.S3.Model;
-using UnityEditor;
 using UnityEngine;
 
 namespace UI_Builder
@@ -327,8 +326,7 @@ namespace UI_Builder
         public static void WriteFromStreamingToPersistent(string fileName)
         {
             var src = Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + fileName;
-            var dest = UIB_PlatformManager.persistentDataPath + "/" + UIB_PlatformManager.platform + fileName;
-
+            var dest = UIB_PlatformManager.persistentDataPath  + UIB_PlatformManager.platform + fileName;
 
             //check if the src directory exists
             if (FileExists(src))
@@ -355,18 +353,19 @@ namespace UI_Builder
                         }
                     }
                     // Debug.Log("file " + name);
-                    Debug.Log("dir " + directory);
+                    // Debug.Log("dir " + directory);
 
                     Directory.CreateDirectory(directory);
 
                 }
 
-                Debug.Log("writing: " + src + " to dest: " + dest);
-                FileUtil.CopyFileOrDirectory(src, dest);
+                //Debug.Log("writing: " + src + " to dest: " + dest);
+                File.Copy(src, dest);
+             //  File.CopyFileOrDirectory(src, dest);
             }
             else
             {
-                throw new Exception("NO BUNDLE EXCEPTION::No asset bundle with this path found in streaming assets. " + dest);
+                Debug.LogWarning("NO BUNDLE EXCEPTION::No asset bundle with this path found in streaming assets. " + src);
             }
 
         }
