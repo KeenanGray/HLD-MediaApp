@@ -238,11 +238,11 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
             return;
         }
-        Debug.Log("new " + newText);
+//        Debug.Log("new " + newText);
         hasCaptions = true;
         AudioCaptions = new TextAsset(newText);
 
-        Debug.Log("turning captions reader on");
+//        Debug.Log("turning captions reader on");
         CaptionsToggle.GetComponent<Special_AccessibleButton>().enabled = true;
         CaptionsToggle.GetComponent<Button>().enabled = true;
     }

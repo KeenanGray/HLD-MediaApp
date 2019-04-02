@@ -1,12 +1,25 @@
 ﻿using UnityEditor;
 using System.IO;
 using UnityEngine;
+using System;
 
 public class CreateAssetBundles
 {
     [MenuItem("Tools/Build AssetBundles")]
     static void BuildAllAssetBundles()
     {
+        GameObject accessManager = null;
+        //disabling accessibility manager is necessary to prevent issues
+        try
+        {
+            accessManager = GameObject.Find("Accessibility Manager");
+            accessManager.SetActive(false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("no accessibility manager " + e);
+        }
+
         string assetBundleDirectory = Application.streamingAssetsPath;
         if (!Directory.Exists(assetBundleDirectory))
         {
@@ -37,5 +50,18 @@ public class CreateAssetBundles
 
          BuildPipeline.BuildAssetBundles(assetBundleDirectory + "/android",
          BuildAssetBundleOptions.None, BuildTarget.Android);
+
+        //reenable accessibility manager at end
+        try
+        {
+            accessManager.SetActive(true);
+            accessManager.SetActive(false);
+            accessManager.SetActive(true);
+            accessManager.SetActive(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("no accessibility manager " + e);
+        }
     }
 }

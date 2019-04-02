@@ -202,35 +202,27 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     private void OnInputFieldSubmitted(string arg0)
     {
         string str = time_label.text.Split(':')[0] + time_label.text.Split(':')[1];
-
-        Debug.Log("1");
-
+        
         //AudioTimerInput.text = "";
         if (source.clip.length > StringToSecondsCount(str, ref arg0))
         {
-            Debug.Log("2");
             source.time = StringToSecondsCount(str, ref arg0);
         }
         else
         {
-            Debug.Log("3");
             Debug.LogWarning("length exceeds time remaining in clip");
         }
 
-        Debug.Log("4");
         AudioTimerInput.DeactivateInputField();
 
         if (GetComponentInParent<UIB_Page>().gameObject.GetComponent<Canvas>().isActiveAndEnabled)
         {
-            Debug.Log("5");
             PlayMethod(1);
         }
 
-        Debug.Log("6");
-
         if (TouchScreenKeyboard.isSupported)
         {
-            if (GetComponent<InputField>().touchScreenKeyboard.status == TouchScreenKeyboard.Status.Done)
+            if (AudioTimerInput.touchScreenKeyboard.status == TouchScreenKeyboard.Status.Done)
             {
                 PlayMethod(1);
             }
@@ -263,7 +255,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             //say character deleted
             if (UAP_AccessibilityManager.IsActive())
             {
-
                 UAP_AccessibilityManager.Say(oldValue[oldValue.Length - 1].ToString() + " deleted", true, true, UAP_AudioQueue.EInterrupt.All);
             }
         }
