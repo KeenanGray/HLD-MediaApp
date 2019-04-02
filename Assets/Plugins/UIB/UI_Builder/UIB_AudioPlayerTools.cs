@@ -237,6 +237,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     int timerIndex;
     private void OnInputFieldChanged(string arg0)
     {
+        GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().m_ExploreByTouch = false;
+
         var currentVal = arg0;
         if (currentVal.Length > oldValue.Length)
         {
@@ -569,6 +571,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
     private void fieldDeSelected(string arg0)
     {
+        GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().m_ExploreByTouch = true;
+
         if (TouchScreenKeyboard.isSupported)
         {
             if (hasMoved && !TouchScreenKeyboard.visible)
