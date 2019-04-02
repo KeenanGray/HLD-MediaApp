@@ -24,9 +24,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     {
         AudioCaptions = new TextAsset("");
 
-        GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
-        GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
-
         cover = transform.Find("Cover").gameObject;
 
         foreach (Canvas c in GetComponentsInChildren<Canvas>())
@@ -76,7 +73,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
                 b.onClick.AddListener(delegate
                 {
-//                    Debug.Log("HERE " + CaptionsCanvas);
+                    //                    Debug.Log("HERE " + CaptionsCanvas);
                     CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled = (!CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled);
 
                     if (CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled)
@@ -100,6 +97,8 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     {
         CaptionsToggle.GetComponentInChildren<TextMeshProUGUI>().enabled = hasCaptions;
         CaptionsToggle.GetComponent<Button>().enabled = hasCaptions;
+
+
 
         GetComponent<AspectRatioFitter>().enabled = false;
         GetComponent<AspectRatioFitter>().enabled = true;
@@ -226,16 +225,37 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     {
         var newText = UIB_FileManager.ReadTextAssetBundle(name, filePath);
 
-        if (newText == null)
+        if (newText == null || newText == "")
         {
             Debug.LogWarning("Null Text Given for Captions");
-            CaptionsCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
+            //CaptionsCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
             hasCaptions = false;
+
+            //no captions so no screen readable button
+            Debug.Log("turning captions reader off");
+
+            StartCoroutine("TurnOffCaptionsReader");
 
             return;
         }
+        Debug.Log("new " + newText);
         hasCaptions = true;
         AudioCaptions = new TextAsset(newText);
+
+        Debug.Log("turning captions reader on");
+        CaptionsToggle.GetComponent<Special_AccessibleButton>().enabled = true;
+        CaptionsToggle.GetComponent<Button>().enabled = true;
+    }
+
+    IEnumerator TurnOffCaptionsReader()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CaptionsToggle.GetComponent<Special_AccessibleButton>().enabled = false;
+        CaptionsToggle.GetComponent<Button>().enabled = false;
+
+        UAP_AccessibilityManager.RecalculateUIElementsOrder();
+        //We have to reinitialize sort order
+        yield break;
     }
 
     int newStart;
@@ -331,11 +351,11 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
     public void PageActivatedHandler()
     {
-        // Debug.Log("Activated");
+        //  
     }
 
     public void PageDeActivatedHandler()
     {
-        // Debug.Log("DeActivated");
+        //
     }
 }

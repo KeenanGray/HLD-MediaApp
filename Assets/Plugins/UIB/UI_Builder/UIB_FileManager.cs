@@ -318,7 +318,7 @@ namespace UI_Builder
                 return tmp.LoadAsset<TextAsset>(fileName).ToString();
             else
             {
-                Debug.LogError("Asset bundle not found " + bundleString);
+                Debug.LogWarning("Asset bundle not found " + bundleString);
                 return "";
             }
         }

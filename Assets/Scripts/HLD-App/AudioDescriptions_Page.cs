@@ -26,6 +26,8 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         audioPlayer.SetImageFromResource("BackGroundPhotos/AudioDescriptions",1000);
         audioPlayer.fileType = ".mp3";
         audioPlayer.SetAudio("Audio_Captions", "hld/displayed/audio");
+        //TODO: null captions for now
+        audioPlayer.SetAudioCaptions("captions", null);
         //audioPlayer.SetAudioCaptions("captions", "hld/displayed/audio");
         audioPlayer.Init();
     }
