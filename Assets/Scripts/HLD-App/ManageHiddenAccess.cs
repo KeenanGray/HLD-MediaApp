@@ -154,6 +154,11 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             frame.GetComponent<RectTransform>().sizeDelta = new Vector2(initSize.x, initSize.y);
             hasMoved = false;
         }
+
+#if UNITY_IOS || UNITY_ANDROID && !UNITY_EDITOR
+        StartCoroutine("SetInputPositionBack");
+#endif
+
     }
 
 
@@ -175,7 +180,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         {
             if (arg0.ToLower() == res.ToString().ToLower())
             {
-                Debug.Log("Answered " + arg0.ToLower() + " " + res.ToString().ToLower());
+                //Debug.Log("Answered " + arg0.ToLower() + " " + res.ToString().ToLower());
                 StartCoroutine("OnCorrectCode1");
             }
             else
@@ -256,7 +261,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
         else
         {
-            Debug.Log("Code Button is Null");
+            //Debug.Log("Code Button is Null");
         }
 
         var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<UnityEngine.UI.Button>();
@@ -279,6 +284,25 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         yield return new WaitForSeconds(0.0f);
         UAP_AccessibilityManager.SelectElement(audioDesc, true);
         yield break;
+    }
 
+    IEnumerator SetInputPositionBack()
+    {
+        while (true)
+        {
+            Debug.Log("THIS IS HAPPENING 2");
+            if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
+            {
+                yield return null;
+            }
+            else
+            {
+                //set back to initial position;
+                frame.GetComponent<RectTransform>().localPosition = initPos;
+                frame.GetComponent<RectTransform>().sizeDelta = new Vector2(initSize.x, initSize.y);
+                hasMoved = false;
+                yield break;
+            }
+        }
     }
 }

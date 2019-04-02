@@ -131,7 +131,7 @@ public class InitializationManager : MonoBehaviour
         StartCoroutine("UpdateDownloadPercent");
 
         //setup checks for accessibility on android - which is wierd;
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
       Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
   
         if(UAP_AccessibilityManager.GetAndroidAccessibility()){
@@ -142,7 +142,6 @@ public class InitializationManager : MonoBehaviour
         Debug.Log("Accessibility OFF");
         UAP_AccessibilityManager.EnableAccessibility(false);
         }
-
 #endif
         //why is this yield here??;
         yield return new WaitForSeconds(1.0f);

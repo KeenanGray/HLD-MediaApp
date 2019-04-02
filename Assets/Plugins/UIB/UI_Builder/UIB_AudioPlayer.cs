@@ -232,7 +232,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             hasCaptions = false;
 
             //no captions so no screen readable button
-            Debug.Log("turning captions reader off");
+           // Debug.Log("turning captions reader off");
 
             StartCoroutine("TurnOffCaptionsReader");
 
