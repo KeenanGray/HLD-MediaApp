@@ -95,7 +95,8 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void fieldSelected()
     {
-        GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().m_ExploreByTouch = false;
+        UAP_AccessibilityManager.BlockInput(true);
+
         StartCoroutine("fieldSelectedCo");
     }
 
@@ -138,7 +139,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void fieldDeSelected(string arg0)
     {
-        GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().m_ExploreByTouch = true;
+       UAP_AccessibilityManager.BlockInput(false);
 
         if (TouchScreenKeyboard.isSupported)
         {
