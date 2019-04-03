@@ -157,7 +157,7 @@ PlayerSettings:
     iOS: com.KeenanGray.HLD
   buildNumber:
     iOS: 1
-  AndroidBundleVersionCode: 3001
+  AndroidBundleVersionCode: 3300
   AndroidMinSdkVersion: 18
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1

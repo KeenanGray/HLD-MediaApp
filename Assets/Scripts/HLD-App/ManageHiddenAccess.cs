@@ -122,6 +122,10 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
         h = TouchScreenKeyboard.area.height;
 
+#if UNITY_ANDROID
+        h = GetKeyboardSize();
+#endif
+
 #if UNITY_EDITOR
         h = 873; //iphone X
         h = 264; //ipad 12-9
@@ -309,4 +313,21 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             }
         }
     }
+
+#if UNITY_ANDROID
+    public int GetKeyboardSize()
+    {
+        using (AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
+
+            using (AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect"))
+            {
+                View.Call("getWindowVisibleDisplayFrame", Rct);
+
+                return Screen.height - Rct.Call<int>("height");
+            }
+        }
+    }
+#endif
 }
