@@ -61,17 +61,17 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
 
         pageAudioPlayer.SetTitle(title);
-        pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/displayed/narratives/photos");
+        pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/"+ShowName.ToLower()+"/narratives/photos");
         var captionFile = title.Replace(" ", "_").ToLower();
-        pageAudioPlayer.SetAudioCaptions(captionFile, "hld/displayed/narratives/captions");
+        pageAudioPlayer.SetAudioCaptions(captionFile, "hld/"+ShowName.ToLower()+"/narratives/captions");
         pageAudioPlayer.enabled = true;
         pageAudioPlayer.fileType = ".wav";
         //TODO::this should use filemanger to check that file exists
 
 #if UNITY_ANDROID
-        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/displayed/narratives/audio");
+        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/"+ShowName.ToLower()+"/narratives/audio");
 #else
-        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/displayed/narratives/audio");
+        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/"+ShowName.ToLower()+"/narratives/audio");
 #endif
 
         pageAudioPlayer.Tools.PlayMethod(1);

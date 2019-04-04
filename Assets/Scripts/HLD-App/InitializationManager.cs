@@ -328,6 +328,21 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
+
+
+        //OnDisplaySection
+        filename = "OnDisplay/Narratives/audio";
+        filename = "hld/" + filename;
+        TryDownloadFile(filename);
+
+        filename = "OnDisplay/Narratives/captions";
+        filename = "hld/" + filename;
+        TryDownloadFile(filename);
+
+        filename = "OnDisplay/Narratives/photos";
+        filename = "hld/" + filename;
+        TryDownloadFile(filename);
+
         //TODO:figure out video loading
         /*
         filename = "meondisplay/videos";

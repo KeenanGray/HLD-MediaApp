@@ -162,7 +162,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         {
             if (e.GetBaseException().GetType() == typeof(NullReferenceException))
             {
-                Debug.Log("asset not loaded");
+                Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString);
             }
         }
 

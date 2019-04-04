@@ -56,9 +56,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         dancersDetected = new Dictionary<int, int>();
 
         UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/photos");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/captions");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/audio");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");
+        UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/audio");
 
         PageName = name.Split('-')[0] + "-NarrativesBT_Page";
         ListName = name.Split('-')[0] + "-NarrativesList_Page";
@@ -739,9 +739,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         var blas = tmp.GetComponent<BluetoothAudioSource>();
 
         blas.Init();
-        blas.SetAudio(dancerFromBeacon, "hld/displayed/narratives/audio");
-        blas.SetPhoto(dancerFromBeacon, "hld/displayed/narratives/photos");
-        blas.SetAudioCaptions(dancerFromBeacon, "hld/displayed/narratives/captions");
+        blas.SetAudio(dancerFromBeacon, "hld/"+ ShowName.ToLower()+"/narratives/audio");
+        blas.SetPhoto(dancerFromBeacon, "hld/"+ ShowName.ToLower()+"/narratives/photos");
+        blas.SetAudioCaptions(dancerFromBeacon, "hld/"+ ShowName.ToLower()+"/narratives/captions");
         StartCoroutine(blas.PlayCaptionsWithAudio());
         blas.AudioStart();
         tmp.SetActive(false);
