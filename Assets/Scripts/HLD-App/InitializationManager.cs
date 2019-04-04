@@ -328,8 +328,6 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-
-
         //OnDisplaySection
         filename = "OnDisplay/Narratives/audio";
         filename = "hld/" + filename;
@@ -393,6 +391,8 @@ public class InitializationManager : MonoBehaviour
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
         }
+        UIB_AssetBundleHelper.InsertAssetBundle(filename);
+
     }
 
     private void ActivateLimitedFunctionality()

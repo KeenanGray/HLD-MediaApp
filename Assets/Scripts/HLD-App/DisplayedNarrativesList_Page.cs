@@ -14,26 +14,48 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
     public override void MakeLinkedPages()
     {
         ObjPoolManager.BeginRetrieval();
-        var BiographyOrderedByName = (System.Linq.IOrderedEnumerable<Biography>)OrderedByName;
 
-        foreach (Biography bioJson in BiographyOrderedByName)
+        var ShowName = name.Split('-')[0];
+        if (ShowName == "CompanyDancers_Page")
         {
-            Name_Suffix = bioJson.Name.Replace(" ", "");
-            GameObject go = null;
-            ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
-
-            if (go != null)
+            var BiographyOrderedByName = (System.Linq.IOrderedEnumerable<Biography>)OrderedByName;
+            foreach (Biography bioJson in BiographyOrderedByName)
             {
-                go.transform.SetParent(Page_Parent.transform);
-                go.name = (Name_Suffix + "_Page");
-                Narrative_Page np = go.GetComponent<Narrative_Page>();
-                np.SetupPage(bioJson.Name, bioJson.Name.Replace(" ", "_").ToLower());
-                np.SetShowName(name.Split('-')[0]);
-                               
+                Name_Suffix = bioJson.Name.Replace(" ", "");
+                GameObject go = null;
+                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
+
+                if (go != null)
+                {
+                    go.transform.SetParent(Page_Parent.transform);
+                    go.name = (Name_Suffix + "_Page");
+                    Narrative_Page np = go.GetComponent<Narrative_Page>();
+                    np.SetupPage(bioJson.Name, bioJson.Name.Replace(" ", "_").ToLower());
+                    np.SetShowName(name.Split('-')[0]);
+                }
+            }
+
+        }
+        else
+        {
+            foreach (string s in listOfDancers)
+            {
+                Name_Suffix = s.Replace("_", "");
+                GameObject go = null;
+                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
+
+                if (go != null)
+                {
+                    go.transform.SetParent(Page_Parent.transform);
+                    go.name = (Name_Suffix + "_Page");
+                    Narrative_Page np = go.GetComponent<Narrative_Page>();
+                    np.SetupPage(s, s.Replace("_", "_").ToLower());
+                    np.SetShowName(name.Split('-')[0]);
+                }
             }
         }
-
         ObjPoolManager.EndRetrieval();
+
     }
 
     private void Start()

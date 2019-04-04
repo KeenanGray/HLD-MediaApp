@@ -31,7 +31,8 @@ namespace HLD
 
         protected BiographyArray myObject;
         protected IOrderedEnumerable<Biography> OrderedByName;
-
+        protected string[] listOfDancers;
+        
         void UIB_IPage.Init()
         {
             GetComponent<UIB_Page>().AssetBundleRequired = true;
@@ -56,16 +57,35 @@ namespace HLD
         }
         public void InitJsonList()
         {
-            SourceJson = UIB_FileManager.ReadTextAssetBundle(json_file, "hld/bios/json");
-            if (SourceJson == null || SourceJson == "")
+            var ShowName = name.Split('-')[0];
+            if (ShowName == "CompanyDancers_Page")
             {
-                return;
+                SourceJson = UIB_FileManager.ReadTextAssetBundle("bios", "hld/bios/json");
+                if (SourceJson == null || SourceJson == "")
+                {
+                    return;
+                }
+                myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
+                OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
             }
-            myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
-            OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
-
-            // foreach(Biography sr in OrderedByName)
-            //     Debug.Log(sr.Name);
+            else if (ShowName == "Displayed")
+            {
+                SourceJson = UIB_FileManager.ReadTextAssetBundle("ListOfDancers", "hld/general");
+                if (SourceJson == null || SourceJson == "")
+                {
+                    return;
+                }
+                listOfDancers = SourceJson.Replace("\n","").Split(',');
+            }
+            else
+            {
+                SourceJson = UIB_FileManager.ReadTextAssetBundle(ShowName+"ListOfDancers", "hld/general");
+                if (SourceJson == null || SourceJson == "")
+                {
+                    return;
+                }
+                listOfDancers = SourceJson.Replace("\n", "").Split(',');
+            }
         }
 
         public void PageActivatedHandler()
@@ -81,53 +101,100 @@ namespace HLD
             int traversalOrder = 0;
             ObjPoolManager.BeginRetrieval();
 
-            if (OrderedByName == null)
+            var ShowName = name.Split('-')[0];
+            if (ShowName == "CompanyDancers_Page")
             {
-                Debug.LogWarning("Warning: There was no list to iterate through on page activated");
-                return;
-            }
-
-            foreach (Biography b in OrderedByName)
-            {
-                Name_Suffix = b.Name.Replace(" ", "");
-                GameObject go = null;
-                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
-                if (go != null)
+                if (OrderedByName == null)
                 {
-                    go.name = (Name_Suffix + "_Button");
+                    Debug.LogWarning("Warning: There was no list to iterate through on page activated");
+                    return;
+                }
 
-                    UI_Builder.UIB_Button UIB_btn = go.GetComponent<UI_Builder.UIB_Button>();
-                    go.transform.SetParent(scroll.content.transform);
-
-                    //update parent for accessibility
-                    var sab = go.GetComponent<Special_AccessibleButton>();
-
-                    sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
-                    sab.m_ManualPositionOrder = traversalOrder;
-                    traversalOrder++;
-
-                    UIB_btn.SetButtonText(b.Name);
-                    UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
-                    //                    Debug.Log("DancerPhotos/"+ b.Name.Replace(" ", "_"));
-
-                    foreach (Image image in transform.GetComponentsInParent<Image>())
+                foreach (Biography b in OrderedByName)
+                {
+                    Name_Suffix = b.Name.Replace(" ", "");
+                    GameObject go = null;
+                    ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
+                    if (go != null)
                     {
-                        //                        Debug.Log("name " + image.gameObject.name);
-                        //     UIB_Button.backgroundImage = GameObject.Find("J");
+                        go.name = (Name_Suffix + "_Button");
 
+                        UI_Builder.UIB_Button UIB_btn = go.GetComponent<UI_Builder.UIB_Button>();
+                        go.transform.SetParent(scroll.content.transform);
+
+                        //update parent for accessibility
+                        var sab = go.GetComponent<Special_AccessibleButton>();
+
+                        sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
+                        sab.m_ManualPositionOrder = traversalOrder;
+                        traversalOrder++;
+
+                        UIB_btn.SetButtonText(b.Name);
+                        UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
+                        //                    Debug.Log("DancerPhotos/"+ b.Name.Replace(" ", "_"));
+
+                        foreach (Image image in transform.GetComponentsInParent<Image>())
+                        {
+                            //                        Debug.Log("name " + image.gameObject.name);
+                            //     UIB_Button.backgroundImage = GameObject.Find("J");
+
+                        }
+                        //custom backgrounds
+                        UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_")) as Sprite;
+
+                        go.GetComponent<Button>().enabled = true;
+                        go.GetComponent<UAP_BaseElement>().enabled = true;
+
+                        //For some reason you have to do this
+                        //So that the names appear in the right order for accessibility
+                        gameObject.SetActive(false);
+                        gameObject.SetActive(true);
+
+                        UIB_btn.Init();
                     }
-                    //custom backgrounds
-                    UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_")) as Sprite;
+                }
+            }
+            else
+            {
+                foreach (string s in listOfDancers)
+                {
+                    Name_Suffix = s.Replace("_", "");
+                    GameObject go = null;
+                    ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
+                    if (go != null)
+                    {
+                        go.name = (Name_Suffix + "_Button");
 
-                    go.GetComponent<Button>().enabled = true;
-                    go.GetComponent<UAP_BaseElement>().enabled = true;
+                        UI_Builder.UIB_Button UIB_btn = go.GetComponent<UI_Builder.UIB_Button>();
+                        go.transform.SetParent(scroll.content.transform);
 
-                    //For some reason you have to do this
-                    //So that the names appear in the right order for accessibility
-                    gameObject.SetActive(false);
-                    gameObject.SetActive(true);
+                        //update parent for accessibility
+                        var sab = go.GetComponent<Special_AccessibleButton>();
 
-                    UIB_btn.Init();
+                        sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
+                        sab.m_ManualPositionOrder = traversalOrder;
+                        traversalOrder++;
+
+                        UIB_btn.SetButtonText(s.Replace("_", " "));
+                        UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
+
+                        foreach (Image image in transform.GetComponentsInParent<Image>())
+                        {
+
+                        }
+                        //custom backgrounds
+                        UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + s.Replace("_", "_")) as Sprite;
+
+                        go.GetComponent<Button>().enabled = true;
+                        go.GetComponent<UAP_BaseElement>().enabled = true;
+
+                        //For some reason you have to do this
+                        //So that the names appear in the right order for accessibility
+                        gameObject.SetActive(false);
+                        gameObject.SetActive(true);
+
+                        UIB_btn.Init();
+                    }
                 }
             }
             ObjPoolManager.EndRetrieval();

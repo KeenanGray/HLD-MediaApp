@@ -20,7 +20,7 @@ namespace UI_Builder
             if (bundlesLoading.ContainsKey(s))
             {
                 //The key is already in the dictionary
-//               Debug.Log("key is already in the dictionary");
+                Debug.Log("key is already in the dictionary");
             }
             else
             {

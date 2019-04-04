@@ -55,6 +55,8 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         iBeaconReceiver.BeaconRangeChangedEvent += OnBeaconRangeChanged;
         dancersDetected = new Dictionary<int, int>();
 
+        ShowName = gameObject.name.Split('-')[0] + "-";
+
         UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
         UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
         UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");

@@ -72,7 +72,6 @@ namespace UI_Builder
 
         public void Init()
         {
-
             if (gameObject.name == "App_SubMenuButton")
             {
                 return;

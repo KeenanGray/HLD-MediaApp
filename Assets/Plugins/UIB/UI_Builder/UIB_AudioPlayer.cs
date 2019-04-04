@@ -150,6 +150,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         AssetBundle tmp = null;
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
+//            Debug.Log(b.name);
             if (b.name == bundleString)
                 tmp = b;
         }
@@ -162,7 +163,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         {
             if (e.GetBaseException().GetType() == typeof(NullReferenceException))
             {
-                Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString);
+                Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
             }
         }
 
