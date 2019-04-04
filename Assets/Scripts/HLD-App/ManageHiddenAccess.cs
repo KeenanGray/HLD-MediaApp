@@ -247,6 +247,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         yield return new WaitForEndOfFrame();
         GetComponent<InputField>().text = "";
         CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
+        Debug.Log("Code button name " + CodeButtonName);
         CodeButton = GameObject.Find(CodeButtonName);
 
         if (CodeButton != null)

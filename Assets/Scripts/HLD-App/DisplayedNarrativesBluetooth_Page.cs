@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 {
-    public static List<string> DancerMajorsList;
+    public List<string> DancerMajorsList;
     //these values need to be incremented by 1 in the bluetooth setting
     /*
       enum DancerMajors
@@ -198,7 +198,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             //src.time = 0;
         }
 
-
         GetComponent<Canvas>().enabled = true;
 
         if (UIB_PageManager.LastPage.name != ListName)
@@ -290,11 +289,13 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     // Use this for initialization
     void Start()
     {
+        ShowName = gameObject.name.Split('-')[0] + "-";
+
         DancerMajorsList = new List<string>();
-        GoToListBtn = GameObject.Find("ListOfDancersButton");
+        GoToListBtn = GameObject.Find(ShowName + "ListOfDancersButton");
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
 
-        ToggleButton = GameObject.Find("ToggleMultipleButton");
+        ToggleButton = GameObject.Find(ShowName + "ToggleMultipleButton");
         ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
 
         OnOff = GameObject.Find("ToggleMultipleOnOff");
@@ -303,30 +304,32 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         OnOff.transform.Find("ToggleOn").gameObject.SetActive(true);
 
         ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
-        var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
-        uap_T.m_Text = ToggleStartingText + " Off ";
+        var uap_T = GameObject.Find(ShowName + "ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        uap_T.m_Text = ToggleStartingText + " On ";
 
         PlayMultiple = true;
     }
 
     public GameObject ToggleButton { get; private set; }
+    public string ShowName { get; private set; }
+
     private void ToggleMultiple()
     {
         PlayMultiple = !PlayMultiple;
         OnOff.transform.Find("ToggleOn").gameObject.SetActive(PlayMultiple);
         OnOff.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
 
-        var t = GameObject.Find("ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
-        var uap_T = GameObject.Find("ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        var t = GameObject.Find(ShowName + "ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
+        var uap_T = GameObject.Find(ShowName + "ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
 
         if (PlayMultiple)
         {
             t.text = ToggleStartingText;
-            uap_T.m_Text = ToggleStartingText + " Off ";
+            uap_T.m_Text = ToggleStartingText + " On ";
         }
         else
         {
-            uap_T.m_Text = ToggleStartingText + " On ";
+            uap_T.m_Text = ToggleStartingText + " Off ";
         }
 
         UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject(), true);

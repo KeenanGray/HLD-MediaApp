@@ -521,76 +521,61 @@ public class InitializationManager : MonoBehaviour
 
     private void CheckAndUpdateLinks(string key)
     {
+        var CodeToInfoObject = GameObject.Find(key.Replace("Info_Page", "Code_Button"));
+        var InfoToCodeObject = GameObject.Find(key.Replace("Info_Page", "Info_Button"));
+
         // if we have entered passcode previously.
         //If date of passcode entry doesn't check out. we don't change the name
         if (PlayerPrefs.HasKey(key))
         {
-            Debug.Log("HERE");
             var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
 
             //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
 
             if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
             {
-                //exceeded time limit. Reactivte code-entry page
                 try
                 {
-                    var gb = GameObject.FindWithTag("LockedPageButton");
-                    gb.name = key.Replace("Info_Page", "Code_Button");
-                    gb.GetComponent<UIB_Button>().Init();
-                    //PlayerPrefs.DeleteKey(key);
+                    //exceeded time limit. Reactivte code-entry page
+                    InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
+                    InfoToCodeObject.GetComponent<UIB_Button>().Init();
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
-                    if (e.GetType() == typeof(NullReferenceException))
-                    {
-                        //   Debug.Log(" we haven't updated the code-button, no info-button found. " + e);
-                    }
+
                 }
+
             }
             else
             {
                 //We have access.
                 //Change the code page to the info page
+
+                //Debug.Log("THINK WE HAVE ACCESS");
                 try
                 {
-                    //Debug.Log("THINK WE HAVE ACCESS");
-                    var gb = GameObject.FindWithTag("LockedPageButton");
-                    gb.name = key.Replace("Info_Page", "Info_Button");
-                    gb.GetComponent<UIB_Button>().Init();
-
+                    CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
+                    CodeToInfoObject.GetComponent<UIB_Button>().Init();
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof(NullReferenceException))
-                    {
-                    }
+
                 }
             }
             //Swap info button for code button
         }
         else
         {
-            //if you do not have the player pref
-            //set info page to code page
             try
             {
-                //                Debug.Log("No key has been set -- fresh install");
-                var gb = GameObject.FindWithTag("LockedPageButton");
-                //only do this to the button we are interested in
-                if (gb.name.Split('_')[0] == key.Split('_')[0])
-                {
-                    gb.name = key.Replace("Info_Page", "Code_Button");
-                    gb.GetComponent<UIB_Button>().Init();
-                    //PlayerPrefs.DeleteKey(key);
-                }
+                //if you do not have the player pref
+                //set info page to code page
+                CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
+                CodeToInfoObject.GetComponent<UIB_Button>().Init();
             }
             catch (Exception e)
             {
-                if (e.GetType() == typeof(NullReferenceException))
-                {
 
-                }
             }
         }
     }
