@@ -119,7 +119,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2d4cd9916046d49ca8285cfb3f2e905e
     vertices: []
     indices: 
     edges: []
@@ -128,5 +128,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: hld/displayed/narratives/photos
+  assetBundleName: hld/ondisplay/narratives/photos
   assetBundleVariant: 
