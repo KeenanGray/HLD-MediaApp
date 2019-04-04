@@ -28,6 +28,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
                 go.name = (Name_Suffix + "_Page");
                 Narrative_Page np = go.GetComponent<Narrative_Page>();
                 np.SetupPage(bioJson.Name, bioJson.Name.Replace(" ", "_").ToLower());
+                np.SetShowName(name.Split('-')[0]);
             }
         }
 

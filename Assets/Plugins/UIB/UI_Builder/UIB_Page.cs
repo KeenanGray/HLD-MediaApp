@@ -127,6 +127,9 @@ namespace UI_Builder
             foreach (Transform t in ChildTransformsSorted(pageParent.transform))
             {
                 var p = t.GetComponent<UIB_Page>();
+                if (p == null)
+                    continue;
+
                 if (p.PageOnScreen)
                 {
                     PagesOnScreen.Add(p.transform);
@@ -167,8 +170,33 @@ namespace UI_Builder
             for (int i = 0; i < t.childCount; i++)
             {
                 Transform child = t.GetChild(i);
-                sorted.Add(child);
+
+                var tPage = child.GetComponent<UIB_Page>();
+
+                if (tPage != null)
+                {
+                    sorted.Add(child);
+                }
+                else
+                {
+                }
+
+                foreach (var item in ChildTransformsSorted(child.transform))
+                {
+                    var tPage2 = item.GetComponent<UIB_Page>();
+                    if (tPage2 != null)
+                    {
+                        sorted.Add(item);
+                    }
+                    else
+                    {
+
+                    }
+                                      
+                }
+                              
             }
+
             return sorted;
         }
 
@@ -176,7 +204,9 @@ namespace UI_Builder
         void SwipeHandler(SwipeData swipe)
         {
             if (!PageOnScreen)
+            {
                 return;
+            }
 
             var touches = swipe.fingers;
             //we swipe if 1 touch && no UAP OR 2 touch and UAP
@@ -190,6 +220,11 @@ namespace UI_Builder
                 if (Math.Abs(swipe.value) < minDistance)
                 {
                     return;
+                }
+
+                if (PagesOnScreen.Count <= 0)
+                {
+                    // throw new Exception("NoPageException: There are no pages on the screen. This is a major problem");
                 }
 
                 //get all the buttons on the page, if it is backbutton invoke it.
@@ -327,7 +362,17 @@ namespace UI_Builder
         {
             if (gameObject.name == UIB_PageManager.CurrentPage.name)
             {
-                UAP_AccessibilityManager.GetCurrentFocusObject().gameObject.GetComponent<UAP_BaseElement>().enabled = false;
+                try
+                {
+                    UAP_AccessibilityManager.GetCurrentFocusObject().gameObject.GetComponent<UAP_BaseElement>().enabled = false;
+                }
+                catch (Exception e)
+                {
+                    if (e.GetType() == typeof(NullReferenceException))
+                    {
+
+                    }
+                }
             }
             if (GetComponent<AccessibleUIGroupRoot>() != null)
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;

@@ -15,6 +15,8 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     string photoPath;
     string TopPageName = "DisplayedNarrativesBT_Page";
 
+    public string ShowName { get; private set; }
+
     private void Start()
     {
     }
@@ -41,6 +43,11 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     void Update()
     {
 //        Debug.Log("HEY " + ReturnToCameraView);
+    }
+
+    internal void SetShowName(string v)
+    {
+        ShowName = v;
     }
 
     //When the narrative page is activated, we want to set the back button to either the 
@@ -95,7 +102,17 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
             AudioPlayerScreen.transform.SetParent(GameObject.Find("Pages").transform);
         }
 
-        GameObject.Find("DisplayedNarrativesBT_Page").GetComponent<DisplayedNarrativesBluetooth_Page>().StopBTAudio();
+        try
+        {
+            GameObject.Find(ShowName + "-NarrativesBT_Page").GetComponent<DisplayedNarrativesBluetooth_Page>().StopBTAudio();
+        }
+        catch (Exception e)
+        {
+            if (e.GetType() == typeof(NullReferenceException))
+            {
+
+            }
+        }
 
     }
 

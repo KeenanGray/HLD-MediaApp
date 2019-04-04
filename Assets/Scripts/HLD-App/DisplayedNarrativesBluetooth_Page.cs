@@ -42,8 +42,8 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     Dictionary<string, GameObject> AudioPlayers;
     GameObject AudioPlayerPrefab;
 
-    string PageName = "DisplayedNarrativesBT_Page";
-    string ListName = "DisplayedNarrativesList_Page";
+    string PageName = "";
+    string ListName = "";
     bool PlayMultiple;
 
     string ToggleStartingText = "";
@@ -59,6 +59,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/photos");
         UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/captions");
         UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/narratives/audio");
+
+        PageName = name.Split('-')[0] + "-NarrativesBT_Page";
+        ListName = name.Split('-')[0] + "-NarrativesList_Page";
+
 
 #if UNITY_EDITOR
         EditorApplication.pauseStateChanged += LogPauseState;
@@ -267,9 +271,18 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
     public void PageDeActivatedHandler()
     {
-        GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
-        GameObject.Find(ListName).GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
+        try
+        {
+            GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
+            GameObject.Find(ListName).GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
+        }
+        catch (Exception e)
+        {
+            if (e.GetType() == typeof(NullReferenceException))
+            {
 
+            }
+        }
         StopBTAudio();
 
     }
@@ -327,7 +340,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(false));
         StartCoroutine(UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().ResetUAP(true));
-
 
         iBeaconReceiver.Stop();
     }

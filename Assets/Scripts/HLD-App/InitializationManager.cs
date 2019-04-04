@@ -525,6 +525,7 @@ public class InitializationManager : MonoBehaviour
         //If date of passcode entry doesn't check out. we don't change the name
         if (PlayerPrefs.HasKey(key))
         {
+            Debug.Log("HERE");
             var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
 
             //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
@@ -574,11 +575,15 @@ public class InitializationManager : MonoBehaviour
             //set info page to code page
             try
             {
-                Debug.Log("No key has been set -- fresh install");
+                //                Debug.Log("No key has been set -- fresh install");
                 var gb = GameObject.FindWithTag("LockedPageButton");
-                gb.name = key.Replace("Info_Page", "Code_Button");
-                gb.GetComponent<UIB_Button>().Init();
-                //PlayerPrefs.DeleteKey(key);
+                //only do this to the button we are interested in
+                if (gb.name.Split('_')[0] == key.Split('_')[0])
+                {
+                    gb.name = key.Replace("Info_Page", "Code_Button");
+                    gb.GetComponent<UIB_Button>().Init();
+                    //PlayerPrefs.DeleteKey(key);
+                }
             }
             catch (Exception e)
             {
@@ -592,7 +597,9 @@ public class InitializationManager : MonoBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
-        CheckAndUpdateLinks("DISPLAYED-Info_Page");
+        CheckAndUpdateLinks("Displayed-Info_Page");
+        CheckAndUpdateLinks("OnDisplay-Info_Page");
+
     }
 
 }

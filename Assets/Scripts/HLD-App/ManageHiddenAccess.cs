@@ -57,6 +57,9 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             PageLinkButtonName = gameObject.name.Split('_')[0] + "-Info_Button";
         }
 
+//        Debug.Log("page " + PageLinkButtonName);
+//        Debug.Log("code " + CodeButtonName);
+
         CodeButton = GameObject.Find(CodeButtonName);
         ls = GameObject.Find("LandingScreen");
 
@@ -272,33 +275,31 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             //Debug.Log("Code Button is Null");
         }
 
-        var button = GameObject.Find("DISPLAYED-Info_Button").GetComponent<UnityEngine.UI.Button>();
+        var button = GameObject.Find("Displayed-Info_Button").GetComponent<UnityEngine.UI.Button>();
 
         var ab = button.GetComponent<UIB_Button>();
         ab.Init();
         button.onClick.Invoke();
-
         UAP_AccessibilityManager.StopSpeaking();
-        var audioDesc = GameObject.Find("AudioDescription_Button");
-        audioDesc.SetActive(false);
 
-        ab.SetVO(audioDesc);
+    //    var audioDesc = GameObject.Find("AudioDescription_Button");
+    //    audioDesc.SetActive(false);
 
-        audioDesc.SetActive(true);
+    //    ab.SetVO(audioDesc);
+    //    audioDesc.SetActive(true);
 
-        yield return new WaitForSeconds(0.0f);
-        audioDesc.GetComponent<UnityEngine.UI.Button>().enabled = true;
-        audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
-        yield return new WaitForSeconds(0.0f);
-        UAP_AccessibilityManager.SelectElement(audioDesc, true);
-        yield break;
+    //    yield return new WaitForSeconds(0.0f);
+    //    audioDesc.GetComponent<UnityEngine.UI.Button>().enabled = true;
+    //    audioDesc.GetComponent<Special_AccessibleButton>().enabled = true;
+    //    yield return new WaitForSeconds(0.0f);
+    //    UAP_AccessibilityManager.SelectElement(audioDesc, true);
+    //    yield break;
     }
 
     IEnumerator SetInputPositionBack()
     {
         while (true)
         {
-            Debug.Log("THIS IS HAPPENING 2");
             if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
             {
                 yield return null;
