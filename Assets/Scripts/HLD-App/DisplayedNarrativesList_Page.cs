@@ -30,6 +30,8 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
                 np.SetupPage(bioJson.Name, bioJson.Name.Replace(" ", "_").ToLower());
                 np.SetShowName(name.Split('-')[0]);
                 Debug.Log(np.ShowName + " IS SHOW NAME");
+
+                
             }
         }
 

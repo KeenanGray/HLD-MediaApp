@@ -10,10 +10,10 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 {
     GameObject backButton;
     GameObject AudioPlayerScreen;
-    
+
     string title;
     string photoPath;
-    string TopPageName = "DisplayedNarrativesBT_Page";
+    string TopPageName = "";
 
     public string ShowName { get; private set; }
 
@@ -42,22 +42,23 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
     void Update()
     {
-//        Debug.Log("HEY " + ReturnToCameraView);
+        //        Debug.Log("HEY " + ReturnToCameraView);
     }
 
     internal void SetShowName(string v)
     {
         ShowName = v;
+
+        //get backbutton root
+        transform.Find("BackButtonRoot").GetChild(0).name = ShowName + "-NarrativesBT_Button";
+        transform.Find("BackButtonRoot").GetChild(0).GetComponent<UIB_Button>().Init();
     }
 
     //When the narrative page is activated, we want to set the back button to either the 
     //list of dancer's, or the camera face recognizer
     public void PageActivatedHandler()
     {
-        var tmp = GameObject.Find("DisplayedNarrativesList_Page");
-        tmp = GameObject.Find(TopPageName);
-
-        UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer> ();
+        UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
 
         pageAudioPlayer.SetTitle(title);
         pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/displayed/narratives/photos");
@@ -70,7 +71,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 #if UNITY_ANDROID
         pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/displayed/narratives/audio");
 #else
-        pageAudioPlayer.SetAudio(title.Replace(" ","_"), "hld/displayed/narratives/audio");
+        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/displayed/narratives/audio");
 #endif
 
         pageAudioPlayer.Tools.PlayMethod(1);

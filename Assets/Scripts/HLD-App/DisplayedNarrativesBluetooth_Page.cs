@@ -298,7 +298,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         ToggleButton = GameObject.Find(ShowName + "ToggleMultipleButton");
         ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
 
-        OnOff = GameObject.Find("ToggleMultipleOnOff");
+        OnOff = GameObject.Find(ShowName + "ToggleMultipleOnOff");
 
         OnOff.transform.Find("ToggleOff").gameObject.SetActive(false);
         OnOff.transform.Find("ToggleOn").gameObject.SetActive(true);
