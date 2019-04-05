@@ -56,6 +56,9 @@ public class BluetoothAudioSource : MonoBehaviour
 
     private void Update()
     {
+        if (src.clip == null)
+            return;
+
         if (src.time.CompareTo(src.clip.length - 0.1f) < 0)
         {
         }
@@ -93,6 +96,9 @@ public class BluetoothAudioSource : MonoBehaviour
 
     public void SetAudio(string PathToAudio, string bundleString)
     {
+        if (PathToAudio == "" || PathToAudio == null)
+            return;
+
         src = GetComponent<AudioSource>();
 
         AssetBundle tmp = null;
@@ -148,6 +154,9 @@ public class BluetoothAudioSource : MonoBehaviour
 
     public void SetPhoto(string PathToAudio, string bundleString)
     {
+        if (PathToAudio == null || PathToAudio == "")
+            return;
+
         var image = GetComponentInChildren<Image>();
 
         AssetBundle tmp = null;
@@ -253,6 +262,9 @@ public class BluetoothAudioSource : MonoBehaviour
 
     public void SetAudioCaptions(string name, string filePath)
     {
+        if (name == null || name == "")
+            return;
+
         var newText = UIB_FileManager.ReadTextAssetBundle(name, filePath);
 
         if (newText == null)
