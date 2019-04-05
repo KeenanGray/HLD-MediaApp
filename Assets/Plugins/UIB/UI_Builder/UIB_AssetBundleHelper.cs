@@ -32,7 +32,7 @@ namespace UI_Builder
 
         public IEnumerator LoadAssetBundlesInBackground()
         {
-            var size = bundlesLoading.Keys.Count;
+            var size = 50; //bundlesLoading.Keys.Count;
             var tmpArray = new string[size];
             while (true)
             {
@@ -52,7 +52,11 @@ namespace UI_Builder
                         break;
                     }
                     var newPath = Application.persistentDataPath + "/heidi-latsky-dance/" + UIB_PlatformManager.platform + s;
-                    
+
+                    if (s == null)
+                    {
+                        continue;
+                    }
                     if (bundlesLoading[s])
                     {
                         continue;
@@ -71,7 +75,7 @@ namespace UI_Builder
                         //Add our new paths to the bundle arry
                         if (!bundlesLoading.ContainsKey(newPath) && bundlesLoading[s])
                         {
-                            InsertAssetBundle(newPath);
+                            //InsertAssetBundle(newPath);
                             bundlesLoading[newPath] = true;
 
                             StartCoroutine("LoadAssetBundlesInBackground");

@@ -335,15 +335,15 @@ public class InitializationManager : MonoBehaviour
         TryDownloadFile(filename);
 
         //OnDisplaySection
-        filename = "ondisplay/Narratives/audio";
+        filename = "ondisplay/narratives/audio";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-        filename = "ondisplay/Narratives/captions";
+        filename = "ondisplay/narratives/captions";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-        filename = "ondisplay/Narratives/photos";
+        filename = "ondisplay/narratives/photos";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
@@ -373,7 +373,6 @@ public class InitializationManager : MonoBehaviour
         {
             //we don't have the file, firs thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
-
 
            // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
             //if we are not in the Unity Editor, delete the streaming assets files to save space

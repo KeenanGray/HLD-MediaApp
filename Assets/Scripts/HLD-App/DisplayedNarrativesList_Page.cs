@@ -13,7 +13,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
-        Debug.Log(gameObject.name + " " +"makelinkedpages");
+//        Debug.Log(gameObject.name + " " +"makelinkedpages");
 
         ObjPoolManager.BeginRetrieval();
 

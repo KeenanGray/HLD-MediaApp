@@ -57,10 +57,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         ShowName = gameObject.name.Split('-')[0] + "-";
 
-     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
-     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
-     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");
-     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/audio");
+        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
+        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
+        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");
+        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/audio");
 
         PageName = name.Split('-')[0] + "-NarrativesBT_Page";
         ListName = name.Split('-')[0] + "-NarrativesList_Page";
@@ -101,7 +101,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
 #endif
         StartCoroutine("BeaconUpdateCoroutine");
-      
+
 
         var tmp = GameObject.Find("CameraViewTexture");
 
@@ -182,19 +182,39 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         if (tmp != null)
         {
-            var dancers = tmp.LoadAsset<TextAsset>("ListOfDancers") as TextAsset;
-
-            if (dancers.ToString().Split(',').Length != DancerMajorsList.Count)
-                foreach (String s in dancers.ToString().Split(','))
-                {
-                    var corrected = s.Replace("\n", "");
-                    corrected = corrected.Replace("\r", "");
-                    corrected = corrected.Replace(" ", "");
-                    DancerMajorsList.Add(corrected);
-                }
-            else
+            if (ShowName == "Displayed-")
             {
+                var dancers = tmp.LoadAsset<TextAsset>("ListOfDancers") as TextAsset;
 
+                if (dancers.ToString().Split(',').Length != DancerMajorsList.Count)
+                    foreach (String s in dancers.ToString().Split(','))
+                    {
+                        var corrected = s.Replace("\n", "");
+                        corrected = corrected.Replace("\r", "");
+                        corrected = corrected.Replace(" ", "");
+                        DancerMajorsList.Add(corrected);
+                    }
+                else
+                {
+
+                }
+            }
+            else if (ShowName == "OnDisplay-")
+            {
+                var dancers = tmp.LoadAsset<TextAsset>("OnDisplayListOfDancers") as TextAsset;
+
+                if (dancers.ToString().Split(',').Length != DancerMajorsList.Count)
+                    foreach (String s in dancers.ToString().Split(','))
+                    {
+                        var corrected = s.Replace("\n", "");
+                        corrected = corrected.Replace("\r", "");
+                        corrected = corrected.Replace(" ", "");
+                        DancerMajorsList.Add(corrected);
+                    }
+                else
+                {
+
+                }
             }
             //src.time = 0;
         }
@@ -217,7 +237,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         if (!movedListIn)
         {
-          //  page.GetComponent<UIB_Page>().Init();
+            //  page.GetComponent<UIB_Page>().Init();
             page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
             movedListIn = true;
         }
@@ -227,7 +247,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         }
         catch
         {
-           // iBeaconReceiver.Scan();
+            // iBeaconReceiver.Scan();
         }
 
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
@@ -514,7 +534,12 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         var printDebug = "";
         foreach (Beacon b in mybeacons)
         {
-            var DancerFromBeacon = DancerMajorsList[b.major - 1];
+            var DancerFromBeacon = "";
+            try { DancerFromBeacon = DancerMajorsList[b.major - 1]; }
+            catch(Exception e)
+            {
+                Debug.Log("No dancer with that beacon and beacon # is greater than length of dancer list");
+            }
             var absRSSI = Math.Abs(b.rssi);
 
             printDebug += "Beacon " + DancerFromBeacon + " rssi:" + b.rssi + " acc:" + b.accuracy + ":" + b.range + "\n";
@@ -738,7 +763,8 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         tmp.name = dancerFromBeacon + "_Bluetooth_Audio";
         try
         {
-            tmp.transform.SetParent(GameObject.Find("AudioSourceList").transform);
+            Debug.Log(ShowName + " is showname");
+            tmp.transform.SetParent(GameObject.Find(ShowName + "AudioSourceList").transform);
         }
         catch (Exception e)
         {
@@ -751,10 +777,12 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         var blas = tmp.GetComponent<BluetoothAudioSource>();
 
+        var tmpShow = ShowName.Replace("-", "");
+
         blas.Init();
-        blas.SetAudio(dancerFromBeacon, "hld/"+ ShowName.ToLower()+"/narratives/audio");
-        blas.SetPhoto(dancerFromBeacon, "hld/"+ ShowName.ToLower()+"/narratives/photos");
-        blas.SetAudioCaptions(dancerFromBeacon, "hld/"+ ShowName.ToLower()+"/narratives/captions");
+        blas.SetAudio(dancerFromBeacon, "hld/" + tmpShow.ToLower() + "/narratives/audio");
+        blas.SetPhoto(dancerFromBeacon, "hld/" + tmpShow.ToLower() + "/narratives/photos");
+        blas.SetAudioCaptions(dancerFromBeacon, "hld/" + tmpShow.ToLower() + "/narratives/captions");
         StartCoroutine(blas.PlayCaptionsWithAudio());
         blas.AudioStart();
         tmp.SetActive(false);

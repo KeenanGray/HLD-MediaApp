@@ -113,7 +113,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             {
                 if (source == null || source.clip==null)
                 {
-                    Debug.Log("no source 2 " +gameObject.name);
+                   // Debug.Log("no source 2 " +gameObject.name);
                     return;
                 }
                 timeScroll = sb;
@@ -281,7 +281,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     {
         if (source == null || source.clip == null)
         {
-            Debug.LogWarning("no source " + gameObject.name);
+           // Debug.LogWarning("no source " + gameObject.name);
             return;
         }
 
