@@ -57,10 +57,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         ShowName = gameObject.name.Split('-')[0] + "-";
 
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/audio");
+     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
+     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
+     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");
+     //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/audio");
 
         PageName = name.Split('-')[0] + "-NarrativesBT_Page";
         ListName = name.Split('-')[0] + "-NarrativesList_Page";
@@ -101,8 +101,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
 #endif
         StartCoroutine("BeaconUpdateCoroutine");
-        GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
-        GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
+      
 
         var tmp = GameObject.Find("CameraViewTexture");
 
@@ -209,20 +208,26 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         var page = GameObject.Find(ListName).GetComponent<UIB_Page>();
         page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
 
-        page.OnActivated += myDelegate();
-        page.OnDeActivated += myDeactivatedDelegate();
+        if (!delegateAddedToList)
+        {
+            page.OnActivated += myDelegate();
+            page.OnDeActivated += myDeactivatedDelegate();
+            delegateAddedToList = true;
+        }
 
-        page.GetComponent<UIB_Page>().Init();
-        page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-        page.OnActivated -= myDelegate();
-
+        if (!movedListIn)
+        {
+          //  page.GetComponent<UIB_Page>().Init();
+            page.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+            movedListIn = true;
+        }
         try
         {
             iBeaconReceiver.Scan();
         }
         catch
         {
-            iBeaconReceiver.Scan();
+           // iBeaconReceiver.Scan();
         }
 
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
@@ -276,6 +281,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         {
             GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
             GameObject.Find(ListName).GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
+            movedListIn = false;
         }
         catch (Exception e)
         {
@@ -291,6 +297,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     // Use this for initialization
     void Start()
     {
+        GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
+        GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
+
+        delegateAddedToList = false;
         ShowName = gameObject.name.Split('-')[0] + "-";
 
         DancerMajorsList = new List<string>();
@@ -594,8 +604,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 //at far range let's not do anything
             }
         }
+#if !UNITY_EDITOR
         Debug.Log("Beacon Debug " + printDebug);
-
+#endif
         if (AudioPlayers == null)
         {
             Debug.Log("No Audio Players Found");
@@ -802,6 +813,8 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     int detectionsRecquired = 2;
     int cnt = 0;
     private GameObject OnOff;
+    private bool delegateAddedToList;
+    private bool movedListIn;
 
     void CountRecognized(int label)
     {

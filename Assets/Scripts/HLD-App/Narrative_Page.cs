@@ -52,6 +52,10 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         //get backbutton root
         transform.Find("BackButtonRoot").GetChild(0).name = ShowName + "-NarrativesBT_Button";
         transform.Find("BackButtonRoot").GetChild(0).GetComponent<UIB_Button>().Init();
+
+
+        //tell the list page not to mess with activation/deactivation for the time being.
+        var listPage = GameObject.Find(ShowName + "-NarrativesList_Page");
     }
 
     //When the narrative page is activated, we want to set the back button to either the 
@@ -61,6 +65,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
 
         pageAudioPlayer.SetTitle(title);
+        Debug.Log(photoPath + " " + "hld / "+ShowName.ToLower()+" / narratives / photos");
         pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/"+ShowName.ToLower()+"/narratives/photos");
         var captionFile = title.Replace(" ", "_").ToLower();
         pageAudioPlayer.SetAudioCaptions(captionFile, "hld/"+ShowName.ToLower()+"/narratives/captions");
@@ -85,7 +90,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
 
-        backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
+       // backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
 
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
     }

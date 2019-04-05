@@ -14,7 +14,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/audio");
+//        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/audio");
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
     }
 

@@ -20,7 +20,7 @@ namespace UI_Builder
             if (bundlesLoading.ContainsKey(s))
             {
                 //The key is already in the dictionary
-                Debug.Log("key is already in the dictionary");
+//                Debug.Log("key is already in the dictionary");
             }
             else
             {
@@ -92,7 +92,7 @@ namespace UI_Builder
             {
                 if (UIB_AssetBundleHelper.bundlesLoading[path])
                 {
-                     Debug.Log("already got that one " + path);
+//                     Debug.Log("already got that one " + path);
                     yield break;
                 }
             }
@@ -121,6 +121,8 @@ namespace UI_Builder
                 Debug.LogError("Failed to load AssetBundle " + path);
                 yield break;
             }
+            UIB_AssetBundleHelper.bundlesLoading[path] = true;
+
             yield break;
         }
     }

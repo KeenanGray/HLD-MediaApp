@@ -24,8 +24,8 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         scroll = GetComponentInChildren<ScrollRect>();
 
         GetComponent<UIB_Page>().AssetBundleRequired = true;
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/meondisplay/captions");
+   //     UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
+   //     UIB_AssetBundleHelper.InsertAssetBundle("hld/meondisplay/captions");
 
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;

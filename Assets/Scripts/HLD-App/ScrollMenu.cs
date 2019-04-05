@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -32,19 +33,25 @@ namespace HLD
         protected BiographyArray myObject;
         protected IOrderedEnumerable<Biography> OrderedByName;
         protected string[] listOfDancers;
-        
+        private bool pageActivatedBefore;
+
+        private void Start()
+        {
+            GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
+            GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
+        }
+
         void UIB_IPage.Init()
         {
             GetComponent<UIB_Page>().AssetBundleRequired = true;
-            UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/json");
+            //          UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/json");
 
             if (GetComponent<UIB_Page>().AssetBundleRequired)
             {
                 //Debug.Log("do we have to do something here");
             }
-
-            GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
-            GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
+            
+          
 
             Page_Parent = null;
 
@@ -75,11 +82,11 @@ namespace HLD
                 {
                     return;
                 }
-                listOfDancers = SourceJson.Replace("\n","").Split(',');
+                listOfDancers = SourceJson.Replace("\n", "").Split(',');
             }
             else
             {
-                SourceJson = UIB_FileManager.ReadTextAssetBundle(ShowName+"ListOfDancers", "hld/general");
+                SourceJson = UIB_FileManager.ReadTextAssetBundle(ShowName + "ListOfDancers", "hld/general");
                 if (SourceJson == null || SourceJson == "")
                 {
                     return;
@@ -90,11 +97,19 @@ namespace HLD
 
         public void PageActivatedHandler()
         {
+            if (pageActivatedBefore)
+                return;
+
+            pageActivatedBefore = true;
             InitJsonList();
 
             ObjPoolManager.RefreshPool();
+
+            //   if (!pageActivatedBefore)
+            //  {
             //Make the pages first
             MakeLinkedPages();
+            //    }
 
             //Make the buttons
             //They will be assigned to their buttons with 'Init'
@@ -203,11 +218,14 @@ namespace HLD
             scroll.GetComponent<UIB_ScrollingMenu>().Playing = false;
             scroll.GetComponent<UIB_ScrollingMenu>().Setup();
 
+            pageActivatedBefore = true;
+
         }
 
         public void PageDeActivatedHandler()
         {
             ObjPoolManager.RefreshPool();
+            pageActivatedBefore = false;
         }
 
         public abstract void MakeLinkedPages();

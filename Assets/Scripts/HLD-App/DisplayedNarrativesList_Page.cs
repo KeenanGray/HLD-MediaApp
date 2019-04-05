@@ -13,6 +13,8 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
+        Debug.Log(gameObject.name + " " +"makelinkedpages");
+
         ObjPoolManager.BeginRetrieval();
 
         var ShowName = name.Split('-')[0];
@@ -34,7 +36,6 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
                     np.SetShowName(name.Split('-')[0]);
                 }
             }
-
         }
         else
         {
@@ -49,6 +50,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
                     go.transform.SetParent(Page_Parent.transform);
                     go.name = (Name_Suffix + "_Page");
                     Narrative_Page np = go.GetComponent<Narrative_Page>();
+//                    Debug.Log("s:" + s.Replace("_","_").ToLower());
                     np.SetupPage(s, s.Replace("_", "_").ToLower());
                     np.SetShowName(name.Split('-')[0]);
                 }
@@ -60,12 +62,21 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
 
     private void Start()
     {
+//        base.StartScrollMenu();
         GetComponent<UIB_Page>().OnActivated += onPageActivated;
+        GetComponent<UIB_Page>().OnDeActivated += onPageDeActivated;
     }
 
     private void onPageActivated()
     {
         StartCoroutine("updateWait");
+        base.PageActivatedHandler();
+    }
+
+    private void onPageDeActivated()
+    {
+        Debug.Log("deactivated list");
+        base.PageDeActivatedHandler();
     }
 
     IEnumerator updateWait()

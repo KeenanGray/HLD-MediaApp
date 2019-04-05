@@ -177,7 +177,14 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
             if (!ar.Equals(imgAR))
             {
-                BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+                try
+                {
+                    BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("no image to use " + PathToImage + " " + e);
+                }
             }
         }
     }

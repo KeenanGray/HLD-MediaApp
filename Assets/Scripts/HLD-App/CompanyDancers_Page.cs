@@ -22,7 +22,7 @@ public class CompanyDancers_Page : HLD.ScrollMenu
     public void Init()
     {
         GetComponent<UIB_Page>().AssetBundleRequired = true;
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
+       // UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
 
         GetComponent<UIB_Page>().OnActivated += onPageActivated;
     }

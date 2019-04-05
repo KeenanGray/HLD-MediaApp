@@ -61,7 +61,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         ls = GameObject.Find("LandingScreen");
 
         GetComponentInParent<UIB_Page>().AssetBundleRequired = true;
-        UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
+        //  UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
 
         frame = GetComponentInParent<Mask>().gameObject;
         initSize = frame.GetComponent<RectTransform>().sizeDelta;
@@ -143,7 +143,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void fieldDeSelected(string arg0)
     {
-       UAP_AccessibilityManager.BlockInput(false);
+        UAP_AccessibilityManager.BlockInput(false);
 
         if (TouchScreenKeyboard.isSupported)
         {
@@ -180,9 +180,14 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
                 return;
             }
         }
+        var ShowName = name.Split('_')[0];
 
         var res = "";
-        res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+
+        if (ShowName == "Displayed")
+            res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
+        else
+            res = UIB_FileManager.ReadTextAssetBundle(ShowName + "AccessCode", "hld/general");
 
         if (res != "")
         {
@@ -271,14 +276,15 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         else
         {
         }
+        var ShowName = name.Split('_')[0];
 
-        var button = GameObject.Find("Displayed-Info_Button").GetComponent<UnityEngine.UI.Button>();
+        var button = GameObject.Find(ShowName+ "-Info_Button").GetComponent<UnityEngine.UI.Button>();
 
         var ab = button.GetComponent<UIB_Button>();
         ab.Init();
         button.onClick.Invoke();
         UAP_AccessibilityManager.StopSpeaking();
-  
+
     }
 
     IEnumerator SetInputPositionBack()

@@ -130,6 +130,11 @@ public class InitializationManager : MonoBehaviour
         //this coroutine updates download percentage over time
         StartCoroutine("UpdateDownloadPercent");
 
+        //this coroutine waits until we have checked for all the files
+        //then it begins loading asset bundles in the background
+        //it must be started after pages have initialized
+        StartCoroutine("ManageAssetBundleFiles");
+
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
       Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
@@ -176,9 +181,10 @@ public class InitializationManager : MonoBehaviour
         {
             //before initializing buttons, we may change some names based on player_prefs
 
-            if (ab.name == "DISPLAYED-Code_Button")
-                CheckAndUpdateLinks("DISPLAYED-Info_Page");
-
+            if (ab.name == "Displayed-Code_Button")
+                CheckAndUpdateLinks("Displayed-Info_Page");
+            if (ab.name == "OnDisplay-Code_Button")
+                CheckAndUpdateLinks("OnDisplay-Info_Page");
             ab.Init();
         }
 
@@ -219,7 +225,7 @@ public class InitializationManager : MonoBehaviour
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
         //it must be started after pages have initialized
-        StartCoroutine("ManageAssetBundleFiles");
+       // StartCoroutine("ManageAssetBundleFiles");
 
         //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");
@@ -329,15 +335,15 @@ public class InitializationManager : MonoBehaviour
         TryDownloadFile(filename);
 
         //OnDisplaySection
-        filename = "OnDisplay/Narratives/audio";
+        filename = "ondisplay/Narratives/audio";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-        filename = "OnDisplay/Narratives/captions";
+        filename = "ondisplay/Narratives/captions";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-        filename = "OnDisplay/Narratives/photos";
+        filename = "ondisplay/Narratives/photos";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
@@ -368,7 +374,8 @@ public class InitializationManager : MonoBehaviour
             //we don't have the file, firs thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
 
-            AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
+
+           // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
             //if we are not in the Unity Editor, delete the streaming assets files to save space
 
 
@@ -559,7 +566,6 @@ public class InitializationManager : MonoBehaviour
                 {
 
                 }
-
             }
             else
             {
@@ -585,8 +591,8 @@ public class InitializationManager : MonoBehaviour
             {
                 //if you do not have the player pref
                 //set info page to code page
-                CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
-                CodeToInfoObject.GetComponent<UIB_Button>().Init();
+                InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
+                InfoToCodeObject.GetComponent<UIB_Button>().Init();
             }
             catch (Exception e)
             {

@@ -55,6 +55,11 @@ namespace UI_Builder
         UnityEngine.UI.Button close_button;
         private bool PageOnScreen;
 
+        public bool GetPageOnScreen()
+        {
+            return PageOnScreen;
+        }
+
         public void Init()
         {
             OnActivated += new Activated(PageActivatedHandler);

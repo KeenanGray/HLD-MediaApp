@@ -315,7 +315,17 @@ namespace UI_Builder
                     tmp = b;
             }
             if (tmp != null)
-                return tmp.LoadAsset<TextAsset>(fileName).ToString();
+            {
+                try
+                {
+                    return tmp.LoadAsset<TextAsset>(fileName).ToString();
+                }
+                catch (Exception e )
+                {
+                    Debug.Log("no captions - file: " + fileName + " bundle: " + bundleString);
+                    return "";
+                }
+            }
             else
             {
                 Debug.LogWarning("Asset bundle not found " + bundleString);

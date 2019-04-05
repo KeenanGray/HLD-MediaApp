@@ -111,6 +111,11 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         {
             if (sb.gameObject.name.Equals("Time_Scroll"))
             {
+                if (source == null || source.clip==null)
+                {
+                    Debug.Log("no source 2 " +gameObject.name);
+                    return;
+                }
                 timeScroll = sb;
                 var t = Mathf.InverseLerp(0, source.clip.length, source.time);
 
@@ -274,6 +279,12 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (source == null || source.clip == null)
+        {
+            Debug.LogWarning("no source " + gameObject.name);
+            return;
+        }
+
         if (time_label != null && !AudioTimerInput.isFocused)
             time_label.text = ConvertToClockTime(source.time);
 
