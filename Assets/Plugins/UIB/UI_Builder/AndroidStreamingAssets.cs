@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
+using System;
 using UI_Builder;
 
 public static class AndroidStreamingAssets
@@ -25,13 +26,11 @@ public static class AndroidStreamingAssets
 
     public static void Extract()
     {
-
 #if !UNITY_EDITOR && UNITY_ANDROID
         string targetPath = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
         string result = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
 
         Debug.Log("result " + result);
-
 
        // if( Directory.Exists( result ) )
        //     Directory.Delete( result, true );
@@ -46,7 +45,7 @@ public static class AndroidStreamingAssets
         ZipFile zf = null;
         try
         {
-            using( FileStream fs = File.OpenRead( Application.dataPath ) )
+            using( FileStream fs = File.OpenRead( Application.dataPath  ) )
             {
                 zf = new ZipFile( fs );
                 foreach( ZipEntry zipEntry in zf )
@@ -74,6 +73,9 @@ public static class AndroidStreamingAssets
                 }
             }
         }
+        catch(Exception e){
+            Debug.Log("PROBLEM:" + e);
+        }
         finally
         {
             if( zf != null )
@@ -82,6 +84,7 @@ public static class AndroidStreamingAssets
                 zf.Close();
             }
         }
+
 
         m_path = result;
 #else

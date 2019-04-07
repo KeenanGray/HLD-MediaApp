@@ -104,8 +104,6 @@ namespace UI_Builder
                     directory = directory + "/" + i;
                 }
             }
-            // Debug.Log("file " + name);
-            // Debug.Log("dir " + directory);
 
             var newpath = UIB_PlatformManager.persistentDataPath + directory.Replace("/heidi-latsky-dance/", "");
 
@@ -379,9 +377,10 @@ namespace UI_Builder
 
         }
 
+        public static bool AndroidCopyIsDone;
         IEnumerator CreateStreamingAssetDirectories(string fileName)
         {
-        
+      
             var samplePath = AndroidStreamingAssets.Path;
             samplePath = AndroidStreamingAssets.Path;
 
