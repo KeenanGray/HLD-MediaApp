@@ -20,7 +20,7 @@ namespace UI_Builder
             if (bundlesLoading.ContainsKey(s))
             {
                 //The key is already in the dictionary
-//                Debug.Log("key is already in the dictionary");
+                //                Debug.Log("key is already in the dictionary");
             }
             else
             {
@@ -51,7 +51,10 @@ namespace UI_Builder
                         i = 0;
                         break;
                     }
-                    var newPath = Application.persistentDataPath + "/heidi-latsky-dance/" + UIB_PlatformManager.platform + s;
+                    var newPath = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + s;
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    newPath = UIB_PlatformManager.persistentDataPath +"android/assets/"+ UIB_PlatformManager.platform + s; 
+#endif
 
                     if (s == null)
                     {
@@ -96,7 +99,7 @@ namespace UI_Builder
             {
                 if (UIB_AssetBundleHelper.bundlesLoading[path])
                 {
-//                     Debug.Log("already got that one " + path);
+                    Debug.Log("already got that one " + path);
                     yield break;
                 }
             }
@@ -104,7 +107,7 @@ namespace UI_Builder
             AssetBundleCreateRequest bundleLoadRequest = null;
             if (!File.Exists(path))
             {
-                //  Debug.Log("file does not exist");
+                Debug.Log("file does not exist:" + path);
                 yield break;
             }
 
@@ -118,7 +121,7 @@ namespace UI_Builder
 
             yield return bundleLoadRequest;
 
-            var myLoadedAssetBundle = bundleLoadRequest.assetBundle;
+            AssetBundle myLoadedAssetBundle = bundleLoadRequest.assetBundle;
 
             if (myLoadedAssetBundle == null)
             {

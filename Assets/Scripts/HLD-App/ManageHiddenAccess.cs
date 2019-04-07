@@ -174,12 +174,14 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
     {
         if (TouchScreenKeyboard.isSupported)
         {
+
             if (GetComponent<InputField>().touchScreenKeyboard.status != TouchScreenKeyboard.Status.Done)
             {
                 Debug.Log("NOT DONE");
                 return;
             }
-        }
+    }
+
         var ShowName = name.Split('_')[0];
 
         var res = "";

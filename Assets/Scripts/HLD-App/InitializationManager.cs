@@ -176,6 +176,10 @@ public class InitializationManager : MonoBehaviour
             arf.enabled = true;
         }
 
+        //hack to skip code page on android
+#if UNITY_ANDROID
+        // PlayerPrefs.SetString("OnDisplay-Info_Page", DateTime.UtcNow.ToString());
+#endif
         //initialize each button
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
@@ -225,7 +229,7 @@ public class InitializationManager : MonoBehaviour
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
         //it must be started after pages have initialized
-       // StartCoroutine("ManageAssetBundleFiles");
+        // StartCoroutine("ManageAssetBundleFiles");
 
         //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");
@@ -314,9 +318,6 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-        filename = "meondisplay/captions";
-        filename = "hld/" + filename;
-        TryDownloadFile(filename);
 
         filename = "bios/photos";
         filename = "hld/" + filename;
@@ -361,6 +362,11 @@ public class InitializationManager : MonoBehaviour
                 yield break;
         }
         */
+        /*
+  filename = "meondisplay/captions";
+  filename = "hld/" + filename;
+  TryDownloadFile(filename);
+  */
 
         //if we get here we have all the files
         hasCheckedFiles = true;
@@ -369,14 +375,27 @@ public class InitializationManager : MonoBehaviour
 
     private void TryDownloadFile(string filename, bool fallbackUsingBundle = false)
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
+         if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath +"android/assets/"+ UIB_PlatformManager.platform + filename)))
+        {
+            //We don't have the file, first thing is to copy it from streaming assets
+            //On Android, streaming assets are zipped so we need a special accessor
+            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
+        }
+        else{
+         //we have the file check for update
+            if (CheckInternet())
+            {
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+            }
+        }
+#else
         if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename)))
         {
             //we don't have the file, firs thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
-
-           // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
+            // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
             //if we are not in the Unity Editor, delete the streaming assets files to save space
-
 
             if (CheckInternet())
             {
@@ -397,6 +416,7 @@ public class InitializationManager : MonoBehaviour
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
         }
+#endif
         UIB_AssetBundleHelper.InsertAssetBundle(filename);
 
     }
@@ -504,8 +524,9 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Don't be here ");
+                Debug.Log("No internet ");
             }
+
             if (PercentDownloaded.Equals(100))
             {
                 Debug.Log("Finished File Check and Downloads " + Time.time + " Seconds");
@@ -538,8 +559,6 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-
-
     private void CheckAndUpdateLinks(string key)
     {
         var CodeToInfoObject = GameObject.Find(key.Replace("Info_Page", "Code_Button"));
@@ -561,7 +580,7 @@ public class InitializationManager : MonoBehaviour
                     InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
                     InfoToCodeObject.GetComponent<UIB_Button>().Init();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
 
                 }

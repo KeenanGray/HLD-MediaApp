@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Amazon.S3.Model;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UI_Builder
 {
@@ -303,7 +304,6 @@ namespace UI_Builder
                 Debug.LogWarning("no file found " + fileName);
                 return "";
             }
-
         }
 
         public static string ReadTextAssetBundle(string fileName, string bundleString)
@@ -320,7 +320,7 @@ namespace UI_Builder
                 {
                     return tmp.LoadAsset<TextAsset>(fileName).ToString();
                 }
-                catch (Exception e )
+                catch (Exception e)
                 {
                     Debug.Log("no captions - file: " + fileName + " bundle: " + bundleString);
                     return "";
@@ -336,8 +336,7 @@ namespace UI_Builder
         public static void WriteFromStreamingToPersistent(string fileName)
         {
             var src = Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + fileName;
-            var dest = UIB_PlatformManager.persistentDataPath  + UIB_PlatformManager.platform + fileName;
-
+            var dest = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + fileName;
             //check if the src directory exists
             if (FileExists(src))
             {
@@ -371,13 +370,38 @@ namespace UI_Builder
 
                 //Debug.Log("writing: " + src + " to dest: " + dest);
                 File.Copy(src, dest);
-             //  File.CopyFileOrDirectory(src, dest);
+                //  File.CopyFileOrDirectory(src, dest);
             }
             else
             {
                 Debug.LogWarning("NO BUNDLE EXCEPTION::No asset bundle with this path found in streaming assets. " + src);
             }
 
+        }
+
+        IEnumerator CreateStreamingAssetDirectories(string fileName)
+        {
+        
+            var samplePath = AndroidStreamingAssets.Path;
+            samplePath = AndroidStreamingAssets.Path;
+
+            printDirectory(samplePath);
+
+            yield break;
+      
+        }
+
+        private void printDirectory(string v)
+        {
+            Debug.Log("Dir:" + v);
+            foreach (string s in Directory.GetFiles(v))
+            {
+                print("File: " + s);
+            }
+            foreach (string d in Directory.GetDirectories(v))
+            {
+                printDirectory(d);
+            }
         }
     }
 }
