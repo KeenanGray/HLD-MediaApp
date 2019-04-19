@@ -195,6 +195,10 @@ namespace UI_Builder
                 }
                 catch (Exception e)
                 {
+                    if (e.GetType() == typeof(NullReferenceException))
+                    {
+
+                    }
                     if (enabled.GetType() == typeof(NullReferenceException))
                     {
 

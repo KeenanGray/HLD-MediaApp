@@ -71,7 +71,7 @@ public class BluetoothAudioSource : MonoBehaviour
         var strMap = 0.5f;
         if (src.volume < 1.0f)
         {
-            strMap = HLD.Utilities.Map(src.volume, 0, 1, 0, 255);
+            strMap = Utilities.Map(src.volume, 0, 1, 0, 255);
         }
         else
         {
@@ -217,7 +217,7 @@ public class BluetoothAudioSource : MonoBehaviour
 
             string line = "";
 
-            word = (int)HLD.Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
+            word = (int)Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
 
             if (word < 0)
                 yield return null;

@@ -32,7 +32,7 @@ public class UIB_EditorTools : ScriptableWizard
         PlayerSettings.Android.keyaliasName = "hld";
         PlayerSettings.Android.keyaliasPass = "michigan45";
 
-        androidPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity", "Assets/Scenes/BluetoothSim.unity" };
+        androidPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity"};
         androidPlayerOptions.locationPathName = "Builds/AndroidBuild.apk";
         androidPlayerOptions.target = BuildTarget.Android;
         androidPlayerOptions.options = BuildOptions.None;
@@ -42,18 +42,18 @@ public class UIB_EditorTools : ScriptableWizard
 
         if (androidSummary.result == BuildResult.Succeeded)
         {
-            Debug.Log("Build succeeded: " + androidSummary.totalSize + " bytes");
+            Debug.Log("Android Build succeeded: " + androidSummary.totalSize + " bytes");
         }
 
         if (androidSummary.result == BuildResult.Failed)
         {
-            Debug.Log("Build failed");
+            Debug.Log("Android Build failed");
             return;
         }
 
         //IOS Build
         BuildPlayerOptions iosBuildPlayerOptions = new BuildPlayerOptions();
-        iosBuildPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity", "Assets/Scenes/BluetoothSim.unity" };
+        iosBuildPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity" };
         iosBuildPlayerOptions.locationPathName = "Builds/iOSBuild";
         iosBuildPlayerOptions.target = BuildTarget.iOS;
         iosBuildPlayerOptions.options = BuildOptions.AcceptExternalModificationsToPlayer;

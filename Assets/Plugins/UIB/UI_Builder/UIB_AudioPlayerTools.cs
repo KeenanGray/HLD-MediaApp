@@ -623,6 +623,5 @@ public class UIB_AudioPlayerTools : MonoBehaviour
                 yield break;
             }
         }
-        yield break;
     }
 }

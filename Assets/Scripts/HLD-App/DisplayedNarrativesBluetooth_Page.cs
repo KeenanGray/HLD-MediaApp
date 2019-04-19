@@ -580,7 +580,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                         if (CheckBeaconToStart(AudioPlayers[DancerFromBeacon]))
                         {
                             AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = (AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI + b.rssi) / 2;
-                            playBeacon(HLD.Utilities.Map(b.rssi, minImmediateRSSI, maxImmediateRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
+                            playBeacon(Utilities.Map(b.rssi, minImmediateRSSI, maxImmediateRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
                         }
                     }
                     else
@@ -597,7 +597,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                     //We haven't made a gameobject for that dancer, make it and add it to the list
                     InstantiateBlueToothObject(DancerFromBeacon);
                     AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = (AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI + b.rssi) / 2;
-                    playBeacon(HLD.Utilities.Map(b.rssi, minImmediateRSSI, maxImmediateRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
+                    playBeacon(Utilities.Map(b.rssi, minImmediateRSSI, maxImmediateRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
                 }
             }
 
@@ -611,7 +611,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                         if (CheckBeaconToStart(AudioPlayers[DancerFromBeacon]))
                         {
                             AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI = (AudioPlayers[DancerFromBeacon].GetComponent<BluetoothAudioSource>().knownRSSI + b.rssi) / 2;
-                            playBeacon(HLD.Utilities.Map(b.rssi, minFarRSSI, maxFarRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
+                            playBeacon(Utilities.Map(b.rssi, minFarRSSI, maxFarRSSI, minImmediateVol, maxImmediatevol), DancerFromBeacon);
                         }
                         //
                     }
@@ -702,7 +702,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                     else
                     {
                         go.SetActive(true);
-                        go.GetComponent<AudioSource>().volume = HLD.Utilities.Map(go.GetComponent<BluetoothAudioSource>().knownRSSI, minImmediateRSSI, maxImmediateRSSI, 0.15f, .35f);
+                        go.GetComponent<AudioSource>().volume = Utilities.Map(go.GetComponent<BluetoothAudioSource>().knownRSSI, minImmediateRSSI, maxImmediateRSSI, 0.15f, .35f);
                     }
                 }
                 count++;

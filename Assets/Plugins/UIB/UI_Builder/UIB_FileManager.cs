@@ -320,6 +320,10 @@ namespace UI_Builder
                 }
                 catch (Exception e)
                 {
+                    if (e.GetType() == typeof(NullReferenceException))
+                    {
+
+                    }
                     Debug.Log("no captions - file: " + fileName + " bundle: " + bundleString);
                     return "";
                 }

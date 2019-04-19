@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HLD
+namespace UI_Builder
 {
     public static class Utilities
     {
@@ -19,6 +19,13 @@ namespace HLD
             var to = toAbs + toMin;
 
             return to;
+        }
+
+        private static void printElapsedTime(int pos, float t1)
+        {
+            var t2 = Time.time;
+            var elapsed = t2 - t1;
+            Debug.Log("elapsed:" + elapsed + " at pos " + pos);
         }
     }
 }

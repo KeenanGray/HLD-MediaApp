@@ -48,8 +48,7 @@ public class InitializationManager : MonoBehaviour
     {
         //set T1 for timing Init;
         t1 = Time.time;
-        printElapsedTime(1, t1);
-                // Disable screen dimming
+        // Disable screen dimming
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         UIB_PlatformManager.Init();
@@ -118,8 +117,6 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("no instructions " + e);
             yield break;
         }
-        printElapsedTime(2,t1);
-
 
         //this coroutine checks the local files and starts any necessary downloads
         StartCoroutine("CheckLocalFiles");
@@ -149,6 +146,7 @@ public class InitializationManager : MonoBehaviour
         UAP_AccessibilityManager.EnableAccessibility(false);
         }
 #endif
+
         //Set the main page container
         //Can't remember why i did this
         UIB_PageContainer MainContainer = null;
@@ -157,14 +155,12 @@ public class InitializationManager : MonoBehaviour
             MainContainer = PageContainer;
             MainContainer.Init();
         }
-        printElapsedTime(3, t1);
 
         //set scroll rects to top
         foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
         {
             sb.value = 1;
         }
-        printElapsedTime(4, t1);
 
         //turn aspect ratio fitters on
         //causes all pages to share origin with canvas and be correct dimensions
@@ -174,7 +170,6 @@ public class InitializationManager : MonoBehaviour
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
-        printElapsedTime(5, t1);
 
         //initialize each button
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
@@ -187,7 +182,6 @@ public class InitializationManager : MonoBehaviour
                 CheckAndUpdateLinks("OnDisplay-Info_Page");
             ab.Init();
         }
-        printElapsedTime(6, t1);
 
         //initialize each page
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
@@ -212,20 +206,16 @@ public class InitializationManager : MonoBehaviour
                 p.StartCoroutine("MoveScreenOut", true);
             }
         }
-        printElapsedTime(7, t1);
 
         //initialize each scrolling menu
         foreach (UIB_ScrollingMenu uibSM in GetComponentsInChildren<UIB_ScrollingMenu>())
         {
             uibSM.Init();
         }
-        printElapsedTime(8, t1);
 
         //initialize objects in the object pools
         //todo:tag this for eventual replacement with better pages/buttons 
         ObjPoolManager.Init();
-
-        printElapsedTime(9, t1);
 
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
@@ -254,8 +244,6 @@ public class InitializationManager : MonoBehaviour
             UAP_AccessibilityManager.SelectElement(first, true); ;
         }
 
-        printElapsedTime(10, t1);
-
         //remove the cover
         MainContainer.DisableCover();
 
@@ -270,13 +258,6 @@ public class InitializationManager : MonoBehaviour
             Debug.LogWarning("Took longer to initialize than expected");
 
         yield break;
-    }
-
-    private void printElapsedTime(int pos, float t1)
-    {
-        t2 = Time.time;
-        var elapsed = t2 - t1;
-        Debug.Log("elapsed:" + elapsed + " at pos " + pos);
     }
 
     private IEnumerator ManageAssetBundleFiles()
