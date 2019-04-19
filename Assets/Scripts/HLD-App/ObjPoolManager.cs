@@ -40,6 +40,9 @@ public static class ObjPoolManager
 
     public static void RefreshPool()
     {
+        if (ObjectPoolCanvas == null)
+            return;
+
         ObjectPoolCanvas.SetActive(true);
 
         Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));

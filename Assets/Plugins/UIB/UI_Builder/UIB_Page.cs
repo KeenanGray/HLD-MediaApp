@@ -289,15 +289,16 @@ namespace UI_Builder
         }
 
         //Converse of "MoveScreenIn". When the close button is pressed the screen will move out.s
-        public IEnumerator MoveScreenOut(bool initializing = false)
+        public IEnumerator MoveScreenOut(bool initializing = true)
         {
             //  yield return new WaitForEndOfFrame();
             rt.anchoredPosition = new Vector3(0, 0, 0);
+            var offscreenpos = rt.anchoredPosition.x + 1920;
+
             float lerp = 0;
 
             var tmp = rate;
-            if (initializing)
-                tmp = 1;
+       
             try
             {
                 GetComponentInChildren<Canvas>().enabled = false;
@@ -307,18 +308,26 @@ namespace UI_Builder
                 Debug.Log(e);
             }
 
-            while (true)
+            if (initializing)
             {
-                rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(UIB_AspectRatioManager.ScreenHeight, 0, 0), lerp);
-                lerp += tmp;
-
-                if (Mathf.Approximately(rt.anchoredPosition.x, UIB_AspectRatioManager.ScreenHeight) ||
-                rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
-                {
-                    break;
-                }
-                yield return null;
+                rt.anchoredPosition = new Vector3(offscreenpos, 0, 0);
             }
+            else
+            {
+                while (true)
+                {
+                    rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(offscreenpos, 0, 0), lerp);
+                    lerp += tmp;
+
+                    if (Mathf.Approximately(offscreenpos, rt.anchoredPosition.x + UIB_AspectRatioManager.ScreenWidth) ||
+                    rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
+                    {
+                        break;
+                    }
+                    yield return null;
+                }
+            }
+
             PageOnScreen = false;
             GetComponent<AspectRatioFitter>().enabled = false;
 

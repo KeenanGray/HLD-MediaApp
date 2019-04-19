@@ -87,7 +87,9 @@ public class UIB_EditorTools : ScriptableWizard
         CleanHelper(Application.persistentDataPath+"/android");
         CleanHelper(Application.persistentDataPath + "/ios");
 
-        EditorUtility.RevealInFinder(Application.persistentDataPath + "/Heidi Latsky Dance");
+       var path = Application.persistentDataPath + "/heidi-latsky-dance";
+        Debug.Log(path);
+        EditorUtility.RevealInFinder(path);
 
         Debug.Log("Clean Successful");
     }

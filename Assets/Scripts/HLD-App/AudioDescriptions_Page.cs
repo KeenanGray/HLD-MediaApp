@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
 {
     GameObject AudioPlayerScreen;
+    string ShowName;
 
     public void Init()
     {
@@ -16,6 +17,9 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
 
 //        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/audio");
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
+
+        ShowName = gameObject.name.Split('-')[0].ToLower();
+
     }
 
     internal void SetupAudioPlayer()
@@ -23,7 +27,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         var audioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         audioPlayer.SetTitle("Audio Descriptions");
-        audioPlayer.SetImageFromResource("BackGroundPhotos/AudioDescriptions",1000);
+        audioPlayer.SetImageAssetBundle("background","hld/"+ShowName+"/audio");
         audioPlayer.fileType = ".mp3";
         audioPlayer.SetAudio("Audio_Captions", "hld/displayed/audio");
         //TODO: null captions for now
@@ -50,6 +54,8 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
 
             }
         }
+        AudioPlayerScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
+
     }
 
     public void PageDeActivatedHandler()
@@ -74,6 +80,8 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         else
         {
         }
+        AudioPlayerScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
+
     }
 
 }

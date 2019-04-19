@@ -348,6 +348,10 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
+        filename = "unfinished/audio";
+        filename = "hld/" + filename;
+        TryDownloadFile(filename);
+
         //TODO:figure out video loading
         /*
         filename = "meondisplay/videos";
@@ -632,6 +636,7 @@ public class InitializationManager : MonoBehaviour
     {
         CheckAndUpdateLinks("Displayed-Info_Page");
         CheckAndUpdateLinks("OnDisplay-Info_Page");
+        CheckAndUpdateLinks("Unfinished-Info_Page");
 
     }
 

@@ -31,7 +31,7 @@ public class BluetoothMenuAspectFitter : MonoBehaviour
         }
 
         var boxSizeAdjust = 1;
-        var textScaleAdjust = 1;
+      //  var textScaleAdjust = 1;
 
         if (childCount == 0)
         {
@@ -40,22 +40,22 @@ public class BluetoothMenuAspectFitter : MonoBehaviour
         else if (childCount == 1)
         {
             boxSizeAdjust = 3;
-            textScaleAdjust = 3;
+      //     textScaleAdjust = 3;
         }
         else if (childCount > 1 && childCount <= 3)
         {
             boxSizeAdjust = 3;
-            textScaleAdjust = 2;
+      //      textScaleAdjust = 2;
         }
         else if (childCount > 3 && childCount <= 4)
         {
             boxSizeAdjust = 4;
-            textScaleAdjust = 2;
+     //      textScaleAdjust = 2;
         }
         else
         {
             boxSizeAdjust = 5;
-            textScaleAdjust = 2;
+      //      textScaleAdjust = 2;
         }
 
         var width = transform.parent.GetComponent<RectTransform>().rect.width / boxSizeAdjust;

@@ -123,7 +123,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
 
     }
-
+    /*
     public void SetImageFromResource(string PathToImage, float size)
     {
         Sprite ImageToUse = null;
@@ -141,6 +141,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             BgPhoto.rectTransform.sizeDelta = new Vector2(size, size);
         }
     }
+    */
 
     public void SetImageAssetBundle(string PathToImage, string bundleString)
     {
@@ -150,7 +151,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         AssetBundle tmp = null;
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-//            Debug.Log(b.name);
+            //            Debug.Log(b.name);
             if (b.name == bundleString)
                 tmp = b;
         }
@@ -163,10 +164,9 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         {
             if (e.GetBaseException().GetType() == typeof(NullReferenceException))
             {
-                Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
             }
+            Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
         }
-
         if (BgPhoto != null)
         {
             BgPhoto.sprite = ImageToUse;
@@ -179,11 +179,16 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             {
                 try
                 {
-                    BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+                    if (ImageToUse != null)
+                        BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("no image to use " + PathToImage + " " + e);
+                    if (e.GetBaseException().GetType() == typeof(NullReferenceException))
+                    {
+                    }
+
+                    Debug.Log("no image to use. " + PathToImage + "- - -" + e);
                 }
             }
         }
@@ -240,17 +245,17 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             hasCaptions = false;
 
             //no captions so no screen readable button
-           // Debug.Log("turning captions reader off");
+            // Debug.Log("turning captions reader off");
 
             StartCoroutine("TurnOffCaptionsReader");
 
             return;
         }
-//        Debug.Log("new " + newText);
+        //        Debug.Log("new " + newText);
         hasCaptions = true;
         AudioCaptions = new TextAsset(newText);
 
-//        Debug.Log("turning captions reader on");
+        //        Debug.Log("turning captions reader on");
         CaptionsToggle.GetComponent<Special_AccessibleButton>().enabled = true;
         CaptionsToggle.GetComponent<Button>().enabled = true;
     }

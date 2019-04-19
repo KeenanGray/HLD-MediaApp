@@ -75,7 +75,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
 
     private void onPageDeActivated()
     {
-        Debug.Log("deactivated list");
+//        Debug.Log("deactivated list");
         base.PageDeActivatedHandler();
     }
 

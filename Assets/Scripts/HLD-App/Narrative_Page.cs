@@ -13,7 +13,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
     string title;
     string photoPath;
-    string TopPageName = "";
+//    string TopPageName = "";
 
     public string ShowName { get; private set; }
 
@@ -65,7 +65,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
 
         pageAudioPlayer.SetTitle(title);
-//        Debug.Log(photoPath + " " + "hld / "+ShowName.ToLower()+" / narratives / photos");
+        //        Debug.Log(photoPath + " " + "hld / "+ShowName.ToLower()+" / narratives / photos");
         pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/"+ShowName.ToLower()+"/narratives/photos");
         var captionFile = title.Replace(" ", "_").ToLower();
         pageAudioPlayer.SetAudioCaptions(captionFile, "hld/"+ShowName.ToLower()+"/narratives/captions");
