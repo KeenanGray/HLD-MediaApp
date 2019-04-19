@@ -48,8 +48,8 @@ public class InitializationManager : MonoBehaviour
     {
         //set T1 for timing Init;
         t1 = Time.time;
-
-        // Disable screen dimming
+        printElapsedTime(1, t1);
+                // Disable screen dimming
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         UIB_PlatformManager.Init();
@@ -68,7 +68,6 @@ public class InitializationManager : MonoBehaviour
 
         //this player pref should get set at app launch so that it resets the timecode in the audio-desc;
         PlayerPrefs.SetInt("desc_timecode", 0);
-
 
         try
         {
@@ -119,6 +118,8 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("no instructions " + e);
             yield break;
         }
+        printElapsedTime(2,t1);
+
 
         //this coroutine checks the local files and starts any necessary downloads
         StartCoroutine("CheckLocalFiles");
@@ -148,11 +149,6 @@ public class InitializationManager : MonoBehaviour
         UAP_AccessibilityManager.EnableAccessibility(false);
         }
 #endif
-        //why is this yield here??;
-        yield return new WaitForSeconds(1.0f);
-
-
-
         //Set the main page container
         //Can't remember why i did this
         UIB_PageContainer MainContainer = null;
@@ -161,12 +157,15 @@ public class InitializationManager : MonoBehaviour
             MainContainer = PageContainer;
             MainContainer.Init();
         }
+        printElapsedTime(3, t1);
 
         //set scroll rects to top
         foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
         {
             sb.value = 1;
         }
+        printElapsedTime(4, t1);
+
         //turn aspect ratio fitters on
         //causes all pages to share origin with canvas and be correct dimensions
         foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
@@ -175,11 +174,8 @@ public class InitializationManager : MonoBehaviour
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
+        printElapsedTime(5, t1);
 
-        //hack to skip code page on android
-#if UNITY_ANDROID
-        // PlayerPrefs.SetString("OnDisplay-Info_Page", DateTime.UtcNow.ToString());
-#endif
         //initialize each button
         foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
@@ -191,6 +187,7 @@ public class InitializationManager : MonoBehaviour
                 CheckAndUpdateLinks("OnDisplay-Info_Page");
             ab.Init();
         }
+        printElapsedTime(6, t1);
 
         //initialize each page
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
@@ -215,16 +212,20 @@ public class InitializationManager : MonoBehaviour
                 p.StartCoroutine("MoveScreenOut", true);
             }
         }
+        printElapsedTime(7, t1);
 
         //initialize each scrolling menu
         foreach (UIB_ScrollingMenu uibSM in GetComponentsInChildren<UIB_ScrollingMenu>())
         {
             uibSM.Init();
         }
+        printElapsedTime(8, t1);
 
         //initialize objects in the object pools
         //todo:tag this for eventual replacement with better pages/buttons 
         ObjPoolManager.Init();
+
+        printElapsedTime(9, t1);
 
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
@@ -234,16 +235,6 @@ public class InitializationManager : MonoBehaviour
         //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");
         yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
-
-        //if we finish initializing faster than expected, take a moment to finish the video
-        t2 = Time.time;
-        var elapsed = t2 - t1;
-        if (InitializeTime > elapsed)
-            yield return new WaitForSeconds(InitializeTime - elapsed);
-        else if (Mathf.Approximately(InitializeTime, float.Epsilon))
-            Debug.Log("took " + elapsed + "s to initialize");
-        else
-            Debug.LogWarning("Took longer to initialize than expected");
 
         if (UAP_AccessibilityManager.IsEnabled())
         {
@@ -255,22 +246,7 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
-                //remove the accessibility instructions button
-                //todo: possibly remove this - might want to have accessibility instructions for all users
-                /*
-                if (AccessibilityInstructions != null)
-                {
-                    //turn off label and move viewport down.
-                    var adjust = -1 * AccessibilityInstructions.GetComponent<RectTransform>().rect.height / 2f;
-                    //                Debug.Log("adjust " + adjust);
-                    var parent1 = AccessibilityInstructions.transform.parent.parent.parent;
-                    //                Debug.Log("parent1 " + parent1.name);
-                    parent1.Translate(new Vector3(0, adjust, 0));
-                    AccessibilityInstructions.SetActive(false);
-                }
-                else
-                    Debug.LogWarning("No accessibility instructions assigned");
-                    */
+
             }
 
             //select the first button with UAP
@@ -278,10 +254,29 @@ public class InitializationManager : MonoBehaviour
             UAP_AccessibilityManager.SelectElement(first, true); ;
         }
 
+        printElapsedTime(10, t1);
 
         //remove the cover
         MainContainer.DisableCover();
+
+        //if we finish initializing faster than expected, take a moment to finish the video
+        t2 = Time.time;
+        var elapsed = t2 - t1;
+        if (InitializeTime > elapsed)
+            yield return new WaitForSeconds(InitializeTime - elapsed);
+        else if (Mathf.Approximately(InitializeTime, float.Epsilon))
+            Debug.Log("took " + elapsed + "s to initialize");
+        else
+            Debug.LogWarning("Took longer to initialize than expected");
+
         yield break;
+    }
+
+    private void printElapsedTime(int pos, float t1)
+    {
+        t2 = Time.time;
+        var elapsed = t2 - t1;
+        Debug.Log("elapsed:" + elapsed + " at pos " + pos);
     }
 
     private IEnumerator ManageAssetBundleFiles()

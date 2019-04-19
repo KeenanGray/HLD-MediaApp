@@ -111,7 +111,8 @@ namespace UI_Builder
         private void Start()
         {
             UIB_InputManager.SwipeDelegate += SwipeHandler;
-            PagesOnScreen = new List<Transform>();
+            if (PagesOnScreen == null)
+                PagesOnScreen = new List<Transform>();
         }
 
         public void ResetOnActivated()
@@ -197,9 +198,9 @@ namespace UI_Builder
                     {
 
                     }
-                                      
+
                 }
-                              
+
             }
 
             return sorted;
@@ -298,7 +299,7 @@ namespace UI_Builder
             float lerp = 0;
 
             var tmp = rate;
-       
+
             try
             {
                 GetComponentInChildren<Canvas>().enabled = false;

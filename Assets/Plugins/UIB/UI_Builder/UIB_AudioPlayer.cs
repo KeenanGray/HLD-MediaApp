@@ -19,8 +19,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     GameObject CaptionsToggle;
     public string fileType;
 
-    // Use this for initialization
-    void Start()
+    public void Init()
     {
         AudioCaptions = new TextAsset("");
 
@@ -63,6 +62,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             }
         }
 
+
         foreach (Button b in GetComponentsInChildren<Button>())
         {
             if (b.name == "Captions_Button")
@@ -73,7 +73,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
                 b.onClick.AddListener(delegate
                 {
-                    //                    Debug.Log("HERE " + CaptionsCanvas);
                     CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled = (!CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled);
 
                     if (CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled)
@@ -89,16 +88,9 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
                 b.onClick.Invoke();
             }
         }
-    }
 
-
-
-    public void Init()
-    {
         CaptionsToggle.GetComponentInChildren<TextMeshProUGUI>().enabled = hasCaptions;
         CaptionsToggle.GetComponent<Button>().enabled = hasCaptions;
-
-
 
         GetComponent<AspectRatioFitter>().enabled = false;
         GetComponent<AspectRatioFitter>().enabled = true;
