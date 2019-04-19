@@ -538,6 +538,10 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
             try { DancerFromBeacon = DancerMajorsList[b.major - 1]; }
             catch(Exception e)
             {
+                if(e.GetType() == typeof(NullReferenceException))
+                {
+
+                }
                 Debug.Log("No dancer with that beacon and beacon # is greater than length of dancer list");
             }
             var absRSSI = Math.Abs(b.rssi);

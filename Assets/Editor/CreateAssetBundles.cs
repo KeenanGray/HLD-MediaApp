@@ -5,7 +5,7 @@ using System;
 
 public class CreateAssetBundles
 {
-    [MenuItem("Tools/Build AssetBundles")]
+    [MenuItem("Tools/AssetBundles/Build AssetBundles")]
     static void BuildAllAssetBundles()
     {
         GameObject accessManager = null;

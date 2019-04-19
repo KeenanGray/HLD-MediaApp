@@ -529,7 +529,7 @@ public class InitializationManager : MonoBehaviour
 
             if (PercentDownloaded.Equals(100))
             {
-                Debug.Log("Finished File Check and Downloads " + Time.time + " Seconds");
+                //Debug.Log("Finished File Check and Downloads " + Time.time + " Seconds");
                 WifiInUseIcon.SetActive(false);
 
                 yield break;
@@ -582,7 +582,10 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
+                    if (e.GetType() == typeof(NullReferenceException))
+                    {
 
+                    }
                 }
             }
             else
@@ -598,7 +601,10 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
+                    if (e.GetType() == typeof(NullReferenceException))
+                    {
 
+                    }
                 }
             }
             //Swap info button for code button
@@ -614,7 +620,10 @@ public class InitializationManager : MonoBehaviour
             }
             catch (Exception e)
             {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
 
+                }
             }
         }
     }

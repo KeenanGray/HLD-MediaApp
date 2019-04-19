@@ -99,7 +99,7 @@ namespace UI_Builder
             {
                 if (UIB_AssetBundleHelper.bundlesLoading[path])
                 {
-                    Debug.Log("already got that one " + path);
+//                    Debug.Log("already got that one " + path);
                     yield break;
                 }
             }

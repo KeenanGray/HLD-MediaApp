@@ -199,7 +199,7 @@ namespace HLD
         internal void GetObjectWithFallback(string filename, string S3BucketName)
         {
             throw new NotImplementedException();
-            if (FallbackCounter == null)
+/*            if (FallbackCounter == null)
             {
                 FallbackCounter = new Dictionary<string, int>();
             }
@@ -236,6 +236,7 @@ namespace HLD
 
                 }
             });
+            */
         }
 
 

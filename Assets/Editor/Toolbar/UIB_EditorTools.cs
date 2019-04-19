@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UI_Builder;
+using System.IO;
 
 public class UIB_EditorTools : ScriptableWizard
 {
@@ -48,7 +49,6 @@ public class UIB_EditorTools : ScriptableWizard
         {
             Debug.Log("Build failed");
             return;
-
         }
 
         //IOS Build
@@ -77,5 +77,69 @@ public class UIB_EditorTools : ScriptableWizard
     public static void DeletePlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    [MenuItem("Tools/AssetBundles/PrepAssetBundlesForS3Upload")]
+    public static void CleanFolderForS3()
+    {
+        CleanHelper(Application.streamingAssetsPath);
+        CopyHelper(Application.streamingAssetsPath);
+        CleanHelper(Application.persistentDataPath+"/android");
+        CleanHelper(Application.persistentDataPath + "/ios");
+
+        EditorUtility.RevealInFinder(Application.persistentDataPath + "/Heidi Latsky Dance");
+
+        Debug.Log("Clean Successful");
+    }
+    static void CleanHelper(string dir)
+    {
+        foreach (string d in Directory.GetDirectories(dir))
+        {
+            CleanHelper(d);
+
+            foreach (string file in Directory.GetFiles(d))
+            {
+                if (file.Contains(".meta") || file.Contains(".manifest") || file.Contains(".DS_Store"))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
+    }
+    static void CopyHelper(string dir)
+    {
+        foreach (string d in Directory.GetDirectories(dir))
+        {
+            var directory = "";
+            CopyHelper(d);
+
+            foreach (string file in Directory.GetFiles(d))
+            {
+                var cont = 0;
+                var name = "";
+                foreach (string i in file.Split('/'))
+                {
+                    cont++;
+                    if (cont >= file.Split('/').Length)
+                    {
+                        name = file.Replace(Application.streamingAssetsPath, "");
+                        break;
+                    }
+                    else
+                    {
+                    }
+                }
+                directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+
+                var src = Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + name;
+                var dest = Application.persistentDataPath + name;
+
+                if (!File.Exists(dest))
+                    File.Copy(src, dest);
+            }
+        }
     }
 }
