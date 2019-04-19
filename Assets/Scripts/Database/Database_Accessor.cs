@@ -159,7 +159,7 @@ namespace HLD
                 if (responseObject.Exception == null)
                 {
                     S3LastModified = responseObject.Response.LastModified.ToUniversalTime();
-                    localFilesLastModified = File.GetLastWriteTimeUtc(path);
+                    localFilesLastModified = DateTime.Parse(PlayerPrefs.GetString("LastUpdated"));
 
                     //                    Debug.Log("last modified " + S3LastModified + " local changed " + localFilesLastModified);
                     var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
@@ -184,6 +184,7 @@ namespace HLD
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("Downloading from the Cloud " + filename);
+                        UIB_FileManager.HasUpdatedAFile = true;
                         GetObject(filename, S3BucketName);
                     }
 
@@ -194,51 +195,50 @@ namespace HLD
                     InitializationManager.checkingForUpdates--;
                     Debug.LogWarning(responseObject.Exception);
                 }
-
             });
         }
 
         internal void GetObjectWithFallback(string filename, string S3BucketName)
         {
             throw new NotImplementedException();
-/*            if (FallbackCounter == null)
-            {
-                FallbackCounter = new Dictionary<string, int>();
-            }
-            var count = 0;
-            if (FallbackCounter.ContainsKey(filename))
-            {
+            /*            if (FallbackCounter == null)
+                        {
+                            FallbackCounter = new Dictionary<string, int>();
+                        }
+                        var count = 0;
+                        if (FallbackCounter.ContainsKey(filename))
+                        {
 
-            }
-            else
-                FallbackCounter.Add(filename, count);
+                        }
+                        else
+                            FallbackCounter.Add(filename, count);
 
-            //Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
+                        //Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
 
-            InitializationManager.DownloadCount++;
-            Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
-            {
-                var response = responseObj.Response;
-                FallbackCounter[filename]++;
+                        InitializationManager.DownloadCount++;
+                        Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
+                        {
+                            var response = responseObj.Response;
+                            FallbackCounter[filename]++;
 
-                if (response.ResponseStream != null)
-                {
-                    filename = S3BucketName + "/" + filename;
-                    UIB_FileManager.WriteFileFromResponse(response, filename);
-                    Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
-                    InitializationManager.DownloadCount--;
-                }
-                else
-                {
+                            if (response.ResponseStream != null)
+                            {
+                                filename = S3BucketName + "/" + filename;
+                                UIB_FileManager.WriteFileFromResponse(response, filename);
+                                Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
+                                InitializationManager.DownloadCount--;
+                            }
+                            else
+                            {
 
-                }
+                            }
 
-                if (FallbackCounter[filename] > 60 * 10)
-                {
+                            if (FallbackCounter[filename] > 60 * 10)
+                            {
 
-                }
-            });
-            */
+                            }
+                        });
+                        */
         }
 
 

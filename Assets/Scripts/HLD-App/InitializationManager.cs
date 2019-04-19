@@ -41,7 +41,11 @@ public class InitializationManager : MonoBehaviour
 
     private void Update()
     {
-
+        if (UIB_FileManager.HasUpdatedAFile && DownloadCount<=0)
+        {
+            PlayerPrefs.SetString("LastUpdated", DateTime.UtcNow.ToString());
+            UIB_FileManager.HasUpdatedAFile = false;
+        }
     }
 
     IEnumerator Init()
@@ -375,6 +379,9 @@ public class InitializationManager : MonoBehaviour
             //we don't have the file, firs thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
             // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
+
+            //record here that we have never updated files from the internet;
+            PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
 
             if (CheckInternet())
             {

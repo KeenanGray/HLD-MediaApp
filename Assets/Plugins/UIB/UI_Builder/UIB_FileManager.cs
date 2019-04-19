@@ -382,6 +382,9 @@ namespace UI_Builder
         }
 
         public static bool AndroidCopyIsDone;
+
+        public static bool HasUpdatedAFile { get; set; }
+
         IEnumerator CreateStreamingAssetDirectories(string fileName)
         {
 
