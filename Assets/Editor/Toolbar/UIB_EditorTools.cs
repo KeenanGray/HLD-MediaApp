@@ -132,12 +132,14 @@ public class UIB_EditorTools : ScriptableWizard
                     }
                 }
                 directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
+
+                Debug.Log(directory);
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
 
 
-                var src = Application.streamingAssetsPath + "" + UIB_PlatformManager.platform + name;
-                var dest = Application.persistentDataPath + name;
+                var src = Application.streamingAssetsPath + UIB_PlatformManager.platform + name;
+                var dest =  Application.persistentDataPath + name;
 
                 if (!File.Exists(dest))
                     File.Copy(src, dest);

@@ -393,11 +393,13 @@ public class InitializationManager : MonoBehaviour
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
 
-            //delete the streaming asset files
-            UIB_FileManager.DeleteFile(filename);
+          
         }
+
 #endif
-            UIB_AssetBundleHelper.InsertAssetBundle(filename);
+        //delete the streaming asset files
+        UIB_FileManager.DeleteFile(filename);
+        UIB_AssetBundleHelper.InsertAssetBundle(filename);
 
     }
 
