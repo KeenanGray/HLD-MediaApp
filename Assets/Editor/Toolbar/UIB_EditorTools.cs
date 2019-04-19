@@ -136,7 +136,7 @@ public class UIB_EditorTools : ScriptableWizard
                     Directory.CreateDirectory(directory);
 
 
-                var src = Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + name;
+                var src = Application.streamingAssetsPath + "" + UIB_PlatformManager.platform + name;
                 var dest = Application.persistentDataPath + name;
 
                 if (!File.Exists(dest))

@@ -384,14 +384,55 @@ namespace UI_Builder
         public static bool AndroidCopyIsDone;
         IEnumerator CreateStreamingAssetDirectories(string fileName)
         {
-      
+
             var samplePath = AndroidStreamingAssets.Path;
             samplePath = AndroidStreamingAssets.Path;
 
             printDirectory(samplePath);
 
             yield break;
-      
+
+        }
+
+        public static void DeleteFile(string filename)
+        {
+            //if we are not in the Unity Editor, delete the streaming assets files to save space
+            var path = Path.Combine(Application.streamingAssetsPath, "/", UIB_PlatformManager.platform, filename);
+//            Debug.Log("fileToDelete " + path);
+            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("WaitDeleteFile",path);
+           
+#if UNITY_ANDROID && !UNITY_EDITOR
+#endif
+
+        }
+
+        private IEnumerator WaitDeleteFile(string filepath)
+        {
+#if UNITY_IOS && !UNITY_EDITOR
+            filepath = Path.Combine("/private",filepath);
+#endif
+#if UNITY_ANDROID &&!UNITY_EDITOR
+            filepath = Application.streamingAssetsPath;
+#endif
+
+#if !UNITY_EDITOR
+            while (File.Exists(filepath))
+            {
+                try
+                {
+                    File.Delete(filepath);
+                    Debug.Log("called delete function");
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                }
+                yield return null;
+            }
+            Debug.Log("deleted file");
+#endif
+
+            yield break;
         }
 
         private void printDirectory(string v)

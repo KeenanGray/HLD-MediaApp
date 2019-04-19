@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: 89566c2e365e848fd8be856a99133905
+guid: f6b43ea67a6e543e88e0ffcdcc262fc0
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
   defaultSettings:
-    loadType: 1
+    loadType: 0
     sampleRateSetting: 0
     sampleRateOverride: 44100
     compressionFormat: 1
-    quality: 0.25
+    quality: 0.5
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
@@ -18,5 +18,5 @@ AudioImporter:
   ambisonic: 0
   3D: 1
   userData: 
-  assetBundleName: hld/displayed/narratives/audio
+  assetBundleName: 
   assetBundleVariant: 

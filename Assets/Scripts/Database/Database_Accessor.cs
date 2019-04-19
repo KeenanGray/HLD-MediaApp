@@ -167,6 +167,7 @@ namespace HLD
                     //Compare the difference in time between the local directory and files in the cloud
                     if (timeDiff < 0)
                     {
+                        Debug.Log("online file is older");
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                     }
@@ -179,6 +180,7 @@ namespace HLD
                     }
                     else if (timeDiff > 0)
                     {
+                        Debug.Log("online file is newer");
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("Downloading from the Cloud " + filename);

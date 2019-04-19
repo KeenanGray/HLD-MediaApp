@@ -375,13 +375,10 @@ public class InitializationManager : MonoBehaviour
             //we don't have the file, firs thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
             // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
-            //if we are not in the Unity Editor, delete the streaming assets files to save space
 
             if (CheckInternet())
             {
-                //Download the file
-                //Debug.Log("file" + UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename + " does not exist download commencing download");
-                //DownloadFileFromDatabase(UIB_PlatformManager.platform + filename, fallbackUsingBundle);
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
             else
             {
@@ -395,9 +392,12 @@ public class InitializationManager : MonoBehaviour
             {
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
+
+            //delete the streaming asset files
+            UIB_FileManager.DeleteFile(filename);
         }
 #endif
-        UIB_AssetBundleHelper.InsertAssetBundle(filename);
+            UIB_AssetBundleHelper.InsertAssetBundle(filename);
 
     }
 
