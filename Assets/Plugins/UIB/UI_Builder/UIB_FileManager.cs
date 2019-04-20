@@ -387,12 +387,12 @@ namespace UI_Builder
 
         IEnumerator CreateStreamingAssetDirectories(string fileName)
         {
-
+#if UNITY_ANDROID
             var samplePath = AndroidStreamingAssets.Path;
             samplePath = AndroidStreamingAssets.Path;
 
             printDirectory(samplePath);
-
+#endif
             yield break;
 
         }
@@ -414,7 +414,7 @@ namespace UI_Builder
 #if UNITY_IOS && !UNITY_EDITOR
             filepath = Path.Combine("/private",filepath);
 #endif
-#if UNITY_ANDROID &&!UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
             filepath = Application.streamingAssetsPath;
 #endif
 
