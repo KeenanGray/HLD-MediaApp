@@ -137,8 +137,9 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 #if UNITY_EDITOR
     private void LogPauseState(PauseState state)
     {
+#if !UNITY_EDITOR
         Debug.Log(state);
-
+#endif
         if (state == PauseState.Paused)
         {
             //spin up background thread
@@ -152,7 +153,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     }
 #endif
 
-    void WhenApplicationPauses()
+        void WhenApplicationPauses()
     {
         //await new  WaitForUpdate();
         //await new WaitForBackgroundThread();
