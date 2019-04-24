@@ -60,7 +60,6 @@ namespace HLD
 
             scroll = GetComponentInChildren<ScrollRect>();
 
-
         }
         public void InitJsonList()
         {
@@ -97,6 +96,8 @@ namespace HLD
 
         public void PageActivatedHandler()
         {
+            scroll.content.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+
             if (pageActivatedBefore)
                 return;
 
@@ -218,10 +219,6 @@ namespace HLD
             scroll.GetComponent<UIB_ScrollingMenu>().Playing = false;
             scroll.GetComponent<UIB_ScrollingMenu>().Setup();
 
-            Debug.Log("0.5" + scroll.GetComponent<RectTransform>().rect);
-            Debug.Log("1" + scroll.content.GetComponent<RectTransform>().rect);
-            scroll.content.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, scroll.GetComponent<RectTransform>().rect.height, 0);
-            Debug.Log("2" + scroll.content.GetComponent<RectTransform>().rect);
 
             pageActivatedBefore = true;
 
