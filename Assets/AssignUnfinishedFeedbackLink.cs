@@ -11,7 +11,7 @@ public class AssignUnfinishedFeedbackLink : MonoBehaviour
     {
         var b = GetComponent<UIB_Button>();
         b.Button_Opens = UIB_Button.UIB_Button_Activates.InAppUrl;
-        b.Title = "D.I.S.P.L.A.Y.E.D Feedback";
+        b.Title = "\"Unfinished\" Feedback";
         b.s_link = "https://forms.gle/AGpPbe3AVzUhSgsq9";
     }
 
