@@ -41,7 +41,7 @@ public class InitializationManager : MonoBehaviour
 
     private void Update()
     {
-        if (UIB_FileManager.HasUpdatedAFile && DownloadCount<=0)
+        if (UIB_FileManager.HasUpdatedAFile && DownloadCount <= 0)
         {
             PlayerPrefs.SetString("LastUpdated", DateTime.UtcNow.ToString());
             UIB_FileManager.HasUpdatedAFile = false;
@@ -184,6 +184,8 @@ public class InitializationManager : MonoBehaviour
                 CheckAndUpdateLinks("Displayed-Info_Page");
             if (ab.name == "OnDisplay-Code_Button")
                 CheckAndUpdateLinks("OnDisplay-Info_Page");
+            if (ab.name == "Unfinished-Code_Button")
+                CheckAndUpdateLinks("Unfinished-Info_Page");
             ab.Init();
         }
 
@@ -400,7 +402,7 @@ public class InitializationManager : MonoBehaviour
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
 
-          
+
         }
 
 #endif
@@ -550,22 +552,70 @@ public class InitializationManager : MonoBehaviour
 
     private void CheckAndUpdateLinks(string key)
     {
-        var CodeToInfoObject = GameObject.Find(key.Replace("Info_Page", "Code_Button"));
-        var InfoToCodeObject = GameObject.Find(key.Replace("Info_Page", "Info_Button"));
-
-        // if we have entered passcode previously.
-        //If date of passcode entry doesn't check out. we don't change the name
-        if (PlayerPrefs.HasKey(key))
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("LockedPageButton"))
         {
-            var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
+            GameObject CodeToInfoObject = null;
+            if (go.name == key.Replace("Info_Page", "Code_Button"))
+            {
+                CodeToInfoObject = go;
+            }
+            GameObject InfoToCodeObject = null;
+            if (go.name == key.Replace("Info_Page", "Info_Button"))
+            {
+                InfoToCodeObject = go;
+            }
 
-            //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
+            // if we have entered passcode previously.
+            //If date of passcode entry doesn't check out. we don't change the name
+            if (PlayerPrefs.HasKey(key))
+            {
+                var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
 
-            if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
+                //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
+
+                if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
+                {
+                    try
+                    {
+                        //exceeded time limit. Reactivte code-entry page
+                        InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
+                        InfoToCodeObject.GetComponent<UIB_Button>().Init();
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.GetType() == typeof(NullReferenceException))
+                        {
+
+                        }
+                    }
+                }
+                else
+                {
+                    //We have access.
+                    //Change the code page to the info page
+
+                    //Debug.Log("THINK WE HAVE ACCESS");
+                    try
+                    {
+                        CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
+                        CodeToInfoObject.GetComponent<UIB_Button>().Init();
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.GetType() == typeof(NullReferenceException))
+                        {
+
+                        }
+                    }
+                }
+                //Swap info button for code button
+            }
+            else
             {
                 try
                 {
-                    //exceeded time limit. Reactivte code-entry page
+                    //if you do not have the player pref
+                    //set info page to code page
                     InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
                     InfoToCodeObject.GetComponent<UIB_Button>().Init();
                 }
@@ -575,43 +625,6 @@ public class InitializationManager : MonoBehaviour
                     {
 
                     }
-                }
-            }
-            else
-            {
-                //We have access.
-                //Change the code page to the info page
-
-                //Debug.Log("THINK WE HAVE ACCESS");
-                try
-                {
-                    CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
-                    CodeToInfoObject.GetComponent<UIB_Button>().Init();
-                }
-                catch (Exception e)
-                {
-                    if (e.GetType() == typeof(NullReferenceException))
-                    {
-
-                    }
-                }
-            }
-            //Swap info button for code button
-        }
-        else
-        {
-            try
-            {
-                //if you do not have the player pref
-                //set info page to code page
-                InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
-                InfoToCodeObject.GetComponent<UIB_Button>().Init();
-            }
-            catch (Exception e)
-            {
-                if (e.GetType() == typeof(NullReferenceException))
-                {
-
                 }
             }
         }

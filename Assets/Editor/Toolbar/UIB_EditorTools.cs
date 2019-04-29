@@ -84,15 +84,16 @@ public class UIB_EditorTools : ScriptableWizard
     {
         CleanHelper(Application.streamingAssetsPath);
         CopyHelper(Application.streamingAssetsPath);
-        CleanHelper(Application.persistentDataPath+"/android");
+        CleanHelper(Application.persistentDataPath+ "/android");
         CleanHelper(Application.persistentDataPath + "/ios");
 
-       var path = Application.persistentDataPath + "/heidi-latsky-dance";
+       var path = Application.persistentDataPath + "/heidi-latsky-dance/";
         Debug.Log(path);
         EditorUtility.RevealInFinder(path);
 
         Debug.Log("Clean Successful");
     }
+
     static void CleanHelper(string dir)
     {
         foreach (string d in Directory.GetDirectories(dir))
