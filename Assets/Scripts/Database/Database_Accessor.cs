@@ -167,7 +167,7 @@ namespace HLD
                     //Compare the difference in time between the local directory and files in the cloud
                     if (timeDiff < 0)
                     {
-                        Debug.Log("online file is older");
+                        //Debug.Log("online file is older");
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                     }
@@ -175,15 +175,15 @@ namespace HLD
                     {
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
-                        Debug.LogWarning("same time - seems wierd if you get here.");
+                        //Debug.LogWarning("same time - seems wierd if you get here.");
                         GetObject(filename, S3BucketName);
                     }
                     else if (timeDiff > 0)
                     {
-                        Debug.Log("online file is newer");
+                       // Debug.Log("online file is newer");
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
-                        Debug.LogWarning("Downloading from the Cloud " + filename);
+                       // Debug.LogWarning("Downloading from the Cloud " + filename);
                         UIB_FileManager.HasUpdatedAFile = true;
                         GetObject(filename, S3BucketName);
                     }
