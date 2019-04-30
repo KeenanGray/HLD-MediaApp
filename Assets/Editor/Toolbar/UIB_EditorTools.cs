@@ -114,6 +114,7 @@ public class UIB_EditorTools : ScriptableWizard
         foreach (string d in Directory.GetDirectories(dir))
         {
             var directory = "";
+            Debug.Log(d);
             CopyHelper(d);
 
             foreach (string file in Directory.GetFiles(d))
@@ -125,7 +126,7 @@ public class UIB_EditorTools : ScriptableWizard
                     cont++;
                     if (cont >= file.Split('/').Length)
                     {
-                        name = file.Replace(Application.streamingAssetsPath, "");
+                        name = file.Replace(Application.streamingAssetsPath, "/");
                         break;
                     }
                     else
