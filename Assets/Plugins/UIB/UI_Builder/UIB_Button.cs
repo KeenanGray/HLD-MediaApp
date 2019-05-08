@@ -114,7 +114,15 @@ namespace UI_Builder
             {
                 case UIB_Button_Activates.Page:
                     //if the new page is a template, we want to keep the current page on screen (this way the object pool won't be cleaned up)
-                    shouldDeActivatePage = !newScreen.GetComponent<UIB_Page>().isTemplate;
+                    shouldDeActivatePage = true;
+                    try
+                    {
+                        shouldDeActivatePage = !newScreen.GetComponent<UIB_Page>().isTemplate;
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.LogError("Problem " + e);
+                    }
                     UIB_PageManager.CurrentPage = newScreen;
                     newScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
                     resetUAP = true;

@@ -41,7 +41,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
     {
         SetupAudioPlayer();
         AudioPlayerScreen.transform.SetParent(transform);
-        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-2);
+        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-3);
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
 
         try
