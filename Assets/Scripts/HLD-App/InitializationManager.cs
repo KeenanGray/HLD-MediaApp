@@ -232,13 +232,14 @@ public class InitializationManager : MonoBehaviour
         var firstScreen = GameObject.Find("Landing_Page");
         yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
 
+
         if (UAP_AccessibilityManager.IsEnabled())
         {
             //unpause accessibility manger to read first button
             UAP_AccessibilityManager.PauseAccessibility(false);
             if (UAP_AccessibilityManager.IsActive())
             {
-                AccessibilityInstructions.SetActive(true);
+               // AccessibilityInstructions.SetActive(true);
             }
             else
             {
@@ -249,6 +250,7 @@ public class InitializationManager : MonoBehaviour
             var first = GameObject.Find("DISPLAYED-Code_Button");
             UAP_AccessibilityManager.SelectElement(first, true); ;
         }
+
 
         //remove the cover
         MainContainer.DisableCover();
