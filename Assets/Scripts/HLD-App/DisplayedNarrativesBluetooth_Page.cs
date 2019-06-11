@@ -12,29 +12,7 @@ using UnityEngine.UI;
 public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 {
     public List<string> DancerMajorsList;
-    //these values need to be incremented by 1 in the bluetooth setting
-    /*
-      enum DancerMajors
-      {
-          Chris_Braz,
-          Desmond_Cadogan,
-          Victoria_Dombroski,
-          Meredith_Fages,
-          Tiffany_Geigel,
-          Nico_Gonzales,
-          Jerron_Herman,
-          Jillian_Hollis,
-          Donald_Lee,
-          Louisa_Mann,
-          Amy_Meisner,
-          Kelly_Ramis,
-          Jaclyn_Rea,
-          Carmen_Schoenster,
-          Tianshi_Suo,
-          Leslie_Taub,
-          Peter_Trojic
-      }
-      */
+
     GameObject GoToListBtn;
     iBeaconReceiver beaconr;
     private List<Beacon> mybeacons;
@@ -55,12 +33,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         iBeaconReceiver.BeaconRangeChangedEvent += OnBeaconRangeChanged;
         dancersDetected = new Dictionary<int, int>();
 
-        ShowName = gameObject.name.Split('-')[0] + "-";
-
-        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
-        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/photos");
-        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/captions");
-        //   UIB_AssetBundleHelper.InsertAssetBundle("hld/"+ ShowName.ToLower()+"/narratives/audio");
+        ShowName = gameObject.name.Split('-')[0];
 
         PageName = name.Split('-')[0] + "-NarrativesBT_Page";
         ListName = name.Split('-')[0] + "-NarrativesList_Page";
@@ -107,6 +80,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         foreach (UIB_Button button in GetComponentsInChildren<UIB_Button>())
         {
+            /*
             if (button.name == "DISPLAYED-Info_Button")
             {
                 button.GetComponent<Button>().onClick.AddListener(delegate
@@ -114,6 +88,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                     GameObject.Find(ListName).GetComponent<Canvas>().enabled = false;
                 });
             }
+            */
         }
 
         AudioPlayers = new Dictionary<string, GameObject>();
@@ -155,21 +130,12 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         void WhenApplicationPauses()
     {
-        //await new  WaitForUpdate();
-        //await new WaitForBackgroundThread();
-        //for (int i = 0; i < 100; i++)
-        //{
-        //    Debug.Log("Scanning In Background");
-        //    await Task.Delay(TimeSpan.FromSeconds(1.0f));
-        //}
-        //await new WaitForSeconds(1.0f);
+
     }
 
     void WhenApplicationUnpauses()
     {
-        //await new WaitForUpdate();
-        //await new WaitForUpdate();
-        //Debug.Log("Finished In Background");
+
     }
 
     public void PageActivatedHandler()
@@ -183,8 +149,24 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
         if (tmp != null)
         {
+            var dancers = tmp.LoadAsset<TextAsset>(ShowName+"ListOfDancers") as TextAsset;
+
+            if (dancers.ToString().Split(',').Length != DancerMajorsList.Count)
+                foreach (String s in dancers.ToString().Split(','))
+                {
+                    var corrected = s.Replace("\n", "");
+                    corrected = corrected.Replace("\r", "");
+                    corrected = corrected.Replace(" ", "");
+                    DancerMajorsList.Add(corrected);
+                }
+            else
+            {
+
+            }
+            /*
             if (ShowName == "Displayed-")
             {
+
                 var dancers = tmp.LoadAsset<TextAsset>("ListOfDancers") as TextAsset;
 
                 if (dancers.ToString().Split(',').Length != DancerMajorsList.Count)
@@ -199,6 +181,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 {
 
                 }
+
             }
             else if (ShowName == "OnDisplay-")
             {
@@ -217,7 +200,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
 
                 }
             }
-            //src.time = 0;
+            */
         }
 
         GetComponent<Canvas>().enabled = true;
@@ -322,22 +305,22 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
         delegateAddedToList = false;
-        ShowName = gameObject.name.Split('-')[0] + "-";
+        ShowName = gameObject.name.Split('-')[0];
 
         DancerMajorsList = new List<string>();
-        GoToListBtn = GameObject.Find(ShowName + "ListOfDancersButton");
+        GoToListBtn = GameObject.Find(ShowName + "-ListOfDancersButton");
         GoToListBtn.GetComponent<Button>().onClick.AddListener(GoToList);
 
-        ToggleButton = GameObject.Find(ShowName + "ToggleMultipleButton");
+        ToggleButton = GameObject.Find(ShowName + "-ToggleMultipleButton");
         ToggleButton.GetComponent<Button>().onClick.AddListener(ToggleMultiple);
 
-        OnOff = GameObject.Find(ShowName + "ToggleMultipleOnOff");
+        OnOff = GameObject.Find(ShowName + "-ToggleMultipleOnOff");
 
         OnOff.transform.Find("ToggleOff").gameObject.SetActive(false);
         OnOff.transform.Find("ToggleOn").gameObject.SetActive(true);
 
         ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
-        var uap_T = GameObject.Find(ShowName + "ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        var uap_T = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
         uap_T.m_Text = ToggleStartingText + " On ";
 
         PlayMultiple = true;
@@ -352,8 +335,8 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         OnOff.transform.Find("ToggleOn").gameObject.SetActive(PlayMultiple);
         OnOff.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
 
-        var t = GameObject.Find(ShowName + "ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
-        var uap_T = GameObject.Find(ShowName + "ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        var t = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
+        var uap_T = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
 
         if (PlayMultiple)
         {
@@ -438,7 +421,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                     {
                         //We haven't made a gameobject for that dancer, make it and add it to the list
                         InstantiateBlueToothObject(DancerFromBeacon);
-
                     }
                 }
 
@@ -457,7 +439,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                             //Have to remove the obejct from this list
                             if (e.GetType() == typeof(MissingReferenceException))
                             {
-                                Debug.Log("got it");
                                 AudioPlayers.Remove(DancerFromBeacon);
                             }
 
@@ -781,13 +762,11 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         AudioPlayers.Add(dancerFromBeacon, tmp);
 
         var blas = tmp.GetComponent<BluetoothAudioSource>();
-
-        var tmpShow = ShowName.Replace("-", "");
-
+        
         blas.Init();
-        blas.SetAudio(dancerFromBeacon, "hld/" + tmpShow.ToLower() + "/narratives/audio");
-        blas.SetPhoto(dancerFromBeacon, "hld/" + tmpShow.ToLower() + "/narratives/photos");
-        blas.SetAudioCaptions(dancerFromBeacon, "hld/" + tmpShow.ToLower() + "/narratives/captions");
+        blas.SetAudio(dancerFromBeacon, "hld/" + ShowName.ToLower() + "/narratives/audio");
+        blas.SetPhoto(dancerFromBeacon, "hld/" + ShowName.ToLower() + "/narratives/photos");
+        blas.SetAudioCaptions(dancerFromBeacon, "hld/" + ShowName.ToLower() + "/narratives/captions");
         StartCoroutine(blas.PlayCaptionsWithAudio());
         blas.AudioStart();
         tmp.SetActive(false);

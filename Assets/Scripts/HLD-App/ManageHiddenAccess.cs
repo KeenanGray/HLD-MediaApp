@@ -116,7 +116,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         else
         {
 #if UNITY_EDITOR
-            Debug.LogError("Mobile keyboard not supported");
+            //Debug.LogError("Mobile keyboard not supported");
 #endif
         }
 
@@ -177,29 +177,23 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
             if (GetComponent<InputField>().touchScreenKeyboard.status != TouchScreenKeyboard.Status.Done)
             {
-                Debug.Log("NOT DONE");
                 return;
             }
-    }
+        }
         var ShowName = name.Split('_')[0];
 
         var res = "";
 
-        if (ShowName == "Displayed")
-            res = UIB_FileManager.ReadTextAssetBundle("AccessCode", "hld/general");
-        else
-            res = UIB_FileManager.ReadTextAssetBundle(ShowName + "AccessCode", "hld/general");
+        res = UIB_FileManager.ReadTextAssetBundle(ShowName + "AccessCode", "hld/general");
 
         if (res != "")
         {
             if (arg0.ToLower() == res.ToString().ToLower())
             {
-                //Debug.Log("Answered " + arg0.ToLower() + " " + res.ToString().ToLower());
                 StartCoroutine("OnCorrectCode1");
             }
             else
             {
-                //  Debug.Log("try enterring passcode " + res.ToString());
                 if (UAP_AccessibilityManager.IsActive())
                 {
                     UAP_AccessibilityManager.Say(" \n\r");
@@ -250,7 +244,6 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         yield return new WaitForEndOfFrame();
         GetComponent<InputField>().text = "";
         CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
-//        Debug.Log("Code button name " + CodeButtonName);
         CodeButton = GameObject.Find(CodeButtonName);
 
         if (CodeButton != null)
@@ -279,7 +272,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
         var ShowName = name.Split('_')[0];
 
-        var button = GameObject.Find(ShowName+ "-Info_Button").GetComponent<UnityEngine.UI.Button>();
+        var button = GameObject.Find(ShowName + "-Info_Button").GetComponent<UnityEngine.UI.Button>();
 
         var ab = button.GetComponent<UIB_Button>();
         ab.Init();
@@ -307,9 +300,11 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
     }
 
-#if UNITY_ANDROID
     public int GetKeyboardSize()
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+
         using (AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
         {
             AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
@@ -321,6 +316,9 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
                 return Screen.height - Rct.Call<int>("height");
             }
         }
-    }
+    
 #endif
+
+        return 873;
+    }
 }

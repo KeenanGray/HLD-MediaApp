@@ -74,15 +74,6 @@ namespace HLD
                 myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
                 OrderedByName = myObject.data.OrderBy(x => x.Name.Split(' ')[1]);
             }
-            else if (ShowName == "Displayed")
-            {
-                SourceJson = UIB_FileManager.ReadTextAssetBundle("ListOfDancers", "hld/general");
-                if (SourceJson == null || SourceJson == "")
-                {
-                    return;
-                }
-                listOfDancers = SourceJson.Replace("\n", "").Split(',');
-            }
             else
             {
                 SourceJson = UIB_FileManager.ReadTextAssetBundle(ShowName + "ListOfDancers", "hld/general");

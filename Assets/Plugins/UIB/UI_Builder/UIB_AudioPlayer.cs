@@ -283,7 +283,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         //set up video captions
         TextMeshProUGUI tmp = CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>();
         if (tmp == null)
-            Debug.LogWarning("couldnt find text");
+            Debug.LogWarning("couldn't find text");
 
         while (true)
         {

@@ -324,7 +324,8 @@ namespace UI_Builder
                     {
 
                     }
-                    Debug.Log("no captions - file: " + fileName + " bundle: " + bundleString);
+                    //print(e);
+                    Debug.Log("no file:" + fileName + " in bundle:" + bundleString);
                     return "";
                 }
             }
