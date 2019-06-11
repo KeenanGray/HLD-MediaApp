@@ -330,7 +330,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
 
     ///<summary>PlayMethod A lot has to happen when we play the audio : Use this instead of "AudioSource.Play"  
-    /// for best resultsthe parameter lets you set a flag:
+    /// for best results 
+    /// the parameter lets you set a flag:
     /// 0 - > default behavior toggle
     /// 1 - > force audio to startup play  
     /// 2 - > force audio to stop playing and cleanup</summary>  
@@ -338,7 +339,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     {
         if (source == null)
         {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             Debug.LogWarning("Warning: No Audio Source to Play");
 #endif
             return;

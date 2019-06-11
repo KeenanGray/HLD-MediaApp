@@ -1,19 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UI_Builder;
-
-namespace HLD
-{
-    [RequireComponent(typeof(UIB_Button))]
-    public class AssignYoutubeLink : MonoBehaviour
-    {
-        // Start is called before the first frame update
-        void Start()
-        {
-            var b = GetComponent<UIB_Button>();
-            b.Button_Opens = UIB_Button.UIB_Button_Activates.Website;
-            b.s_link = "https://www.youtube.com/channel/UCMwOPYhBdraF8YMxfi3-DzA";
-        }
-    }
-}
+fileFormatVersion: 2
+guid: 08d5aff858d554d37a4d938364568572
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
