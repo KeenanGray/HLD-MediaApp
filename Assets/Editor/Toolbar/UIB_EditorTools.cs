@@ -88,7 +88,6 @@ public class UIB_EditorTools : ScriptableWizard
         CleanHelper(Application.persistentDataPath + "/ios");
 
        var path = Application.persistentDataPath + "/heidi-latsky-dance/";
-        Debug.Log("p:"+path);
         EditorUtility.RevealInFinder(path);
 
         Debug.Log("Clean Successful");
@@ -114,7 +113,6 @@ public class UIB_EditorTools : ScriptableWizard
         foreach (string d in Directory.GetDirectories(dir))
         {
             var directory = "";
-            Debug.Log(d);
             CopyHelper(d);
 
             foreach (string file in Directory.GetFiles(d))
@@ -135,7 +133,6 @@ public class UIB_EditorTools : ScriptableWizard
                 }
                 directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
 
-                Debug.Log(directory);
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
 
