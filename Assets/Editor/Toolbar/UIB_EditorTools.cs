@@ -83,7 +83,9 @@ public class UIB_EditorTools : ScriptableWizard
     public static void CleanFolderForS3()
     {
         CleanHelper(Application.streamingAssetsPath);
+
         CopyHelper(Application.streamingAssetsPath);
+
         CleanHelper(Application.persistentDataPath+ "/android");
         CleanHelper(Application.persistentDataPath + "/ios");
 
@@ -108,17 +110,23 @@ public class UIB_EditorTools : ScriptableWizard
             }
         }
     }
+
     static void CopyHelper(string dir)
     {
+        //for each directory in streaming assets path
         foreach (string d in Directory.GetDirectories(dir))
         {
+            //copy the file from the streaming assets directory to persistent data
             var directory = "";
             CopyHelper(d);
 
+            //start by getting each of the files
             foreach (string file in Directory.GetFiles(d))
             {
                 var cont = 0;
                 var name = "";
+                //get the name of the file, by splitting it into many parts.
+                //and taking the full directory after the streaming assets path
                 foreach (string i in file.Split('/'))
                 {
                     cont++;
@@ -131,6 +139,10 @@ public class UIB_EditorTools : ScriptableWizard
                     {
                     }
                 }
+                //there is ane xtra '/' in the front here, remove it
+                name = name.Remove(0,1);
+                Debug.Log("Name:" + name);
+
                 directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
 
                 if (!Directory.Exists(directory))

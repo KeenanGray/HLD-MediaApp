@@ -59,10 +59,7 @@ public class BluetoothMenuAspectFitter : MonoBehaviour
         }
 
         var width = transform.parent.GetComponent<RectTransform>().rect.width / boxSizeAdjust;
-        GetComponent<BluetoothAudioSource>().img.GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
+      //  GetComponent<BluetoothAudioSource>().img.GetComponent<RectTransform>().sizeDelta = new Vector2(width, width);
 
-        //        Debug.Log(UIB_AspectRatioManager_Editor.ScreenWidth + ":" + width);
-     //   GetComponent<BluetoothAudioSource>().text.GetComponent<RectTransform>().sizeDelta = new Vector2 (UIB_AspectRatioManager.ScreenWidth, width);
-     //   GetComponent<BluetoothAudioSource>().text.GetComponent<TextMeshProUGUI>().fontSize = 50 * textScaleAdjust;
     }
 }

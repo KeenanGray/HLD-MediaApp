@@ -9,8 +9,9 @@ using UnityEngine.UI;
 public class BluetoothAudioSource : MonoBehaviour
 {
 
+    public bool Selected; //used to state whether this
     public GameObject img;
-    public GameObject text;
+    public GameObject captionsText;
     public GameObject nameText;
 
     private bool hasCaptions;
@@ -24,6 +25,8 @@ public class BluetoothAudioSource : MonoBehaviour
     bool captionsEnded;
 
     AudioSource src;
+
+    public int childIndex;
 
     TextMeshProUGUI captionsCanvas;
 
@@ -39,7 +42,9 @@ public class BluetoothAudioSource : MonoBehaviour
         }
 
         AudioCaptions = new TextAsset("");
-        captionsCanvas = text.GetComponentInChildren<TextMeshProUGUI>();
+
+        captionsText = transform.Find("CaptionsText").gameObject;
+        captionsCanvas = captionsText.GetComponentInChildren<TextMeshProUGUI>();
 
         startCount = 0;
         endCount = 0;
@@ -52,38 +57,30 @@ public class BluetoothAudioSource : MonoBehaviour
 
         clipEnded = false;
         viewing = true;
+
+        childIndex = transform.GetSiblingIndex();
+
+
     }
 
     private void Update()
     {
-        if (src.clip == null)
-            return;
+        if (captionsText != null)
+        {
+            if (Selected && !captionsText.activeSelf)
+                captionsText.SetActive(true);
+            else if (!Selected && captionsText.activeSelf)
+                captionsText.SetActive(false);
+        }
+    }
 
-        if (src.time.CompareTo(src.clip.length - 0.1f) < 0)
-        {
-        }
-        else
-        {
-            Debug.Log("clip finished");
-            StartCoroutine("DestroyAtEndOfFrame");
-        }
-
-        var strMap = 0.5f;
-        if (src.volume < 1.0f)
-        {
-            strMap = Utilities.Map(src.volume, 0, 1, 0, 255);
-        }
-        else
-        {
-            strMap = 255;
-        }
-
+    public void SetOpacity(byte op)
+    {
         Color32 clr = nameText.GetComponent<TextMeshProUGUI>().color;
-        var iStrMap = (byte)strMap;
 
-        nameText.GetComponent<TextMeshProUGUI>().color = new Color32(clr.r, clr.g, clr.b, iStrMap);
-        captionsCanvas.GetComponent<TextMeshProUGUI>().color = new Color32(clr.r, clr.g, clr.b, iStrMap);
-        img.GetComponent<Image>().color = new Color32(clr.r, clr.g, clr.b, iStrMap);
+        nameText.GetComponent<TextMeshProUGUI>().color = new Color32(clr.r, clr.g, clr.b, op);
+        captionsCanvas.GetComponent<TextMeshProUGUI>().color = new Color32(clr.r, clr.g, clr.b, op);
+        img.GetComponent<Image>().color = new Color32(clr.r, clr.g, clr.b, op);
     }
 
     IEnumerator DestroyAtEndOfFrame()
@@ -111,7 +108,9 @@ public class BluetoothAudioSource : MonoBehaviour
         if (tmp != null && src != null)
         {
             src.clip = tmp.LoadAsset<AudioClip>(PathToAudio) as AudioClip;
-            nameText.GetComponentInChildren<TextMeshProUGUI>().text = PathToAudio.Split('/')[PathToAudio.Split('/').Length - 1];
+            nameText.GetComponentInChildren<TextMeshProUGUI>().text = PathToAudio.Split('/')[PathToAudio.Split('/').Length - 1].Replace('_',' ');
+            GetComponentInChildren<Special_AccessibleButton>().m_Text = nameText.GetComponentInChildren<TextMeshProUGUI>().text;
+
         }
     }
 
@@ -177,7 +176,6 @@ public class BluetoothAudioSource : MonoBehaviour
 
     public IEnumerator PlayCaptionsWithAudio()
     {
- 
         var words = GetNumberOfWords();
         int WordsPerLine = 12;
 
@@ -217,7 +215,10 @@ public class BluetoothAudioSource : MonoBehaviour
 
             string line = "";
 
-            word = (int)Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
+            if (src != null)
+                word = (int)Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
+            else
+                yield break;
 
             if (word < 0)
                 yield return null;
@@ -341,7 +342,7 @@ public class BluetoothAudioSource : MonoBehaviour
             if (!src.isPlaying)
                 src.Play();
             nameText.SetActive(true);
-            text.SetActive(true);
+            captionsText.SetActive(true);
             img.SetActive(true);
 
         }
@@ -352,7 +353,7 @@ public class BluetoothAudioSource : MonoBehaviour
                 src.Pause();
 
             nameText.SetActive(false);
-            text.SetActive(false);
+            captionsText.SetActive(false);
             img.SetActive(false);
         }
     }
@@ -372,5 +373,28 @@ public class BluetoothAudioSource : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    internal void OnAudioSourceClicked()
+    {
+        Selected = !Selected;
+
+        if (Selected)
+        {
+            //play on select
+            SetOpacity(255); //make fully opaque
+            SetPlaying(true);
+        }
+        else
+        {
+            //stop on deselect
+            SetOpacity(150); //make transparent
+            Stop();
+            StopCoroutine("PlayCaptionsWithAudio");
+
+        }
+        transform.parent.SendMessage("ChildSelected");
+
+        GetComponentInParent<DisplayedNarrativesBluetooth_Page>().TurnOffNonSelected();
     }
 }

@@ -220,7 +220,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         }
         if (tmp != null && src != null)
         {
-            Debug.Log(PathToAudio + " " + tmp.name);
             src.clip = tmp.LoadAsset<AudioClip>(PathToAudio) as AudioClip;
             src.time = 0;
             Tools.Init();

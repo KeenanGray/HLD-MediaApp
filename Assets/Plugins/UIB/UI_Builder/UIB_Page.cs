@@ -234,14 +234,11 @@ namespace UI_Builder
                 {
                     // throw new Exception("NoPageException: There are no pages on the screen. This is a major problem");
                 }
-                Debug.Log(gameObject.name + " has been swiped upon");
                 //get all the buttons on the page, if it is backbutton invoke it.
                 foreach (UIB_Button ub in PagesOnScreen[0].GetComponentsInChildren<UIB_Button>())
                 {
-                    Debug.Log("ub name " + ub.name);
                     if (ub.isBackButton)
                     {
-                        Debug.Log("Invoking" + ub.gameObject.name + " on gameobject " + ub.transform.parent.parent.name);
                         ub.GetComponent<Button>().onClick.Invoke();
 
                         return;
