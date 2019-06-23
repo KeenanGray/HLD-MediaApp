@@ -32,7 +32,7 @@ public class UIB_EditorTools : ScriptableWizard
         PlayerSettings.Android.keyaliasName = "hld";
         PlayerSettings.Android.keyaliasPass = "michigan45";
 
-        androidPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity"};
+        androidPlayerOptions.scenes = new[] { "Assets/Scenes/AppScene.unity" };
         androidPlayerOptions.locationPathName = "Builds/AndroidBuild.apk";
         androidPlayerOptions.target = BuildTarget.Android;
         androidPlayerOptions.options = BuildOptions.None;
@@ -86,10 +86,10 @@ public class UIB_EditorTools : ScriptableWizard
 
         CopyHelper(Application.streamingAssetsPath);
 
-        CleanHelper(Application.persistentDataPath+ "/android");
+        CleanHelper(Application.persistentDataPath + "/android");
         CleanHelper(Application.persistentDataPath + "/ios");
 
-       var path = Application.persistentDataPath + "/heidi-latsky-dance/";
+        var path = Application.persistentDataPath + "/heidi-latsky-dance/";
         EditorUtility.RevealInFinder(path);
 
         Debug.Log("Clean Successful");
@@ -139,18 +139,23 @@ public class UIB_EditorTools : ScriptableWizard
                     {
                     }
                 }
+
                 //there is ane xtra '/' in the front here, remove it
-                name = name.Remove(0,1);
-                Debug.Log("Name:" + name);
+                name = name.Remove(0, 1);
 
                 directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
+
+
 
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
 
 
                 var src = Application.streamingAssetsPath + UIB_PlatformManager.platform + name;
-                var dest =  Application.persistentDataPath + name;
+                var dest = Application.persistentDataPath + name;
+
+                Debug.Log("src:" + src);
+                Debug.Log("dest:" + dest);
 
                 if (!File.Exists(dest))
                     File.Copy(src, dest);

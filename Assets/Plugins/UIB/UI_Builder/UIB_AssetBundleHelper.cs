@@ -19,8 +19,6 @@ namespace UI_Builder
 
             if (bundlesLoading.ContainsKey(s))
             {
-                //The key is already in the dictionary
-                //                Debug.Log("key is already in the dictionary");
             }
             else
             {
@@ -55,7 +53,6 @@ namespace UI_Builder
 #if UNITY_ANDROID && !UNITY_EDITOR
                     newPath = UIB_PlatformManager.persistentDataPath +"android/assets/"+ UIB_PlatformManager.platform + s; 
 #endif
-
                     if (s == null)
                     {
                         continue;
@@ -99,7 +96,7 @@ namespace UI_Builder
             {
                 if (UIB_AssetBundleHelper.bundlesLoading[path])
                 {
-//                    Debug.Log("already got that one " + path);
+                    Debug.Log("already got that one " + path);
                     yield break;
                 }
             }
@@ -107,7 +104,7 @@ namespace UI_Builder
             AssetBundleCreateRequest bundleLoadRequest = null;
             if (!File.Exists(path))
             {
-//                Debug.Log("file does not exist:" + path);
+                //                Debug.Log("file does not exist:" + path);
                 yield break;
             }
 
@@ -129,8 +126,38 @@ namespace UI_Builder
                 yield break;
             }
             UIB_AssetBundleHelper.bundlesLoading[path] = true;
-
             yield break;
+        }
+
+        public void RefreshBundle(string s)
+        {
+            //Take all the loaded asset bundles and mark them as "true"
+            //     foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+            //     {
+            //         bundlesLoading[b.name] = true;
+            //     }
+
+
+            var tmp = "";
+            var newPath = "";
+            //unload the asset bundle
+            foreach (AssetBundle ab in AssetBundle.GetAllLoadedAssetBundles())
+            {
+                if (s.Contains(ab.name))
+                {
+                    tmp = ab.name; //get the name of the asset bundle we are replacing
+                    newPath = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + tmp;
+                    bundlesLoading[newPath] = false;
+
+                    ab.Unload(true);
+                }
+            }
+
+            //load the refreshed version of the bundle
+            if (newPath != "")
+            {
+                StartCoroutine(tryLoadAssetBundle(newPath));
+            }
         }
     }
 }

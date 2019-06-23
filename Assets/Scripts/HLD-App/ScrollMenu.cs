@@ -95,43 +95,47 @@ namespace HLD
 
         public void Update()
         {
+
+            var scrollTransform = scroll.content.transform;
+
+            if (scrollTransform.childCount == 0)
+                return;
+
+            var contentMiddle = scroll.transform.Find("Center").position;
+
+            Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
+
+            for (int i = 0; i < scrollTransform.childCount; i++)
+            {
+                if (scrollTransform.GetChild(i).tag != "App_SubMenuButton")
+                    continue;
+
+                if (closest == null)
+                    closest = scrollTransform.GetChild(i).gameObject;
+
+
+                if (scrollTransform.GetChild(i).gameObject != closest)
+                    scrollTransform.GetChild(i).gameObject.GetComponent<UIB_Button>().ResetButtonColors();
+
+                if (Vector3.Distance(scrollTransform.GetChild(i).position, contentMiddle) < Vector3.Distance(closest.transform.position, contentMiddle))
+                {
+                    closest = scrollTransform.GetChild(i).gameObject;
+                }
+            }
+
+            //if UAP is enabled, we use a different button to focus
             if (UAP_AccessibilityManager.IsEnabled())
             {
-                closest = UAP_AccessibilityManager.GetCurrentFocusObject();
-            }
-            else
-            {
-                var scrollTransform = scroll.content.transform;
-
-                if (scrollTransform.childCount == 0)
-                    return;
-
-                var contentMiddle = scroll.transform.Find("Center").position;
-
-                Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
-
-                for (int i = 0; i < scrollTransform.childCount; i++)
+                if (UAP_AccessibilityManager.GetCurrentFocusObject() != null)
                 {
-                    if (scrollTransform.GetChild(i).tag != "App_SubMenuButton")
-                        continue;
-
-                    if (closest == null)
-                        closest = scrollTransform.GetChild(i).gameObject;
-
-
-                    if (scrollTransform.GetChild(i).gameObject != closest)
-                        scrollTransform.GetChild(i).gameObject.GetComponent<UIB_Button>().ResetButtonColors();
-
-                    if (Vector3.Distance(scrollTransform.GetChild(i).position, contentMiddle) < Vector3.Distance(closest.transform.position, contentMiddle))
-                    {
-                        closest = scrollTransform.GetChild(i).gameObject;
-                    }
+                    if (UAP_AccessibilityManager.GetCurrentFocusObject().tag.Equals("App_SubMenuButton"))
+                        closest = UAP_AccessibilityManager.GetCurrentFocusObject();
                 }
-                CurrentlySelectedListElement = closest;
-
             }
+            
+            
+            CurrentlySelectedListElement = closest;
 
-            //            print(CurrentlySelectedListElement.name);
             CurrentlySelectedListElement.GetComponent<UIB_Button>().SetupButtonColors();
 
             //Update the background based on the scroll box
@@ -139,8 +143,6 @@ namespace HLD
             AssetBundle tmp = null;
             foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
             {
-                print(ShowName);
-                //            Debug.Log(b.name);
                 if (b.name == "hld/" + ShowName.ToLower() + "/narratives/photos")
                     tmp = b;
             }
@@ -164,7 +166,6 @@ namespace HLD
                 if (e.GetBaseException().GetType() == typeof(NullReferenceException))
                 {
                 }
-                Debug.Log("bad");
             }
 
 

@@ -268,6 +268,11 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
+    internal static void ReloadAssetBundle(string filename)
+    {
+        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().RefreshBundle(filename);
+    }
+
     private IEnumerator ManageAssetBundleFiles()
     {
         while (!hasCheckedFiles)
@@ -393,7 +398,7 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
-                //
+                
             }
         }
         else

@@ -108,6 +108,8 @@ namespace HLD
                     UIB_FileManager.WriteFileFromResponse(response, filename);
                     Directory.SetLastAccessTime(UIB_PlatformManager.persistentDataPath, DateTime.Now);
                     InitializationManager.DownloadCount--;
+                    InitializationManager.ReloadAssetBundle(filename);
+
                 }
             });
         }

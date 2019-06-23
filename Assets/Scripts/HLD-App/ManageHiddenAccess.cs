@@ -194,6 +194,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             }
             else
             {
+                Debug.Log("Correct Code is:" + res);
                 if (UAP_AccessibilityManager.IsActive())
                 {
                     UAP_AccessibilityManager.Say(" \n\r");

@@ -19,6 +19,8 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     GameObject CaptionsToggle;
     public string fileType;
 
+    bool CaptionsShowing = true;
+
     public void Init()
     {
         AudioCaptions = new TextAsset("");
@@ -73,7 +75,9 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
                 b.onClick.AddListener(delegate
                 {
-                    CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled = (!CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled);
+                    CaptionsShowing = !CaptionsShowing;
+
+                    CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled = CaptionsShowing;
 
                     if (CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled)
                     {
@@ -85,7 +89,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
                     }
                 });
 
-                b.onClick.Invoke();
+              //  b.onClick.Invoke();
             }
         }
 
