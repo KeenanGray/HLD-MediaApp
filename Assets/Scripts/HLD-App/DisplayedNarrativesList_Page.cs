@@ -57,7 +57,6 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
             }
         }
         ObjPoolManager.EndRetrieval();
-
     }
 
     private void Start()
@@ -75,7 +74,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
 
     private void onPageDeActivated()
     {
-//        Debug.Log("deactivated list");
+        //        Debug.Log("deactivated list");
         base.PageDeActivatedHandler();
     }
 
@@ -93,5 +92,12 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
         */
         scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scrollrect.GetComponent<RectTransform>().rect.height);
         yield break;
+    }
+
+    public override GameObject GetCurrentlySelectedListElement()
+    {
+
+
+        return CurrentlySelectedListElement;
     }
 }

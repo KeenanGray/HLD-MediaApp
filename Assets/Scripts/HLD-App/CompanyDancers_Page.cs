@@ -11,7 +11,6 @@ using System;
 
 public class CompanyDancers_Page : HLD.ScrollMenu
 {
-
     //  ScrollRect scroll;
     GameObject Bio_Page_Root;
 
@@ -22,7 +21,7 @@ public class CompanyDancers_Page : HLD.ScrollMenu
     public void Init()
     {
         GetComponent<UIB_Page>().AssetBundleRequired = true;
-       // UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
+        // UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
 
         GetComponent<UIB_Page>().OnActivated += onPageActivated;
     }
@@ -44,6 +43,69 @@ public class CompanyDancers_Page : HLD.ScrollMenu
         scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scrollrect.GetComponent<RectTransform>().rect.height);
         yield break;
     }
+
+    private void Update()
+    {
+        base.Update();
+
+        Sprite ImageToUse = null;
+        AssetBundle tmp = null;
+        foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+        {
+            //            Debug.Log(b.name);
+            if (b.name == "hld/bios/photos")
+                tmp = b;
+        }
+
+        var outStr = "";
+        if (GetCurrentlySelectedListElement() != null)
+        {
+            outStr = UIB_Utilities.SplitOnFinalUnderscore(GetCurrentlySelectedListElement().name);
+            outStr = UIB_Utilities.SplitCamelCase(outStr);
+            outStr = outStr.Replace(" ", "_");
+        }
+
+        try
+        {
+            ImageToUse = tmp.LoadAsset<Sprite>(outStr);
+        }
+        catch (Exception e)
+        {
+            if (e.GetBaseException().GetType() == typeof(NullReferenceException))
+            {
+            }
+        }
+
+		var BgPhoto = transform.Find("UIB_Background").Find("Background_Mask").Find("Background_Image")
+			.GetComponent<Image>();
+
+        BgPhoto.sprite = ImageToUse;
+
+		if (BgPhoto != null)
+		{
+			BgPhoto.sprite = ImageToUse;
+
+			//set recttransform aspect based on image and aspect ratio of screen
+			var ar = UIB_AspectRatioManager.ScreenWidth / UIB_AspectRatioManager.ScreenHeight;
+			var imgAR = 9f / 16f;
+
+			if (!ar.Equals(imgAR))
+			{
+				try
+				{
+					if (ImageToUse != null)
+						BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+				}
+				catch (Exception e)
+				{
+					if (e.GetBaseException().GetType() == typeof(NullReferenceException))
+					{
+					}
+
+				}
+			}
+		}
+	}
 
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
@@ -81,8 +143,10 @@ public class CompanyDancers_Page : HLD.ScrollMenu
 
         ObjPoolManager.EndRetrieval();
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
+    }
 
-
-
+    public override GameObject GetCurrentlySelectedListElement()
+    {
+        return CurrentlySelectedListElement;
     }
 }

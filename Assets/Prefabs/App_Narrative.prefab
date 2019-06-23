@@ -278,7 +278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1978813616213988, guid: 10dd5e185675b4002a5c0c37ea155677, type: 3}
       propertyPath: m_Name
-      value: DisplayedNarrativesBT_Button
+      value: Displayed-NarrativesList_Button
       objectReference: {fileID: 0}
     - target: {fileID: 114596951664579286, guid: 10dd5e185675b4002a5c0c37ea155677,
         type: 3}

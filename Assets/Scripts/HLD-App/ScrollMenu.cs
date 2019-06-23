@@ -13,6 +13,7 @@ namespace HLD
     public interface IScrollMenu
     {
         void MakeLinkedPages();
+        GameObject GetCurrentlySelectedListElement();
     }
 
     [RequireComponent(typeof(ScrollRect))]
@@ -20,6 +21,12 @@ namespace HLD
     {
         protected ScrollRect scroll;
         protected string SourceJson;
+
+        protected GameObject CurrentlySelectedListElement = null;
+
+        GameObject center;
+
+        string ShowName;
 
         //The name of the root gameobject that all newly linked pages will be parented to. 
         public string Page_Parent_Name = "Pages";
@@ -34,6 +41,8 @@ namespace HLD
         protected IOrderedEnumerable<Biography> OrderedByName;
         protected string[] listOfDancers;
         private bool pageActivatedBefore;
+
+        GameObject closest; //the gameobject closest to the middle of the scrollrect on screen
 
         private void Start()
         {
@@ -50,8 +59,6 @@ namespace HLD
             {
                 //Debug.Log("do we have to do something here");
             }
-            
-          
 
             Page_Parent = null;
 
@@ -63,7 +70,7 @@ namespace HLD
         }
         public void InitJsonList()
         {
-            var ShowName = name.Split('-')[0];
+            ShowName = name.Split('-')[0];
             if (ShowName == "CompanyDancers_Page")
             {
                 SourceJson = UIB_FileManager.ReadTextAssetBundle("bios", "hld/bios/json");
@@ -82,6 +89,114 @@ namespace HLD
                     return;
                 }
                 listOfDancers = SourceJson.Replace("\n", "").Split(',');
+            }
+        }
+
+
+        public void Update()
+        {
+            if (UAP_AccessibilityManager.IsEnabled())
+            {
+                closest = UAP_AccessibilityManager.GetCurrentFocusObject();
+            }
+            else
+            {
+                var scrollTransform = scroll.content.transform;
+
+                if (scrollTransform.childCount == 0)
+                    return;
+
+                var contentMiddle = scroll.transform.Find("Center").position;
+
+                Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
+
+                for (int i = 0; i < scrollTransform.childCount; i++)
+                {
+                    if (scrollTransform.GetChild(i).tag != "App_SubMenuButton")
+                        continue;
+
+                    if (closest == null)
+                        closest = scrollTransform.GetChild(i).gameObject;
+
+
+                    if (scrollTransform.GetChild(i).gameObject != closest)
+                        scrollTransform.GetChild(i).gameObject.GetComponent<UIB_Button>().ResetButtonColors();
+
+                    if (Vector3.Distance(scrollTransform.GetChild(i).position, contentMiddle) < Vector3.Distance(closest.transform.position, contentMiddle))
+                    {
+                        closest = scrollTransform.GetChild(i).gameObject;
+                    }
+                }
+                CurrentlySelectedListElement = closest;
+
+            }
+
+            //            print(CurrentlySelectedListElement.name);
+            CurrentlySelectedListElement.GetComponent<UIB_Button>().SetupButtonColors();
+
+            //Update the background based on the scroll box
+            Sprite ImageToUse = null;
+            AssetBundle tmp = null;
+            foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
+            {
+                print(ShowName);
+                //            Debug.Log(b.name);
+                if (b.name == "hld/" + ShowName.ToLower() + "/narratives/photos")
+                    tmp = b;
+            }
+
+            var outStr = "";
+            if (GetCurrentlySelectedListElement() != null)
+            {
+                outStr = UIB_Utilities.SplitOnFinalUnderscore(GetCurrentlySelectedListElement().name);
+                outStr = UIB_Utilities.SplitCamelCase(outStr);
+                outStr = outStr.Replace(" ", "_");
+                outStr = UIB_Utilities.CleanUpHyphenated(outStr);
+                outStr = UIB_Utilities.RemoveAllButLastUnderscore(outStr);
+            }
+
+            try
+            {
+                ImageToUse = tmp.LoadAsset<Sprite>(outStr);
+            }
+            catch (Exception e)
+            {
+                if (e.GetBaseException().GetType() == typeof(NullReferenceException))
+                {
+                }
+                Debug.Log("bad");
+            }
+
+
+
+            var BgPhoto = transform.Find("UIB_Background").Find("Background_Mask").Find("Background_Image")
+                .GetComponent<Image>();
+
+            BgPhoto.sprite = ImageToUse;
+
+            if (BgPhoto != null)
+            {
+                BgPhoto.sprite = ImageToUse;
+
+                //set recttransform aspect based on image and aspect ratio of screen
+                var ar = UIB_AspectRatioManager.ScreenWidth / UIB_AspectRatioManager.ScreenHeight;
+                var imgAR = 9f / 16f;
+
+                if (!ar.Equals(imgAR))
+                {
+                    try
+                    {
+                        if (ImageToUse != null)
+                            BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.GetBaseException().GetType() == typeof(NullReferenceException))
+                        {
+                        }
+
+                    }
+                }
             }
         }
 
@@ -108,7 +223,7 @@ namespace HLD
             int traversalOrder = 0;
             ObjPoolManager.BeginRetrieval();
 
-            var ShowName = name.Split('-')[0];
+            ShowName = name.Split('-')[0];
             if (ShowName == "CompanyDancers_Page")
             {
                 if (OrderedByName == null)
@@ -136,16 +251,10 @@ namespace HLD
                         sab.m_ManualPositionOrder = traversalOrder;
                         traversalOrder++;
 
-                        UIB_btn.SetButtonText(b.Name);
+                        UIB_btn.SetButtonText(UIB_Utilities.SplitCamelCase(b.Name));
                         UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
-                        //                    Debug.Log("DancerPhotos/"+ b.Name.Replace(" ", "_"));
 
-                        foreach (Image image in transform.GetComponentsInParent<Image>())
-                        {
-                            //                        Debug.Log("name " + image.gameObject.name);
-                            //     UIB_Button.backgroundImage = GameObject.Find("J");
 
-                        }
                         //custom backgrounds
                         UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_")) as Sprite;
 
@@ -182,7 +291,7 @@ namespace HLD
                         sab.m_ManualPositionOrder = traversalOrder;
                         traversalOrder++;
 
-                        UIB_btn.SetButtonText(s.Replace("_", " "));
+                        UIB_btn.SetButtonText(UIB_Utilities.SplitCamelCase(s.Replace("_", " ")));
                         UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
 
                         foreach (Image image in transform.GetComponentsInParent<Image>())
@@ -210,6 +319,16 @@ namespace HLD
             scroll.GetComponent<UIB_ScrollingMenu>().Playing = false;
             scroll.GetComponent<UIB_ScrollingMenu>().Setup();
 
+            //create the top and bottom buffer for the scrollrect so that center selection can be highlighted
+            var tmp = Resources.Load("UI_Buffer") as GameObject;
+            var topBuffer = Instantiate(tmp, scroll.content.transform) as GameObject;
+            var botBuffer = Instantiate(tmp, scroll.content.transform) as GameObject;
+
+            topBuffer.GetComponent<RectTransform>().sizeDelta = new Vector2(scroll.viewport.rect.width, scroll.viewport.rect.height / 2);
+            botBuffer.GetComponent<RectTransform>().sizeDelta = new Vector2(0, scroll.viewport.rect.height / 2);
+
+            topBuffer.transform.SetAsFirstSibling();
+            botBuffer.transform.SetAsLastSibling();
 
             pageActivatedBefore = true;
 
@@ -219,9 +338,29 @@ namespace HLD
         {
             ObjPoolManager.RefreshPool();
             pageActivatedBefore = false;
+
+            //delete the buffer game objects
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                try
+                {
+                    if (scroll.content.GetChild(i).name.Contains("UI_Buffer"))
+                        Destroy(scroll.content.GetChild(i).gameObject);
+                }
+                catch (Exception e)
+                {
+                    if (e.GetType() == typeof(NullReferenceException))
+                    {
+
+                    }
+                }
+            }
         }
 
         public abstract void MakeLinkedPages();
+
+        public abstract GameObject GetCurrentlySelectedListElement();
+
     }
 
 }

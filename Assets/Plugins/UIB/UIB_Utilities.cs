@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace UI_Builder
 {
-    public static class Utilities
+    public static class UIB_Utilities
     {
         public static float Map(float from, float fromMin, float fromMax, float toMin, float toMax)
         {
@@ -29,6 +30,51 @@ namespace UI_Builder
             Debug.Log("elapsed:" + elapsed + " at pos " + pos);
         }
 
+        public static string SplitCamelCase(string s)
+        {
+            return Regex.Replace(s, "((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))", " $1").Remove(0, 1);
+        }
+
+        public static string SplitOnFinalUnderscore(string s)
+        {
+            var outStr = "";
+            for (int i = 0; i < s.Split('_').Length - 1; i++)
+                outStr += s.Split('_')[i];
+
+            return outStr;
+        }
+
+        public static string CleanUpHyphenated(string s)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i].Equals('-'))
+                    if (i < s.Length - 1)
+                        if (s[i + 1].Equals('_'))
+                        {
+                            Debug.Log("HERE:" + s.Remove(i + 1, 1));
+                            return s.Remove(i + 1, 1);
+                        }
+
+            }
+            return s;
+        }
+
+        public static string RemoveAllButLastUnderscore(string s)
+        {
+            var outStr = "";
+            if (s.Split('_').Length <= 2)
+                return s;
+
+            for (int i = 0; i < s.Split('_').Length; i++)
+            {
+                if (i == s.Split('_').Length - 1)
+                    outStr += '_' + s.Split('_')[i];
+                else
+                    outStr += s.Split('_')[i];
+            }
+            return outStr;
+        }
     }
     public static class Epoch
     {
@@ -54,6 +100,5 @@ namespace UI_Builder
 
             return Mathf.Abs(difference);
         }
-
     }
 }

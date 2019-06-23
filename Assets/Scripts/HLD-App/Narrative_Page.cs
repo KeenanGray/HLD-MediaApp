@@ -13,7 +13,6 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
     string title;
     string photoPath;
-//    string TopPageName = "";
 
     public string ShowName { get; private set; }
 
@@ -29,7 +28,13 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-        backButton = transform.GetChild(0).Find("DisplayedNarrativesBT_Button").gameObject;
+        if (ShowName == "" || ShowName == null)
+        {
+            Debug.LogWarning("initializing narrative page without show");
+            return;
+        }
+
+        backButton = transform.GetChild(0).Find(ShowName+"-NarrativesList_Button").gameObject;
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
     }
@@ -50,7 +55,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         ShowName = v;
 
         //get backbutton root
-        transform.Find("BackButtonRoot").GetChild(0).name = ShowName + "-NarrativesBT_Button";
+        transform.Find("BackButtonRoot").GetChild(0).name = ShowName + "-NarrativesList_Button";
         transform.Find("BackButtonRoot").GetChild(0).GetComponent<UIB_Button>().Init();
 
 
@@ -64,7 +69,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
     {
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
 
-        pageAudioPlayer.SetTitle(title);
+        pageAudioPlayer.SetTitle(UIB_Utilities.SplitCamelCase(title.Replace("_", " ")));
         //        Debug.Log(photoPath + " " + "hld / "+ShowName.ToLower()+" / narratives / photos");
         pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/"+ShowName.ToLower()+"/narratives/photos");
         var captionFile = title.Replace(" ", "_").ToLower();

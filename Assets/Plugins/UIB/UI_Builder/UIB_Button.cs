@@ -217,7 +217,25 @@ namespace UI_Builder
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            SetupButtonColors();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ResetButtonColors();
+
+        }
+
+        public void SetVO(GameObject target)
+        {
+            VO_Select = target;
+        }
+
+        public void SetupButtonColors()
+        {
+            //Changes the color to white or green depending on the button type
             Color32 highlightColor = new Color32(200, 197, 43, 255);
+
             if (GetComponent<UnityEngine.UI.Button>().image.sprite != null)
                 originalColor = GetComponent<UnityEngine.UI.Button>().image.color;
             else
@@ -228,24 +246,20 @@ namespace UI_Builder
                 //  originalColor = buttonText.GetComponent<TextMeshProUGUI>().color;
                 buttonText.GetComponent<TextMeshProUGUI>().color = highlightColor;
             }
+
+            //The first button in the first menu is set to be green, regardless of mouse pointer
             SetDisplayedButton();
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void ResetButtonColors()
         {
             if (GetComponent<UnityEngine.UI.Button>().image.sprite != null)
                 GetComponent<UnityEngine.UI.Button>().image.color = originalColor;
 
             if (buttonText != null)
-                buttonText.GetComponent<TextMeshProUGUI>().color = originalColor;
+                buttonText.GetComponent<TextMeshProUGUI>().color = new Color32(230, 230, 230, 255); ;
 
             SetDisplayedButton();
-
-        }
-
-        public void SetVO(GameObject target)
-        {
-            VO_Select = target;
         }
     }
 }

@@ -108,7 +108,7 @@ public class BluetoothAudioSource : MonoBehaviour
         if (tmp != null && src != null)
         {
             src.clip = tmp.LoadAsset<AudioClip>(PathToAudio) as AudioClip;
-            nameText.GetComponentInChildren<TextMeshProUGUI>().text = PathToAudio.Split('/')[PathToAudio.Split('/').Length - 1].Replace('_',' ');
+            nameText.GetComponentInChildren<TextMeshProUGUI>().text = PathToAudio.Split('/')[PathToAudio.Split('/').Length - 1].Replace('_', ' ');
             GetComponentInChildren<Special_AccessibleButton>().m_Text = nameText.GetComponentInChildren<TextMeshProUGUI>().text;
 
         }
@@ -216,7 +216,7 @@ public class BluetoothAudioSource : MonoBehaviour
             string line = "";
 
             if (src != null)
-                word = (int)Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
+                word = (int)UIB_Utilities.Map(word + WordsPerLine, word + WordsPerLine, words.Length, src.time - .5f, src.clip.length);
             else
                 yield break;
 
