@@ -239,7 +239,7 @@ public class InitializationManager : MonoBehaviour
             UAP_AccessibilityManager.PauseAccessibility(false);
             if (UAP_AccessibilityManager.IsActive())
             {
-               // AccessibilityInstructions.SetActive(true);
+                // AccessibilityInstructions.SetActive(true);
             }
             else
             {
@@ -373,15 +373,30 @@ public class InitializationManager : MonoBehaviour
         {
             //We don't have the file, first thing is to copy it from streaming assets
             //On Android, streaming assets are zipped so we need a special accessor
+
             GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
+            //record here that we have never updated files from the internet;
+            PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
+
+            if (CheckInternet())
+            {
+                print("Just copied all asset bundle files, checking for update");
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform  + filename, "heidi-latsky-dance");
+            }
+            else
+            {
+                
+            }
         }
         else{
          //we have the file check for update
             if (CheckInternet())
             {
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                print("we have the file checking for update");
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
         }
+
 #else
         if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename)))
         {
@@ -394,11 +409,11 @@ public class InitializationManager : MonoBehaviour
 
             if (CheckInternet())
             {
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
             else
             {
-                
+
             }
         }
         else
@@ -406,7 +421,7 @@ public class InitializationManager : MonoBehaviour
             //we have the file check for update
             if (CheckInternet())
             {
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename, UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
 
 

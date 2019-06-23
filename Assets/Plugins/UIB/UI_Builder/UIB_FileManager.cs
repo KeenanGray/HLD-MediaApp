@@ -105,6 +105,8 @@ namespace UI_Builder
                 }
             }
 
+            print("response:" + response + " fileName" + fileName);
+
             var newpath = UIB_PlatformManager.persistentDataPath + directory.Replace("/heidi-latsky-dance/", "");
 
             if (!Directory.Exists(newpath))
@@ -181,7 +183,6 @@ namespace UI_Builder
         public static bool FileExists(string fileName)
         {
             string destination = fileName;
-            //Debug.Log("file exists " + File.Exists(destination));
             return File.Exists(destination);
         }
         internal static bool FileExists(string path, UIB_FileTypes kind)
@@ -247,13 +248,11 @@ namespace UI_Builder
                 //   oldJson = oldJson.Remove(oldJson.Length - 1, 1);
                 if (oldJson.Equals(jsonToWrite))
                 {
-                    //                Debug.Log("JSON matches");
                 }
                 else
                 {
                     file = File.Create(destination);
                     file.Close();
-                    //          Debug.Log("New JSON");
                     sw = new StreamWriter(destination, true);
                     sw.WriteLine(jsonToWrite);
                     sw.Close();
@@ -364,8 +363,6 @@ namespace UI_Builder
                             directory = directory + "/" + i;
                         }
                     }
-                    // Debug.Log("file " + name);
-                    // Debug.Log("dir " + directory);
 
                     Directory.CreateDirectory(directory);
 
@@ -389,10 +386,12 @@ namespace UI_Builder
         IEnumerator CreateStreamingAssetDirectories(string fileName)
         {
 #if UNITY_ANDROID
+            //this copies the file in the streaming assets directory to the persistant data path on android
+            //It comes from a special utility called "Android Streaming Assets"
             var samplePath = AndroidStreamingAssets.Path;
             samplePath = AndroidStreamingAssets.Path;
-
             printDirectory(samplePath);
+            //Do not change the above 3 lines!!
 #endif
             yield break;
 
@@ -402,7 +401,6 @@ namespace UI_Builder
         {
             //if we are not in the Unity Editor, delete the streaming assets files to save space
             var path = Path.Combine(Application.streamingAssetsPath, "/", UIB_PlatformManager.platform, filename);
-//            Debug.Log("fileToDelete " + path);
             GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("WaitDeleteFile",path);
            
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -433,7 +431,6 @@ namespace UI_Builder
                 }
                 yield return null;
             }
-            Debug.Log("deleted file");
 #endif
 
             yield break;
@@ -441,10 +438,10 @@ namespace UI_Builder
 
         private void printDirectory(string v)
         {
-            Debug.Log("Dir:" + v);
+            //Debug.Log("Dir:" + v);
             foreach (string s in Directory.GetFiles(v))
             {
-                print("File: " + s);
+                //print("File: " + s);
             }
             foreach (string d in Directory.GetDirectories(v))
             {

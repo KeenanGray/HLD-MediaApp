@@ -142,7 +142,7 @@ namespace HLD
             });
         }
 
-        public void CheckIfObjectHasUpdate(string path, string filename, string S3BucketName)
+        public void CheckIfObjectHasUpdate(string filename, string S3BucketName)
         {
             var request = new GetObjectMetadataRequest()
             {
@@ -163,13 +163,12 @@ namespace HLD
                     S3LastModified = responseObject.Response.LastModified.ToUniversalTime();
                     localFilesLastModified = DateTime.Parse(PlayerPrefs.GetString("LastUpdated"));
 
-                    //                    Debug.Log("last modified " + S3LastModified + " local changed " + localFilesLastModified);
                     var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
 
                     //Compare the difference in time between the local directory and files in the cloud
                     if (timeDiff < 0)
                     {
-                        //Debug.Log("online file is older");
+                        Debug.Log("online file is older");
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                     }
@@ -182,7 +181,7 @@ namespace HLD
                     }
                     else if (timeDiff > 0)
                     {
-                       // Debug.Log("online file is newer");
+                        Debug.Log("online file is newer");
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                        // Debug.LogWarning("Downloading from the Cloud " + filename);

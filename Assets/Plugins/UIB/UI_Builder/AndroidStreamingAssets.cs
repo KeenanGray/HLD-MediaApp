@@ -30,11 +30,6 @@ public static class AndroidStreamingAssets
         string targetPath = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
         string result = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
 
-        Debug.Log("result " + result);
-
-       // if( Directory.Exists( result ) )
-       //     Directory.Delete( result, true );
-
         Directory.CreateDirectory( targetPath );
 
         if( targetPath[targetPath.Length - 1] != '/' || targetPath[targetPath.Length - 1] != '\\' )
