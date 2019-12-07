@@ -27,6 +27,13 @@ public class CompanyDancers_Page : HLD.ScrollMenu
         // UIB_AssetBundleHelper.InsertAssetBundle("hld/bios/photos");
 
         GetComponent<UIB_Page>().OnActivated += onPageActivated;
+        GetComponent<UIB_Page>().OnDeActivated += onPageDeactivated;
+
+    }
+
+    private void onPageDeactivated()
+    {
+        transform.Find("ScrollMenuLoadCover").gameObject.SetActive(true);
     }
 
     private void onPageActivated()
@@ -45,6 +52,8 @@ public class CompanyDancers_Page : HLD.ScrollMenu
 
         scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scrollrect.GetComponent<RectTransform>().rect.height);
 
+        yield return new WaitForEndOfFrame();
+        transform.Find("ScrollMenuLoadCover").gameObject.SetActive(false);
         yield break;
     }
 

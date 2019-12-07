@@ -55,6 +55,8 @@ namespace UI_Builder
         UnityEngine.UI.Button close_button;
         private bool PageOnScreen;
 
+        public static List<Transform> sorted;
+
         public bool GetPageOnScreen()
         {
             return PageOnScreen;
@@ -62,6 +64,9 @@ namespace UI_Builder
 
         public void Init()
         {
+            if (sorted == null)
+                sorted = new List<Transform>();
+
             OnActivated += new Activated(PageActivatedHandler);
             OnDeActivated += new DeActivated(PageDeActivatedHandler);
 
@@ -149,32 +154,11 @@ namespace UI_Builder
                 PagesOnScreen.Reverse();
                 //                Debug.Log("page on top " + PagesOnScreen[0] + " 2 " + PagesOnScreen[1]);
             }
-
-            /*
-            PagesOnScreen = new List<UIB_Page>();
-
-            foreach (UIB_Page upage in pageParent.GetComponentsInChildren<UIB_Page>())
-            {
-                if (upage.PageOnScreen && upage.GetComponent<Canvas>().enabled)
-                {
-                    PagesOnScreen.Add(upage);
-                    Debug.Log("i " + upage.transform.GetSiblingIndex());
-                }
-            }
-
-            if (PagesOnScreen.Count > 0)
-            {
-                //sort pages by sibling index
-                PagesOnScreen = PagesOnScreen.OrderBy(page => page.transform.GetSiblingIndex()).ToList();
-
-                Debug.Log("page on top " + PagesOnScreen[0]);
-            }
-            */
         }
 
         static List<Transform> ChildTransformsSorted(Transform t)
         {
-            List<Transform> sorted = new List<Transform>();
+            sorted.Clear();
             for (int i = 0; i < t.childCount; i++)
             {
                 Transform child = t.GetChild(i);
@@ -345,7 +329,6 @@ namespace UI_Builder
 
         public void PageActivatedHandler()
         {
-            print("1");
             if (AssetBundleRequired && !UIB_PageManager.InternetActive)
             {
                 //TODO:REfactor this
@@ -391,6 +374,7 @@ namespace UI_Builder
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
 
             StartCoroutine(ResetUAP(false));
+
         }
 
         public static bool paused = false;
@@ -428,7 +412,6 @@ namespace UI_Builder
                     Debug.LogWarning(e);
                 }
             }
-
             yield break;
         }
 

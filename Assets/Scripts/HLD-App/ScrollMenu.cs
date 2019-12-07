@@ -203,7 +203,9 @@ namespace HLD
 
         public void PageActivatedHandler()
         {
-            print("2");
+            UAP_AccessibilityManager.PauseAccessibility(true);
+            //Debug.Break();
+
             scroll.content.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
 
             if (pageActivatedBefore)
@@ -260,12 +262,6 @@ namespace HLD
 
                         go.GetComponent<Button>().enabled = true;
                         go.GetComponent<UAP_BaseElement>().enabled = true;
-
-                        //HACK://For some reason you have to do this
-                        //So that the names appear in the right order for accessibility:Inefficient
-                        //gameObject.SetActive(false);
-                        //gameObject.SetActive(true);
-
 
                         UIB_btn.Init();
                     }
@@ -331,7 +327,13 @@ namespace HLD
             botBuffer.transform.SetAsLastSibling();
 
             pageActivatedBefore = true;
+
             GetComponentInParent<UIB_Page>().StartCoroutine(GetComponentInParent<UIB_Page>().ResetUAP(true));
+            UAP_AccessibilityManager.PauseAccessibility(false);
+            UAP_AccessibilityManager.Say(" ");
+
+            StartCoroutine("DisableCover");
+
         }
 
         public void PageDeActivatedHandler()
@@ -355,12 +357,20 @@ namespace HLD
                     }
                 }
             }
+
+            transform.Find("ScrollMenuLoadCover").gameObject.SetActive(true);
+
         }
 
         public abstract void MakeLinkedPages();
 
         public abstract GameObject GetCurrentlySelectedListElement();
 
+        IEnumerator DisableCover()
+        {
+            yield return new WaitForEndOfFrame();
+            transform.Find("ScrollMenuLoadCover").gameObject.SetActive(false);
+            yield break;
+        }
     }
-
 }
