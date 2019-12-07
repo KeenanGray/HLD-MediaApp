@@ -324,7 +324,7 @@ namespace UI_Builder
 
                     }
                     //print(e);
-                    Debug.Log("no file:" + fileName + " in bundle:" + bundleString);
+                    Debug.LogError("no file:" + fileName + " in bundle:" + bundleString);
                     return "";
                 }
             }
@@ -401,8 +401,8 @@ namespace UI_Builder
         {
             //if we are not in the Unity Editor, delete the streaming assets files to save space
             var path = Path.Combine(Application.streamingAssetsPath, "/", UIB_PlatformManager.platform, filename);
-            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("WaitDeleteFile",path);
-           
+            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("WaitDeleteFile", path);
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 #endif
 
