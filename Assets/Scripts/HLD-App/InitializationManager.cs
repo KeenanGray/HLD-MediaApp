@@ -26,6 +26,8 @@ public class InitializationManager : MonoBehaviour
     public static int checkingForUpdates = 0;
     public static float PercentDownloaded = 0;
 
+    public bool DebugLocalAssetBundles;
+
     public TextMeshProUGUI percentText;
 
     private bool hasCheckedFiles;
@@ -33,6 +35,9 @@ public class InitializationManager : MonoBehaviour
 
     void Start()
     {
+#if (!UNITY_EDITOR)
+        DebugLocalAssetBundles=false;
+#endif
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
 #endif
@@ -291,6 +296,7 @@ public class InitializationManager : MonoBehaviour
         //First check that platform specific assetbundle exists
         var filename = UIB_PlatformManager.platform + "/";
 
+
         TotalDownloads = 8;
         filename = "hld/" + filename;
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
@@ -341,6 +347,7 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
+
         //TODO:figure out video loading
         /*
         filename = "meondisplay/videos";
@@ -378,7 +385,7 @@ public class InitializationManager : MonoBehaviour
             //record here that we have never updated files from the internet;
             PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
 
-            if (CheckInternet())
+            if (CheckInternet()&& !DebugLocalAssetBundles)
             {
                 print("Just copied all asset bundle files, checking for update");
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform  + filename, "heidi-latsky-dance");
@@ -390,7 +397,7 @@ public class InitializationManager : MonoBehaviour
         }
         else{
          //we have the file check for update
-            if (CheckInternet())
+            if (CheckInternet() && !DebugLocalAssetBundles)
             {
                 print("we have the file checking for update");
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
@@ -407,7 +414,7 @@ public class InitializationManager : MonoBehaviour
             //record here that we have never updated files from the internet;
             PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
 
-            if (CheckInternet())
+            if (CheckInternet() && !DebugLocalAssetBundles)
             {
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
@@ -419,7 +426,7 @@ public class InitializationManager : MonoBehaviour
         else
         {
             //we have the file check for update
-            if (CheckInternet())
+            if (CheckInternet() && !DebugLocalAssetBundles)
             {
                 db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }

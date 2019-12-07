@@ -154,8 +154,8 @@ public class UIB_EditorTools : ScriptableWizard
                 var src = Application.streamingAssetsPath + UIB_PlatformManager.platform + name;
                 var dest = Application.persistentDataPath + name;
 
-                Debug.Log("src:" + src);
-                Debug.Log("dest:" + dest);
+                //  Debug.Log("src:" + src);
+                ///  Debug.Log("dest:" + dest);
 
                 if (!File.Exists(dest))
                     File.Copy(src, dest);

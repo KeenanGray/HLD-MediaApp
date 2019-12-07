@@ -205,7 +205,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
         else
         {
-            Debug.Log("res is not assigned");
+            Debug.Log("res is not assigned " + gameObject.name);
         }
     }
 
