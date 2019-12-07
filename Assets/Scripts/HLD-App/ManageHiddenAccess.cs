@@ -105,7 +105,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         hasMoved = false;
 
         //move the text field up so it is not obscured by keyboard
-        var h = 0f;
+        var h = 873f;
         if (TouchScreenKeyboard.isSupported)
         {
             while (!TouchScreenKeyboard.visible)

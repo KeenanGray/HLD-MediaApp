@@ -101,7 +101,8 @@ namespace HLD
             if (scrollTransform.childCount == 0)
                 return;
 
-            var contentMiddle = GetComponent<RectTransform>().rect.center;//scroll.transform.Find("Center").position;
+            center = scroll.transform.Find("Center").gameObject;
+            var contentMiddle = center.transform.position;
 
             Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
 

@@ -55,8 +55,6 @@ namespace UI_Builder
         UnityEngine.UI.Button close_button;
         private bool PageOnScreen;
 
-        public static List<Transform> sorted;
-
         public bool GetPageOnScreen()
         {
             return PageOnScreen;
@@ -64,9 +62,6 @@ namespace UI_Builder
 
         public void Init()
         {
-            if (sorted == null)
-                sorted = new List<Transform>();
-
             OnActivated += new Activated(PageActivatedHandler);
             OnDeActivated += new DeActivated(PageDeActivatedHandler);
 
@@ -116,8 +111,8 @@ namespace UI_Builder
         private void Start()
         {
             UIB_InputManager.SwipeDelegate += SwipeHandler;
-            if (PagesOnScreen == null)
-                PagesOnScreen = new List<Transform>();
+            if (ActivatedPages == null)
+                ActivatedPages = new List<Transform>();
         }
 
         public void ResetOnActivated()
@@ -130,32 +125,9 @@ namespace UI_Builder
         //Unfortunately this code is not integrated with the Unity Accessibility plugin 
         //TODO: Update SwipeHandling + Views with UAP
 
-        public static List<Transform> PagesOnScreen;
+        public static List<Transform> ActivatedPages;
 
-        public static void UpdatePagesOnScreen()
-        {
-            PagesOnScreen.Clear();
-            foreach (Transform t in ChildTransformsSorted(pageParent.transform))
-            {
-                var p = t.GetComponent<UIB_Page>();
-                if (p == null)
-                    continue;
-
-                if (p.PageOnScreen)
-                {
-                    //HACK::audio player does not have a back button so we can't swip back on it if it is on top
-                    if (p.gameObject.name != "AudioPlayer_Page")
-                        PagesOnScreen.Add(p.transform);
-                }
-            }
-
-            if (PagesOnScreen.Count > 1)
-            {
-                PagesOnScreen.Reverse();
-                //                Debug.Log("page on top " + PagesOnScreen[0] + " 2 " + PagesOnScreen[1]);
-            }
-        }
-
+        /*
         static List<Transform> ChildTransformsSorted(Transform t)
         {
             sorted.Clear();
@@ -191,7 +163,7 @@ namespace UI_Builder
 
             return sorted;
         }
-
+        */
 
         void SwipeHandler(SwipeData swipe)
         {
@@ -214,12 +186,14 @@ namespace UI_Builder
                     return;
                 }
 
-                if (PagesOnScreen.Count <= 0)
+                if (ActivatedPages.Count <= 0)
                 {
-                    // throw new Exception("NoPageException: There are no pages on the screen. This is a major problem");
+                    throw new Exception("NoPageException: There are no pages on the screen. This is a major problem");
                 }
+
                 //get all the buttons on the page, if it is backbutton invoke it.
-                foreach (UIB_Button ub in PagesOnScreen[0].GetComponentsInChildren<UIB_Button>())
+
+                foreach (UIB_Button ub in ActivatedPages[0].GetComponentsInChildren<UIB_Button>())
                 {
                     if (ub.isBackButton)
                     {
@@ -352,6 +326,11 @@ namespace UI_Builder
             if (ActivateUAPOnEnter)
                 StartCoroutine(ResetUAP(true));
 
+            if (!UIB_Page.ActivatedPages.Contains(transform))
+            {
+                UIB_Page.ActivatedPages.Add(transform);
+            }
+
         }
 
         public void PageDeActivatedHandler()
@@ -374,6 +353,12 @@ namespace UI_Builder
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
 
             StartCoroutine(ResetUAP(false));
+
+            if (UIB_Page.ActivatedPages.Count > 0)
+            {
+                //                print("REMOVING  " + transform.name);
+                UIB_Page.ActivatedPages.Remove(transform);
+            }
 
         }
 

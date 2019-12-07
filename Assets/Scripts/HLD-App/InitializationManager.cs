@@ -40,6 +40,7 @@ public class InitializationManager : MonoBehaviour
 #endif
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
+        UpdateNameOfTextItem.ShouldRun = false;
 #endif
         StartCoroutine("Init");
     }

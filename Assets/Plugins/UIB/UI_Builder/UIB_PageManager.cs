@@ -22,7 +22,10 @@ namespace UI_Builder
         // Update is called once per frame
         void Update()
         {
-            UIB_Page.UpdatePagesOnScreen();
+            foreach (Transform t in UIB_Page.ActivatedPages)
+            {
+                print(t.name);
+            }
         }
 
         void SwipeHandler(SwipeData swipe)
