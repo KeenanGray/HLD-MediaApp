@@ -269,7 +269,6 @@ namespace UI_Builder
             if (initializing)
                 tmp = 1;
 
-            // while (true && !(InternetRequired && !UIB_PageManager.InternetActive))
             while (true)
             {
                 rt.anchoredPosition = new Vector2(0, 0);
@@ -359,8 +358,6 @@ namespace UI_Builder
                 return;
                 */
             }
-
-            // ActivateUAP();
 
             //Say the newly selected element when the page loads
             if (UAP_AccessibilityManager.IsActive())

@@ -101,7 +101,7 @@ namespace HLD
             if (scrollTransform.childCount == 0)
                 return;
 
-            var contentMiddle = scroll.transform.Find("Center").position;
+            var contentMiddle = GetComponent<RectTransform>().rect.center;//scroll.transform.Find("Center").position;
 
             Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
 
@@ -132,8 +132,8 @@ namespace HLD
                         closest = UAP_AccessibilityManager.GetCurrentFocusObject();
                 }
             }
-            
-            
+
+
             CurrentlySelectedListElement = closest;
 
             CurrentlySelectedListElement.GetComponent<UIB_Button>().SetupButtonColors();

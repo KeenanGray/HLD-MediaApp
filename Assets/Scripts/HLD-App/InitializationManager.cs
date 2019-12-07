@@ -194,6 +194,11 @@ public class InitializationManager : MonoBehaviour
             ab.Init();
         }
 
+        //initialize objects in the object pools
+        //todo:tag this for eventual replacement with better pages/buttons
+        ObjPoolManager.Init();
+        ObjPoolManager.RefreshPool();
+
         //initialize each page
         foreach (UIB_IPage p in GetComponentsInChildren<UIB_IPage>())
         {
@@ -223,15 +228,6 @@ public class InitializationManager : MonoBehaviour
         {
             uibSM.Init();
         }
-
-        //initialize objects in the object pools
-        //todo:tag this for eventual replacement with better pages/buttons 
-        ObjPoolManager.Init();
-
-        //this coroutine waits until we have checked for all the files
-        //then it begins loading asset bundles in the background
-        //it must be started after pages have initialized
-        // StartCoroutine("ManageAssetBundleFiles");
 
         //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");

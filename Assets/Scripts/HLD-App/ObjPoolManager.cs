@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI_Builder;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +42,10 @@ public static class ObjPoolManager
     public static void RefreshPool()
     {
         if (ObjectPoolCanvas == null)
+        {
+            Debug.LogWarning("No object pool canvas found");
             return;
+        }
 
         ObjectPoolCanvas.SetActive(true);
 
@@ -58,7 +62,10 @@ public static class ObjPoolManager
         foreach (GameObject go in Biographies_Pool)
         {
             go.transform.SetParent(Bio_PoolGO.transform);
+            go.GetComponent<UIB_Page>().StartCoroutine(go.GetComponent<UIB_Page>().ResetUAP(false));
+
             go.name = "Bio_Page";
+            go.GetComponent<UIB_Page>().Init();
         }
         foreach (GameObject go in Button_Pool)
         {
@@ -66,7 +73,9 @@ public static class ObjPoolManager
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
             go.GetComponent<UI_Builder.UIB_Button>().SetButtonText("");
             go.GetComponent<Button>().onClick.RemoveAllListeners();
-            go.name = "App_SubMenuButton";
+
+            go.GetComponent<Special_AccessibleButton>().enabled = false;
+            go.name = "App_SubMenuButton+edited";
 
             go.GetComponent<UI_Builder.UIB_Button>().Init();
         }
@@ -135,7 +144,7 @@ public static class ObjPoolManager
     }
     public static void EndRetrieval()
     {
-       ObjectPoolCanvas.SetActive(false);
+        ObjectPoolCanvas.SetActive(false);
     }
 
 }

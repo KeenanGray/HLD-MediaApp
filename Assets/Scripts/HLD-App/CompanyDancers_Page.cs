@@ -52,7 +52,6 @@ public class CompanyDancers_Page : HLD.ScrollMenu
         AssetBundle tmp = null;
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            //            Debug.Log(b.name);
             if (b.name == "hld/bios/photos")
                 tmp = b;
         }
@@ -76,36 +75,36 @@ public class CompanyDancers_Page : HLD.ScrollMenu
             }
         }
 
-		var BgPhoto = transform.Find("UIB_Background").Find("Background_Mask").Find("Background_Image")
-			.GetComponent<Image>();
+        var BgPhoto = transform.Find("UIB_Background").Find("Background_Mask").Find("Background_Image")
+            .GetComponent<Image>();
 
         BgPhoto.sprite = ImageToUse;
 
-		if (BgPhoto != null)
-		{
-			BgPhoto.sprite = ImageToUse;
+        if (BgPhoto != null)
+        {
+            BgPhoto.sprite = ImageToUse;
 
-			//set recttransform aspect based on image and aspect ratio of screen
-			var ar = UIB_AspectRatioManager.ScreenWidth / UIB_AspectRatioManager.ScreenHeight;
-			var imgAR = 9f / 16f;
+            //set recttransform aspect based on image and aspect ratio of screen
+            var ar = UIB_AspectRatioManager.ScreenWidth / UIB_AspectRatioManager.ScreenHeight;
+            var imgAR = 9f / 16f;
 
-			if (!ar.Equals(imgAR))
-			{
-				try
-				{
-					if (ImageToUse != null)
-						BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
-				}
-				catch (Exception e)
-				{
-					if (e.GetBaseException().GetType() == typeof(NullReferenceException))
-					{
-					}
+            if (!ar.Equals(imgAR))
+            {
+                try
+                {
+                    if (ImageToUse != null)
+                        BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+                }
+                catch (Exception e)
+                {
+                    if (e.GetBaseException().GetType() == typeof(NullReferenceException))
+                    {
+                    }
 
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
