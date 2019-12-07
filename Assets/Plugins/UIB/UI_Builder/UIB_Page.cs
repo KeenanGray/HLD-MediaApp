@@ -345,6 +345,7 @@ namespace UI_Builder
 
         public void PageActivatedHandler()
         {
+            print("1");
             if (AssetBundleRequired && !UIB_PageManager.InternetActive)
             {
                 //TODO:REfactor this

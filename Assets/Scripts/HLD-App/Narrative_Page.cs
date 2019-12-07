@@ -30,11 +30,11 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
         if (ShowName == "" || ShowName == null)
         {
-            Debug.LogWarning("initializing narrative page without show");
+            //Debug.LogWarning("initializing narrative page without show");
             return;
         }
 
-        backButton = transform.GetChild(0).Find(ShowName+"-NarrativesList_Button").gameObject;
+        backButton = transform.GetChild(0).Find(ShowName + "-NarrativesList_Button").gameObject;
         if (backButton == null)
             Debug.LogWarning("Bad error checking");
     }
@@ -71,15 +71,15 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 
         pageAudioPlayer.SetTitle(UIB_Utilities.SplitCamelCase(title.Replace("_", " ")));
         //        Debug.Log(photoPath + " " + "hld / "+ShowName.ToLower()+" / narratives / photos");
-        pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/"+ShowName.ToLower()+"/narratives/photos");
+        pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/" + ShowName.ToLower() + "/narratives/photos");
         var captionFile = title.Replace(" ", "_").ToLower();
-        pageAudioPlayer.SetAudioCaptions(captionFile, "hld/"+ShowName.ToLower()+"/narratives/captions");
+        pageAudioPlayer.SetAudioCaptions(captionFile, "hld/" + ShowName.ToLower() + "/narratives/captions");
         pageAudioPlayer.enabled = true;
         pageAudioPlayer.fileType = ".wav";
         //TODO::this should use filemanger to check that file exists
 
 #if UNITY_ANDROID
-        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/"+ShowName.ToLower()+"/narratives/audio");
+        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/" + ShowName.ToLower() + "/narratives/audio");
 #else
         pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/"+ShowName.ToLower()+"/narratives/audio");
 #endif
@@ -95,7 +95,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
 
-       // backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
+        // backButton.name = UIB_PageManager.LastPage.name.Split('_')[0] + "_Button";
 
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
     }

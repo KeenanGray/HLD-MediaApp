@@ -14,6 +14,9 @@ public class CompanyDancers_Page : HLD.ScrollMenu
     //  ScrollRect scroll;
     GameObject Bio_Page_Root;
 
+    Sprite ImageToUse = null;
+    AssetBundle tmp = null;
+
     //  private string BiographiesJSON;
     //  BioArray myObject;
     //  private IOrderedEnumerable<Biography> OrderedByName;
@@ -41,6 +44,7 @@ public class CompanyDancers_Page : HLD.ScrollMenu
         }
 
         scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scrollrect.GetComponent<RectTransform>().rect.height);
+
         yield break;
     }
 
@@ -48,8 +52,6 @@ public class CompanyDancers_Page : HLD.ScrollMenu
     {
         base.Update();
 
-        Sprite ImageToUse = null;
-        AssetBundle tmp = null;
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
             if (b.name == "hld/bios/photos")
@@ -115,7 +117,6 @@ public class CompanyDancers_Page : HLD.ScrollMenu
             return;
         }
 
-        ObjPoolManager.BeginRetrieval();
         var BiographyOrderedByName = (System.Linq.IOrderedEnumerable<Biography>)OrderedByName;
 
         foreach (Biography bioJson in BiographyOrderedByName)
@@ -140,7 +141,6 @@ public class CompanyDancers_Page : HLD.ScrollMenu
             }
         }
 
-        ObjPoolManager.EndRetrieval();
         StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
     }
 

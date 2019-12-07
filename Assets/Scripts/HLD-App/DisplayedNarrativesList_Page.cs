@@ -13,9 +13,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
-//        Debug.Log(gameObject.name + " " +"makelinkedpages");
-
-        ObjPoolManager.BeginRetrieval();
+        //        Debug.Log(gameObject.name + " " +"makelinkedpages");
 
         var ShowName = name.Split('-')[0];
         if (ShowName == "CompanyDancers_Page")
@@ -50,18 +48,17 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
                     go.transform.SetParent(Page_Parent.transform);
                     go.name = (Name_Suffix + "_Page");
                     Narrative_Page np = go.GetComponent<Narrative_Page>();
-//                    Debug.Log("s:" + s.Replace("_","_").ToLower());
+                    //                    Debug.Log("s:" + s.Replace("_","_").ToLower());
                     np.SetupPage(s, s.Replace("_", "_").ToLower());
                     np.SetShowName(name.Split('-')[0]);
                 }
             }
         }
-        ObjPoolManager.EndRetrieval();
     }
 
     private void Start()
     {
-//        base.StartScrollMenu();
+        //        base.StartScrollMenu();
         GetComponent<UIB_Page>().OnActivated += onPageActivated;
         GetComponent<UIB_Page>().OnDeActivated += onPageDeActivated;
     }

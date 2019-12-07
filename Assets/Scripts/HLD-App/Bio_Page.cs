@@ -40,7 +40,7 @@ public class Bio_Page : MonoBehaviour
         GetComponent<UIB_Page>().OnActivated += OnBioPageActivated;
 
         Name.text = "";
-//        Title.text = "";
+        //        Title.text = "";
         Description.text = "";
     }
 
