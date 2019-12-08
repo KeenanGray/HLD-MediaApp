@@ -204,7 +204,7 @@ namespace HLD
 
         public void PageActivatedHandler()
         {
-            UAP_AccessibilityManager.PauseAccessibility(true);
+            // UAP_AccessibilityManager.PauseAccessibility(true);
             //Debug.Break();
 
             scroll.content.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
@@ -330,7 +330,7 @@ namespace HLD
             pageActivatedBefore = true;
 
             GetComponentInParent<UIB_Page>().StartCoroutine(GetComponentInParent<UIB_Page>().ResetUAP(true));
-            UAP_AccessibilityManager.PauseAccessibility(false);
+            // UAP_AccessibilityManager.PauseAccessibility(false);
             UAP_AccessibilityManager.Say(" ");
 
             StartCoroutine("DisableCover");

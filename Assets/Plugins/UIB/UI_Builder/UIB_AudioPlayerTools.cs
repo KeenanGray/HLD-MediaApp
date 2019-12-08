@@ -609,7 +609,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("THIS IS HAPPENING");
+            //Debug.Log("THIS IS HAPPENING");
             if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
             {
 
