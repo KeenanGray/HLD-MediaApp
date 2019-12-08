@@ -35,11 +35,11 @@ public class LoadProgramNotes : MonoBehaviour
 
         if (tmp.text.Length <= 0)
         {
-            gameObject.SetActive(false);
+            tmp.enabled = false;
         }
         else
         {
-            gameObject.SetActive(true);
+            tmp.enabled = true;
         }
 
     }

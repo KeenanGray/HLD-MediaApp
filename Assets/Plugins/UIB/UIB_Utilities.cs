@@ -52,7 +52,6 @@ namespace UI_Builder
                     if (i < s.Length - 1)
                         if (s[i + 1].Equals('_'))
                         {
-                            Debug.Log("HERE:" + s.Remove(i + 1, 1));
                             return s.Remove(i + 1, 1);
                         }
 

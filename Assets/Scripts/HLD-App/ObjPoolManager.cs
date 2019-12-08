@@ -47,7 +47,7 @@ public static class ObjPoolManager
             return;
         }
 
-        ObjectPoolCanvas.SetActive(true);
+        //ObjectPoolCanvas.SetActive(true);
 
         Biographies_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_Biography"));
         Button_Pool = new List<GameObject>(GameObject.FindGameObjectsWithTag("App_SubMenuButton"));
@@ -90,7 +90,7 @@ public static class ObjPoolManager
             go.transform.SetParent(Narrative_PoolGO.transform);
         }
 
-        ObjectPoolCanvas.SetActive(false);
+        //ObjectPoolCanvas.SetActive(false);
     }
 
     public static void RetrieveFromPool(Pool pool, ref GameObject returned)
@@ -137,14 +137,5 @@ public static class ObjPoolManager
         }
     }
 
-    public static void BeginRetrieval()
-    {
-        ObjectPoolCanvas.SetActive(true);
-
-    }
-    public static void EndRetrieval()
-    {
-        ObjectPoolCanvas.SetActive(false);
-    }
 
 }

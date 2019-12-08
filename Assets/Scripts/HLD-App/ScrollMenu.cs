@@ -101,7 +101,8 @@ namespace HLD
             if (scrollTransform.childCount == 0)
                 return;
 
-            var contentMiddle = GetComponent<RectTransform>().rect.center;//scroll.transform.Find("Center").position;
+            center = scroll.transform.Find("Center").gameObject;
+            var contentMiddle = center.transform.position;
 
             Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
 
@@ -203,6 +204,9 @@ namespace HLD
 
         public void PageActivatedHandler()
         {
+            UAP_AccessibilityManager.PauseAccessibility(true);
+            //Debug.Break();
+
             scroll.content.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
 
             if (pageActivatedBefore)
@@ -222,7 +226,6 @@ namespace HLD
             //Make the buttons
             //They will be assigned to their buttons with 'Init'
             int traversalOrder = 0;
-            ObjPoolManager.BeginRetrieval();
 
             ShowName = name.Split('-')[0];
             if (ShowName == "CompanyDancers_Page")
@@ -255,17 +258,11 @@ namespace HLD
                         UIB_btn.SetButtonText(UIB_Utilities.SplitCamelCase(b.Name));
                         UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
 
-
                         //custom backgrounds
                         UIB_btn.Special_Background = Resources.Load("DancerPhotos/" + b.Name.Replace(" ", "_")) as Sprite;
 
                         go.GetComponent<Button>().enabled = true;
                         go.GetComponent<UAP_BaseElement>().enabled = true;
-
-                        //For some reason you have to do this
-                        //So that the names appear in the right order for accessibility
-                        gameObject.SetActive(false);
-                        gameObject.SetActive(true);
 
                         UIB_btn.Init();
                     }
@@ -314,7 +311,6 @@ namespace HLD
                     }
                 }
             }
-            ObjPoolManager.EndRetrieval();
 
             scroll.GetComponent<UIB_ScrollingMenu>().playedOnce = false;
             scroll.GetComponent<UIB_ScrollingMenu>().Playing = false;
@@ -332,6 +328,12 @@ namespace HLD
             botBuffer.transform.SetAsLastSibling();
 
             pageActivatedBefore = true;
+
+            GetComponentInParent<UIB_Page>().StartCoroutine(GetComponentInParent<UIB_Page>().ResetUAP(true));
+            UAP_AccessibilityManager.PauseAccessibility(false);
+            UAP_AccessibilityManager.Say(" ");
+
+            StartCoroutine("DisableCover");
 
         }
 
@@ -356,12 +358,20 @@ namespace HLD
                     }
                 }
             }
+
+            transform.Find("ScrollMenuLoadCover").gameObject.SetActive(true);
+
         }
 
         public abstract void MakeLinkedPages();
 
         public abstract GameObject GetCurrentlySelectedListElement();
 
+        IEnumerator DisableCover()
+        {
+            yield return new WaitForEndOfFrame();
+            transform.Find("ScrollMenuLoadCover").gameObject.SetActive(false);
+            yield break;
+        }
     }
-
 }

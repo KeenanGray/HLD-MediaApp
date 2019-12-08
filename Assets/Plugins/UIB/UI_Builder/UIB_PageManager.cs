@@ -22,7 +22,7 @@ namespace UI_Builder
         // Update is called once per frame
         void Update()
         {
-            UIB_Page.UpdatePagesOnScreen();
+
         }
 
         void SwipeHandler(SwipeData swipe)

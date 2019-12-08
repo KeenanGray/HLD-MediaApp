@@ -220,7 +220,6 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         var OrderedByName = Dancers.OrderBy(x => x.Split(' ')[1]);
 
         int i = 0;
-        ObjPoolManager.BeginRetrieval();
 
         foreach (string dancer in OrderedByName)
         {
@@ -257,7 +256,6 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
             else
                 Debug.LogError("Not enough objects in pool");
         }
-        ObjPoolManager.EndRetrieval();
 
         var theScroll = transform.Find("UIB_ScrollingMenu");
         theScroll.GetComponent<UIB_ScrollingMenu>().playedOnce = false;
