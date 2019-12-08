@@ -24,7 +24,7 @@ public class LoadProgramNotes : MonoBehaviour
 
 
 
-    void LoadNotes(string ShowName)
+    public void LoadNotes(string ShowName)
     {
         var tmp = GetComponent<TextMeshProUGUI>();
         var name = ShowName + "ProgramNotes";

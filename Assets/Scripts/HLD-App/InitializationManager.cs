@@ -42,6 +42,7 @@ public class InitializationManager : MonoBehaviour
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
         UpdateNameOfTextItem.ShouldRun = false;
 #endif
+
         StartCoroutine("Init");
     }
 
@@ -377,7 +378,7 @@ public class InitializationManager : MonoBehaviour
         {
             //We don't have the file, first thing is to copy it from streaming assets
             //On Android, streaming assets are zipped so we need a special accessor
-
+            print("file does not exist");
             GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
             //record here that we have never updated files from the internet;
             PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());

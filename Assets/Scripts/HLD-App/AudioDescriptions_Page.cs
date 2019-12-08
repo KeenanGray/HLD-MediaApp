@@ -15,7 +15,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
 
-//        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/audio");
+        //        UIB_AssetBundleHelper.InsertAssetBundle("hld/displayed/audio");
         AudioPlayerScreen = GameObject.Find("AudioPlayer_Page");
 
         ShowName = gameObject.name.Split('-')[0].ToLower();
@@ -28,9 +28,9 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         audioPlayer.SetTitle("Audio Descriptions");
 
-        audioPlayer.SetImageAssetBundle("background","hld/"+ShowName+"/audio");
+        audioPlayer.SetImageAssetBundle("background", "hld/" + ShowName + "/audio");
         audioPlayer.fileType = ".mp3";
-        audioPlayer.SetAudio("Audio_Captions", "hld/"+ShowName+"/audio");
+        audioPlayer.SetAudio("Audio_Captions", "hld/" + ShowName + "/audio");
         //TODO: null captions for now
         audioPlayer.SetAudioCaptions("captions", null);
         //audioPlayer.SetAudioCaptions("captions", "hld/displayed/audio");
@@ -41,7 +41,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
     {
         SetupAudioPlayer();
         AudioPlayerScreen.transform.SetParent(transform);
-        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount-3);
+        AudioPlayerScreen.transform.SetSiblingIndex(transform.childCount - 3);
         AudioPlayerScreen.GetComponent<Canvas>().enabled = true;
 
         try
@@ -57,6 +57,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         }
         AudioPlayerScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
 
+        GetComponentInChildren<LoadProgramNotes>().LoadNotes(ShowName);
     }
 
     public void PageDeActivatedHandler()
@@ -67,7 +68,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         }
         catch (Exception e)
         {
-            if(e.GetType() == typeof(NullReferenceException))
+            if (e.GetType() == typeof(NullReferenceException))
             {
 
             }

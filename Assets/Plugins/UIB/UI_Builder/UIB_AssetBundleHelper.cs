@@ -55,10 +55,12 @@ namespace UI_Builder
 #endif
                     if (s == null)
                     {
+                        //print("s was null");
                         continue;
                     }
                     if (bundlesLoading[s])
                     {
+                        // print("already loaded that bundle" + s);
                         continue;
                     }
                     else
