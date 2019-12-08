@@ -111,9 +111,9 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         {
             if (sb.gameObject.name.Equals("Time_Scroll"))
             {
-                if (source == null || source.clip==null)
+                if (source == null || source.clip == null)
                 {
-                   // Debug.Log("no source 2 " +gameObject.name);
+                    // Debug.Log("no source 2 " +gameObject.name);
                     return;
                 }
                 timeScroll = sb;
@@ -173,7 +173,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         //Set up the input field
         AudioTimerInput = ParentOfAudioToolComponents.GetComponentInChildren<InputField>();
 
-      // AudioTimerInput.shouldHideMobileInput = true;
+        // AudioTimerInput.shouldHideMobileInput = true;
         AudioTimerInput.keyboardType = TouchScreenKeyboardType.NumberPad;
 
         time_label = GameObject.Find("DisplayText noedit").GetComponent<Text>();
@@ -207,7 +207,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     private void OnInputFieldSubmitted(string arg0)
     {
         string str = time_label.text.Split(':')[0] + time_label.text.Split(':')[1];
-        
+
         //AudioTimerInput.text = "";
         if (source.clip.length > StringToSecondsCount(str, ref arg0))
         {
@@ -281,7 +281,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     {
         if (source == null || source.clip == null)
         {
-           // Debug.LogWarning("no source " + gameObject.name);
+            // Debug.LogWarning("no source " + gameObject.name);
             return;
         }
 
@@ -340,7 +340,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         if (source == null)
         {
 #if !UNITY_EDITOR
-            Debug.LogWarning("Warning: No Audio Source to Play");
+            //Debug.LogWarning("Warning: No Audio Source to Play");
 #endif
             return;
         }
@@ -536,7 +536,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
     public void OnSelect(BaseEventData eventData)
     {
-//        Debug.Log("HERE");
+        //        Debug.Log("HERE");
         fieldSelected();
     }
     private void fieldSelected()

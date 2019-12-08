@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-#if UNITY_EDITOR
 [ExecuteInEditMode]
 public class UpdateNameOfTextItem : MonoBehaviour
 {
+#if UNITY_EDITOR
+
     TextMeshProUGUI text;
     public static bool ShouldRun = true;
 
@@ -29,6 +30,7 @@ public class UpdateNameOfTextItem : MonoBehaviour
             }
         }
     }
+#endif
+
 }
 
-#endif
