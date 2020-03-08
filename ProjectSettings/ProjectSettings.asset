@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 4.5.0
+  bundleVersion: 4.5.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -160,7 +160,7 @@ PlayerSettings:
     iPhone: com.KeenanGray.HLD
   buildNumber:
     iPhone: 1
-  AndroidBundleVersionCode: 4401
+  AndroidBundleVersionCode: 4520
   AndroidMinSdkVersion: 18
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -246,7 +246,7 @@ PlayerSettings:
   clonedFromGUID: b0efa2d7f4da1564fbe507a409d961c7
   templatePackageId: 
   templateDefaultScene: 
-  AndroidTargetArchitectures: 1
+  AndroidTargetArchitectures: 2
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: /Users/keenangray/Docs/AndroidKeystore/keystore.keystore
@@ -729,7 +729,7 @@ PlayerSettings:
     28: UNITY_POST_PROCESSING_STACK_V2
   platformArchitecture: {}
   scriptingBackend:
-    Android: 0
+    Android: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel:
     iPhone: 2

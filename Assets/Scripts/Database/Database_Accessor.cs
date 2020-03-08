@@ -177,6 +177,7 @@ namespace HLD
                         InitializationManager.DownloadCount--;
                         InitializationManager.checkingForUpdates--;
                         Debug.LogWarning("same time - seems wierd if you get here.");
+                        UIB_FileManager.HasUpdatedAFile = true;
                         GetObject(filename, S3BucketName);
                     }
                     else if (timeDiff > 0)

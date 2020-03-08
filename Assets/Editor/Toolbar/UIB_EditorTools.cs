@@ -89,7 +89,7 @@ public class UIB_EditorTools : ScriptableWizard
         CleanHelper(Application.persistentDataPath + "/android");
         CleanHelper(Application.persistentDataPath + "/ios");
 
-        var path = Application.persistentDataPath + "/heidi-latsky-dance/";
+        var path = Application.persistentDataPath;// + "/heidi-latsky-dance/";
         EditorUtility.RevealInFinder(path);
 
         Debug.Log("Clean Successful");
@@ -145,20 +145,26 @@ public class UIB_EditorTools : ScriptableWizard
 
                 directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
 
-
+                //Debug.Log(directory);
 
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
 
-
                 var src = Application.streamingAssetsPath + UIB_PlatformManager.platform + name;
                 var dest = Application.persistentDataPath + name;
 
-                //  Debug.Log("src:" + src);
-                ///  Debug.Log("dest:" + dest);
 
-                if (!File.Exists(dest))
-                    File.Copy(src, dest);
+
+                try
+                {
+                    if (!File.Exists(dest))
+                        File.Copy(src, dest);
+                }
+                catch
+                {
+                    Debug.Log("src:" + src);
+                    Debug.Log("dest:" + dest);
+                }
             }
         }
     }
