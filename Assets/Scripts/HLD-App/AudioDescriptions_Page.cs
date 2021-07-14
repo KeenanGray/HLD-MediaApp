@@ -30,6 +30,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
 
         audioPlayer.SetImageAssetBundle("background", "hld/" + ShowName + "/audio");
         audioPlayer.fileType = ".mp3";
+        print("showname " + ShowName);
         audioPlayer.SetAudio("Audio_Captions", "hld/" + ShowName + "/audio");
         //TODO: null captions for now
         audioPlayer.SetAudioCaptions("captions", null);

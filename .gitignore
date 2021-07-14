@@ -39,7 +39,6 @@ Assets/Video
 
 Assets/Plugins/Android/*
 Assets/Plugins/AsyncAwaitUtil/*
-Assets/Plugins/AWSSDK/*
 Assets/Plugins/iBeacon/*
 Assets/Plugins/NativeCamera/*
 Assets/Plugins/SWAN Dev/*
@@ -50,7 +49,6 @@ Assets/Plugins/InAppBrowser
 Assets/Plugins/iOS
 Assets/OpenCVForUnity/*
 Assets/Plugins.meta
-Assets/AWSSDK/*
 Assets/Examples/*
 Assets/StreamingAssets/*
 Assets/AssetBundles/*
