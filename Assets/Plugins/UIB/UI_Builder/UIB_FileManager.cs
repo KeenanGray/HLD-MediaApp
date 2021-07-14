@@ -330,7 +330,7 @@ namespace UI_Builder
             }
             else
             {
-                Debug.LogWarning("Asset bundle not found " + bundleString);
+                //Debug.LogWarning("Asset bundle not found " + bundleString);
                 return "";
             }
         }

@@ -145,11 +145,15 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         GetComponent<AspectRatioFitter>().enabled = false;
         Sprite ImageToUse = null;
         AssetBundle tmp = null;
+
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            //            Debug.Log(b.name);
-            if (b.name == bundleString)
+            //Debug.Log("debug loaded asset bundles " + b.name);
+            if (b.name == bundleString){
+                print("matched " + b + " and loaded");
                 tmp = b;
+                ImageToUse = tmp.LoadAsset<Sprite>(PathToImage);
+            }
         }
 
         try
@@ -161,12 +165,15 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             if (e.GetBaseException().GetType() == typeof(NullReferenceException))
             {
             }
-            Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
         }
+
         if (BgPhoto != null)
         {
-            BgPhoto.sprite = ImageToUse;
-
+            BgPhoto.sprite = tmp.LoadAsset<Sprite>(PathToImage);
+            //ImageToUse;
+            Debug.Log(BgPhoto.name);
+            Debug.Log(BgPhoto.sprite.name);
+            Debug.Log(ImageToUse);
             //set recttransform aspect based on image and aspect ratio of screen
             var ar = UIB_AspectRatioManager.ScreenWidth / UIB_AspectRatioManager.ScreenHeight;
             var imgAR = 9f / 16f;

@@ -193,6 +193,8 @@ public class InitializationManager : MonoBehaviour
                 CheckAndUpdateLinks("OnDisplay-Info_Page");
             if (ab.name == "Unfinished-Code_Button")
                 CheckAndUpdateLinks("Unfinished-Info_Page");
+            if (ab.name == "SoloFlight-Code_Button")
+                CheckAndUpdateLinks("SoloFlight-Info_Page");
             ab.Init();
         }
 
@@ -295,7 +297,10 @@ public class InitializationManager : MonoBehaviour
         var filename = UIB_PlatformManager.platform + "/";
 
 
-        TotalDownloads = 8;
+        //DEAR KEENAN FROM THE FUTURE ----> REMEMBER TO CHANGE THIS # if you add a show.
+        TotalDownloads = 10;
+
+
         filename = "hld/" + filename;
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
@@ -341,7 +346,16 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
+        //ufinished section
         filename = "unfinished/audio";
+        filename = "hld/" + filename;
+        TryDownloadFile(filename);
+
+         //soloflight section
+        filename = "sora/audio";
+        filename = "hld/"+ filename;
+        TryDownloadFile(filename);
+        filename = "suspendeddisbelief/audio";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
@@ -662,6 +676,8 @@ public class InitializationManager : MonoBehaviour
         CheckAndUpdateLinks("Displayed-Info_Page");
         CheckAndUpdateLinks("OnDisplay-Info_Page");
         CheckAndUpdateLinks("Unfinished-Info_Page");
+        CheckAndUpdateLinks("SoloFlight-Info_Page");
+
 
     }
 
