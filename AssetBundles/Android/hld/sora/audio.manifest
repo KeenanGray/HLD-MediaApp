@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 2645280437
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b3fd6370fa2d6748184a8d1f39e874ac
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d9926813dc3022d4a579a209382b1244
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/hld/SORA/audio/captions.txt
+- Assets/hld/SORA/audio/Audio_Captions.mp3
+- Assets/hld/SORA/audio/background.jpg
+Dependencies: []

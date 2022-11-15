@@ -27,7 +27,7 @@ namespace UI_Builder
 
         private void Start()
         {
-
+            Debug.Log(UIB_PlatformManager.persistentDataPath);
         }
         private void Update()
         {
@@ -330,7 +330,7 @@ namespace UI_Builder
             }
             else
             {
-                //Debug.LogWarning("Asset bundle not found " + bundleString);
+                Debug.LogWarning("Asset bundle not found " + bundleString);
                 return "";
             }
         }

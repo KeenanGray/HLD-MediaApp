@@ -74,7 +74,7 @@ public static class ObjPoolManager
             go.GetComponent<UI_Builder.UIB_Button>().SetButtonText("");
             go.GetComponent<Button>().onClick.RemoveAllListeners();
 
-            go.GetComponent<Special_AccessibleButton>().enabled = false;
+            go.GetComponent<UAP_BaseElement>().enabled = false;
             go.name = "App_SubMenuButton+edited";
 
             go.GetComponent<UI_Builder.UIB_Button>().Init();

@@ -269,7 +269,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
         var outstr = "";
         time_label.text = ConvertToClockTime(StringToSecondsCount(AudioTimerInput.text, ref outstr));
-        UAP_AccessibilityManager.Say(AudioTimerInput.GetComponent<Special_AccessibleTimeCode>().GetTargetGameObject().GetComponent<Text>().text);
+        UAP_AccessibilityManager.Say(AudioTimerInput.GetComponent<UAP_BaseElement>().GetTargetGameObject().GetComponent<Text>().text);
 
         if (!AudioTimerInput.isFocused)
             UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject());
@@ -378,7 +378,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         source.Play();
         playbutton.transform.GetChild(0).gameObject.SetActive(false); //turn off the play button
         playbutton.transform.GetChild(1).gameObject.SetActive(true); //turn on the pause button
-        var sab = playbutton.GetComponent<Special_AccessibleButton>();
+        var sab = playbutton.GetComponent<UAP_BaseElement>();
         sab.m_Text = "Pause";
         sab.SelectItem(true);
 
@@ -391,7 +391,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         source.Pause();
         playbutton.transform.GetChild(0).gameObject.SetActive(true); //turn off the play button
         playbutton.transform.GetChild(1).gameObject.SetActive(false); //turn on the pause button
-        var sab = playbutton.GetComponent<Special_AccessibleButton>();
+        var sab = playbutton.GetComponent<UAP_BaseElement>();
         sab.m_Text = "Play";
         sab.SelectItem(true);
 

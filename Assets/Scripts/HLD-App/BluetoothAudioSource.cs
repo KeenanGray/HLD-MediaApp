@@ -109,7 +109,7 @@ public class BluetoothAudioSource : MonoBehaviour
         {
             src.clip = tmp.LoadAsset<AudioClip>(PathToAudio) as AudioClip;
             nameText.GetComponentInChildren<TextMeshProUGUI>().text = PathToAudio.Split('/')[PathToAudio.Split('/').Length - 1].Replace('_', ' ');
-            GetComponentInChildren<Special_AccessibleButton>().m_Text = nameText.GetComponentInChildren<TextMeshProUGUI>().text;
+            GetComponentInChildren<UAP_BaseElement>().m_Text = nameText.GetComponentInChildren<TextMeshProUGUI>().text;
 
         }
     }

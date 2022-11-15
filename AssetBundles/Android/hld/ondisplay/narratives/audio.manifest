@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 3608316725
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: eace5208732f61ec4db9daf3012ee597
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/hld/OnDisplay/Narratives/Audio/Jaclyn_Rea.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Garrison_Redd.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Valerie_Joseph.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Judy_Garfinkel.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Corey_Hill.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Victoria_Dombroski.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Amy_Meisner.wav
+- Assets/hld/OnDisplay/Narratives/Audio/Rebecca_Alson-Milkman.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Louisa_Mann.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Jessica_Hayon.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/HarryJohn_Shephard.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Desmond_Cadogan.wav
+Dependencies: []

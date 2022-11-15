@@ -13,17 +13,23 @@ public class InitializationManager : MonoBehaviour
     GameObject aspectManager;
 
     GameObject AccessibilityInstructions;
+
     GameObject blankPage;
 
     Database_Accessor db_Manager;
+
     public float InitializeTime;
+
     float t1;
+
     float t2;
 
     public static float DownloadCount = 0;
+
     public static float TotalDownloads { get; private set; }
 
     public static int checkingForUpdates = 0;
+
     public static float PercentDownloaded = 0;
 
     public bool DebugLocalAssetBundles;
@@ -32,16 +38,17 @@ public class InitializationManager : MonoBehaviour
 
     private bool hasCheckedFiles;
 
-
     void Start()
     {
 #if (!UNITY_EDITOR)
-        DebugLocalAssetBundles=false;
+        DebugLocalAssetBundles = false;
 #endif
+
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
         UpdateNameOfTextItem.ShouldRun = false;
 #endif
+
 
         StartCoroutine("Init");
     }
@@ -59,6 +66,7 @@ public class InitializationManager : MonoBehaviour
     {
         //set T1 for timing Init;
         t1 = Time.time;
+
         // Disable screen dimming
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -70,9 +78,8 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (e.GetType() == typeof(NullReferenceException))
+            if (e.GetType() == typeof (NullReferenceException))
             {
-
             }
         }
 
@@ -81,7 +88,10 @@ public class InitializationManager : MonoBehaviour
 
         try
         {
-            percentText = GameObject.Find("DownloadPercent").GetComponent<TextMeshProUGUI>();
+            percentText =
+                GameObject
+                    .Find("DownloadPercent")
+                    .GetComponent<TextMeshProUGUI>();
         }
         catch (Exception e)
         {
@@ -91,7 +101,10 @@ public class InitializationManager : MonoBehaviour
 
         try
         {
-            db_Manager = GameObject.Find("DB_Manager").GetComponent<HLD.Database_Accessor>();
+            db_Manager =
+                GameObject
+                    .Find("DB_Manager")
+                    .GetComponent<HLD.Database_Accessor>();
         }
         catch (Exception e)
         {
@@ -121,7 +134,8 @@ public class InitializationManager : MonoBehaviour
 
         try
         {
-            AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
+            AccessibilityInstructions =
+                GameObject.Find("AccessibleInstructions_Button");
         }
         catch (Exception e)
         {
@@ -146,22 +160,34 @@ public class InitializationManager : MonoBehaviour
 
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
-      Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
-  
-        if(UAP_AccessibilityManager.GetAndroidAccessibility()){
-        Debug.Log("Accessibility ON");
-        UAP_AccessibilityManager.EnableAccessibility(true);
+
+        Debug
+            .Log("checking accessibility " +
+            UAP_AccessibilityManager.GetAndroidAccessibility());
+
+        if (UAP_AccessibilityManager.GetAndroidAccessibility())
+        {
+            Debug.Log("Accessibility ON");
+            UAP_AccessibilityManager.EnableAccessibility(true);
         }
-        else{
-        Debug.Log("Accessibility OFF");
-        UAP_AccessibilityManager.EnableAccessibility(false);
+        else
+        {
+            Debug.Log("Accessibility OFF");
+            UAP_AccessibilityManager.EnableAccessibility(false);
         }
+
+
 #endif
+
 
         //Set the main page container
         //Can't remember why i did this
         UIB_PageContainer MainContainer = null;
-        foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
+        foreach (UIB_PageContainer
+            PageContainer
+            in
+            GetComponentsInChildren<UIB_PageContainer>()
+        )
         {
             MainContainer = PageContainer;
             MainContainer.Init();
@@ -175,18 +201,27 @@ public class InitializationManager : MonoBehaviour
 
         //turn aspect ratio fitters on
         //causes all pages to share origin with canvas and be correct dimensions
-        foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
+        foreach (AspectRatioFitter
+            arf
+            in
+            GetComponentsInChildren<AspectRatioFitter>()
+        )
         {
-            arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
+            arf.aspectRatio =
+                (UIB_AspectRatioManager.ScreenWidth) /
+                (UIB_AspectRatioManager.ScreenHeight);
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
 
         //initialize each button
-        foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
+        foreach (UI_Builder.UIB_Button
+            ab
+            in
+            GetComponentsInChildren<UI_Builder.UIB_Button>()
+        )
         {
             //before initializing buttons, we may change some names based on player_prefs
-
             if (ab.name == "Displayed-Code_Button")
                 CheckAndUpdateLinks("Displayed-Info_Page");
             if (ab.name == "OnDisplay-Code_Button")
@@ -211,7 +246,11 @@ public class InitializationManager : MonoBehaviour
 
         //initialize companty dancers page
         //TODO: might not need this
-        foreach (CompanyDancers_Page p in GetComponentsInChildren<CompanyDancers_Page>())
+        foreach (CompanyDancers_Page
+            p
+            in
+            GetComponentsInChildren<CompanyDancers_Page>()
+        )
         {
             p.Init();
         }
@@ -228,15 +267,20 @@ public class InitializationManager : MonoBehaviour
         }
 
         //initialize each scrolling menu
-        foreach (UIB_ScrollingMenu uibSM in GetComponentsInChildren<UIB_ScrollingMenu>())
+        foreach (UIB_ScrollingMenu
+            uibSM
+            in
+            GetComponentsInChildren<UIB_ScrollingMenu>()
+        )
         {
             uibSM.Init();
         }
 
         //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");
-        yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
-
+        yield return firstScreen
+                .GetComponent<UIB_Page>()
+                .StartCoroutine("MoveScreenIn", true);
 
         if (UAP_AccessibilityManager.IsEnabled())
         {
@@ -248,14 +292,23 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
-
             }
 
             //select the first button with UAP
             var first = GameObject.Find("DISPLAYED-Code_Button");
-            UAP_AccessibilityManager.SelectElement(first, true); ;
+            UAP_AccessibilityManager.SelectElement(first, true);
+
         }
 
+        //initialize the url buttons
+        foreach (AssignUrlFromAssetBundle
+            e
+            in
+            FindObjectsOfType(typeof (AssignUrlFromAssetBundle))
+        )
+        {
+            e.UpdateURL();
+        }
 
         //remove the cover
         MainContainer.DisableCover();
@@ -270,12 +323,16 @@ public class InitializationManager : MonoBehaviour
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
+
         yield break;
     }
 
     internal static void ReloadAssetBundle(string filename)
     {
-        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().RefreshBundle(filename);
+        GameObject
+            .Find("MainCanvas")
+            .GetComponent<UIB_AssetBundleHelper>()
+            .RefreshBundle(filename);
     }
 
     private IEnumerator ManageAssetBundleFiles()
@@ -286,79 +343,78 @@ public class InitializationManager : MonoBehaviour
             yield return null;
         }
         blankPage.transform.SetAsLastSibling();
-        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
+        GameObject
+            .Find("MainCanvas")
+            .GetComponent<UIB_AssetBundleHelper>()
+            .StartCoroutine("LoadAssetBundlesInBackground");
     }
 
     private IEnumerator CheckLocalFiles()
     {
-
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
         var filename = UIB_PlatformManager.platform + "/";
 
-
         //DEAR KEENAN FROM THE FUTURE ----> REMEMBER TO CHANGE THIS # if you add a show.
         TotalDownloads = 10;
 
-
         filename = "hld/" + filename;
+
         //TODO: DeAuth if Default_Code.json is older than 24 hours and doesn't match current code.
         //Next up: Check for "general" asset bundle
         filename = "general";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "bios/json";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "displayed/narratives/captions";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
-
+        TryDownloadFile (filename);
 
         filename = "bios/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "displayed/narratives/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "displayed/narratives/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "displayed/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         //OnDisplaySection
         filename = "ondisplay/narratives/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "ondisplay/narratives/captions";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         filename = "ondisplay/narratives/photos";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
         //ufinished section
         filename = "unfinished/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
+        TryDownloadFile (filename);
 
-         //soloflight section
+        //soloflight section
         filename = "sora/audio";
-        filename = "hld/"+ filename;
-        TryDownloadFile(filename);
+        filename = "hld/" + filename;
+        TryDownloadFile (filename);
         filename = "suspendeddisbelief/audio";
         filename = "hld/" + filename;
-        TryDownloadFile(filename);
-
+        TryDownloadFile (filename);
 
         //TODO:figure out video loading
         /*
@@ -379,42 +435,65 @@ public class InitializationManager : MonoBehaviour
   filename = "hld/" + filename;
   TryDownloadFile(filename);
   */
-
         //if we get here we have all the files
         hasCheckedFiles = true;
         yield break;
     }
 
-    private void TryDownloadFile(string filename, bool fallbackUsingBundle = false)
+    private void TryDownloadFile(
+        string filename,
+        bool fallbackUsingBundle = false
+    )
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-         if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath +"android/assets/"+ UIB_PlatformManager.platform + filename)))
+        if (
+            !(
+            UIB_FileManager
+                .FileExists(UIB_PlatformManager.persistentDataPath +
+                "android/assets/" +
+                UIB_PlatformManager.platform +
+                filename)
+            )
+        )
         {
             //We don't have the file, first thing is to copy it from streaming assets
             //On Android, streaming assets are zipped so we need a special accessor
             print("file does not exist");
-            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
-            //record here that we have never updated files from the internet;
-            PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
+            GameObject
+                .Find("FileManager")
+                .GetComponent<UIB_FileManager>()
+                .StartCoroutine("CreateStreamingAssetDirectories", filename);
 
-            if (CheckInternet()&& !DebugLocalAssetBundles)
+            //record here that we have never updated files from the internet;
+            PlayerPrefs
+                .SetString("LastUpdated",
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
+
+            if (CheckInternet() && !DebugLocalAssetBundles)
             {
                 print("Just copied all asset bundle files, checking for update");
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform  + filename, "heidi-latsky-dance");
+                db_Manager
+                    .CheckIfObjectHasUpdate(UIB_PlatformManager.platform +
+                    filename,
+                    "heidi-latsky-dance");
             }
             else
             {
-                
             }
         }
-        else{
-         //we have the file check for update
+        else
+        {
+            //we have the file check for update
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
                 print("we have the file checking for update");
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                db_Manager
+                    .CheckIfObjectHasUpdate(UIB_PlatformManager.platform +
+                    filename,
+                    "heidi-latsky-dance");
             }
         }
+
 
 #else
         if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename)))
@@ -447,10 +526,10 @@ public class InitializationManager : MonoBehaviour
         }
 
 #endif
-        //delete the streaming asset files
-        UIB_FileManager.DeleteFile(filename);
-        UIB_AssetBundleHelper.InsertAssetBundle(filename);
 
+        //delete the streaming asset files
+        UIB_FileManager.DeleteFile (filename);
+        UIB_AssetBundleHelper.InsertAssetBundle (filename);
     }
 
     private void ActivateLimitedFunctionality()
@@ -464,7 +543,10 @@ public class InitializationManager : MonoBehaviour
         */
     }
 
-    private void DownloadFileFromDatabase(string fName, bool fallbackUsingBundle = false)
+    private void DownloadFileFromDatabase(
+        string fName,
+        bool fallbackUsingBundle = false
+    )
     {
         //TODO: Alert the user we are about to begin a large download
         //How often can we call this download function before it costs too much $$$
@@ -501,12 +583,11 @@ public class InitializationManager : MonoBehaviour
 
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            if (b.name == "hld/general")
-                tmp = b;
+            if (b.name == "hld/general") tmp = b;
         }
         if (tmp != null)
-            list = tmp.LoadAsset<TextAsset>("listofdancers").ToString().Split(',');
-
+            list =
+                tmp.LoadAsset<TextAsset>("listofdancers").ToString().Split(',');
         else
         {
             Debug.LogWarning("No list of dancers");
@@ -520,7 +601,8 @@ public class InitializationManager : MonoBehaviour
             list[i] = list[i].Replace("\n", "");
             list[i] = list[i].Replace("\r", "");
             list[i] = list[i].TrimEnd(System.Environment.NewLine.ToCharArray());
-            list[i] = list[i].TrimStart(System.Environment.NewLine.ToCharArray());
+            list[i] =
+                list[i].TrimStart(System.Environment.NewLine.ToCharArray());
         }
         return list;
     }
@@ -552,7 +634,6 @@ public class InitializationManager : MonoBehaviour
                     WifiInUseIcon.SetActive(false);
                 }
                 yield return null;
-
             }
             else
             {
@@ -577,9 +658,12 @@ public class InitializationManager : MonoBehaviour
         {
             if (TotalDownloads > 0)
             {
-                PercentDownloaded = (float)((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
+                PercentDownloaded =
+                    (float)((TotalDownloads - DownloadCount) / TotalDownloads) *
+                    100;
                 if (PercentDownloaded > 0)
-                { }
+                {
+                }
                 else
                 {
                     PercentDownloaded = 0;
@@ -593,7 +677,11 @@ public class InitializationManager : MonoBehaviour
 
     private void CheckAndUpdateLinks(string key)
     {
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("LockedPageButton"))
+        foreach (GameObject
+            go
+            in
+            GameObject.FindGameObjectsWithTag("LockedPageButton")
+        )
         {
             GameObject CodeToInfoObject = null;
             if (go.name == key.Replace("Info_Page", "Code_Button"))
@@ -610,23 +698,25 @@ public class InitializationManager : MonoBehaviour
             //If date of passcode entry doesn't check out. we don't change the name
             if (PlayerPrefs.HasKey(key))
             {
-                var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
+                var codeEntered =
+                    DateTime
+                        .Parse(PlayerPrefs.GetString(key))
+                        .ToUniversalTime();
 
                 //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
-
                 if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
                 {
                     try
                     {
                         //exceeded time limit. Reactivte code-entry page
-                        InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
+                        InfoToCodeObject.name =
+                            key.Replace("Info_Page", "Code_Button");
                         InfoToCodeObject.GetComponent<UIB_Button>().Init();
                     }
                     catch (Exception e)
                     {
-                        if (e.GetType() == typeof(NullReferenceException))
+                        if (e.GetType() == typeof (NullReferenceException))
                         {
-
                         }
                     }
                 }
@@ -634,18 +724,17 @@ public class InitializationManager : MonoBehaviour
                 {
                     //We have access.
                     //Change the code page to the info page
-
                     //Debug.Log("THINK WE HAVE ACCESS");
                     try
                     {
-                        CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
+                        CodeToInfoObject.name =
+                            key.Replace("Info_Page", "Info_Button");
                         CodeToInfoObject.GetComponent<UIB_Button>().Init();
                     }
                     catch (Exception e)
                     {
-                        if (e.GetType() == typeof(NullReferenceException))
+                        if (e.GetType() == typeof (NullReferenceException))
                         {
-
                         }
                     }
                 }
@@ -657,14 +746,14 @@ public class InitializationManager : MonoBehaviour
                 {
                     //if you do not have the player pref
                     //set info page to code page
-                    InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
+                    InfoToCodeObject.name =
+                        key.Replace("Info_Page", "Code_Button");
                     InfoToCodeObject.GetComponent<UIB_Button>().Init();
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof(NullReferenceException))
+                    if (e.GetType() == typeof (NullReferenceException))
                     {
-
                     }
                 }
             }
@@ -677,8 +766,5 @@ public class InitializationManager : MonoBehaviour
         CheckAndUpdateLinks("OnDisplay-Info_Page");
         CheckAndUpdateLinks("Unfinished-Info_Page");
         CheckAndUpdateLinks("SoloFlight-Info_Page");
-
-
     }
-
 }

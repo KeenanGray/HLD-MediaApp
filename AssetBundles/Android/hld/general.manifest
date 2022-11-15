@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 4200864913
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d7b9d08a1c7c634a6f9c4f66641b01b7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/hld/accessCodes/OnDisplayAccessCode.txt
+- Assets/hld/listsOfDancers/DisplayedListOfDancers.txt
+- Assets/hld/programNotes/soraProgramNotes.txt
+- Assets/hld/listsOfDancers/OnDisplayListOfDancers.txt
+- Assets/hld/urls/DisplayedADStream.txt
+- Assets/hld/programNotes/OnDisplayProgramNotes.txt
+- Assets/hld/programNotes/DisplayedProgramNotes.txt
+- Assets/hld/accessCodes/UnfinishedAccessCode.txt
+- Assets/hld/programNotes/suspendeddisbeliefProgramNotes.txt
+- Assets/hld/programNotes/soloflightProgramNotes.txt
+- Assets/hld/accessCodes/DisplayedAccessCode.txt
+- Assets/hld/programNotes/UnfinishedProgramNotes.txt
+- Assets/hld/urls/DisplayedProgramLink.txt
+- Assets/hld/accessCodes/SoloFlightAccessCode.txt
+Dependencies: []

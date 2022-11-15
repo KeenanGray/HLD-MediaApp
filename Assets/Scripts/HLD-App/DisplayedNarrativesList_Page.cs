@@ -5,32 +5,35 @@ using HLD;
 using UI_Builder;
 using UnityEngine;
 using UnityEngine.UI;
+
 using static HLD.JSON_Structs;
 
 public class DisplayedNarrativesList_Page : HLD.ScrollMenu
 {
-
     //The implementation of the page generator for this pages submenu
     public override void MakeLinkedPages()
     {
         //        Debug.Log(gameObject.name + " " +"makelinkedpages");
-
         var ShowName = name.Split('-')[0];
         if (ShowName == "CompanyDancers_Page")
         {
-            var BiographyOrderedByName = (System.Linq.IOrderedEnumerable<Biography>)OrderedByName;
+            var BiographyOrderedByName =
+                (System.Linq.IOrderedEnumerable<Biography>) OrderedByName;
             foreach (Biography bioJson in BiographyOrderedByName)
             {
                 Name_Suffix = bioJson.Name.Replace(" ", "");
                 GameObject go = null;
-                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
+                ObjPoolManager
+                    .RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
 
                 if (go != null)
                 {
                     go.transform.SetParent(Page_Parent.transform);
                     go.name = (Name_Suffix + "_Page");
                     Narrative_Page np = go.GetComponent<Narrative_Page>();
-                    np.SetupPage(bioJson.Name, bioJson.Name.Replace(" ", "_").ToLower());
+                    np
+                        .SetupPage(bioJson.Name,
+                        bioJson.Name.Replace(" ", "_").ToLower());
                     np.SetShowName(name.Split('-')[0]);
                 }
             }
@@ -41,13 +44,15 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
             {
                 Name_Suffix = s.Replace("_", "");
                 GameObject go = null;
-                ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
+                ObjPoolManager
+                    .RetrieveFromPool(ObjPoolManager.Pool.Narrative, ref go);
 
                 if (go != null)
                 {
                     go.transform.SetParent(Page_Parent.transform);
                     go.name = (Name_Suffix + "_Page");
                     Narrative_Page np = go.GetComponent<Narrative_Page>();
+
                     //                    Debug.Log("s:" + s.Replace("_","_").ToLower());
                     np.SetupPage(s, s.Replace("_", "_").ToLower());
                     np.SetShowName(name.Split('-')[0]);
@@ -77,8 +82,9 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
 
     IEnumerator updateWait()
     {
-        var scrollrect = GetComponentInChildren<ScrollRect>();
-        scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1700);
+        ScrollRect scrollrect = GetComponentInChildren<ScrollRect>();
+        scrollrect.content.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(0, -1700);
 
         /*
         while (scrollrect.content.GetComponent<RectTransform>().rect.height <= 0)
@@ -87,14 +93,14 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
             yield return null;
         }
         */
-        scrollrect.content.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scrollrect.GetComponent<RectTransform>().rect.height);
+        scrollrect.content.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(0,
+                -scrollrect.GetComponent<RectTransform>().rect.height);
         yield break;
     }
 
     public override GameObject GetCurrentlySelectedListElement()
     {
-
-
         return CurrentlySelectedListElement;
     }
 }

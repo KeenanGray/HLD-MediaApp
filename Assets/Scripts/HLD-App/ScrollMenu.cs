@@ -16,7 +16,6 @@ namespace HLD
         GameObject GetCurrentlySelectedListElement();
     }
 
-    [RequireComponent(typeof(ScrollRect))]
     public abstract class ScrollMenu : MonoBehaviour, UIB_IPage, IScrollMenu
     {
         protected ScrollRect scroll;
@@ -136,7 +135,7 @@ namespace HLD
 
 
             CurrentlySelectedListElement = closest;
-
+            
             CurrentlySelectedListElement.GetComponent<UIB_Button>().SetupButtonColors();
 
             //Update the background based on the scroll box
@@ -249,7 +248,7 @@ namespace HLD
                         go.transform.SetParent(scroll.content.transform);
 
                         //update parent for accessibility
-                        var sab = go.GetComponent<Special_AccessibleButton>();
+                        var sab = go.GetComponent<UAP_BaseElement>();
 
                         sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
                         sab.m_ManualPositionOrder = traversalOrder;
@@ -283,7 +282,7 @@ namespace HLD
                         go.transform.SetParent(scroll.content.transform);
 
                         //update parent for accessibility
-                        var sab = go.GetComponent<Special_AccessibleButton>();
+                        var sab = go.GetComponent<UAP_BaseElement>();
 
                         sab.m_ManualPositionParent = go.GetComponentInParent<AccessibleUIGroupRoot>().gameObject;
                         sab.m_ManualPositionOrder = traversalOrder;

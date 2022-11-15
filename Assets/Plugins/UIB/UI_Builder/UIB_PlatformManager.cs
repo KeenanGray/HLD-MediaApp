@@ -12,7 +12,7 @@ namespace UI_Builder
         {
             UIB_PlatformManager.persistentDataPath = Application.persistentDataPath + "/heidi-latsky-dance/";
 
-            platform = "android/";
+            platform = "ios/";
 #if UNITY_IOS && !UNITY_EDITOR
         platform="ios/";
 #endif

@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1296768103
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 73f164cc4141ce81ab7ff4a34c16ad9e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d9926813dc3022d4a579a209382b1244
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/hld/unfinished/audio/captions.txt
+- Assets/hld/unfinished/audio/background.jpg
+- Assets/hld/unfinished/audio/audio_captions.mp3
+Dependencies: []

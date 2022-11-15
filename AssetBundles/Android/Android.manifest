@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 3213019839
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: hld/bios/photos
+      Dependencies: {}
+    Info_1:
+      Name: hld/ondisplay/narratives/audio
+      Dependencies: {}
+    Info_2:
+      Name: hld/displayed/narratives/captions
+      Dependencies: {}
+    Info_3:
+      Name: hld/ondisplay/narratives/photos
+      Dependencies: {}
+    Info_4:
+      Name: hld/general
+      Dependencies: {}
+    Info_5:
+      Name: hld/displayed/narratives/audio
+      Dependencies: {}
+    Info_6:
+      Name: hld/displayed/narratives/photos
+      Dependencies: {}
+    Info_7:
+      Name: hld/unfinished/audio
+      Dependencies: {}
+    Info_8:
+      Name: hld/ondisplay/narratives/captions
+      Dependencies: {}
+    Info_9:
+      Name: hld/displayed/audio
+      Dependencies: {}
+    Info_10:
+      Name: hld/suspendeddisbelief/audio
+      Dependencies: {}
+    Info_11:
+      Name: hld/sora/audio
+      Dependencies: {}
+    Info_12:
+      Name: hld/bios/json
+      Dependencies: {}

@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 4291395706
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9e146fdd1b47e412f2763bfdcb2cbac1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/hld/OnDisplay/Narratives/Captions/Amy_Meisner.txt
+- Assets/hld/OnDisplay/Narratives/Captions/HarryJohn_Shephard.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Garrison_Redd.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Jessica_Hayon.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Judy_Garfinkel.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Victoria_Dombroski.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Jaclyn_Rea.txt
+- Assets/hld/OnDisplay/Narratives/Captions/valerie_joseph.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Louisa_Mann.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Desmond_Cadogan.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Rebecca_Alson-Milkman.txt
+- Assets/hld/OnDisplay/Narratives/Captions/Corey_Hill.txt
+Dependencies: []

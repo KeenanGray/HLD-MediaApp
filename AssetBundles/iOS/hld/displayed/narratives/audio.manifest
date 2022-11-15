@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 2233450752
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f4d0df983c15bdad3840f870a70c708b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/hld/displayed/Narratives/Audio/Amy_Meisner.mp3
+- Assets/hld/displayed/Narratives/Audio/Jerron_Herman.mp3
+- Assets/hld/displayed/Narratives/Audio/Meredith_Fages.mp3
+- Assets/hld/displayed/Narratives/Audio/Carmen_Schoenster.mp3
+- Assets/hld/displayed/Narratives/Audio/Leslie_Taub.mp3
+- Assets/hld/displayed/Narratives/Audio/Donald_Lee.mp3
+- Assets/hld/displayed/Narratives/Audio/Desmond_Cadogan.mp3
+- Assets/hld/displayed/Narratives/Audio/Jillian_Hollis.mp3
+- Assets/hld/displayed/Narratives/Audio/Peter_Trojic.mp3
+- Assets/hld/displayed/Narratives/Audio/Louisa_Mann.mp3
+- Assets/hld/displayed/Narratives/Audio/Victoria_Dombroski.mp3
+- Assets/hld/displayed/Narratives/Audio/Nico_Gonzales.mp3
+- Assets/hld/displayed/Narratives/Audio/Tianshi_Suo.mp3
+- Assets/hld/displayed/Narratives/Audio/Chris_Braz.mp3
+- Assets/hld/displayed/Narratives/Audio/Tiffany_Geigel.mp3
+- Assets/hld/displayed/Narratives/Audio/Kelly_Ramis.mp3
+- Assets/hld/displayed/Narratives/Audio/Jaclyn_Rea.mp3
+Dependencies: []

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+
 public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 {
     GameObject cover;
@@ -145,15 +146,11 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         GetComponent<AspectRatioFitter>().enabled = false;
         Sprite ImageToUse = null;
         AssetBundle tmp = null;
-
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            //Debug.Log("debug loaded asset bundles " + b.name);
-            if (b.name == bundleString){
-                print("matched " + b + " and loaded");
+            //            Debug.Log(b.name);
+            if (b.name == bundleString)
                 tmp = b;
-                ImageToUse = tmp.LoadAsset<Sprite>(PathToImage);
-            }
         }
 
         try
@@ -165,15 +162,12 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             if (e.GetBaseException().GetType() == typeof(NullReferenceException))
             {
             }
+            Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
         }
-
         if (BgPhoto != null)
         {
-            BgPhoto.sprite = tmp.LoadAsset<Sprite>(PathToImage);
-            //ImageToUse;
-            Debug.Log(BgPhoto.name);
-            Debug.Log(BgPhoto.sprite.name);
-            Debug.Log(ImageToUse);
+            BgPhoto.sprite = ImageToUse;
+
             //set recttransform aspect based on image and aspect ratio of screen
             var ar = UIB_AspectRatioManager.ScreenWidth / UIB_AspectRatioManager.ScreenHeight;
             var imgAR = 9f / 16f;
@@ -259,14 +253,14 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         AudioCaptions = new TextAsset(newText);
 
         //        Debug.Log("turning captions reader on");
-        CaptionsToggle.GetComponent<Special_AccessibleButton>().enabled = true;
+        CaptionsToggle.GetComponent<UAP_BaseElement>().enabled = true;
         CaptionsToggle.GetComponent<Button>().enabled = true;
     }
 
     IEnumerator TurnOffCaptionsReader()
     {
         yield return new WaitForSeconds(0.5f);
-        CaptionsToggle.GetComponent<Special_AccessibleButton>().enabled = false;
+        CaptionsToggle.GetComponent<UAP_BaseElement>().enabled = false;
         CaptionsToggle.GetComponent<Button>().enabled = false;
 
         UAP_AccessibilityManager.RecalculateUIElementsOrder();

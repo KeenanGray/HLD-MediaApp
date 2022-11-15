@@ -13,7 +13,7 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
     List<string> DancerLinks;
 
     ScrollRect scroll;
-    Special_AccessibleButton AccessibleButton = null;
+    UAP_BaseElement AccessibleButton = null;
 
     // Use this for initialization
     public void Init()
@@ -242,7 +242,7 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
 
                 ab.Init();
 
-                var sab = b.GetComponent<Special_AccessibleButton>();
+                var sab = b.GetComponent<UAP_BaseElement>();
                 if (i == 0)
                 {
                     AccessibleButton = sab;

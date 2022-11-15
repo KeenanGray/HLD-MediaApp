@@ -263,7 +263,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         OnOff.transform.Find("ToggleOn").gameObject.SetActive(true);
 
         ToggleStartingText = ToggleButton.GetComponentInChildren<TextMeshProUGUI>().text;
-        var uap_T = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        var uap_T = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInParent<UAP_BaseElement>();
         uap_T.m_Text = ToggleStartingText + " On ";
 
         PlayMultiple = true;
@@ -279,7 +279,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         OnOff.transform.Find("ToggleOff").gameObject.SetActive(!PlayMultiple);
 
         var t = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInChildren<TextMeshProUGUI>();
-        var uap_T = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInParent<Special_AccessibleButton>();
+        var uap_T = GameObject.Find(ShowName + "-ToggleMultipleButton").GetComponentInParent<UAP_BaseElement>();
 
         if (PlayMultiple)
         {
