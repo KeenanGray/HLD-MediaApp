@@ -82,7 +82,12 @@ public class UIB_InputManager : MonoBehaviour
             Touch[] t = { new Touch() };
             if (canTap)
             {
+                try{
                 TouchDelegate(t, 1);
+                }
+                catch{
+                    Debug.LogWarning("no touch delegate on object");
+                }
             }
         }
 #endif

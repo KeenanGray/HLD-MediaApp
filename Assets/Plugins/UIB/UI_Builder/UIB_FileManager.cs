@@ -9,7 +9,6 @@ using UnityEngine.Networking;
 
 namespace UI_Builder
 {
-
     public enum UIB_FileTypes
     {
         Images,
@@ -27,11 +26,11 @@ namespace UI_Builder
 
         private void Start()
         {
-            Debug.Log(UIB_PlatformManager.persistentDataPath);
+            //Debug.Log(UIB_PlatformManager.persistentDataPath);
         }
+
         private void Update()
         {
-
         }
 
         private string GetAPIKey(string v)
@@ -83,7 +82,10 @@ namespace UI_Builder
             return fileData;
         }
 
-        public static void WriteFileFromResponse(GetObjectResponse response, string fileName)
+        public static void WriteFileFromResponse(
+            GetObjectResponse response,
+            string fileName
+        )
         {
             //check if the directory exists
             //split filepath into directory and filename
@@ -107,11 +109,13 @@ namespace UI_Builder
 
             print("response:" + response + " fileName" + fileName);
 
-            var newpath = UIB_PlatformManager.persistentDataPath + directory.Replace("/heidi-latsky-dance/", "");
+            var newpath =
+                UIB_PlatformManager.persistentDataPath +
+                directory.Replace("/heidi-latsky-dance/", "");
 
             if (!Directory.Exists(newpath))
             {
-                Directory.CreateDirectory(newpath);
+                Directory.CreateDirectory (newpath);
             }
             else
             {
@@ -120,18 +124,23 @@ namespace UI_Builder
             {
                 byte[] buffer = new byte[81920];
                 int count;
-                while ((count = response.ResponseStream.Read(buffer, 0, buffer.Length)) != 0)
+                while ((
+                    count =
+                        response.ResponseStream.Read(buffer, 0, buffer.Length)
+                    ) !=
+                    0
+                )
                 {
                     fs.Write(buffer, 0, count);
                 }
                 fs.Flush();
             }
-
         }
 
         void WriteJsonFromWeb(string data, string fileName)
         {
-            string destination = UIB_PlatformManager.persistentDataPath + "/" + fileName;
+            string destination =
+                UIB_PlatformManager.persistentDataPath + "/" + fileName;
             FileStream file;
             StreamReader sr;
             StreamWriter sw;
@@ -153,6 +162,7 @@ namespace UI_Builder
                 sr.Close();
 
                 oldJson = oldJson.Remove(oldJson.Length - 1, 1);
+
                 //   oldJson = oldJson.Remove(oldJson.Length - 1, 1);
                 if (oldJson.Equals(jsonToWrite))
                 {
@@ -162,20 +172,20 @@ namespace UI_Builder
                 {
                     file = File.Create(destination);
                     file.Close();
+
                     //          Debug.Log("New JSON");
                     sw = new StreamWriter(destination, true);
-                    sw.WriteLine(jsonToWrite);
+                    sw.WriteLine (jsonToWrite);
                     sw.Close();
                 }
             }
             else
             {
                 //If the file does not exist, create the file and write data to it
-
                 file = File.Create(destination);
                 file.Close();
                 sw = new StreamWriter(destination, true);
-                sw.WriteLine(jsonToWrite);
+                sw.WriteLine (jsonToWrite);
                 sw.Close();
             }
         }
@@ -183,8 +193,14 @@ namespace UI_Builder
         public static bool FileExists(string fileName)
         {
             string destination = fileName;
+            Debug
+                .Log("checking for file " +
+                fileName +
+                " file found: " +
+                File.Exists(destination));
             return File.Exists(destination);
         }
+
         internal static bool FileExists(string path, UIB_FileTypes kind)
         {
             var ext = "";
@@ -220,10 +236,10 @@ namespace UI_Builder
             return false;
         }
 
-
         public static void WriteJsonUnModified(string data, string fileName)
         {
-            string destination = UIB_PlatformManager.persistentDataPath + "/" + fileName;
+            string destination =
+                UIB_PlatformManager.persistentDataPath + "/" + fileName;
             FileStream file;
             StreamReader sr;
             StreamWriter sw;
@@ -245,6 +261,7 @@ namespace UI_Builder
                 sr.Close();
 
                 oldJson = oldJson.Remove(oldJson.Length - 1, 1);
+
                 //   oldJson = oldJson.Remove(oldJson.Length - 1, 1);
                 if (oldJson.Equals(jsonToWrite))
                 {
@@ -254,18 +271,17 @@ namespace UI_Builder
                     file = File.Create(destination);
                     file.Close();
                     sw = new StreamWriter(destination, true);
-                    sw.WriteLine(jsonToWrite);
+                    sw.WriteLine (jsonToWrite);
                     sw.Close();
                 }
             }
             else
             {
                 //If the file does not exist, create the file and write data to it
-
                 file = File.Create(destination);
                 file.Close();
                 sw = new StreamWriter(destination, true);
-                sw.WriteLine(jsonToWrite);
+                sw.WriteLine (jsonToWrite);
                 sw.Close();
             }
         }
@@ -274,6 +290,7 @@ namespace UI_Builder
         {
             //remove the file ext
             var val = key.Split('.')[0];
+
             //split the string by '/' and get the last one
             val = val.Split('/')[val.Split('/').Length - 1];
             return val;
@@ -281,10 +298,12 @@ namespace UI_Builder
 
         public static string ReadTextFile(string fileName)
         {
-            string destination = UIB_PlatformManager.persistentDataPath + "/" + fileName;
+            string destination =
+                UIB_PlatformManager.persistentDataPath + "/" + fileName;
             StreamReader sr;
 
             string jsonStr = "";
+
             //Open the local file
             if (File.Exists(destination))
             {
@@ -303,13 +322,13 @@ namespace UI_Builder
             }
         }
 
-        public static string ReadTextAssetBundle(string fileName, string bundleString)
+        public static string
+        ReadTextAssetBundle(string fileName, string bundleString)
         {
             AssetBundle tmp = null;
             foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
             {
-                if (b.name == bundleString)
-                    tmp = b;
+                if (b.name == bundleString) tmp = b;
             }
             if (tmp != null)
             {
@@ -319,12 +338,16 @@ namespace UI_Builder
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof(NullReferenceException))
+                    if (e.GetType() == typeof (NullReferenceException))
                     {
-
                     }
+
                     //print(e);
-                    Debug.LogError("no file:" + fileName + " in bundle:" + bundleString);
+                    Debug
+                        .LogError("no file:" +
+                        fileName +
+                        " in bundle:" +
+                        bundleString);
                     return "";
                 }
             }
@@ -337,8 +360,16 @@ namespace UI_Builder
 
         public static void WriteFromStreamingToPersistent(string fileName)
         {
-            var src = Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + fileName;
-            var dest = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + fileName;
+            var src =
+                Application.streamingAssetsPath +
+                "/" +
+                UIB_PlatformManager.platform +
+                fileName;
+            var dest =
+                UIB_PlatformManager.persistentDataPath +
+                UIB_PlatformManager.platform +
+                fileName;
+
             //check if the src directory exists
             if (FileExists(src))
             {
@@ -364,19 +395,19 @@ namespace UI_Builder
                         }
                     }
 
-                    Directory.CreateDirectory(directory);
-
+                    Directory.CreateDirectory (directory);
                 }
 
                 //Debug.Log("writing: " + src + " to dest: " + dest);
-                File.Copy(src, dest);
+                File.Copy (src, dest);
                 //  File.CopyFileOrDirectory(src, dest);
             }
             else
             {
-                Debug.LogWarning("NO BUNDLE EXCEPTION::No asset bundle with this path found in streaming assets. " + src);
+                Debug
+                    .LogWarning("NO BUNDLE EXCEPTION::No asset bundle with this path found in streaming assets. " +
+                    src);
             }
-
         }
 
         public static bool AndroidCopyIsDone;
@@ -390,18 +421,27 @@ namespace UI_Builder
             //It comes from a special utility called "Android Streaming Assets"
             var samplePath = AndroidStreamingAssets.Path;
             samplePath = AndroidStreamingAssets.Path;
-            printDirectory(samplePath);
-            //Do not change the above 3 lines!!
+            printDirectory (samplePath);
 #endif
-            yield break;
 
+            //Do not change the above 3 lines!!
+            yield break;
         }
 
         public static void DeleteFile(string filename)
         {
             //if we are not in the Unity Editor, delete the streaming assets files to save space
-            var path = Path.Combine(Application.streamingAssetsPath, "/", UIB_PlatformManager.platform, filename);
-            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("WaitDeleteFile", path);
+            var path =
+                Path
+                    .Combine(Application.streamingAssetsPath,
+                    "/",
+                    UIB_PlatformManager.platform,
+                    filename);
+            GameObject
+                .Find("FileManager")
+                .GetComponent<UIB_FileManager>()
+                .StartCoroutine("WaitDeleteFile", path);
+
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 #endif
@@ -411,27 +451,31 @@ namespace UI_Builder
         private IEnumerator WaitDeleteFile(string filepath)
         {
 #if UNITY_IOS && !UNITY_EDITOR
-            filepath = Path.Combine("/private",filepath);
+            filepath = Path.Combine("/private", filepath);
 #endif
+
 #if UNITY_ANDROID && !UNITY_EDITOR
             filepath = Application.streamingAssetsPath;
 #endif
+
+
 
 #if !UNITY_EDITOR
             while (File.Exists(filepath))
             {
                 try
                 {
-                    File.Delete(filepath);
+                    File.Delete (filepath);
                     Debug.Log("called delete function");
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(e);
+                    Debug.Log (e);
                 }
                 yield return null;
             }
 #endif
+
 
             yield break;
         }
@@ -445,7 +489,7 @@ namespace UI_Builder
             }
             foreach (string d in Directory.GetDirectories(v))
             {
-                printDirectory(d);
+                printDirectory (d);
             }
         }
     }

@@ -6,6 +6,7 @@ using HLD;
 using TMPro;
 using UI_Builder;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InitializationManager : MonoBehaviour
@@ -32,6 +33,8 @@ public class InitializationManager : MonoBehaviour
 
     public static float PercentDownloaded = 0;
 
+    public static bool hasUpdatedFiles = false;
+
     public bool DebugLocalAssetBundles;
 
     public TextMeshProUGUI percentText;
@@ -40,9 +43,13 @@ public class InitializationManager : MonoBehaviour
 
     void Start()
     {
+        InitializationManager.hasUpdatedFiles = false;
+
 #if (!UNITY_EDITOR)
         DebugLocalAssetBundles = false;
 #endif
+
+
 
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
@@ -297,7 +304,6 @@ public class InitializationManager : MonoBehaviour
             //select the first button with UAP
             var first = GameObject.Find("DISPLAYED-Code_Button");
             UAP_AccessibilityManager.SelectElement(first, true);
-
         }
 
         //initialize the url buttons
@@ -322,7 +328,6 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("took " + elapsed + "s to initialize");
         else
             Debug.LogWarning("Took longer to initialize than expected");
-
 
         yield break;
     }
@@ -356,7 +361,7 @@ public class InitializationManager : MonoBehaviour
         var filename = UIB_PlatformManager.platform + "/";
 
         //DEAR KEENAN FROM THE FUTURE ----> REMEMBER TO CHANGE THIS # if you add a show.
-        TotalDownloads = 10;
+        TotalDownloads = 13;
 
         filename = "hld/" + filename;
 
@@ -527,6 +532,7 @@ public class InitializationManager : MonoBehaviour
 
 #endif
 
+
         //delete the streaming asset files
         UIB_FileManager.DeleteFile (filename);
         UIB_AssetBundleHelper.InsertAssetBundle (filename);
@@ -672,7 +678,15 @@ public class InitializationManager : MonoBehaviour
             }
             yield return null;
         }
+        
+        if (InitializationManager.hasUpdatedFiles) cleanupAndReloadScene();
+
         yield break;
+    }
+
+    private void cleanupAndReloadScene()
+    {
+        SceneManager.LoadScene(1);
     }
 
     private void CheckAndUpdateLinks(string key)
