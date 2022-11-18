@@ -19,7 +19,7 @@ public class InitializationManager : MonoBehaviour
 
     Database_Accessor db_Manager;
 
-    public float InitializeTime;
+    public static float InitializeTime;
 
     float t1;
 
@@ -85,7 +85,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (e.GetType() == typeof (NullReferenceException))
+            if (e.GetType() == typeof(NullReferenceException))
             {
             }
         }
@@ -151,7 +151,7 @@ public class InitializationManager : MonoBehaviour
         }
 
         //this coroutine checks the local files and starts any necessary downloads
-        StartCoroutine("CheckLocalFiles");
+        yield return StartCoroutine("CheckLocalFiles");
 
         //this coroutine continously checks if we have wifi and downloads are happening
         //it updates the download icon accordingly
@@ -163,7 +163,7 @@ public class InitializationManager : MonoBehaviour
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
         //it must be started after pages have initialized
-        StartCoroutine("ManageAssetBundleFiles");
+        yield return StartCoroutine("ManageAssetBundleFiles");
 
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -306,15 +306,7 @@ public class InitializationManager : MonoBehaviour
             UAP_AccessibilityManager.SelectElement(first, true);
         }
 
-        //initialize the url buttons
-        foreach (AssignUrlFromAssetBundle
-            e
-            in
-            FindObjectsOfType(typeof (AssignUrlFromAssetBundle))
-        )
-        {
-            e.UpdateURL();
-        }
+
 
         //remove the cover
         MainContainer.DisableCover();
@@ -329,16 +321,20 @@ public class InitializationManager : MonoBehaviour
         else
             Debug.LogWarning("Took longer to initialize than expected");
 
+
+
+
         yield break;
     }
-
-    internal static void ReloadAssetBundle(string filename)
-    {
-        GameObject
-            .Find("MainCanvas")
-            .GetComponent<UIB_AssetBundleHelper>()
-            .RefreshBundle(filename);
-    }
+    /*
+        internal static void ReloadAssetBundle(string filename)
+        {
+            GameObject
+                .Find("MainCanvas")
+                .GetComponent<UIB_AssetBundleHelper>()
+                .RefreshBundle(filename);
+        }
+        */
 
     private IEnumerator ManageAssetBundleFiles()
     {
@@ -348,10 +344,9 @@ public class InitializationManager : MonoBehaviour
             yield return null;
         }
         blankPage.transform.SetAsLastSibling();
-        GameObject
-            .Find("MainCanvas")
-            .GetComponent<UIB_AssetBundleHelper>()
-            .StartCoroutine("LoadAssetBundlesInBackground");
+        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
+
+       
     }
 
     private IEnumerator CheckLocalFiles()
@@ -369,57 +364,57 @@ public class InitializationManager : MonoBehaviour
         //Next up: Check for "general" asset bundle
         filename = "general";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "bios/json";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/narratives/captions";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "bios/photos";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/narratives/photos";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/narratives/audio";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "displayed/audio";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         //OnDisplaySection
         filename = "ondisplay/narratives/audio";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "ondisplay/narratives/captions";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         filename = "ondisplay/narratives/photos";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         //ufinished section
         filename = "unfinished/audio";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         //soloflight section
         filename = "sora/audio";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
         filename = "suspendeddisbelief/audio";
         filename = "hld/" + filename;
-        TryDownloadFile (filename);
+        TryDownloadFile(filename);
 
         //TODO:figure out video loading
         /*
@@ -534,8 +529,8 @@ public class InitializationManager : MonoBehaviour
 
 
         //delete the streaming asset files
-        UIB_FileManager.DeleteFile (filename);
-        UIB_AssetBundleHelper.InsertAssetBundle (filename);
+        UIB_FileManager.DeleteFile(filename);
+        UIB_AssetBundleHelper.InsertAssetBundle(filename);
     }
 
     private void ActivateLimitedFunctionality()
@@ -678,7 +673,7 @@ public class InitializationManager : MonoBehaviour
             }
             yield return null;
         }
-        
+
         if (InitializationManager.hasUpdatedFiles) cleanupAndReloadScene();
 
         yield break;
@@ -729,7 +724,7 @@ public class InitializationManager : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        if (e.GetType() == typeof (NullReferenceException))
+                        if (e.GetType() == typeof(NullReferenceException))
                         {
                         }
                     }
@@ -747,7 +742,7 @@ public class InitializationManager : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        if (e.GetType() == typeof (NullReferenceException))
+                        if (e.GetType() == typeof(NullReferenceException))
                         {
                         }
                     }
@@ -766,7 +761,7 @@ public class InitializationManager : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof (NullReferenceException))
+                    if (e.GetType() == typeof(NullReferenceException))
                     {
                     }
                 }

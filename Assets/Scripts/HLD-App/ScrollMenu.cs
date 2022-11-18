@@ -94,7 +94,9 @@ namespace HLD
 
         public void Update()
         {
-
+            if (InitializationManager.InitializeTime == 0)
+            return;
+            
             var scrollTransform = scroll.content.transform;
 
             if (scrollTransform.childCount == 0)

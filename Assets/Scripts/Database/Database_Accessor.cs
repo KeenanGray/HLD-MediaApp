@@ -143,7 +143,7 @@ namespace HLD
                                 .persistentDataPath,
                             DateTime.Now);
                         InitializationManager.DownloadCount--;
-                        InitializationManager.ReloadAssetBundle (filename);
+                        //InitializationManager.ReloadAssetBundle (filename);
                     }
                 });
         }

@@ -53,7 +53,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         GetComponent<InputField>().onEndEdit.AddListener(fieldDeSelected);
         GetComponent<InputField>().onValueChanged.AddListener(valueChanged);
 
-        GetComponent<InputField>().shouldHideMobileInput = true;
+       // GetComponent<InputField>().shouldHideMobileInput = true;
 
         if (CodeButtonName == null || CodeButtonName == "")
         {
@@ -122,7 +122,6 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     IEnumerator fieldSelectedCo()
     {
-        hasMoved = false;
 
         //move the text field up so it is not obscured by keyboard
         var h = 873f;
@@ -140,35 +139,21 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 #endif
         }
 
-        h = TouchScreenKeyboard.area.height;
-
-
-#if UNITY_ANDROID
-        h = GetKeyboardSize();
-#endif
-
-
-
-#if UNITY_EDITOR
-        h = 873; //iphone X
-        h = 264;
-#endif //ipad 12-9
-
         //we have to change the mask size in case movement causes colision with logo and back button
         var sizeAdjust =
             new Vector2(0, GetComponent<RectTransform>().rect.height * 3);
         frame.GetComponent<RectTransform>().sizeDelta -= sizeAdjust;
-        moveDist = new Vector2(0, h);
 
         //set to elevated position;
         frame.GetComponent<RectTransform>().anchoredPosition += moveDist;
-        hasMoved = true;
         yield break;
     }
 
     private void fieldDeSelected(string arg0)
     {
+        
 #if !UNITY_ANDROID
+/*
         UAP_AccessibilityManager.BlockInput(false);
 
         if (TouchScreenKeyboard.isSupported)
@@ -190,12 +175,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
                 new Vector2(initSize.x, initSize.y);
             hasMoved = false;
         }
-#endif
-
-
-
-#if UNITY_IOS && !UNITY_EDITOR
-        StartCoroutine("SetInputPositionBack");
+        */
 #endif
 
     }
@@ -318,7 +298,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         button.onClick.Invoke();
         UAP_AccessibilityManager.StopSpeaking();
     }
-
+/*
     IEnumerator SetInputPositionBack()
     {
         while (true)
@@ -338,7 +318,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             }
         }
     }
-
+*/
     public int GetKeyboardSize()
     {
 

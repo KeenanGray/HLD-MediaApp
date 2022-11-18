@@ -128,6 +128,21 @@ namespace UI_Builder
                 yield break;
             }
             UIB_AssetBundleHelper.bundlesLoading[path] = true;
+
+
+            string bundle_name = path.Split("hld")[1];
+            Debug.Log("loaded asset bundle " + bundle_name);
+
+            //if the loaded bunlde is hld/general, update the url links
+            //initialize the url buttons
+            if (bundle_name == "/general")
+            {
+                foreach (AssignUrlFromAssetBundle e in FindObjectsOfType(typeof(AssignUrlFromAssetBundle)))
+                {
+                    e.UpdateURL();
+                }
+            }
+
             yield break;
         }
 
