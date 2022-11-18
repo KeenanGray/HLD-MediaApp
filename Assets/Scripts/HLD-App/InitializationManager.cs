@@ -34,6 +34,7 @@ public class InitializationManager : MonoBehaviour
     public static float PercentDownloaded = 0;
 
     public static bool hasUpdatedFiles = false;
+    bool wroteToPersistant=false;
 
     public bool DebugLocalAssetBundles;
 
@@ -416,6 +417,13 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
+
+        //if we copied files from streaming assets, this means a fresh install
+        //we should reload the scene so the files load from the correct place
+        //and the internet files are downloaded on first run.
+        if(wroteToPersistant)
+            cleanupAndReloadScene();
+
         //TODO:figure out video loading
         /*
         filename = "meondisplay/videos";
@@ -480,6 +488,7 @@ public class InitializationManager : MonoBehaviour
             else
             {
             }
+            wroteToPersistan=true;
         }
         else
         {
@@ -513,6 +522,7 @@ public class InitializationManager : MonoBehaviour
             {
 
             }
+            wroteToPersistant=true;
         }
         else
         {

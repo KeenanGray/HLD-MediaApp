@@ -55,6 +55,8 @@ Assets/AssetBundles/*
 Assets/Plugins/PlaymakerAction
 Assets/Textmesh Pro/*
 
+AndroidBuild/*
+AndroidBuild/app_BackUpThisFolder_ButDontShipItWithYourGame/*
 mongo_config.txt
 mongo_config.txt.meta
 .DS_Store
