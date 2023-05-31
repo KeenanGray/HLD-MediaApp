@@ -390,7 +390,7 @@ namespace UI_Builder
                 //select the first element
                 try
                 {
-                    UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.TrueFirstElement());
+                    // UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.TrueFirstElement());
                 }
                 catch (Exception e)
                 {

@@ -53,7 +53,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         GetComponent<InputField>().onEndEdit.AddListener(fieldDeSelected);
         GetComponent<InputField>().onValueChanged.AddListener(valueChanged);
 
-       // GetComponent<InputField>().shouldHideMobileInput = true;
+        // GetComponent<InputField>().shouldHideMobileInput = true;
 
         if (CodeButtonName == null || CodeButtonName == "")
         {
@@ -77,12 +77,12 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
         oldValue = "";
 
-        UAP_VirtualKeyboard.SetOnFinishListener (CheckIsCorrect);
+        //UAP_VirtualKeyboard.SetOnFinishListener (CheckIsCorrect);
     }
 
     private void CheckIsCorrect(string arg0, bool arg1)
     {
-        CheckIsCorrect (arg0);
+        CheckIsCorrect(arg0);
     }
 
     private void valueChanged(string currentVal)
@@ -151,38 +151,38 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void fieldDeSelected(string arg0)
     {
-        
-#if !UNITY_ANDROID
-/*
-        UAP_AccessibilityManager.BlockInput(false);
 
-        if (TouchScreenKeyboard.isSupported)
-        {
-            if (hasMoved && !TouchScreenKeyboard.visible)
-            {
-                //set back to initial position;
-                frame.GetComponent<RectTransform>().localPosition = initPos;
-                frame.GetComponent<RectTransform>().sizeDelta =
-                    new Vector2(initSize.x, initSize.y);
-                hasMoved = false;
-            }
-        }
-        else
-        {
-            //set back to initial position;
-            frame.GetComponent<RectTransform>().localPosition = initPos;
-            frame.GetComponent<RectTransform>().sizeDelta =
-                new Vector2(initSize.x, initSize.y);
-            hasMoved = false;
-        }
-        */
+#if !UNITY_ANDROID
+        /*
+                UAP_AccessibilityManager.BlockInput(false);
+
+                if (TouchScreenKeyboard.isSupported)
+                {
+                    if (hasMoved && !TouchScreenKeyboard.visible)
+                    {
+                        //set back to initial position;
+                        frame.GetComponent<RectTransform>().localPosition = initPos;
+                        frame.GetComponent<RectTransform>().sizeDelta =
+                            new Vector2(initSize.x, initSize.y);
+                        hasMoved = false;
+                    }
+                }
+                else
+                {
+                    //set back to initial position;
+                    frame.GetComponent<RectTransform>().localPosition = initPos;
+                    frame.GetComponent<RectTransform>().sizeDelta =
+                        new Vector2(initSize.x, initSize.y);
+                    hasMoved = false;
+                }
+                */
 #endif
 
     }
 
     private void CheckIsCorrect(string arg0)
     {
-        Debug.Log (arg0);
+        Debug.Log(arg0);
 
         var ShowName = name.Split('_')[0];
 
@@ -245,7 +245,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             yield return new WaitForSeconds(1.0f);
 
         while (UAP_AccessibilityManager.IsSpeaking())
-        yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.25f);
 
         GetComponent<InputField>().enabled = true;
 
@@ -298,27 +298,27 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         button.onClick.Invoke();
         UAP_AccessibilityManager.StopSpeaking();
     }
-/*
-    IEnumerator SetInputPositionBack()
-    {
-        while (true)
+    /*
+        IEnumerator SetInputPositionBack()
         {
-            if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
+            while (true)
             {
-                yield return null;
-            }
-            else
-            {
-                //set back to initial position;
-                frame.GetComponent<RectTransform>().localPosition = initPos;
-                frame.GetComponent<RectTransform>().sizeDelta =
-                    new Vector2(initSize.x, initSize.y);
-                hasMoved = false;
-                yield break;
+                if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
+                {
+                    yield return null;
+                }
+                else
+                {
+                    //set back to initial position;
+                    frame.GetComponent<RectTransform>().localPosition = initPos;
+                    frame.GetComponent<RectTransform>().sizeDelta =
+                        new Vector2(initSize.x, initSize.y);
+                    hasMoved = false;
+                    yield break;
+                }
             }
         }
-    }
-*/
+    */
     public int GetKeyboardSize()
     {
 
