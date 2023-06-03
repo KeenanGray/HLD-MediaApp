@@ -19,12 +19,6 @@ namespace UI_Builder
             UIB_Page.pageParent = GameObject.Find("Pages");
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         void SwipeHandler(SwipeData swipe)
         {
             /*

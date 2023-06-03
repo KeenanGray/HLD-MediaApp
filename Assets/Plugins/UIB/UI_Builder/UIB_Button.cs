@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace UI_Builder
 {
     [AddComponentMenu("App_Button_Editor")]
-    [RequireComponent(typeof (UnityEngine.UI.Button))]
+    [RequireComponent(typeof(UnityEngine.UI.Button))]
     public class
     UIB_Button
     : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -106,7 +106,7 @@ namespace UI_Builder
             var myBtn = GetComponent<UnityEngine.UI.Button>();
             if (myBtn != null)
             {
-                myBtn.onClick.AddListener (OnButtonPressed);
+                myBtn.onClick.AddListener(OnButtonPressed);
             }
             else
                 Debug
@@ -118,7 +118,7 @@ namespace UI_Builder
                 newScreen = GameObject.FindWithTag("App_VideoPlayer");
             }
         }
-        
+
         void OnButtonPressed()
         {
             bool shouldDeActivatePage = true;
@@ -170,17 +170,17 @@ namespace UI_Builder
                     if (s_link != null)
                     {
                         options.pageTitle = Title;
-                        InAppBrowser.OpenURL (s_link, options);
+                        InAppBrowser.OpenURL(s_link, options);
                     }
                     else
                         Debug.LogWarning("Button not assigned a url");
                     break;
                 case UIB_Button_Activates.Accessibletext:
                     shouldDeActivatePage = false;
-                    UAP_AccessibilityManager.SaySkippable (s_link);
+                    UAP_AccessibilityManager.SaySkippable(s_link);
                     break;
                 case UIB_Button_Activates.Scene:
-                    SceneManager.LoadScene (s_link);
+                    SceneManager.LoadScene(s_link);
                     break;
                 default:
                     Debug.Log("No Activity for this button");
@@ -199,7 +199,7 @@ namespace UI_Builder
 
             if (VO_Select != null)
             {
-                UAP_AccessibilityManager.SelectElement (VO_Select);
+                UAP_AccessibilityManager.SelectElement(VO_Select);
             }
         }
 
@@ -230,10 +230,10 @@ namespace UI_Builder
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof (NullReferenceException))
+                    if (e.GetType() == typeof(NullReferenceException))
                     {
                     }
-                    if (enabled.GetType() == typeof (NullReferenceException))
+                    if (enabled.GetType() == typeof(NullReferenceException))
                     {
                     }
                 }

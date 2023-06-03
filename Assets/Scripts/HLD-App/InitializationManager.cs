@@ -34,7 +34,7 @@ public class InitializationManager : MonoBehaviour
     public static float PercentDownloaded = 0;
 
     public static bool hasUpdatedFiles = false;
-    bool wroteToPersistant=false;
+    bool wroteToPersistant = false;
 
     public bool DebugLocalAssetBundles;
 
@@ -297,6 +297,8 @@ public class InitializationManager : MonoBehaviour
             if (UAP_AccessibilityManager.IsActive())
             {
                 // AccessibilityInstructions.SetActive(true);
+                UAP_AccessibilityManager.EnableAccessibility(false);
+                UAP_AccessibilityManager.EnableAccessibility(true);
             }
             else
             {
@@ -347,7 +349,7 @@ public class InitializationManager : MonoBehaviour
         blankPage.transform.SetAsLastSibling();
         GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
 
-       
+
     }
 
     private IEnumerator CheckLocalFiles()
@@ -421,7 +423,7 @@ public class InitializationManager : MonoBehaviour
         //if we copied files from streaming assets, this means a fresh install
         //we should reload the scene so the files load from the correct place
         //and the internet files are downloaded on first run.
-        if(wroteToPersistant)
+        if (wroteToPersistant)
             cleanupAndReloadScene();
 
         //TODO:figure out video loading
@@ -522,7 +524,7 @@ public class InitializationManager : MonoBehaviour
             {
 
             }
-            wroteToPersistant=true;
+            wroteToPersistant = true;
         }
         else
         {

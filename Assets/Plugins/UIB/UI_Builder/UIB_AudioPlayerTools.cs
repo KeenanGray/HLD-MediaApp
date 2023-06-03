@@ -572,6 +572,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 #endif
         //we have to change the mask size in case movement causes colision with logo and back button
         var sizeAdjust = new Vector2(0, GetComponent<RectTransform>().rect.height * 1.9f);
+        if (frame == null)
+            yield break; ;
         frame.GetComponent<RectTransform>().sizeDelta -= sizeAdjust;
         moveDist = new Vector2(0, h);
 

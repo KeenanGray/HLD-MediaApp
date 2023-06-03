@@ -241,6 +241,7 @@ namespace UI_Builder
             PageOnScreen = true;
             GetComponent<AspectRatioFitter>().enabled = true;
 
+
             OnActivated?.Invoke(); //should always be last
 
             yield break;
@@ -330,7 +331,7 @@ namespace UI_Builder
             {
                 UIB_Page.ActivatedPages.Add(transform);
             }
-
+            Debug.Log("Page activated " + name);
         }
 
         public void PageDeActivatedHandler()
@@ -345,7 +346,7 @@ namespace UI_Builder
                 {
                     if (e.GetType() == typeof(NullReferenceException))
                     {
-
+                        Debug.Log("ERROR: " + e);
                     }
                 }
             }
@@ -353,6 +354,7 @@ namespace UI_Builder
                 GetComponent<AccessibleUIGroupRoot>().m_Priority = 0;
 
             StartCoroutine(ResetUAP(false));
+
 
             if (UIB_Page.ActivatedPages.Count > 0)
             {
@@ -390,7 +392,7 @@ namespace UI_Builder
                 //select the first element
                 try
                 {
-                    // UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.TrueFirstElement());
+                    UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.TrueFirstElement());
                 }
                 catch (Exception e)
                 {
@@ -425,7 +427,8 @@ namespace UI_Builder
             if (UAP_AccessibilityManager.IsSpeaking())
                 yield break;
             UAP_AccessibilityManager.StopSpeaking();
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.1f);
+
             //  UAP_AccessibilityManager.Say(GameObject.Find("Active Item Frame").GetComponentsInParent<UAP_BaseElement>()[0].m_Text);
 
             yield break;

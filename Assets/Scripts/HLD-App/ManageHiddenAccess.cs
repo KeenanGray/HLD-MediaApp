@@ -50,10 +50,9 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
     {
         AudioDescription_Button = GameObject.Find("AudioDescription_Button");
         GetComponent<InputField>().onEndEdit.AddListener(CheckIsCorrect);
-        GetComponent<InputField>().onEndEdit.AddListener(fieldDeSelected);
+
         GetComponent<InputField>().onValueChanged.AddListener(valueChanged);
 
-        // GetComponent<InputField>().shouldHideMobileInput = true;
 
         if (CodeButtonName == null || CodeButtonName == "")
         {
@@ -77,7 +76,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
         oldValue = "";
 
-        //UAP_VirtualKeyboard.SetOnFinishListener (CheckIsCorrect);
+        UAP_VirtualKeyboard.SetOnFinishListener(CheckIsCorrect);
     }
 
     private void CheckIsCorrect(string arg0, bool arg1)
@@ -114,7 +113,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void fieldSelected()
     {
-#if !UNITY_ANDROID
+#if !UNITY_ANDROID && !UNITY_EDITOR
         UAP_AccessibilityManager.BlockInput(true);
         StartCoroutine("fieldSelectedCo");
 #endif
@@ -149,36 +148,6 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         yield break;
     }
 
-    private void fieldDeSelected(string arg0)
-    {
-
-#if !UNITY_ANDROID
-        /*
-                UAP_AccessibilityManager.BlockInput(false);
-
-                if (TouchScreenKeyboard.isSupported)
-                {
-                    if (hasMoved && !TouchScreenKeyboard.visible)
-                    {
-                        //set back to initial position;
-                        frame.GetComponent<RectTransform>().localPosition = initPos;
-                        frame.GetComponent<RectTransform>().sizeDelta =
-                            new Vector2(initSize.x, initSize.y);
-                        hasMoved = false;
-                    }
-                }
-                else
-                {
-                    //set back to initial position;
-                    frame.GetComponent<RectTransform>().localPosition = initPos;
-                    frame.GetComponent<RectTransform>().sizeDelta =
-                        new Vector2(initSize.x, initSize.y);
-                    hasMoved = false;
-                }
-                */
-#endif
-
-    }
 
     private void CheckIsCorrect(string arg0)
     {
@@ -220,11 +189,6 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     IEnumerator OnCorrectCode1()
     {
         if (UAP_AccessibilityManager.IsActive())
@@ -232,93 +196,47 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             UAP_AccessibilityManager
                 .SelectElement(UAP_AccessibilityManager
                     .GetCurrentFocusObject());
+
             UAP_AccessibilityManager.StopSpeaking();
+
             UAP_AccessibilityManager
                 .Say("Correct Code: Welcome to the show.",
                 false,
                 true,
                 UAP_AudioQueue.EInterrupt.All);
+
+            UAP_AccessibilityManager.SelectElement(null, false);
         }
-        GetComponent<InputField>().enabled = false;
 
-        if (UAP_AccessibilityManager.IsActive())
-            yield return new WaitForSeconds(1.0f);
 
-        while (UAP_AccessibilityManager.IsSpeaking())
-            yield return new WaitForSeconds(0.25f);
-
-        GetComponent<InputField>().enabled = true;
-
-        //HACK: call coroutine twice for it to work?!?
-        yield return OnCorrectCode2();
-        yield return OnCorrectCode2();
-    }
-
-    IEnumerator OnCorrectCode2()
-    {
-        yield return new WaitForEndOfFrame();
-        GetComponent<InputField>().text = "";
         CodeButtonName = gameObject.name.Split('_')[0] + "-Code_Button";
         CodeButton = GameObject.Find(CodeButtonName);
+
+        var pageName = PageLinkButtonName.Replace("_Button", "_Page");
 
         if (CodeButton != null)
         {
             CodeButton.name = PageLinkButtonName;
 
-            //TODO: Figure out why this hack works.
-            var pageName = PageLinkButtonName.Replace("_Button", "_Page");
-            var gmobj = GameObject.Find(pageName);
-
-            gmobj.GetComponent<UIB_Page>().OnActivated +=
-                delegate ()
-                {
-                    GetComponentInParent<UIB_Page>().DeActivate();
-                };
-
-            CodeButton.GetComponent<UIB_Button>().Init();
-            CodeButton.SetActive(false);
-            CodeButton.SetActive(true);
+            //initialize the new button
+            CodeButton.GetComponent<Button>().enabled = true;
             CodeButton.GetComponent<UIB_Button>().Init();
 
-            //add a player-pref that states we have accessed this page
-            PlayerPrefs.SetString(pageName, DateTime.UtcNow.ToString());
+            //deactivate the current page
+            UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().StartCoroutine(UIB_PageManager.CurrentPage.GetComponent<UIB_Page>().MoveScreenOut());
         }
-        else
-        {
-        }
-        var ShowName = name.Split('_')[0];
 
-        var button =
-            GameObject
-                .Find(ShowName + "-Info_Button")
-                .GetComponent<UnityEngine.UI.Button>();
 
-        var ab = button.GetComponent<UIB_Button>();
-        ab.Init();
-        button.onClick.Invoke();
-        UAP_AccessibilityManager.StopSpeaking();
+        //use the newly named button to navigate to the next page in the app.
+        CodeButton.GetComponent<Button>().onClick.Invoke();
+
+        //add a player-pref that states we have accessed this page
+        PlayerPrefs.SetString(pageName, DateTime.UtcNow.ToString());
+        yield break;
     }
-    /*
-        IEnumerator SetInputPositionBack()
-        {
-            while (true)
-            {
-                if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
-                {
-                    yield return null;
-                }
-                else
-                {
-                    //set back to initial position;
-                    frame.GetComponent<RectTransform>().localPosition = initPos;
-                    frame.GetComponent<RectTransform>().sizeDelta =
-                        new Vector2(initSize.x, initSize.y);
-                    hasMoved = false;
-                    yield break;
-                }
-            }
-        }
-    */
+
+
+
     public int GetKeyboardSize()
     {
 
