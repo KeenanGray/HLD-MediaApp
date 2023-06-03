@@ -317,13 +317,15 @@ public class InitializationManager : MonoBehaviour
         //if we finish initializing faster than expected, take a moment to finish the video
         t2 = Time.time;
         var elapsed = t2 - t1;
+        InitializeTime = elapsed;
+        /*
         if (InitializeTime > elapsed)
             yield return new WaitForSeconds(InitializeTime - elapsed);
         else if (Mathf.Approximately(InitializeTime, float.Epsilon))
             Debug.Log("took " + elapsed + "s to initialize");
         else
             Debug.LogWarning("Took longer to initialize than expected");
-
+    */
 
 
 

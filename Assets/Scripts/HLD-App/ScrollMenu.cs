@@ -95,8 +95,8 @@ namespace HLD
         public void Update()
         {
             if (InitializationManager.InitializeTime == 0)
-            return;
-            
+                return;
+
             var scrollTransform = scroll.content.transform;
 
             if (scrollTransform.childCount == 0)
@@ -137,7 +137,7 @@ namespace HLD
 
 
             CurrentlySelectedListElement = closest;
-            
+
             CurrentlySelectedListElement.GetComponent<UIB_Button>().SetupButtonColors();
 
             //Update the background based on the scroll box
