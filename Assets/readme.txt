@@ -35,6 +35,8 @@ file type explanation
 4. 
 And add this code to the UAP_AccessibilityManager in the "UpdateCurrentItem" method
 
+                      Using UI_Builder
+
                      	try{
 						m_CurrentItem.m_Object.GetComponent<UIB_Button>().SetupButtonColors();
 						}
