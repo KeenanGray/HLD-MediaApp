@@ -88,6 +88,7 @@ namespace HLD
                     return;
                 }
                 listOfDancers = SourceJson.Replace("\n", "").Split(',');
+
             }
         }
 
@@ -105,7 +106,7 @@ namespace HLD
             center = scroll.transform.Find("Center").gameObject;
             var contentMiddle = center.transform.position;
 
-            Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
+            // Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
 
             for (int i = 0; i < scrollTransform.childCount; i++)
             {
@@ -161,7 +162,9 @@ namespace HLD
 
             try
             {
+                Debug.Log("out string: " + outStr);
                 ImageToUse = tmp.LoadAsset<Sprite>(outStr);
+                Debug.Log("image " + ImageToUse.name);
             }
             catch (Exception e)
             {
@@ -240,6 +243,8 @@ namespace HLD
                 foreach (Biography b in OrderedByName)
                 {
                     Name_Suffix = b.Name.Replace(" ", "");
+                    Debug.Log("Name suffix : " + Name_Suffix);
+
                     GameObject go = null;
                     ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
                     if (go != null)

@@ -44,6 +44,7 @@ public class InitializationManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(Application.persistentDataPath);
         InitializationManager.hasUpdatedFiles = false;
 
 #if (!UNITY_EDITOR)
@@ -492,7 +493,7 @@ public class InitializationManager : MonoBehaviour
             else
             {
             }
-            wroteToPersistan=true;
+            wroteToPersistant=true;
         }
         else
         {

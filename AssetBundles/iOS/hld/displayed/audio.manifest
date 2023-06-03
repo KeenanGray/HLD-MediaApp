@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2248618834
+CRC: 1046558843
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fb120c2caf5c265f94bc55f6df783ade
+    Hash: cda8e398fa522f963a268bd5aa355b09
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d9926813dc3022d4a579a209382b1244
+    Hash: e563345013929e4e9c3043e5bcf13b31
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -20,6 +20,6 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/hld/displayed/audio/captions.txt
-- Assets/hld/displayed/audio/background.jpg
 - Assets/hld/displayed/audio/audio_captions.mp3
+- Assets/hld/displayed/audio/background.jpg
 Dependencies: []

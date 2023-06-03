@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3589166306
+CRC: 1914709845
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f2a73d8f5bb4eb91d013c2991db8c4c2
+    Hash: 67d1bdbf09961f2abfe5aa8426e902c2
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,18 +13,17 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/hld/accessCodes/SoloFlightAccessCode.txt
+- Assets/hld/programNotes/OnDisplayProgramNotes.txt
+- Assets/hld/accessCodes/DisplayedAccessCode.txt
+- Assets/hld/programNotes/suspendeddisbeliefProgramNotes.txt
 - Assets/hld/accessCodes/OnDisplayAccessCode.txt
-- Assets/hld/listsOfDancers/DisplayedListOfDancers.txt
-- Assets/hld/programNotes/soraProgramNotes.txt
+- Assets/hld/accessCodes/UnfinishedAccessCode.txt
 - Assets/hld/listsOfDancers/OnDisplayListOfDancers.txt
 - Assets/hld/urls/DisplayedADStream.txt
-- Assets/hld/programNotes/OnDisplayProgramNotes.txt
-- Assets/hld/programNotes/DisplayedProgramNotes.txt
-- Assets/hld/accessCodes/UnfinishedAccessCode.txt
-- Assets/hld/programNotes/suspendeddisbeliefProgramNotes.txt
-- Assets/hld/programNotes/soloflightProgramNotes.txt
-- Assets/hld/accessCodes/DisplayedAccessCode.txt
-- Assets/hld/programNotes/UnfinishedProgramNotes.txt
+- Assets/hld/programNotes/soraProgramNotes.txt
 - Assets/hld/urls/DisplayedProgramLink.txt
-- Assets/hld/accessCodes/SoloFlightAccessCode.txt
+- Assets/hld/programNotes/UnfinishedProgramNotes.txt
+- Assets/hld/programNotes/soloflightProgramNotes.txt
+- Assets/hld/programNotes/DisplayedProgramNotes.txt
 Dependencies: []

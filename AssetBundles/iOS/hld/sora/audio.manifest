@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2075395261
+CRC: 3723224386
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3dc14536c154d768b7e019f5680cda5e
+    Hash: 00f3356d77ae65168a85f0a695ff22f0
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d9926813dc3022d4a579a209382b1244
+    Hash: e563345013929e4e9c3043e5bcf13b31
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -19,7 +19,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/hld/SORA/audio/captions.txt
 - Assets/hld/SORA/audio/Audio_Captions.mp3
+- Assets/hld/SORA/audio/captions.txt
 - Assets/hld/SORA/audio/background.jpg
 Dependencies: []

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2632002152
+CRC: 2292608571
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 031d343d5c67c77be2f9df9b6f39af02
+    Hash: 136863035ca79a404b04c510eda8da02
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c90fc19e2679e5295d10bd00f33cb4c3
+    Hash: c21d61fe394c58399df3c6fb5c7c99b3
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -15,16 +15,16 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/hld/OnDisplay/Narratives/Photos/Jessica_Hayon.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/Corey_Hill.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/Louisa_Mann.jpg
 - Assets/hld/OnDisplay/Narratives/Photos/Rebecca_Alson-Milkman.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/Amy_Meisner.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/HarryJohn_Shephard.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/Corey_Hill.jpg
 - Assets/hld/OnDisplay/Narratives/Photos/Valerie_Joseph.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/Judy_Garfinkel.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/Garrison_Redd.jpg
-- Assets/hld/OnDisplay/Narratives/Photos/Jaclyn_Rea.jpg
 - Assets/hld/OnDisplay/Narratives/Photos/Victoria_Dombroski.jpeg
+- Assets/hld/OnDisplay/Narratives/Photos/Amy_Meisner.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/Judy_Garfinkel.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/Jessica_Hayon.jpg
 - Assets/hld/OnDisplay/Narratives/Photos/Desmond_Cadogan.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/HarryJohn_Shephard.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/Jaclyn_Rea.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/Louisa_Mann.jpg
+- Assets/hld/OnDisplay/Narratives/Photos/Garrison_Redd.jpg
 Dependencies: []

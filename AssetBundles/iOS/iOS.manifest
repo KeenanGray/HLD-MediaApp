@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1772705223
+CRC: 1545213733
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: hld/bios/photos
+      Name: hld/displayed/narratives/audio
       Dependencies: {}
     Info_1:
       Name: hld/ondisplay/narratives/audio
@@ -12,13 +12,13 @@ AssetBundleManifest:
       Name: hld/displayed/narratives/captions
       Dependencies: {}
     Info_3:
-      Name: hld/ondisplay/narratives/photos
-      Dependencies: {}
-    Info_4:
       Name: hld/general
       Dependencies: {}
+    Info_4:
+      Name: hld/ondisplay/narratives/photos
+      Dependencies: {}
     Info_5:
-      Name: hld/displayed/narratives/audio
+      Name: hld/bios/photos
       Dependencies: {}
     Info_6:
       Name: hld/displayed/narratives/photos
@@ -33,11 +33,11 @@ AssetBundleManifest:
       Name: hld/displayed/audio
       Dependencies: {}
     Info_10:
-      Name: hld/suspendeddisbelief/audio
+      Name: hld/bios/json
       Dependencies: {}
     Info_11:
-      Name: hld/sora/audio
+      Name: hld/suspendeddisbelief/audio
       Dependencies: {}
     Info_12:
-      Name: hld/bios/json
+      Name: hld/sora/audio
       Dependencies: {}

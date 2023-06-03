@@ -1,28 +1,28 @@
 ManifestFileVersion: 0
-CRC: 3161644406
+CRC: 3190920584
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2f180f32fe9f5c43fa7b1f3a97f35aa0
+    Hash: 0fe25691a178a4dfbf9dcb2818312e4c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
 HashAppended: 0
 ClassTypes:
 - Class: 83
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/hld/OnDisplay/Narratives/Audio/Jaclyn_Rea.mp3
-- Assets/hld/OnDisplay/Narratives/Audio/Garrison_Redd.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Rebecca_Alson-Milkman.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Desmond_Cadogan.wav
 - Assets/hld/OnDisplay/Narratives/Audio/Valerie_Joseph.mp3
-- Assets/hld/OnDisplay/Narratives/Audio/Judy_Garfinkel.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Amy_Meisner.wav
+- Assets/hld/OnDisplay/Narratives/Audio/Louisa_Mann.mp3
 - Assets/hld/OnDisplay/Narratives/Audio/Corey_Hill.mp3
 - Assets/hld/OnDisplay/Narratives/Audio/Victoria_Dombroski.mp3
-- Assets/hld/OnDisplay/Narratives/Audio/Amy_Meisner.wav
-- Assets/hld/OnDisplay/Narratives/Audio/Rebecca_Alson-Milkman.mp3
-- Assets/hld/OnDisplay/Narratives/Audio/Louisa_Mann.mp3
-- Assets/hld/OnDisplay/Narratives/Audio/Jessica_Hayon.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Garrison_Redd.mp3
 - Assets/hld/OnDisplay/Narratives/Audio/HarryJohn_Shephard.mp3
-- Assets/hld/OnDisplay/Narratives/Audio/Desmond_Cadogan.wav
+- Assets/hld/OnDisplay/Narratives/Audio/Jessica_Hayon.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Jaclyn_Rea.mp3
+- Assets/hld/OnDisplay/Narratives/Audio/Judy_Garfinkel.mp3
 Dependencies: []
