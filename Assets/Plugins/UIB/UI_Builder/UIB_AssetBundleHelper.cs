@@ -110,6 +110,12 @@ namespace UI_Builder
                 yield break;
             }
 
+            foreach (AssetBundle ab in AssetBundle.GetAllLoadedAssetBundles())
+            {
+                var p = path.Split(UIB_PlatformManager.platform)[1];
+                if (ab.name == p)
+                    yield break;
+            }
 
             bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
 
@@ -131,7 +137,7 @@ namespace UI_Builder
 
 
             string bundle_name = path.Split("hld")[1];
-            Debug.Log("loaded asset bundle " + bundle_name);
+            //Debug.Log("loaded asset bundle " + bundle_name);
 
             //if the loaded bunlde is hld/general, update the url links
             //initialize the url buttons
@@ -176,5 +182,22 @@ namespace UI_Builder
                 StartCoroutine(tryLoadAssetBundle(newPath));
             }
         }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
+
+            //Debug.Log("----SCENE IS CLOSING----");
+
+            foreach (AssetBundle ab in AssetBundle.GetAllLoadedAssetBundles())
+            {
+                //Debug.Log("unloading asset bundle:" + ab.name);
+                ab.Unload(true);
+            }
+            bundlesLoading.Clear();
+            bundlesLoading = null;
+        }
+
+
     }
 }

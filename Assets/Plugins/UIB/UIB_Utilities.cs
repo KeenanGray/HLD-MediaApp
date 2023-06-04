@@ -32,8 +32,14 @@ namespace UI_Builder
 
         public static string SplitCamelCase(string s)
         {
-            return Regex.Replace(s, "((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))", " $1").Remove(0, 1);
+            return Regex.Replace(s, "((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))", " $1");
         }
+
+        public static string UndoCamelCase(string s)
+        {
+            return Regex.Replace(s, "(/([a-z])([A-Z])/)", " $1 $2");
+        }
+
 
         public static string SplitOnFinalUnderscore(string s)
         {

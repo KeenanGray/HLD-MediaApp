@@ -107,7 +107,7 @@ namespace UI_Builder
                 }
             }
 
-            print("response:" + response + " fileName" + fileName);
+            //Debug.Log("response:" + response + " fileName" + fileName);
 
             var newpath =
                 UIB_PlatformManager.persistentDataPath +
@@ -115,7 +115,7 @@ namespace UI_Builder
 
             if (!Directory.Exists(newpath))
             {
-                Directory.CreateDirectory (newpath);
+                Directory.CreateDirectory(newpath);
             }
             else
             {
@@ -175,7 +175,7 @@ namespace UI_Builder
 
                     //          Debug.Log("New JSON");
                     sw = new StreamWriter(destination, true);
-                    sw.WriteLine (jsonToWrite);
+                    sw.WriteLine(jsonToWrite);
                     sw.Close();
                 }
             }
@@ -185,7 +185,7 @@ namespace UI_Builder
                 file = File.Create(destination);
                 file.Close();
                 sw = new StreamWriter(destination, true);
-                sw.WriteLine (jsonToWrite);
+                sw.WriteLine(jsonToWrite);
                 sw.Close();
             }
         }
@@ -193,11 +193,12 @@ namespace UI_Builder
         public static bool FileExists(string fileName)
         {
             string destination = fileName;
-            Debug
+            /*Debug
                 .Log("checking for file " +
                 fileName +
                 " file found: " +
                 File.Exists(destination));
+                */
             return File.Exists(destination);
         }
 
@@ -271,7 +272,7 @@ namespace UI_Builder
                     file = File.Create(destination);
                     file.Close();
                     sw = new StreamWriter(destination, true);
-                    sw.WriteLine (jsonToWrite);
+                    sw.WriteLine(jsonToWrite);
                     sw.Close();
                 }
             }
@@ -281,7 +282,7 @@ namespace UI_Builder
                 file = File.Create(destination);
                 file.Close();
                 sw = new StreamWriter(destination, true);
-                sw.WriteLine (jsonToWrite);
+                sw.WriteLine(jsonToWrite);
                 sw.Close();
             }
         }
@@ -338,7 +339,7 @@ namespace UI_Builder
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof (NullReferenceException))
+                    if (e.GetType() == typeof(NullReferenceException))
                     {
                     }
 
@@ -395,11 +396,11 @@ namespace UI_Builder
                         }
                     }
 
-                    Directory.CreateDirectory (directory);
+                    Directory.CreateDirectory(directory);
                 }
 
                 //Debug.Log("writing: " + src + " to dest: " + dest);
-                File.Copy (src, dest);
+                File.Copy(src, dest);
                 //  File.CopyFileOrDirectory(src, dest);
             }
             else
@@ -489,7 +490,7 @@ namespace UI_Builder
             }
             foreach (string d in Directory.GetDirectories(v))
             {
-                printDirectory (d);
+                printDirectory(d);
             }
         }
     }

@@ -44,8 +44,9 @@ public class InitializationManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(Application.persistentDataPath);
         InitializationManager.hasUpdatedFiles = false;
+        hasCheckedFiles = false;
+        InitializeTime = 0;
 
 #if (!UNITY_EDITOR)
         DebugLocalAssetBundles = false;
@@ -165,7 +166,12 @@ public class InitializationManager : MonoBehaviour
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
         //it must be started after pages have initialized
-        yield return StartCoroutine("ManageAssetBundleFiles");
+        while (!hasCheckedFiles)
+        {
+            Debug.Log("we don't have all the files");
+            yield return null;
+        }
+        ManageAssetBundleFiles();
 
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -342,17 +348,10 @@ public class InitializationManager : MonoBehaviour
         }
         */
 
-    private IEnumerator ManageAssetBundleFiles()
+    private void ManageAssetBundleFiles()
     {
-        while (!hasCheckedFiles)
-        {
-            Debug.Log("we don't have all the files");
-            yield return null;
-        }
         blankPage.transform.SetAsLastSibling();
         GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
-
-
     }
 
     private IEnumerator CheckLocalFiles()
@@ -429,25 +428,12 @@ public class InitializationManager : MonoBehaviour
         if (wroteToPersistant)
             cleanupAndReloadScene();
 
-        //TODO:figure out video loading
-        /*
-        filename = "meondisplay/videos";
-        if (!(FileManager.FileExists(persistantDataPath + platform + filename)))
+
+        while (DownloadCount != 0)
         {
-            if (CheckInternet())
-            {
-                //Download the file
-                DownloadFileFromDatabase(persistantDataPath + platform, platform + filename);
-            }
-            else
-                yield break;
+            //Debug.LogWarning("Downloading...");
+            yield return null;
         }
-        */
-        /*
-  filename = "meondisplay/captions";
-  filename = "hld/" + filename;
-  TryDownloadFile(filename);
-  */
         //if we get here we have all the files
         hasCheckedFiles = true;
         yield break;

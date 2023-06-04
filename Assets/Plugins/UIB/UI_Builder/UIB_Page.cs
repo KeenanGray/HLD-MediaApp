@@ -331,7 +331,7 @@ namespace UI_Builder
             {
                 UIB_Page.ActivatedPages.Add(transform);
             }
-            Debug.Log("Page activated " + name);
+            //Debug.Log("Page activated " + name);
         }
 
         public void PageDeActivatedHandler()

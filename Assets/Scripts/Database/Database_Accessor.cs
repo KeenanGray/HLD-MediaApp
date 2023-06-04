@@ -76,12 +76,12 @@ namespace HLD
         {
             IdentityPoolId = "us-east-1:1d281ad5-139a-45ae-915d-bcd555a2e228";
 
-            UnityInitializer.AttachToGameObject (gameObject);
+            UnityInitializer.AttachToGameObject(gameObject);
             AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         }
 
 
-#region private members
+        #region private members
 
         private IAmazonS3 _s3Client;
 
@@ -114,7 +114,7 @@ namespace HLD
         }
 
 
-#endregion
+        #endregion
 
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace HLD
                     {
                         //Debug.Log("response " + response.ResponseStream);
                         filename = S3BucketName + "/" + filename;
-                        UIB_FileManager.WriteFileFromResponse (
+                        UIB_FileManager.WriteFileFromResponse(
                             response,
                             filename
                         );
@@ -214,7 +214,7 @@ namespace HLD
                         //Compare the difference in time between the local directory and files in the cloud
                         if (timeDiff < 0)
                         {
-                            Debug.Log("online file is older");
+                            // Debug.Log("online file is older");
                             InitializationManager.DownloadCount--;
                             InitializationManager.checkingForUpdates--;
                         }
@@ -225,17 +225,17 @@ namespace HLD
                             Debug
                                 .LogWarning("same time - seems wierd if you get here.");
                             UIB_FileManager.HasUpdatedAFile = true;
-                            GetObject (filename, S3BucketName);
+                            GetObject(filename, S3BucketName);
                         }
                         else if (timeDiff > 0)
                         {
-                            Debug.Log("online file is newer");
+                            //Debug.Log("online file is newer");
                             InitializationManager.DownloadCount--;
                             InitializationManager.checkingForUpdates--;
 
                             // Debug.LogWarning("Downloading from the Cloud " + filename);
                             UIB_FileManager.HasUpdatedAFile = true;
-                            GetObject (filename, S3BucketName);
+                            GetObject(filename, S3BucketName);
                             InitializationManager.hasUpdatedFiles = true;
                         }
                     }

@@ -75,6 +75,7 @@ namespace HLD
                 SourceJson = UIB_FileManager.ReadTextAssetBundle("bios", "hld/bios/json");
                 if (SourceJson == null || SourceJson == "")
                 {
+                    Debug.LogError("problem loading json");
                     return;
                 }
                 myObject = JsonUtility.FromJson<BiographyArray>(SourceJson);
@@ -85,17 +86,17 @@ namespace HLD
                 SourceJson = UIB_FileManager.ReadTextAssetBundle(ShowName + "ListOfDancers", "hld/general");
                 if (SourceJson == null || SourceJson == "")
                 {
+                    Debug.LogWarning("-----PROBLEM LOADING JSON-----");
                     return;
                 }
                 listOfDancers = SourceJson.Replace("\n", "").Split(',');
-
             }
         }
 
 
         public void Update()
         {
-            if (InitializationManager.InitializeTime == 0)
+            if (InitializationManager.InitializeTime == 0 || scroll == null)
                 return;
 
             var scrollTransform = scroll.content.transform;
@@ -106,7 +107,7 @@ namespace HLD
             center = scroll.transform.Find("Center").gameObject;
             var contentMiddle = center.transform.position;
 
-            // Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
+            Debug.DrawLine(scroll.viewport.position, contentMiddle, Color.green);
 
             for (int i = 0; i < scrollTransform.childCount; i++)
             {
@@ -153,6 +154,7 @@ namespace HLD
             var outStr = "";
             if (GetCurrentlySelectedListElement() != null)
             {
+                outStr = GetCurrentlySelectedListElement().name;
                 outStr = UIB_Utilities.SplitOnFinalUnderscore(GetCurrentlySelectedListElement().name);
                 outStr = UIB_Utilities.SplitCamelCase(outStr);
                 outStr = outStr.Replace(" ", "_");
@@ -162,9 +164,7 @@ namespace HLD
 
             try
             {
-                Debug.Log("out string: " + outStr);
                 ImageToUse = tmp.LoadAsset<Sprite>(outStr);
-                Debug.Log("image " + ImageToUse.name);
             }
             catch (Exception e)
             {
@@ -172,8 +172,6 @@ namespace HLD
                 {
                 }
             }
-
-
 
             var BgPhoto = transform.Find("UIB_Background").Find("Background_Mask").Find("Background_Image")
                 .GetComponent<Image>();
@@ -208,8 +206,8 @@ namespace HLD
 
         public void PageActivatedHandler()
         {
-            // UAP_AccessibilityManager.PauseAccessibility(true);
-            //Debug.Break();
+            if (InitializationManager.InitializeTime == 0)
+                return;
 
             scroll.content.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
 
@@ -221,11 +219,8 @@ namespace HLD
 
             ObjPoolManager.RefreshPool();
 
-            //   if (!pageActivatedBefore)
-            //  {
             //Make the pages first
             MakeLinkedPages();
-            //    }
 
             //Make the buttons
             //They will be assigned to their buttons with 'Init'
@@ -243,8 +238,6 @@ namespace HLD
                 foreach (Biography b in OrderedByName)
                 {
                     Name_Suffix = b.Name.Replace(" ", "");
-                    Debug.Log("Name suffix : " + Name_Suffix);
-
                     GameObject go = null;
                     ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref go);
                     if (go != null)
@@ -261,7 +254,7 @@ namespace HLD
                         sab.m_ManualPositionOrder = traversalOrder;
                         traversalOrder++;
 
-                        UIB_btn.SetButtonText(UIB_Utilities.SplitCamelCase(b.Name));
+                        UIB_btn.SetButtonText(UIB_Utilities.UndoCamelCase(b.Name));
                         UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
 
                         //custom backgrounds
@@ -276,6 +269,9 @@ namespace HLD
             }
             else
             {
+                if (listOfDancers == null)
+                    return;
+
                 foreach (string s in listOfDancers)
                 {
                     Name_Suffix = s.Replace("_", "");
@@ -295,7 +291,7 @@ namespace HLD
                         sab.m_ManualPositionOrder = traversalOrder;
                         traversalOrder++;
 
-                        UIB_btn.SetButtonText(UIB_Utilities.SplitCamelCase(s.Replace("_", " ")));
+                        UIB_btn.SetButtonText(UIB_Utilities.UndoCamelCase(s.Replace("_", " ")));
                         UIB_btn.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Page;
 
                         foreach (Image image in transform.GetComponentsInParent<Image>())

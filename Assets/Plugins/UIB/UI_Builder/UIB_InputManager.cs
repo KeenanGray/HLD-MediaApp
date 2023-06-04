@@ -57,11 +57,11 @@ public class UIB_InputManager : MonoBehaviour
 
     private void Start()
     {
-      //  SwipeDelegate += PrintSwipeData;
-      //  TapDelegate += PrintTapData;
+        //  SwipeDelegate += PrintSwipeData;
+        //  TapDelegate += PrintTapData;
 
         StartCoroutine("CheckSwipeInput");
-      // StartCoroutine("ContinousSwipeDetection");
+        // StartCoroutine("ContinousSwipeDetection");
         StartCoroutine("CheckTapInput");
 
         UIB_AudioPlayerTools.AudioDragSelected += DisableSwipe;
@@ -82,11 +82,13 @@ public class UIB_InputManager : MonoBehaviour
             Touch[] t = { new Touch() };
             if (canTap)
             {
-                try{
-                TouchDelegate(t, 1);
+                try
+                {
+                    TouchDelegate(t, 1);
                 }
-                catch{
-                    Debug.LogWarning("no touch delegate on object");
+                catch
+                {
+                    //Debug.LogWarning("no touch delegate on object");
                 }
             }
         }
@@ -245,7 +247,7 @@ public class UIB_InputManager : MonoBehaviour
         }
     }
 
-#region continousSwipeDetection
+    #region continousSwipeDetection
     IEnumerator ContinousSwipeDetection()
     {
         var touches = 0;
@@ -304,7 +306,7 @@ public class UIB_InputManager : MonoBehaviour
             yield return null;
         }
     }
-#endregion
+    #endregion
     float tapCD = 0.5f;
     IEnumerator CheckTapInput()
     {
@@ -405,7 +407,7 @@ public class UIB_InputManager : MonoBehaviour
 
             UAP_AccessibilityManager.Say(" \n\r");
             GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().SayPause(.1f);
-            
+
 #if UNITY_IOS && !UNITY_EDITOR
             Debug.Log("ios");
             iOSTTS.StopSpeaking();
@@ -418,7 +420,7 @@ public class UIB_InputManager : MonoBehaviour
         if (fingers == 3 && taps == 1)
         {
             // Debug.Log("repeating from " + UAP_AccessibilityManager.GetCurrentFocusObject().name);
-          //  UAP_AccessibilityManager.Say(UAP_AccessibilityManager.GetCurrentFocusObject().GetComponent<UAP_BaseElement>().m_);
+            //  UAP_AccessibilityManager.Say(UAP_AccessibilityManager.GetCurrentFocusObject().GetComponent<UAP_BaseElement>().m_);
             UAP_AccessibilityManager.GetCurrentFocusObject().GetComponent<UAP_BaseElement>().SelectItem(true);
         }
     }
