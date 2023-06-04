@@ -121,8 +121,8 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("No database manager" + e);
             yield break;
         }
+        //when we init the db_manager the first time we might require a reload
         db_Manager.Init();
-
         try
         {
             blankPage = GameObject.Find("BlankPage");
@@ -154,6 +154,8 @@ public class InitializationManager : MonoBehaviour
         }
 
         //this coroutine checks the local files and starts any necessary downloads
+
+        //if we are on ios and this is the first launch, ignore this
         yield return StartCoroutine("CheckLocalFiles");
 
         //this coroutine continously checks if we have wifi and downloads are happening
@@ -314,12 +316,16 @@ public class InitializationManager : MonoBehaviour
             //select the first button with UAP
             var first = GameObject.Find("DISPLAYED-Code_Button");
             UAP_AccessibilityManager.SelectElement(first, true);
+
         }
 
 
 
         //remove the cover
         MainContainer.DisableCover();
+
+        //Remove the loading Text
+        GameObject.Find("LoadingText").SetActive(false);
 
         //if we finish initializing faster than expected, take a moment to finish the video
         t2 = Time.time;
@@ -428,10 +434,11 @@ public class InitializationManager : MonoBehaviour
         if (wroteToPersistant)
             cleanupAndReloadScene();
 
-
-        while (DownloadCount != 0)
+        var count = 0;
+        while (DownloadCount != 0 || count < 500)
         {
-            //Debug.LogWarning("Downloading...");
+            count++;
+            Debug.LogWarning("Downloading... " + count);
             yield return null;
         }
         //if we get here we have all the files

@@ -75,7 +75,6 @@ namespace HLD
         public void Init()
         {
             IdentityPoolId = "us-east-1:1d281ad5-139a-45ae-915d-bcd555a2e228";
-
             UnityInitializer.AttachToGameObject(gameObject);
             AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
         }
