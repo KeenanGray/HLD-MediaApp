@@ -47,3 +47,10 @@ And add this code to the UAP_AccessibilityManager in the "UpdateCurrentItem" met
 						}
 						catch{}
 						
+
+
+
+
+
+FOUND THIS RANDOM BUILD FIX FOR UPLOADING TO THE APP STORE
+http://www.kittehface.com/2021/09/fixing-invalid-frameworks-folder-in-ios.html

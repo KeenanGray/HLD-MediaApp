@@ -435,10 +435,12 @@ public class InitializationManager : MonoBehaviour
             cleanupAndReloadScene();
 
         var count = 0;
-        while (DownloadCount != 0 || count < 500)
+        while (DownloadCount != 0)
         {
             count++;
             Debug.LogWarning("Downloading... " + count);
+            if (count > 200)
+                break;
             yield return null;
         }
         //if we get here we have all the files
