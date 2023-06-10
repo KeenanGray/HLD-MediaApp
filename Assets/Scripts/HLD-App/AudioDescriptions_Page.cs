@@ -34,7 +34,7 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         audioPlayer.fileType = ".mp3";
         audioPlayer.SetAudio("Audio_Captions", "hld/" + ShowName + "/audio");
         //TODO: null captions for now
-        audioPlayer.SetAudioCaptions("captions", null);
+        //audioPlayer.SetAudioCaptions("captions", null);
         //audioPlayer.SetAudioCaptions("captions", "hld/displayed/audio");
         audioPlayer.Init();
     }

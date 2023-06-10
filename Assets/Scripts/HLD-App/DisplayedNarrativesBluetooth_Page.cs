@@ -496,7 +496,7 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         blas.SetAudio(dancerFromBeacon, "hld/" + ShowName.ToLower() + "/narratives/audio");
         blas.SetPhoto(dancerFromBeacon, "hld/" + ShowName.ToLower() + "/narratives/photos");
         blas.SetAudioCaptions(dancerFromBeacon, "hld/" + ShowName.ToLower() + "/narratives/captions");
-        StartCoroutine(blas.PlayCaptionsWithAudio());
+        //StartCoroutine(blas.PlayCaptionsWithAudio());
         blas.AudioStart();
         blas.Stop();
 

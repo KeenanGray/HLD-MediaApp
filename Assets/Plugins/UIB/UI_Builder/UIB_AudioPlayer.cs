@@ -90,7 +90,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
                     }
                 });
 
-              //  b.onClick.Invoke();
+                //  b.onClick.Invoke();
             }
         }
 
@@ -274,76 +274,39 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     private bool hasCaptions;
     IEnumerator PlayCaptionsWithAudio()
     {
-        wait = true;
-        newStart = 0;
-        iterator = 0;
-
-        var words = GetNumberOfLines();
-        int WordsPerLine = 9;
-
+        TextMeshProUGUI tmp = CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        if (tmp == null)
+        {
+            Debug.LogWarning("couldn't find text");
+            yield break;
+        }
         if (AudioCaptions == null)
             yield break;
 
-        //set up video captions
-        TextMeshProUGUI tmp = CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>();
-        if (tmp == null)
-            Debug.LogWarning("couldn't find text");
+        var words = GetNumberOfLines();
+        int WordsPerLine = 10;
 
         while (true)
         {
-            string line = "";
+            var cur = src.time;
+            var total = src.clip.length;
+            var percent = cur / total;
 
-            if (src.clip == null)
-            {
-                break;
-            }
+            int current_word = (int)Mathf.Lerp(0, words.Length, percent);
 
-            var TimePerLine = (src.clip.length - 2)
-                    /
-                (words.Length / WordsPerLine);
+            //convert the current word to find out which word starts that line.
+            int word_to_line = (int)current_word / WordsPerLine;
+            //Debug.Log(word_to_line + "  " + words[current_word]);
 
-            int word = (int)(words.Length * (src.time / src.clip.length));
-
-            int start = 0;
-
-            if (newStart < word)
-            {
-                start = word;
-                wait = true;
-            }
-            else
-            {
-                start = newStart;
-            }
-
-            // line = "<mark=#020202CC>";
-            line = "";
-            for (iterator = start; iterator < start + WordsPerLine; iterator++)
+            var line = "";
+            for (iterator = word_to_line * WordsPerLine; iterator <= (word_to_line * WordsPerLine) + WordsPerLine; iterator++)
             {
                 if (iterator < words.Length)
                     line += words[iterator] + " ";
                 else
                     break;
-
-                //  start += WordsPerLine;
                 tmp.text = line;
-
-                newStart = iterator;
             }
-            //line += "</mark>";
-            iterator++;
-
-            //break if skipped
-            if (wait)
-            {
-                yield return new WaitForSeconds(TimePerLine);
-            }
-            else
-            {
-                yield return null;
-            }
-            wait = true;
-
             yield return null;
         }
     }
@@ -358,19 +321,11 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         return words;
     }
 
-    public void SetCaptionsStart()
-    {
-        wait = false;
-        newStart = (int)(GetNumberOfLines().Length * (src.time / src.clip.length));
-    }
-
     public void PageActivatedHandler()
     {
-        //  
     }
 
     public void PageDeActivatedHandler()
     {
-        //
     }
 }

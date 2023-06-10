@@ -81,7 +81,7 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
 #if UNITY_ANDROID
         pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/" + ShowName.ToLower() + "/narratives/audio");
 #else
-        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/"+ShowName.ToLower()+"/narratives/audio");
+        pageAudioPlayer.SetAudio(title.Replace(" ", "_"), "hld/" + ShowName.ToLower() + "/narratives/audio");
 #endif
 
         pageAudioPlayer.Tools.PlayMethod(1);
@@ -108,6 +108,8 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
             if (thing != null)
             {
                 thing.PlayMethod(2);
+                AudioPlayerScreen.GetComponent<UIB_AudioPlayer>().StopCoroutine("PlayCaptionsWithAudio");
+
             }
             AudioPlayerScreen.GetComponent<Canvas>().enabled = false;
             AudioPlayerScreen.transform.SetParent(GameObject.Find("Pages").transform);

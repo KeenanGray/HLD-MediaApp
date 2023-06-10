@@ -139,21 +139,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             Debug.LogWarning("No time scroll button");
         }
 
-        /*  //Add time field for audio length
-          foreach (Text tl in transform.parent.GetComponentsInChildren<Text>())
-          {
-              if (tl.gameObject.name.Contains("DisplayText"))
-                  time_label = tl;
-          }
-          if (time_label != null)
-          {
 
-          }
-          else
-          {
-              Debug.LogWarning("No time_label");
-          }
-          */
 
         //Add time field for audio length
         foreach (TextMeshProUGUI tl in ParentOfAudioToolComponents.GetComponentsInChildren<TextMeshProUGUI>())
@@ -185,7 +171,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         AudioTimerInput.onEndEdit.AddListener(fieldDeSelected);
 
         // AudioTimerInput.OnSubmit.AddListener(OnInputFieldSubmitted);
-
+        AudioPlayerData.GetComponent<UIB_AudioPlayer>().StartCoroutine("PlayCaptionsWithAudio");
     }
 
     public void LoadtimeCodeToPrefs()
@@ -381,9 +367,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         var sab = playbutton.GetComponent<UAP_BaseElement>();
         sab.m_Text = "Pause";
         sab.SelectItem(true);
-
         //start the captions
-        AudioPlayerData.GetComponent<UIB_AudioPlayer>().StartCoroutine("PlayCaptionsWithAudio");
         return;
     }
     void PlayHelperStop()
@@ -396,7 +380,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         sab.SelectItem(true);
 
         //Stop the captions
-        AudioPlayerData.GetComponent<UIB_AudioPlayer>().StopCoroutine("PlayCaptionsWithAudio");
         return;
     }
 
@@ -410,7 +393,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         {
             source.time = source.clip.length - .01f;
         }
-        AudioPlayerData.GetComponent<UIB_AudioPlayer>().SetCaptionsStart();
 
     }
 
@@ -421,7 +403,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         else
             source.time = 0;
 
-        AudioPlayerData.GetComponent<UIB_AudioPlayer>().SetCaptionsStart();
 
     }
 
@@ -521,7 +502,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             DragOccurring = false;
         }
 
-        AudioPlayerData.GetComponent<UIB_AudioPlayer>().SetCaptionsStart();
 
     }
 
