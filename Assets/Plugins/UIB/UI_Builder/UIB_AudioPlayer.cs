@@ -155,12 +155,13 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
         try
         {
-            ImageToUse = tmp.LoadAsset<Sprite>(PathToImage);
+            ImageToUse = tmp.LoadAsset<Sprite>(PathToImage.Replace(" ", "_"));
         }
         catch (Exception e)
         {
             if (e.GetBaseException().GetType() == typeof(NullReferenceException))
             {
+                Debug.LogError("Null Reference Exception");
             }
             Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
         }
@@ -183,12 +184,15 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
                 {
                     if (e.GetBaseException().GetType() == typeof(NullReferenceException))
                     {
+                        Debug.LogError("Null Reference Exception");
                     }
 
                     Debug.Log("no image to use. " + PathToImage + "- - -" + e);
                 }
             }
         }
+        else
+        { Debug.Log("BgPhoto object is null"); }
     }
 
     public void SetImageFromFile(string PathToImage)

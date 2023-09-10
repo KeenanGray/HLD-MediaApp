@@ -70,7 +70,8 @@ public class Narrative_Page : MonoBehaviour, UIB_IPage
         UIB_AudioPlayer pageAudioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
 
         pageAudioPlayer.SetTitle(UIB_Utilities.SplitCamelCase(title.Replace("_", " ")));
-        //        Debug.Log(photoPath + " " + "hld / "+ShowName.ToLower()+" / narratives / photos");
+        Debug.Log(photoPath + " " + "hld / " + ShowName.ToLower() + " / narratives / photos");
+
         pageAudioPlayer.SetImageAssetBundle(photoPath, "hld/" + ShowName.ToLower() + "/narratives/photos");
         var captionFile = title.Replace(" ", "_").ToLower();
         pageAudioPlayer.SetAudioCaptions(captionFile, "hld/" + ShowName.ToLower() + "/narratives/captions");

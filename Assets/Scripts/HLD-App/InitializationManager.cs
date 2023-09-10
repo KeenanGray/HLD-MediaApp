@@ -679,7 +679,7 @@ public class InitializationManager : MonoBehaviour
                 {
                     PercentDownloaded = 0;
                 }
-                percentText.text = PercentDownloaded + "%";
+                percentText.text = Mathf.Round(PercentDownloaded) + "%";
             }
             yield return null;
         }
