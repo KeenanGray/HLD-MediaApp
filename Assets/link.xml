@@ -16,5 +16,6 @@
 <assembly fullname="AWSSDK.Core" preserve="all"/>
 <assembly fullname="AWSSDK.CognitoIdentity" preserve="all"/>
 <assembly fullname="AWSSDK.SecurityToken" preserve="all"/>
+<assembly fullname="AWSSDK.S3" preserve="all"/>
 add more services that you need here...
 </linker>

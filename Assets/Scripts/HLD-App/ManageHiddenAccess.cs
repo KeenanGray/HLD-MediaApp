@@ -122,8 +122,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
     IEnumerator fieldSelectedCo()
     {
 
-        //move the text field up so it is not obscured by keyboard
-        var h = 873f;
+        //move the text field up so it is not obscured by keyboard        
         if (TouchScreenKeyboard.isSupported)
         {
             while (!TouchScreenKeyboard.visible)

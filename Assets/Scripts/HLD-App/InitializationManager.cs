@@ -8,7 +8,7 @@ using UI_Builder;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using System.Threading.Tasks;
 public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
@@ -96,6 +96,7 @@ public class InitializationManager : MonoBehaviour
         //this player pref should get set at app launch so that it resets the timecode in the audio-desc;
         PlayerPrefs.SetInt("desc_timecode", 0);
 
+        #region GameObjectAssignment
         try
         {
             percentText =
@@ -122,7 +123,6 @@ public class InitializationManager : MonoBehaviour
             yield break;
         }
         //when we init the db_manager the first time we might require a reload
-        db_Manager.Init();
         try
         {
             blankPage = GameObject.Find("BlankPage");
@@ -152,11 +152,14 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("no instructions " + e);
             yield break;
         }
+        #endregion
 
+        /****************THIS CODE RELATES TO DOWNLOADING THE FILES AND MIGHT NEED CHANGES IF THE DATABASE ACCESSOR SCRIPT IS MODIFIED ******************
         //this coroutine checks the local files and starts any necessary downloads
-
-        //if we are on ios and this is the first launch, ignore this
+        */
+        //if we are on ios and this is the first launch, ignore this (keenan what does this comment mean? 9/23/2023 ????????)
         yield return StartCoroutine("CheckLocalFiles");
+
 
         //this coroutine continously checks if we have wifi and downloads are happening
         //it updates the download icon accordingly
@@ -168,11 +171,14 @@ public class InitializationManager : MonoBehaviour
         //this coroutine waits until we have checked for all the files
         //then it begins loading asset bundles in the background
         //it must be started after pages have initialized
+
+
         while (!hasCheckedFiles)
         {
             Debug.Log("we don't have all the files");
             yield return null;
         }
+
         ManageAssetBundleFiles();
 
         //setup checks for accessibility on android - which is wierd;
@@ -192,8 +198,6 @@ public class InitializationManager : MonoBehaviour
             Debug.Log("Accessibility OFF");
             UAP_AccessibilityManager.EnableAccessibility(false);
         }
-
-
 #endif
 
 
@@ -331,28 +335,12 @@ public class InitializationManager : MonoBehaviour
         t2 = Time.time;
         var elapsed = t2 - t1;
         InitializeTime = elapsed;
-        /*
-        if (InitializeTime > elapsed)
-            yield return new WaitForSeconds(InitializeTime - elapsed);
-        else if (Mathf.Approximately(InitializeTime, float.Epsilon))
-            Debug.Log("took " + elapsed + "s to initialize");
-        else
-            Debug.LogWarning("Took longer to initialize than expected");
-    */
 
 
 
         yield break;
     }
-    /*
-        internal static void ReloadAssetBundle(string filename)
-        {
-            GameObject
-                .Find("MainCanvas")
-                .GetComponent<UIB_AssetBundleHelper>()
-                .RefreshBundle(filename);
-        }
-        */
+
 
     private void ManageAssetBundleFiles()
     {
@@ -362,6 +350,12 @@ public class InitializationManager : MonoBehaviour
 
     private IEnumerator CheckLocalFiles()
     {
+        //if we copied files from streaming assets, this means a fresh install
+        //we should reload the scene so the files load from the correct place
+        //and the internet files are downloaded on first run.
+        if (wroteToPersistant)
+            cleanupAndReloadScene();
+
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
         var filename = UIB_PlatformManager.platform + "/";
@@ -427,149 +421,55 @@ public class InitializationManager : MonoBehaviour
         filename = "hld/" + filename;
         TryDownloadFile(filename);
 
-
-        //if we copied files from streaming assets, this means a fresh install
-        //we should reload the scene so the files load from the correct place
-        //and the internet files are downloaded on first run.
-        if (wroteToPersistant)
-            cleanupAndReloadScene();
-
-        var count = 0;
-        while (DownloadCount != 0)
-        {
-            count++;
-            Debug.LogWarning("Downloading... " + count);
-            if (count > 200)
-                break;
-            yield return null;
-        }
         //if we get here we have all the files
         hasCheckedFiles = true;
+
+
         yield break;
     }
 
-    private void TryDownloadFile(
-        string filename,
-        bool fallbackUsingBundle = false
-    )
+    private async void TryDownloadFile(string filename, bool fallbackUsingBundle = false)
     {
+        string filepath = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename;
+        UIB_AssetBundleHelper.InsertAssetBundle(filename);
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-        
-        if (
-            !(
-            UIB_FileManager
-                .FileExists(UIB_PlatformManager.persistentDataPath +
-                "android/assets/" +
-                UIB_PlatformManager.platform +
-                filename)
-            )
-        )
+    filepath = UIB_PlatformManager.persistentDataPath +"android/assets/" + UIB_PlatformManager.platform + filename
+#endif
+
+        if (!UIB_FileManager.FileExists(filepath)) //if the file does not exist we copy the stored version for peristant storage
         {
+            // we need a special version of this function in order to check streaming assets for Android
+#if UNITY_ANDROID && !UNITY_EDITOR
             //We don't have the file, first thing is to copy it from streaming assets
             //On Android, streaming assets are zipped so we need a special accessor
             print("file does not exist");
-            GameObject
-                .Find("FileManager")
-                .GetComponent<UIB_FileManager>()
-                .StartCoroutine("CreateStreamingAssetDirectories", filename);
-
-            //record here that we have never updated files from the internet;
-            PlayerPrefs
-                .SetString("LastUpdated",
-                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
-
-            if (CheckInternet() && !DebugLocalAssetBundles)
-            {
-                print("Just copied all asset bundle files, checking for update");
-                db_Manager
-                    .CheckIfObjectHasUpdate(UIB_PlatformManager.platform +
-                    filename,
-                    "heidi-latsky-dance");
-            }
-            else
-            {
-            }
-            wroteToPersistant=true;
-        }
-        else
-        {
-            //we have the file check for update
-            if (CheckInternet() && !DebugLocalAssetBundles)
-            {
-                print("we have the file checking for update");
-                db_Manager
-                    .CheckIfObjectHasUpdate(UIB_PlatformManager.platform +
-                    filename,
-                    "heidi-latsky-dance");
-            }
-        }
-
-
+            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
 #else
-        if (!(UIB_FileManager.FileExists(UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename)))
-        {
-            //we don't have the file, firs thing to do is copy it from streaming assets
+            //we don't have the file, first thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
-            // AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + UIB_PlatformManager.platform + filename);
-
+#endif
             //record here that we have never updated files from the internet;
             PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
 
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
-            }
-            else
-            {
-
+                await db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
             wroteToPersistant = true;
         }
         else
         {
-            //we have the file check for update
+            //we have the file already so we check for an update
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
-                db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                await db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
-
-
         }
-
-#endif
-
-
         //delete the streaming asset files
         UIB_FileManager.DeleteFile(filename);
-        UIB_AssetBundleHelper.InsertAssetBundle(filename);
     }
 
-    private void ActivateLimitedFunctionality()
-    {
-        //TODO: refactor this
-        /*
-        //Bring up no internet logo. 
-        UIB_PageManager.InternetActive = false;
-
-        tmpLandingPage = GameObject.Find("NoInternetCriticalLanding");
-        */
-    }
-
-    private void DownloadFileFromDatabase(
-        string fName,
-        bool fallbackUsingBundle = false
-    )
-    {
-        //TODO: Alert the user we are about to begin a large download
-        //How often can we call this download function before it costs too much $$$
-        //db_Manager.GetObjectFromBucketByName(name, "heidi-latsky-dance");
-        if (fallbackUsingBundle)
-        {
-            db_Manager.GetObjectWithFallback(fName, "heidi-latsky-dance");
-        }
-        else
-            db_Manager.GetObject(fName, "heidi-latsky-dance");
-    }
 
     private bool CheckInternet()
     {
@@ -650,6 +550,7 @@ public class InitializationManager : MonoBehaviour
             else
             {
                 Debug.Log("No internet ");
+                yield return null;
             }
 
             if (PercentDownloaded.Equals(100))

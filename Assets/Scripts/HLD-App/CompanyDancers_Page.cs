@@ -57,7 +57,7 @@ public class CompanyDancers_Page : HLD.ScrollMenu
         yield break;
     }
 
-    private void Update()
+    public override void Update()
     {
         base.Update();
 

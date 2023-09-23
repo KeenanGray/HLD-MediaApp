@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Amazon.S3.Model;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 namespace UI_Builder
 {
@@ -82,10 +84,7 @@ namespace UI_Builder
             return fileData;
         }
 
-        public static void WriteFileFromResponse(
-            GetObjectResponse response,
-            string fileName
-        )
+        public static void WriteFileFromResponse(GetObjectResponse response, string fileName)
         {
             //check if the directory exists
             //split filepath into directory and filename
@@ -102,39 +101,29 @@ namespace UI_Builder
                     break;
                 }
                 else
-                {
                     directory = directory + "/" + i;
-                }
             }
-
-            //Debug.Log("response:" + response + " fileName" + fileName);
 
             var newpath =
                 UIB_PlatformManager.persistentDataPath +
                 directory.Replace("/heidi-latsky-dance/", "");
 
             if (!Directory.Exists(newpath))
-            {
                 Directory.CreateDirectory(newpath);
-            }
-            else
-            {
-            }
+
+
             using (var fs = System.IO.File.Create(newpath + "/" + name))
             {
                 byte[] buffer = new byte[81920];
                 int count;
-                while ((
-                    count =
-                        response.ResponseStream.Read(buffer, 0, buffer.Length)
-                    ) !=
-                    0
-                )
+                while ((count = response.ResponseStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
                     fs.Write(buffer, 0, count);
                 }
                 fs.Flush();
             }
+
+
         }
 
         void WriteJsonFromWeb(string data, string fileName)
@@ -355,6 +344,8 @@ namespace UI_Builder
             else
             {
                 Debug.LogWarning("Asset bundle not found " + bundleString);
+                //if we have any issues with the asset bundles, reload the scene
+                SceneManager.LoadScene(1);
                 return "";
             }
         }
@@ -466,12 +457,12 @@ namespace UI_Builder
             {
                 try
                 {
-                    File.Delete (filepath);
+                    File.Delete(filepath);
                     Debug.Log("called delete function");
                 }
                 catch (Exception e)
                 {
-                    Debug.Log (e);
+                    Debug.Log(e);
                 }
                 yield return null;
             }
