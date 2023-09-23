@@ -163,7 +163,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             {
                 Debug.LogWarning("Null Reference Exception");
             }
-            Debug.Log("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
+            Debug.LogWarning("asset not loaded: " + PathToImage + " b: " + bundleString + "::" + e);
         }
         if (BgPhoto != null)
         {

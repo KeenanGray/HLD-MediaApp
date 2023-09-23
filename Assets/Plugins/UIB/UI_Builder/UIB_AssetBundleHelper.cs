@@ -58,34 +58,32 @@ namespace UI_Builder
                     yield break;
             }
 
-            bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
-
-            if (bundleLoadRequest == null)
+            try
             {
-                yield break;
-            }
+                bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
 
-            yield return bundleLoadRequest;
+                AssetBundle myLoadedAssetBundle = bundleLoadRequest.assetBundle;
 
-            AssetBundle myLoadedAssetBundle = bundleLoadRequest.assetBundle;
-
-            if (myLoadedAssetBundle == null)
-            {
-                Debug.LogError("Failed to load AssetBundle " + path);
-                yield break;
-            }
-
-            string bundle_name = path.Split("hld")[1];
-            //Debug.Log("loaded asset bundle " + bundle_name);
-
-            //if the loaded bunlde is hld/general, update the url links
-            //initialize the url buttons
-            if (bundle_name == "/general")
-            {
-                foreach (AssignUrlFromAssetBundle e in FindObjectsOfType(typeof(AssignUrlFromAssetBundle)))
+                if (myLoadedAssetBundle == null)
                 {
-                    e.UpdateURL();
+                    Debug.LogWarning("Failed to load AssetBundle " + path);
                 }
+
+                string bundle_name = path.Split("hld")[1];
+
+                //if the loaded bundle is hld/general, update the url links
+                //initialize the url buttons
+                if (bundle_name == "/general")
+                {
+                    foreach (AssignUrlFromAssetBundle e in FindObjectsOfType(typeof(AssignUrlFromAssetBundle)))
+                    {
+                        e.UpdateURL();
+                    }
+                }
+            }
+            catch
+            {
+                Debug.LogWarning("EXCEPTION: But this should be resolved when the app relaods");
             }
 
             yield break;

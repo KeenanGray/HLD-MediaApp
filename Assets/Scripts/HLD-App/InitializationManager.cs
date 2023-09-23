@@ -179,6 +179,14 @@ public class InitializationManager : MonoBehaviour
             yield return null;
         }
 
+        Debug.Log("DownlaodCount  " + DownloadCount);
+
+        while (DownloadCount > 0)
+        {
+            Debug.Log("DownlaodCount  " + DownloadCount);
+            yield return null;
+        }
+
         ManageAssetBundleFiles();
 
         //setup checks for accessibility on android - which is wierd;
@@ -454,6 +462,7 @@ public class InitializationManager : MonoBehaviour
 
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
+                DownloadCount++;
                 await db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
             wroteToPersistant = true;
@@ -463,6 +472,7 @@ public class InitializationManager : MonoBehaviour
             //we have the file already so we check for an update
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
+                DownloadCount++;
                 await db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
             }
         }
