@@ -94,7 +94,7 @@ namespace HLD
         }
 
 
-        public void Update()
+        public virtual void Update()
         {
             if (InitializationManager.InitializeTime == 0 || scroll == null)
                 return;

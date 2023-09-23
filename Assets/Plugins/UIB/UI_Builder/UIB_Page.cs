@@ -346,7 +346,7 @@ namespace UI_Builder
                 {
                     if (e.GetType() == typeof(NullReferenceException))
                     {
-                        Debug.Log("ERROR: " + e);
+                        Debug.LogWarning("ERROR: " + e);
                     }
                 }
             }
