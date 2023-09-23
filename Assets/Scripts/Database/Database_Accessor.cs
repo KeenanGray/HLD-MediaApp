@@ -114,7 +114,6 @@ namespace HLD
         /// </summary>
         public async Task GetObject(string filename, string S3BucketName)
         {
-            InitializationManager.DownloadCount++;
             Debug.Log("Get Object " + filename);
 
             Amazon.S3.Model.GetObjectResponse result = await Client.GetObjectAsync(S3BucketName, filename);
@@ -124,7 +123,8 @@ namespace HLD
                 filename = S3BucketName + "/" + filename;
                 Debug.Log("File Downloaded " + filename);
 
-                UIB_FileManager.WriteFileFromResponse(result, filename);
+                var file_manager = GameObject.FindObjectsOfType<UIB_FileManager>()[0];
+                await file_manager.WriteFileFromResponse(result, filename);
 
                 Debug.Log("Write Object " + filename);
 
@@ -161,7 +161,6 @@ namespace HLD
             DateTime S3LastModified = new DateTime();
             DateTime localFilesLastModified = new DateTime();
 
-            InitializationManager.DownloadCount++;
             InitializationManager.checkingForUpdates++;
 
             var result = await Client.GetObjectMetadataAsync(request);
@@ -182,35 +181,27 @@ namespace HLD
             {
                 // Debug.Log("online file is older");
                 InitializationManager.DownloadCount--;
-                InitializationManager.checkingForUpdates--;
+
             }
             else if (timeDiff == 0)
             {
-                InitializationManager.DownloadCount--;
-                InitializationManager.checkingForUpdates--;
                 Debug
                     .LogWarning("same time - seems wierd if you get here.");
                 UIB_FileManager.HasUpdatedAFile = true;
+
                 await GetObject(filename, S3BucketName);
+                InitializationManager.DownloadCount--;
+
             }
             else if (timeDiff > 0)
             {
                 //Debug.Log("online file is newer");
-                InitializationManager.DownloadCount--;
-                InitializationManager.checkingForUpdates--;
 
                 // Debug.LogWarning("Downloading from the Cloud " + filename);
                 UIB_FileManager.HasUpdatedAFile = true;
                 await GetObject(filename, S3BucketName);
                 InitializationManager.hasUpdatedFiles = true;
             }
-
-            else
-            {
-                InitializationManager.DownloadCount--;
-                InitializationManager.checkingForUpdates--;
-            }
-
         }
 
 

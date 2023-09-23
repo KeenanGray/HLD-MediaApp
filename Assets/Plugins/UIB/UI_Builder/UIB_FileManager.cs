@@ -84,7 +84,7 @@ namespace UI_Builder
             return fileData;
         }
 
-        public static void WriteFileFromResponse(GetObjectResponse response, string fileName)
+        public async Task WriteFileFromResponse(GetObjectResponse response, string fileName)
         {
             //check if the directory exists
             //split filepath into directory and filename
@@ -118,7 +118,7 @@ namespace UI_Builder
                 int count;
                 while ((count = response.ResponseStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
-                    fs.Write(buffer, 0, count);
+                    await Task.Run(() => fs.Write(buffer, 0, count));
                 }
                 fs.Flush();
             }
