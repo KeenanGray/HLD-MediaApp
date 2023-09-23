@@ -56,6 +56,7 @@ Assets/Plugins/PlaymakerAction
 Assets/Textmesh Pro/*
 
 Logs/*
+*.log
 AndroidBuild/*
 AndroidBuild/app_BackUpThisFolder_ButDontShipItWithYourGame/*
 mongo_config.txt
