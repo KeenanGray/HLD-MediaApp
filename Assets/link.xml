@@ -16,6 +16,9 @@
 <assembly fullname="AWSSDK.Core" preserve="all"/>
 <assembly fullname="AWSSDK.CognitoIdentity" preserve="all"/>
 <assembly fullname="AWSSDK.SecurityToken" preserve="all"/>
-<assembly fullname="AWSSDK.S3" preserve="all"/>
+<assembly fullname="Microsoft.Bcl.AsyncInterfaces" preserve="all"/>
+<assembly fullname="AWSSDK.CognitoIdentity" preserve="all"/>
+<assembly fullname="System.Runtime.CompilerServices.Unsafe" preserve="all"/>
+<assembly fullname="System.Threading.Tasks.Extensions" preserve="all"/>
 add more services that you need here...
 </linker>

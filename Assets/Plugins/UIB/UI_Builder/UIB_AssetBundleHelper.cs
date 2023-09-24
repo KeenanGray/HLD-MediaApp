@@ -8,7 +8,6 @@ namespace UI_Builder
 {
     public class UIB_AssetBundleHelper : MonoBehaviour
     {
-
         static List<string> AssetBundleList;
 
         public static void InsertAssetBundle(string s)
@@ -31,17 +30,24 @@ namespace UI_Builder
                 for (int i = 0; i < size; i++)
                 {
                     var str_name = AssetBundleList[i];
-                    var newPath = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + str_name;
+                    var newPath =
+                        UIB_PlatformManager.persistentDataPath
+                        + UIB_PlatformManager.platform
+                        + str_name;
 #if UNITY_ANDROID && !UNITY_EDITOR
-                    newPath = UIB_PlatformManager.persistentDataPath +"android/assets/"+ UIB_PlatformManager.platform + str_name; 
+                    newPath =
+                        UIB_PlatformManager.persistentDataPath
+                        + "android/assets/"
+                        + UIB_PlatformManager.platform
+                        + str_name;
 #endif
                     //we need to load the asset bundle
                     yield return tryLoadAssetBundle(newPath);
                 }
                 yield return null;
-
             }
         }
+
         public static IEnumerator tryLoadAssetBundle(string path)
         {
             AssetBundleCreateRequest bundleLoadRequest = null;
@@ -67,6 +73,7 @@ namespace UI_Builder
                 if (myLoadedAssetBundle == null)
                 {
                     Debug.LogWarning("Failed to load AssetBundle " + path);
+                    yield break;
                 }
 
                 string bundle_name = path.Split("hld")[1];
@@ -75,7 +82,11 @@ namespace UI_Builder
                 //initialize the url buttons
                 if (bundle_name == "/general")
                 {
-                    foreach (AssignUrlFromAssetBundle e in FindObjectsOfType(typeof(AssignUrlFromAssetBundle)))
+                    foreach (
+                        AssignUrlFromAssetBundle e in FindObjectsOfType(
+                            typeof(AssignUrlFromAssetBundle)
+                        )
+                    )
                     {
                         e.UpdateURL();
                     }
@@ -89,8 +100,6 @@ namespace UI_Builder
             yield break;
         }
 
-
-
         private void OnDisable()
         {
             StopAllCoroutines();
@@ -101,7 +110,5 @@ namespace UI_Builder
                 ab.Unload(true);
             }
         }
-
-
     }
 }

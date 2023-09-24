@@ -23,9 +23,12 @@ public class CleanupAndReloadApp : MonoBehaviour
             Debug.Log(UAP_AccessibilityManager.IsSpeaking());
 
             yield return new WaitForSeconds(2.0f);
-
         }
-
+        foreach (AssetBundle ab in AssetBundle.GetAllLoadedAssetBundles())
+        {
+            //Debug.Log("unloading asset bundle:" + ab.name);
+            ab.Unload(true);
+        }
 
         // yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(0);
