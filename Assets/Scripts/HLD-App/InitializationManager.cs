@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+
 public class InitializationManager : MonoBehaviour
 {
     GameObject aspectManager;
@@ -52,13 +53,10 @@ public class InitializationManager : MonoBehaviour
         DebugLocalAssetBundles = false;
 #endif
 
-
-
 #if UNITY_EDITOR
         UIB_AspectRatioManager_Editor.Instance().IsInEditor = false;
         UpdateNameOfTextItem.ShouldRun = false;
 #endif
-
 
         StartCoroutine("Init");
     }
@@ -88,9 +86,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (e.GetType() == typeof(NullReferenceException))
-            {
-            }
+            if (e.GetType() == typeof(NullReferenceException)) { }
         }
 
         //this player pref should get set at app launch so that it resets the timecode in the audio-desc;
@@ -99,10 +95,7 @@ public class InitializationManager : MonoBehaviour
         #region GameObjectAssignment
         try
         {
-            percentText =
-                GameObject
-                    .Find("DownloadPercent")
-                    .GetComponent<TextMeshProUGUI>();
+            percentText = GameObject.Find("DownloadPercent").GetComponent<TextMeshProUGUI>();
         }
         catch (Exception e)
         {
@@ -112,10 +105,7 @@ public class InitializationManager : MonoBehaviour
 
         try
         {
-            db_Manager =
-                GameObject
-                    .Find("DB_Manager")
-                    .GetComponent<HLD.Database_Accessor>();
+            db_Manager = GameObject.Find("DB_Manager").GetComponent<HLD.Database_Accessor>();
         }
         catch (Exception e)
         {
@@ -144,8 +134,7 @@ public class InitializationManager : MonoBehaviour
 
         try
         {
-            AccessibilityInstructions =
-                GameObject.Find("AccessibleInstructions_Button");
+            AccessibilityInstructions = GameObject.Find("AccessibleInstructions_Button");
         }
         catch (Exception e)
         {
@@ -159,7 +148,6 @@ public class InitializationManager : MonoBehaviour
         */
         //if we are on ios and this is the first launch, ignore this (keenan what does this comment mean? 9/23/2023 ????????)
         yield return StartCoroutine("CheckLocalFiles");
-
 
         //this coroutine continously checks if we have wifi and downloads are happening
         //it updates the download icon accordingly
@@ -181,9 +169,12 @@ public class InitializationManager : MonoBehaviour
 
         Debug.Log("DownlaodCount  " + DownloadCount);
 
+        var loading_text = GameObject.Find("LoadingText").GetComponent<TextMeshProUGUI>();
+
         while (DownloadCount > 0)
         {
-            Debug.Log("DownlaodCount  " + DownloadCount);
+            Debug.Log("DownloadCount  " + DownloadCount);
+            loading_text.text = "Loading Files..." + DownloadCount + " Files Remaining";
             yield return null;
         }
 
@@ -192,9 +183,7 @@ public class InitializationManager : MonoBehaviour
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
 
-        Debug
-            .Log("checking accessibility " +
-            UAP_AccessibilityManager.GetAndroidAccessibility());
+        Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
 
         if (UAP_AccessibilityManager.GetAndroidAccessibility())
         {
@@ -208,15 +197,10 @@ public class InitializationManager : MonoBehaviour
         }
 #endif
 
-
         //Set the main page container
         //Can't remember why i did this
         UIB_PageContainer MainContainer = null;
-        foreach (UIB_PageContainer
-            PageContainer
-            in
-            GetComponentsInChildren<UIB_PageContainer>()
-        )
+        foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
         {
             MainContainer = PageContainer;
             MainContainer.Init();
@@ -230,25 +214,16 @@ public class InitializationManager : MonoBehaviour
 
         //turn aspect ratio fitters on
         //causes all pages to share origin with canvas and be correct dimensions
-        foreach (AspectRatioFitter
-            arf
-            in
-            GetComponentsInChildren<AspectRatioFitter>()
-        )
+        foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
         {
             arf.aspectRatio =
-                (UIB_AspectRatioManager.ScreenWidth) /
-                (UIB_AspectRatioManager.ScreenHeight);
+                (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
 
         //initialize each button
-        foreach (UI_Builder.UIB_Button
-            ab
-            in
-            GetComponentsInChildren<UI_Builder.UIB_Button>()
-        )
+        foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
         {
             //before initializing buttons, we may change some names based on player_prefs
             if (ab.name == "Displayed-Code_Button")
@@ -275,11 +250,7 @@ public class InitializationManager : MonoBehaviour
 
         //initialize companty dancers page
         //TODO: might not need this
-        foreach (CompanyDancers_Page
-            p
-            in
-            GetComponentsInChildren<CompanyDancers_Page>()
-        )
+        foreach (CompanyDancers_Page p in GetComponentsInChildren<CompanyDancers_Page>())
         {
             p.Init();
         }
@@ -296,20 +267,14 @@ public class InitializationManager : MonoBehaviour
         }
 
         //initialize each scrolling menu
-        foreach (UIB_ScrollingMenu
-            uibSM
-            in
-            GetComponentsInChildren<UIB_ScrollingMenu>()
-        )
+        foreach (UIB_ScrollingMenu uibSM in GetComponentsInChildren<UIB_ScrollingMenu>())
         {
             uibSM.Init();
         }
 
         //setup the first screen
         var firstScreen = GameObject.Find("Landing_Page");
-        yield return firstScreen
-                .GetComponent<UIB_Page>()
-                .StartCoroutine("MoveScreenIn", true);
+        yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
 
         if (UAP_AccessibilityManager.IsEnabled())
         {
@@ -321,17 +286,12 @@ public class InitializationManager : MonoBehaviour
                 UAP_AccessibilityManager.EnableAccessibility(false);
                 UAP_AccessibilityManager.EnableAccessibility(true);
             }
-            else
-            {
-            }
+            else { }
 
             //select the first button with UAP
             var first = GameObject.Find("DISPLAYED-Code_Button");
             UAP_AccessibilityManager.SelectElement(first, true);
-
         }
-
-
 
         //remove the cover
         MainContainer.DisableCover();
@@ -344,16 +304,16 @@ public class InitializationManager : MonoBehaviour
         var elapsed = t2 - t1;
         InitializeTime = elapsed;
 
-
-
         yield break;
     }
-
 
     private void ManageAssetBundleFiles()
     {
         blankPage.transform.SetAsLastSibling();
-        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
+        GameObject
+            .Find("MainCanvas")
+            .GetComponent<UIB_AssetBundleHelper>()
+            .StartCoroutine("LoadAssetBundlesInBackground");
     }
 
     private IEnumerator CheckLocalFiles()
@@ -432,38 +392,53 @@ public class InitializationManager : MonoBehaviour
         //if we get here we have all the files
         hasCheckedFiles = true;
 
-
         yield break;
     }
 
     private async void TryDownloadFile(string filename, bool fallbackUsingBundle = false)
     {
-        string filepath = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename;
+        string filepath =
+            UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform + filename;
         UIB_AssetBundleHelper.InsertAssetBundle(filename);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-    filepath = UIB_PlatformManager.persistentDataPath +"android/assets/" + UIB_PlatformManager.platform + filename
+        filepath =
+            UIB_PlatformManager.persistentDataPath
+            + "android/assets/"
+            + UIB_PlatformManager.platform
+            + filename;
 #endif
 
         if (!UIB_FileManager.FileExists(filepath)) //if the file does not exist we copy the stored version for peristant storage
         {
+            Debug.Log("Copying file from streaming assets to persistant");
             // we need a special version of this function in order to check streaming assets for Android
 #if UNITY_ANDROID && !UNITY_EDITOR
             //We don't have the file, first thing is to copy it from streaming assets
             //On Android, streaming assets are zipped so we need a special accessor
             print("file does not exist");
-            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
+            GameObject
+                .Find("FileManager")
+                .GetComponent<UIB_FileManager>()
+                .StartCoroutine("CreateStreamingAssetDirectories", filename);
 #else
             //we don't have the file, first thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
 #endif
             //record here that we have never updated files from the internet;
-            PlayerPrefs.SetString("LastUpdated", new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString());
+            PlayerPrefs.SetString(
+                "LastUpdated",
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToString()
+            );
 
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
-                DownloadCount++;
-                await db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                InitializationManager.DownloadCount++;
+
+                await db_Manager.CheckIfObjectHasUpdate(
+                    UIB_PlatformManager.platform + filename,
+                    "heidi-latsky-dance"
+                );
             }
             wroteToPersistant = true;
         }
@@ -472,14 +447,17 @@ public class InitializationManager : MonoBehaviour
             //we have the file already so we check for an update
             if (CheckInternet() && !DebugLocalAssetBundles)
             {
-                DownloadCount++;
-                await db_Manager.CheckIfObjectHasUpdate(UIB_PlatformManager.platform + filename, "heidi-latsky-dance");
+                InitializationManager.DownloadCount++;
+
+                await db_Manager.CheckIfObjectHasUpdate(
+                    UIB_PlatformManager.platform + filename,
+                    "heidi-latsky-dance"
+                );
             }
         }
         //delete the streaming asset files
         UIB_FileManager.DeleteFile(filename);
     }
-
 
     private bool CheckInternet()
     {
@@ -505,11 +483,11 @@ public class InitializationManager : MonoBehaviour
 
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            if (b.name == "hld/general") tmp = b;
+            if (b.name == "hld/general")
+                tmp = b;
         }
         if (tmp != null)
-            list =
-                tmp.LoadAsset<TextAsset>("listofdancers").ToString().Split(',');
+            list = tmp.LoadAsset<TextAsset>("listofdancers").ToString().Split(',');
         else
         {
             Debug.LogWarning("No list of dancers");
@@ -523,8 +501,7 @@ public class InitializationManager : MonoBehaviour
             list[i] = list[i].Replace("\n", "");
             list[i] = list[i].Replace("\r", "");
             list[i] = list[i].TrimEnd(System.Environment.NewLine.ToCharArray());
-            list[i] =
-                list[i].TrimStart(System.Environment.NewLine.ToCharArray());
+            list[i] = list[i].TrimStart(System.Environment.NewLine.ToCharArray());
         }
         return list;
     }
@@ -582,11 +559,8 @@ public class InitializationManager : MonoBehaviour
             if (TotalDownloads > 0)
             {
                 PercentDownloaded =
-                    (float)((TotalDownloads - DownloadCount) / TotalDownloads) *
-                    100;
-                if (PercentDownloaded > 0)
-                {
-                }
+                    (float)((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
+                if (PercentDownloaded > 0) { }
                 else
                 {
                     PercentDownloaded = 0;
@@ -596,7 +570,8 @@ public class InitializationManager : MonoBehaviour
             yield return null;
         }
 
-        if (InitializationManager.hasUpdatedFiles) cleanupAndReloadScene();
+        if (InitializationManager.hasUpdatedFiles)
+            cleanupAndReloadScene();
 
         yield break;
     }
@@ -608,11 +583,7 @@ public class InitializationManager : MonoBehaviour
 
     private void CheckAndUpdateLinks(string key)
     {
-        foreach (GameObject
-            go
-            in
-            GameObject.FindGameObjectsWithTag("LockedPageButton")
-        )
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("LockedPageButton"))
         {
             GameObject CodeToInfoObject = null;
             if (go.name == key.Replace("Info_Page", "Code_Button"))
@@ -629,10 +600,7 @@ public class InitializationManager : MonoBehaviour
             //If date of passcode entry doesn't check out. we don't change the name
             if (PlayerPrefs.HasKey(key))
             {
-                var codeEntered =
-                    DateTime
-                        .Parse(PlayerPrefs.GetString(key))
-                        .ToUniversalTime();
+                var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
 
                 //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
                 if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
@@ -640,15 +608,12 @@ public class InitializationManager : MonoBehaviour
                     try
                     {
                         //exceeded time limit. Reactivte code-entry page
-                        InfoToCodeObject.name =
-                            key.Replace("Info_Page", "Code_Button");
+                        InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
                         InfoToCodeObject.GetComponent<UIB_Button>().Init();
                     }
                     catch (Exception e)
                     {
-                        if (e.GetType() == typeof(NullReferenceException))
-                        {
-                        }
+                        if (e.GetType() == typeof(NullReferenceException)) { }
                     }
                 }
                 else
@@ -658,15 +623,12 @@ public class InitializationManager : MonoBehaviour
                     //Debug.Log("THINK WE HAVE ACCESS");
                     try
                     {
-                        CodeToInfoObject.name =
-                            key.Replace("Info_Page", "Info_Button");
+                        CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");
                         CodeToInfoObject.GetComponent<UIB_Button>().Init();
                     }
                     catch (Exception e)
                     {
-                        if (e.GetType() == typeof(NullReferenceException))
-                        {
-                        }
+                        if (e.GetType() == typeof(NullReferenceException)) { }
                     }
                 }
                 //Swap info button for code button
@@ -677,15 +639,12 @@ public class InitializationManager : MonoBehaviour
                 {
                     //if you do not have the player pref
                     //set info page to code page
-                    InfoToCodeObject.name =
-                        key.Replace("Info_Page", "Code_Button");
+                    InfoToCodeObject.name = key.Replace("Info_Page", "Code_Button");
                     InfoToCodeObject.GetComponent<UIB_Button>().Init();
                 }
                 catch (Exception e)
                 {
-                    if (e.GetType() == typeof(NullReferenceException))
-                    {
-                    }
+                    if (e.GetType() == typeof(NullReferenceException)) { }
                 }
             }
         }

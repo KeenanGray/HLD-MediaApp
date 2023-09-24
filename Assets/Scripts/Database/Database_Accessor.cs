@@ -49,65 +49,68 @@ namespace HLD
 
     public class Database_Accessor : MonoBehaviour
     {
-        public static string IdentityPoolId = "";
-
-        public string CognitoIdentityRegion = RegionEndpoint.USEast1.SystemName;
+        public static string identityPoolId = "us-east-1:1d281ad5-139a-45ae-915d-bcd555a2e228";
+        public string cognitoIdentityRegion = RegionEndpoint.USEast1.SystemName;
+        public string S3Region = RegionEndpoint.USEast1.SystemName;
 
         private RegionEndpoint _CognitoIdentityRegion
         {
-            get
-            {
-                return RegionEndpoint.GetBySystemName(CognitoIdentityRegion);
-            }
+            get { return RegionEndpoint.GetBySystemName(cognitoIdentityRegion); }
         }
-
-        public string S3Region = RegionEndpoint.USEast1.SystemName;
-
         private RegionEndpoint _S3Region
         {
-            get
-            {
-                return RegionEndpoint.GetBySystemName(S3Region);
-            }
+            get { return RegionEndpoint.GetBySystemName(S3Region); }
         }
-
-        public static Dictionary<string, int> FallbackCounter;
 
         #region private members
 
-        private IAmazonS3 _s3Client;
+        private CognitoAWSCredentials _credentials;
 
-        private AWSCredentials _credentials;
-
-        private AWSCredentials Credentials
+        private CognitoAWSCredentials Credentials
         {
             get
             {
-                IdentityPoolId = "us-east-1:1d281ad5-139a-45ae-915d-bcd555a2e228";
                 if (_credentials == null)
-                    _credentials =
-                        new CognitoAWSCredentials(IdentityPoolId,
-                            _CognitoIdentityRegion);
+                {
+                    _credentials = new CognitoAWSCredentials(
+                        "253927263007", // Account number
+                        identityPoolId, // Identity pool ID
+                        "arn:aws:iam::253927263007:role/Cognito_HeidiLatskyDanceUnauth_User", // Role for unauthenticated users
+                        null, // Role for authenticated users, not set
+                        RegionEndpoint.USEast1
+                    );
+                }
+
                 return _credentials;
             }
         }
+
+        private IAmazonS3 _client;
 
         private IAmazonS3 Client
         {
             get
             {
-                if (_s3Client == null)
+                if (_client == null)
                 {
-                    _s3Client = new AmazonS3Client(Credentials, _S3Region);
+                    _client = new AmazonS3Client(Credentials, _S3Region);
                 }
 
                 //test comment
-                return _s3Client;
+                return _client;
             }
         }
 
         #endregion
 
+        private void Awake()
+        {
+            Debug.Log("Awake");
+
+            Debug.Log(Credentials);
+            Debug.Log(Client);
+            Debug.Log("Awake Done");
+        }
 
         /// <summary>
         /// Get Object from S3 Bucket
@@ -116,7 +119,10 @@ namespace HLD
         {
             Debug.Log("Get Object " + filename);
 
-            Amazon.S3.Model.GetObjectResponse result = await Client.GetObjectAsync(S3BucketName, filename);
+            Amazon.S3.Model.GetObjectResponse result = await Client.GetObjectAsync(
+                S3BucketName,
+                filename
+            );
 
             if (result != null)
             {
@@ -129,9 +135,7 @@ namespace HLD
                 Debug.Log("Write Object " + filename);
 
                 Directory.SetLastAccessTime(UIB_PlatformManager.persistentDataPath, DateTime.Now);
-                InitializationManager.DownloadCount--;
             }
-
         }
 
         /// <summary>
@@ -141,22 +145,20 @@ namespace HLD
         {
             Debug.Log("GetObjects");
 
-
             var result = await Client.ListObjectsAsync(S3BucketName);
             foreach (var obj in result.S3Objects)
             {
                 Debug.Log("key:" + obj);
             }
-
-
         }
 
         public async Task CheckIfObjectHasUpdate(string filename, string S3BucketName)
         {
-            var request =
-                new GetObjectMetadataRequest()
-                { BucketName = S3BucketName, Key = filename };
-
+            var request = new GetObjectMetadataRequest()
+            {
+                BucketName = S3BucketName,
+                Key = filename
+            };
 
             DateTime S3LastModified = new DateTime();
             DateTime localFilesLastModified = new DateTime();
@@ -165,100 +167,33 @@ namespace HLD
 
             var result = await Client.GetObjectMetadataAsync(request);
 
-            S3LastModified =
-                      result
-                          .LastModified
-                          .ToUniversalTime();
-            localFilesLastModified =
-                DateTime
-                    .Parse(PlayerPrefs.GetString("LastUpdated"));
+            S3LastModified = result.LastModified.ToUniversalTime();
+            localFilesLastModified = DateTime.Parse(PlayerPrefs.GetString("LastUpdated"));
 
-            var timeDiff =
-                S3LastModified.CompareTo(localFilesLastModified);
+            var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
 
             //Compare the difference in time between the local directory and files in the cloud
             if (timeDiff < 0)
             {
                 // Debug.Log("online file is older");
                 InitializationManager.DownloadCount--;
-
             }
             else if (timeDiff == 0)
             {
-                Debug
-                    .LogWarning("same time - seems wierd if you get here.");
+                Debug.LogWarning("same time - seems wierd if you get here.");
                 UIB_FileManager.HasUpdatedAFile = true;
 
                 await GetObject(filename, S3BucketName);
                 InitializationManager.DownloadCount--;
-
             }
             else if (timeDiff > 0)
             {
-                //Debug.Log("online file is newer");
-
                 // Debug.LogWarning("Downloading from the Cloud " + filename);
                 UIB_FileManager.HasUpdatedAFile = true;
                 await GetObject(filename, S3BucketName);
                 InitializationManager.hasUpdatedFiles = true;
+                InitializationManager.DownloadCount--;
             }
-        }
-
-
-
-
-
-
-
-
-
-
-
-        internal void GetObjectWithFallback(
-            string filename,
-            string S3BucketName
-        )
-        {
-            throw new NotImplementedException();
-            /*            if (FallbackCounter == null)
-                        {
-                            FallbackCounter = new Dictionary<string, int>();
-                        }
-                        var count = 0;
-                        if (FallbackCounter.ContainsKey(filename))
-                        {
-
-                        }
-                        else
-                            FallbackCounter.Add(filename, count);
-
-                        //Debug.Log("Downloading " + S3BucketName + "/" + filename + " with fallback");
-
-                        InitializationManager.DownloadCount++;
-                        Client.GetObjectAsync(S3BucketName, filename, (responseObj) =>
-                        {
-                            var response = responseObj.Response;
-                            FallbackCounter[filename]++;
-
-                            if (response.ResponseStream != null)
-                            {
-                                filename = S3BucketName + "/" + filename;
-                                UIB_FileManager.WriteFileFromResponse(response, filename);
-                                Directory.SetLastAccessTime(Application.persistentDataPath, DateTime.Now);
-                                InitializationManager.DownloadCount--;
-                            }
-                            else
-                            {
-
-                            }
-
-                            if (FallbackCounter[filename] > 60 * 10)
-                            {
-
-                            }
-                        });
-                        */
-
         }
     }
 }
