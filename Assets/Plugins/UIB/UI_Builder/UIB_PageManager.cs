@@ -21,25 +21,7 @@ namespace UI_Builder
 
         void SwipeHandler(SwipeData swipe)
         {
-            /*
-            if (swipe.touches == 1 && swipe.dir == Direction.LEFT)
-            {
-                if (LastPage != null && swipe.full && CurrentPage.name != "Landing_Page")
-                {
-                    if (LastPage != null && CurrentPage!=null)
-                    {
-                        if (LastPage == CurrentPage)
-                        {
-                            Debug.Log("this is bad");
-                            return;
-                        }
-                        LastPage.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-                        CurrentPage.GetComponent<UIB_Page>().StartCoroutine("MoveScreenOut", false);
-                        Debug.Log("Should be activating the page " + LastPage.name);
-                    }
-                }
-                LastPage.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", false);
-                */
+
 
         }
 

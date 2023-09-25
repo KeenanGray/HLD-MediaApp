@@ -164,7 +164,7 @@ namespace UI_Builder
         {
             if (newText == null)
             {
-                Debug.Log("Null Text Given for Captions");
+                Debug.LogWarning("Null Text Given for Captions");
                 return;
             }
             VideoCaptions = newText;

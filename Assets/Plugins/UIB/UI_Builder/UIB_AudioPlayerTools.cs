@@ -113,7 +113,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             {
                 if (source == null || source.clip == null)
                 {
-                    // Debug.Log("no source 2 " +gameObject.name);
                     return;
                 }
                 timeScroll = sb;
@@ -121,28 +120,35 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.InitializePotentialDrag;
-                entry.callback.AddListener((eventData) => { OnDragBegin(); });
+                entry.callback.AddListener(
+                    (eventData) =>
+                    {
+                        OnDragBegin();
+                    }
+                );
                 timeScroll.GetComponent<EventTrigger>().triggers.Add(entry);
 
                 entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.PointerUp;
-                entry.callback.AddListener((eventData) => { OnDragEnd(); });
+                entry.callback.AddListener(
+                    (eventData) =>
+                    {
+                        OnDragEnd();
+                    }
+                );
                 timeScroll.GetComponent<EventTrigger>().triggers.Add(entry);
             }
         }
-        if (timeScroll != null)
-        {
-
-        }
+        if (timeScroll != null) { }
         else
         {
             Debug.LogWarning("No time scroll button");
         }
 
-
-
         //Add time field for audio length
-        foreach (TextMeshProUGUI tl in ParentOfAudioToolComponents.GetComponentsInChildren<TextMeshProUGUI>())
+        foreach (
+            TextMeshProUGUI tl in ParentOfAudioToolComponents.GetComponentsInChildren<TextMeshProUGUI>()
+        )
         {
             if (tl.gameObject.name.Contains("MaxTime_Text"))
                 maxtime_label = tl;
@@ -226,6 +232,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     }
 
     int timerIndex;
+
     private void OnInputFieldChanged(string arg0)
     {
         UAP_AccessibilityManager.BlockInput(true);
@@ -236,7 +243,12 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             if (currentVal.Length <= 5)
             {
                 //say character added and full sentence
-                UAP_AccessibilityManager.Say(currentVal[currentVal.Length - 1].ToString() + " added ", true, true, UAP_AudioQueue.EInterrupt.All);
+                UAP_AccessibilityManager.Say(
+                    currentVal[currentVal.Length - 1].ToString() + " added ",
+                    true,
+                    true,
+                    UAP_AudioQueue.EInterrupt.All
+                );
             }
             else
             {
@@ -248,18 +260,32 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             //say character deleted
             if (UAP_AccessibilityManager.IsActive())
             {
-                UAP_AccessibilityManager.Say(oldValue[oldValue.Length - 1].ToString() + " deleted", true, true, UAP_AudioQueue.EInterrupt.All);
+                UAP_AccessibilityManager.Say(
+                    oldValue[oldValue.Length - 1].ToString() + " deleted",
+                    true,
+                    true,
+                    UAP_AudioQueue.EInterrupt.All
+                );
             }
         }
         oldValue = currentVal;
 
         var outstr = "";
-        time_label.text = ConvertToClockTime(StringToSecondsCount(AudioTimerInput.text, ref outstr));
-        UAP_AccessibilityManager.Say(AudioTimerInput.GetComponent<UAP_BaseElement>().GetTargetGameObject().GetComponent<Text>().text);
+        time_label.text = ConvertToClockTime(
+            StringToSecondsCount(AudioTimerInput.text, ref outstr)
+        );
+        UAP_AccessibilityManager.Say(
+            AudioTimerInput
+                .GetComponent<UAP_BaseElement>()
+                .GetTargetGameObject()
+                .GetComponent<Text>()
+                .text
+        );
 
         if (!AudioTimerInput.isFocused)
-            UAP_AccessibilityManager.SelectElement(UAP_AccessibilityManager.GetCurrentFocusObject());
-
+            UAP_AccessibilityManager.SelectElement(
+                UAP_AccessibilityManager.GetCurrentFocusObject()
+            );
     }
 
     // Update is called once per frame
@@ -281,7 +307,9 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         else
         {
             if (source != null)
-                time_label.text = ConvertToClockTime(Mathf.Lerp(source.clip.length, source.time, 1 - timeScroll.value));
+                time_label.text = ConvertToClockTime(
+                    Mathf.Lerp(source.clip.length, source.time, 1 - timeScroll.value)
+                );
         }
 
         if (source != null)
@@ -314,13 +342,12 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         PlayMethod();
     }
 
-
-    ///<summary>PlayMethod A lot has to happen when we play the audio : Use this instead of "AudioSource.Play"  
-    /// for best results 
+    ///<summary>PlayMethod A lot has to happen when we play the audio : Use this instead of "AudioSource.Play"
+    /// for best results
     /// the parameter lets you set a flag:
     /// 0 - > default behavior toggle
-    /// 1 - > force audio to startup play  
-    /// 2 - > force audio to stop playing and cleanup</summary>  
+    /// 1 - > force audio to startup play
+    /// 2 - > force audio to stop playing and cleanup</summary>
     public void PlayMethod(int option = 0)
     {
         if (source == null)
@@ -345,12 +372,10 @@ public class UIB_AudioPlayerTools : MonoBehaviour
                 break;
             case 1:
                 //Force Start
-                //Debug.Log("Force to play");
                 PlayHelperStart();
                 break;
             case 2:
                 //Force Stop
-                //Debug.Log("Force to stop");
                 PlayHelperStop();
                 break;
             default:
@@ -370,6 +395,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         //start the captions
         return;
     }
+
     void PlayHelperStop()
     {
         source.Pause();
@@ -393,7 +419,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         {
             source.time = source.clip.length - .01f;
         }
-
     }
 
     void BackButtonPressed()
@@ -402,8 +427,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             source.time -= 30;
         else
             source.time = 0;
-
-
     }
 
     string ConvertToClockTime(float t)
@@ -470,7 +493,7 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Exception" + e);
+            Debug.LogWarning("Exception" + e);
             return ((int)source.time);
         }
     }
@@ -501,8 +524,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
             PlayMethod(1);
             DragOccurring = false;
         }
-
-
     }
 
     IEnumerator DeselectscrollBar()
@@ -516,9 +537,9 @@ public class UIB_AudioPlayerTools : MonoBehaviour
 
     public void OnSelect(BaseEventData eventData)
     {
-        //        Debug.Log("HERE");
         fieldSelected();
     }
+
     private void fieldSelected()
     {
         StartCoroutine("fieldSelectedCo");
@@ -553,7 +574,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
         //we have to change the mask size in case movement causes colision with logo and back button
         var sizeAdjust = new Vector2(0, GetComponent<RectTransform>().rect.height * 1.9f);
         if (frame == null)
-            yield break; ;
+            yield break;
+        ;
         frame.GetComponent<RectTransform>().sizeDelta -= sizeAdjust;
         moveDist = new Vector2(0, h);
 
@@ -566,7 +588,6 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     private void fieldDeSelected(string arg0)
     {
         UAP_AccessibilityManager.BlockInput(false);
-
 
         if (TouchScreenKeyboard.isSupported)
         {
@@ -591,10 +612,8 @@ public class UIB_AudioPlayerTools : MonoBehaviour
     {
         while (true)
         {
-            //Debug.Log("THIS IS HAPPENING");
             if (TouchScreenKeyboard.isSupported && TouchScreenKeyboard.visible)
             {
-
                 yield return null;
             }
             else

@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-
 public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 {
     GameObject cover;
@@ -65,30 +64,47 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             }
         }
 
-
         foreach (Button b in GetComponentsInChildren<Button>())
         {
             if (b.name == "Captions_Button")
             {
                 CaptionsToggle = b.gameObject;
                 b.onClick.RemoveAllListeners();
-                b.GetComponentInChildren<TextMeshProUGUI>().faceColor = new Color32(255, 255, 255, 255);
+                b.GetComponentInChildren<TextMeshProUGUI>().faceColor = new Color32(
+                    255,
+                    255,
+                    255,
+                    255
+                );
 
-                b.onClick.AddListener(delegate
-                {
-                    CaptionsShowing = !CaptionsShowing;
-
-                    CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled = CaptionsShowing;
-
-                    if (CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled)
+                b.onClick.AddListener(
+                    delegate
                     {
-                        b.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(200, 197, 43, 255);
+                        CaptionsShowing = !CaptionsShowing;
+
+                        CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled =
+                            CaptionsShowing;
+
+                        if (CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>().enabled)
+                        {
+                            b.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(
+                                200,
+                                197,
+                                43,
+                                255
+                            );
+                        }
+                        else
+                        {
+                            b.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(
+                                255,
+                                255,
+                                255,
+                                255
+                            );
+                        }
                     }
-                    else
-                    {
-                        b.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
-                    }
-                });
+                );
 
                 //  b.onClick.Invoke();
             }
@@ -103,10 +119,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+    void Update() { }
 
     public void SetTitle(string str)
     {
@@ -117,9 +130,8 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         }
         else
             Debug.LogError("Check the names of your gameobjects");
-
-
     }
+
     /*
     public void SetImageFromResource(string PathToImage, float size)
     {
@@ -148,7 +160,6 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         AssetBundle tmp = null;
         foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
         {
-            //            Debug.Log(b.name);
             if (b.name == bundleString)
                 tmp = b;
         }
@@ -178,7 +189,10 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
                 try
                 {
                     if (ImageToUse != null)
-                        BgPhoto.rectTransform.sizeDelta = new Vector2(ImageToUse.rect.width, ImageToUse.rect.height * ar);
+                        BgPhoto.rectTransform.sizeDelta = new Vector2(
+                            ImageToUse.rect.width,
+                            ImageToUse.rect.height * ar
+                        );
                 }
                 catch (Exception e)
                 {
@@ -186,13 +200,14 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
                     {
                         Debug.LogError("Null Reference Exception");
                     }
-
-                    Debug.Log("no image to use. " + PathToImage + "- - -" + e);
+                    Debug.LogWarning("no image to use. " + PathToImage + "- - -" + e);
                 }
             }
         }
         else
-        { Debug.Log("BgPhoto object is null"); }
+        {
+            Debug.LogWarning("BgPhoto object is null");
+        }
     }
 
     public void SetImageFromFile(string PathToImage)
@@ -204,18 +219,21 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             fileData = UIB_FileManager.ReadFromBytes(PathToImage, UIB_FileTypes.Images);
             if (fileData == null)
             {
-                Debug.Log("HERE");
                 return;
             }
             Texture2D tex = new Texture2D(2, 2);
             tex.LoadImage(fileData);
-            var newSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0), 100.0f);
+            var newSprite = Sprite.Create(
+                tex,
+                new Rect(0, 0, tex.width, tex.height),
+                new Vector2(0, 0),
+                100.0f
+            );
             if (BgPhoto != null)
             {
                 BgPhoto.sprite = newSprite;
                 BgPhoto.rectTransform.sizeDelta = new Vector2(1000, 1000);
             }
-
         }
     }
 
@@ -246,17 +264,13 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
             hasCaptions = false;
 
             //no captions so no screen readable button
-            // Debug.Log("turning captions reader off");
-
             StartCoroutine("TurnOffCaptionsReader");
 
             return;
         }
-        //        Debug.Log("new " + newText);
         hasCaptions = true;
         AudioCaptions = new TextAsset(newText);
 
-        //        Debug.Log("turning captions reader on");
         CaptionsToggle.GetComponent<UAP_BaseElement>().enabled = true;
         CaptionsToggle.GetComponent<Button>().enabled = true;
     }
@@ -276,6 +290,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
     int iterator;
     bool wait;
     private bool hasCaptions;
+
     IEnumerator PlayCaptionsWithAudio()
     {
         TextMeshProUGUI tmp = CaptionsCanvas.GetComponentInChildren<TextMeshProUGUI>();
@@ -300,10 +315,13 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
 
             //convert the current word to find out which word starts that line.
             int word_to_line = (int)current_word / WordsPerLine;
-            //Debug.Log(word_to_line + "  " + words[current_word]);
 
             var line = "";
-            for (iterator = word_to_line * WordsPerLine; iterator <= (word_to_line * WordsPerLine) + WordsPerLine; iterator++)
+            for (
+                iterator = word_to_line * WordsPerLine;
+                iterator <= (word_to_line * WordsPerLine) + WordsPerLine;
+                iterator++
+            )
             {
                 if (iterator < words.Length)
                     line += words[iterator] + " ";
@@ -325,11 +343,7 @@ public class UIB_AudioPlayer : MonoBehaviour, UIB_IPage
         return words;
     }
 
-    public void PageActivatedHandler()
-    {
-    }
+    public void PageActivatedHandler() { }
 
-    public void PageDeActivatedHandler()
-    {
-    }
+    public void PageDeActivatedHandler() { }
 }

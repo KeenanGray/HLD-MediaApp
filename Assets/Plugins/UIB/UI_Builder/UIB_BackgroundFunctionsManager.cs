@@ -11,23 +11,22 @@ public class UIB_BackgroundFunctionsManager : MonoBehaviour
             //TODO: run background behaviors
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        Debug.Log("Android Pause");
+            Debug.LogAssertion("Android Pause");
 #endif
 
 #if UNITY_IOS && !UNITY_EDITOR
-        Debug.Log("iOS Pause");
+            Debug.LogAssertion("iOS Pause");
 #endif
         }
         else
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        Debug.Log("Android unPause");
+            Debug.LogAssertion("Android unPause");
 #endif
 
 #if UNITY_IOS && !UNITY_EDITOR
-        Debug.Log("iOS unPause");
+            Debug.LogAssertion("iOS unPause");
 #endif
         }
     }
-
 }

@@ -43,6 +43,8 @@ public class InitializationManager : MonoBehaviour
 
     private bool hasCheckedFiles;
 
+    public static bool doneLoadingAssetBundles = false;
+
     void Start()
     {
         InitializationManager.hasUpdatedFiles = false;
@@ -99,7 +101,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Failed to find GameObject: " + e);
+            Debug.LogWarning("Failed to find GameObject: " + e);
             yield break;
         }
 
@@ -109,7 +111,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("No database manager" + e);
+            Debug.LogWarning("No database manager" + e);
             yield break;
         }
         //when we init the db_manager the first time we might require a reload
@@ -119,7 +121,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("No blankpage " + e);
+            Debug.LogWarning("No blankpage " + e);
             yield break;
         }
         try
@@ -128,7 +130,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("no aspect ratio manager " + e);
+            Debug.LogWarning("no aspect ratio manager " + e);
             yield break;
         }
 
@@ -138,7 +140,7 @@ public class InitializationManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("no instructions " + e);
+            Debug.LogWarning("no instructions " + e);
             yield break;
         }
         #endregion
@@ -163,17 +165,13 @@ public class InitializationManager : MonoBehaviour
 
         while (!hasCheckedFiles)
         {
-            Debug.Log("we don't have all the files");
             yield return null;
         }
-
-        Debug.Log("DownlaodCount  " + DownloadCount);
 
         var loading_text = GameObject.Find("LoadingText").GetComponent<TextMeshProUGUI>();
 
         while (DownloadCount > 0)
         {
-            Debug.Log("DownloadCount  " + DownloadCount);
             loading_text.text = "Loading Files..." + DownloadCount + " Files Remaining";
             yield return null;
         }
@@ -183,16 +181,13 @@ public class InitializationManager : MonoBehaviour
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
 
-        Debug.Log("checking accessibility " + UAP_AccessibilityManager.GetAndroidAccessibility());
 
         if (UAP_AccessibilityManager.GetAndroidAccessibility())
         {
-            Debug.Log("Accessibility ON");
             UAP_AccessibilityManager.EnableAccessibility(true);
         }
         else
         {
-            Debug.Log("Accessibility OFF");
             UAP_AccessibilityManager.EnableAccessibility(false);
         }
 #endif
@@ -293,9 +288,13 @@ public class InitializationManager : MonoBehaviour
             UAP_AccessibilityManager.SelectElement(first, true);
         }
 
+        //if we are finally done loading everything, then we can remove the cover
+        while (!doneLoadingAssetBundles)
+        {
+            yield return null;
+        }
         //remove the cover
         MainContainer.DisableCover();
-
         //Remove the loading Text
         GameObject.Find("LoadingText").SetActive(false);
 
@@ -411,16 +410,12 @@ public class InitializationManager : MonoBehaviour
 
         if (!UIB_FileManager.FileExists(filepath)) //if the file does not exist we copy the stored version for peristant storage
         {
-            Debug.Log("Copying file from streaming assets to persistant");
             // we need a special version of this function in order to check streaming assets for Android
 #if UNITY_ANDROID && !UNITY_EDITOR
             //We don't have the file, first thing is to copy it from streaming assets
             //On Android, streaming assets are zipped so we need a special accessor
-            print("file does not exist");
-            GameObject
-                .Find("FileManager")
-                .GetComponent<UIB_FileManager>()
-                .StartCoroutine("CreateStreamingAssetDirectories", filename);
+            Debug.LogWarning("file does not exist");
+            GameObject.Find("FileManager").GetComponent<UIB_FileManager>().StartCoroutine("CreateStreamingAssetDirectories", filename);
 #else
             //we don't have the file, first thing to do is copy it from streaming assets
             UIB_FileManager.WriteFromStreamingToPersistent(filename);
@@ -515,15 +510,10 @@ public class InitializationManager : MonoBehaviour
 
         while (true)
         {
-            //Debug.Log("DL Count " + DownloadCount + " checking for " + checkingForUpdates);
-            if (WifiInUseIcon == null)
-            {
-                Debug.Log("Bad");
-            }
+            if (WifiInUseIcon == null) { }
 
             if (CheckInternet())
             {
-                //Debug.Log("We have internet");
                 if (DownloadCount > 0 && checkingForUpdates <= 0)
                 {
                     WifiInUseIcon.SetActive(true);
@@ -536,13 +526,12 @@ public class InitializationManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No internet ");
+                Debug.LogWarning("No internet ");
                 yield return null;
             }
 
             if (PercentDownloaded.Equals(100))
             {
-                //Debug.Log("Finished File Check and Downloads " + Time.time + " Seconds");
                 WifiInUseIcon.SetActive(false);
 
                 yield break;
@@ -602,7 +591,6 @@ public class InitializationManager : MonoBehaviour
             {
                 var codeEntered = DateTime.Parse(PlayerPrefs.GetString(key)).ToUniversalTime();
 
-                //Debug.Log("code previously entered " + codeEntered + " now " + DateTime.UtcNow );
                 if (codeEntered.AddHours(48).CompareTo(DateTime.UtcNow) < 0)
                 {
                     try
@@ -620,7 +608,6 @@ public class InitializationManager : MonoBehaviour
                 {
                     //We have access.
                     //Change the code page to the info page
-                    //Debug.Log("THINK WE HAVE ACCESS");
                     try
                     {
                         CodeToInfoObject.name = key.Replace("Info_Page", "Info_Button");

@@ -27,7 +27,7 @@ namespace UI_Builder
         {
             var t2 = Time.time;
             var elapsed = t2 - t1;
-            Debug.Log("elapsed:" + elapsed + " at pos " + pos);
+            Debug.LogAssertion("elapsed:" + elapsed + " at pos " + pos);
         }
 
         public static string SplitCamelCase(string s)
@@ -39,7 +39,6 @@ namespace UI_Builder
         {
             return Regex.Replace(s, "(/([a-z])([A-Z])/)", " $1 $2");
         }
-
 
         public static string SplitOnFinalUnderscore(string s)
         {
@@ -60,7 +59,6 @@ namespace UI_Builder
                         {
                             return s.Remove(i + 1, 1);
                         }
-
             }
             return s;
         }
@@ -81,9 +79,9 @@ namespace UI_Builder
             return outStr;
         }
     }
+
     public static class Epoch
     {
-
         public static int Current()
         {
             DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

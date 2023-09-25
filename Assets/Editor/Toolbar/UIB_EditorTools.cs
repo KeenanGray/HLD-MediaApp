@@ -10,15 +10,13 @@ public class UIB_EditorTools : ScriptableWizard
     [MenuItem("Tools/UIB/Page Count...")]
     static void Example1()
     {
-        Debug.Log("There are {pagecount} UIB pages in this scene");
+        Debug.LogAssertion("There are {pagecount} UIB pages in this scene");
     }
 
     [MenuItem("Tools/UIB/Tools Window...")]
     static void Example2()
     {
         UIB_Tools_Window.Init();
-        // UIB_Tools_Window.Init();
-        //Debug.Log("There are {pagecount} UAB pages in this scene");
     }
 
     [MenuItem("Tools/Build Mobile")]
@@ -27,7 +25,8 @@ public class UIB_EditorTools : ScriptableWizard
         //Android Build
         BuildPlayerOptions androidPlayerOptions = new BuildPlayerOptions();
 
-        PlayerSettings.Android.keystoreName = "/Users/keenangray/Docs/AndroidKeystore/keystore.keystore";
+        PlayerSettings.Android.keystoreName =
+            "/Users/keenangray/Docs/AndroidKeystore/keystore.keystore";
         PlayerSettings.Android.keystorePass = "michigan45";
         PlayerSettings.Android.keyaliasName = "hld";
         PlayerSettings.Android.keyaliasPass = "michigan45";
@@ -42,12 +41,12 @@ public class UIB_EditorTools : ScriptableWizard
 
         if (androidSummary.result == BuildResult.Succeeded)
         {
-            Debug.Log("Android Build succeeded: " + androidSummary.totalSize + " bytes");
+            Debug.LogAssertion("Android Build succeeded: " + androidSummary.totalSize + " bytes");
         }
 
         if (androidSummary.result == BuildResult.Failed)
         {
-            Debug.Log("Android Build failed");
+            Debug.LogAssertion("Android Build failed");
             return;
         }
 
@@ -63,14 +62,13 @@ public class UIB_EditorTools : ScriptableWizard
 
         if (iosSummary.result == BuildResult.Succeeded)
         {
-            Debug.Log("IOS Build succeeded: " + iosSummary.totalSize + " bytes");
+            Debug.LogAssertion("IOS Build succeeded: " + iosSummary.totalSize + " bytes");
         }
 
         if (iosSummary.result == BuildResult.Failed)
         {
-            Debug.Log("IOS Build failed");
+            Debug.LogAssertion("IOS Build failed");
         }
-
     }
 
     [MenuItem("Tools/Delete Player Prefs")]
@@ -89,10 +87,10 @@ public class UIB_EditorTools : ScriptableWizard
         CleanHelper(Application.persistentDataPath + "/android");
         CleanHelper(Application.persistentDataPath + "/ios");
 
-        var path = Application.persistentDataPath;// + "/heidi-latsky-dance/";
+        var path = Application.persistentDataPath; // + "/heidi-latsky-dance/";
         EditorUtility.RevealInFinder(path);
 
-        Debug.Log("Clean Successful");
+        Debug.LogAssertion("Clean Successful");
     }
 
     static void CleanHelper(string dir)
@@ -103,7 +101,11 @@ public class UIB_EditorTools : ScriptableWizard
 
             foreach (string file in Directory.GetFiles(d))
             {
-                if (file.Contains(".meta") || file.Contains(".manifest") || file.Contains(".DS_Store"))
+                if (
+                    file.Contains(".meta")
+                    || file.Contains(".manifest")
+                    || file.Contains(".DS_Store")
+                )
                 {
                     File.Delete(file);
                 }
@@ -135,25 +137,21 @@ public class UIB_EditorTools : ScriptableWizard
                         name = file.Replace(Application.streamingAssetsPath, "/");
                         break;
                     }
-                    else
-                    {
-                    }
+                    else { }
                 }
 
                 //there is ane xtra '/' in the front here, remove it
                 name = name.Remove(0, 1);
 
-                directory = Application.persistentDataPath + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
-
-                //Debug.Log(directory);
+                directory =
+                    Application.persistentDataPath
+                    + name.Replace(name.Split('/')[name.Split('/').Length - 1], "");
 
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
 
                 var src = Application.streamingAssetsPath + UIB_PlatformManager.platform + name;
                 var dest = Application.persistentDataPath + name;
-
-
 
                 try
                 {
@@ -162,8 +160,8 @@ public class UIB_EditorTools : ScriptableWizard
                 }
                 catch
                 {
-                    Debug.Log("src:" + src);
-                    Debug.Log("dest:" + dest);
+                    Debug.LogWarning("src:" + src);
+                    Debug.LogWarning("dest:" + dest);
                 }
             }
         }

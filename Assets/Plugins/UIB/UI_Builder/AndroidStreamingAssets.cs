@@ -27,63 +27,67 @@ public static class AndroidStreamingAssets
     public static void Extract()
     {
 #if !UNITY_EDITOR && UNITY_ANDROID
-        string targetPath = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
-        string result = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
+        string targetPath = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform;
+        string result = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform;
 
-        Directory.CreateDirectory( targetPath );
+        Directory.CreateDirectory(targetPath);
 
-        if( targetPath[targetPath.Length - 1] != '/' || targetPath[targetPath.Length - 1] != '\\' )
+        if (targetPath[targetPath.Length - 1] != '/' || targetPath[targetPath.Length - 1] != '\\')
             targetPath += '/';
 
         HashSet<string> createdDirectories = new HashSet<string>();
-        
+
         ZipFile zf = null;
         try
         {
-            using( FileStream fs = File.OpenRead( Application.dataPath  ) )
+            using (FileStream fs = File.OpenRead(Application.dataPath))
             {
-                zf = new ZipFile( fs );
-                foreach( ZipEntry zipEntry in zf )
+                zf = new ZipFile(fs);
+                foreach (ZipEntry zipEntry in zf)
                 {
-                    if( !zipEntry.IsFile )
+                    if (!zipEntry.IsFile)
                         continue;
 
                     string name = zipEntry.Name;
-                    if( name.StartsWith( STREAMING_ASSETS_DIR ) && !name.EndsWith( META_EXTENSION ) && !name.StartsWith( STREAMING_ASSETS_INTERNAL_DATA_DIR ) )
+                    if (
+                        name.StartsWith(STREAMING_ASSETS_DIR)
+                        && !name.EndsWith(META_EXTENSION)
+                        && !name.StartsWith(STREAMING_ASSETS_INTERNAL_DATA_DIR)
+                    )
                     {
-                        string relativeDir = System.IO.Path.GetDirectoryName( name );
-                        if( !createdDirectories.Contains( relativeDir ) )
+                        string relativeDir = System.IO.Path.GetDirectoryName(name);
+                        if (!createdDirectories.Contains(relativeDir))
                         {
-                            Directory.CreateDirectory( targetPath + relativeDir );
-                            createdDirectories.Add( relativeDir );
+                            Directory.CreateDirectory(targetPath + relativeDir);
+                            createdDirectories.Add(relativeDir);
                         }
 
                         byte[] buffer = new byte[4096];
-                        using( Stream zipStream = zf.GetInputStream( zipEntry ) )
-                        using( FileStream streamWriter = File.Create( targetPath + name ) )
+                        using (Stream zipStream = zf.GetInputStream(zipEntry))
+                        using (FileStream streamWriter = File.Create(targetPath + name))
                         {
-                            StreamUtils.Copy( zipStream, streamWriter, buffer );
+                            StreamUtils.Copy(zipStream, streamWriter, buffer);
                         }
                     }
                 }
             }
         }
-        catch(Exception e){
-            Debug.Log("PROBLEM:" + e);
+        catch (Exception e)
+        {
+            Debug.LogWarning("PROBLEM Copying to streaming assets:" + e);
         }
         finally
         {
-            if( zf != null )
+            if (zf != null)
             {
                 zf.IsStreamOwner = true;
                 zf.Close();
             }
         }
 
-
         m_path = result;
 #else
-        m_path = UIB_PlatformManager.persistentDataPath+UIB_PlatformManager.platform;
+        m_path = UIB_PlatformManager.persistentDataPath + UIB_PlatformManager.platform;
 #endif
     }
 }

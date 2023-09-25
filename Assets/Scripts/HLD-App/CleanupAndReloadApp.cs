@@ -15,18 +15,13 @@ public class CleanupAndReloadApp : MonoBehaviour
 
     IEnumerator ReOpenApp()
     {
-        Debug.Log("Reload");
-
         if (UAP_AccessibilityManager.IsActive() && UAP_AccessibilityManager.IsEnabled())
         {
             UAP_AccessibilityManager.Say("Loading, please wait a moment");
-            Debug.Log(UAP_AccessibilityManager.IsSpeaking());
-
             yield return new WaitForSeconds(2.0f);
         }
         foreach (AssetBundle ab in AssetBundle.GetAllLoadedAssetBundles())
         {
-            //Debug.Log("unloading asset bundle:" + ab.name);
             ab.Unload(true);
         }
 
