@@ -17,7 +17,7 @@ public class RemoveMeta
         }
     }
 
-   static void RemoveFromDir(string myDir)
+    static void RemoveFromDir(string myDir)
     {
         foreach (string dir in Directory.GetDirectories(myDir))
         {
@@ -28,11 +28,9 @@ public class RemoveMeta
                 if (File.Exists(s))
                 {
                     var filename = s.Split('/')[s.Split('/').Length - 1];
-                   //Debug.Log(filename);
 
-                    if (filename.Split('.')[s.Split('.').Length-1]==("meta"))
+                    if (filename.Split('.')[s.Split('.').Length - 1] == ("meta"))
                     {
-                        Debug.Log(s);
                         File.Delete(s);
                     }
                 }

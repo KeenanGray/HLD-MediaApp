@@ -15,7 +15,8 @@ public class UIB_Tools_Window : EditorWindow
     public static void Init()
     {
         // Get existing open window or if none, make a new one:
-        UIB_Tools_Window window = (UIB_Tools_Window)EditorWindow.GetWindow(typeof(UIB_Tools_Window));
+        UIB_Tools_Window window = (UIB_Tools_Window)
+            EditorWindow.GetWindow(typeof(UIB_Tools_Window));
 
         window.titleContent.text = "UIB Tools";
         window.position = new Rect(50 + 0, 50 + 0, 400, 285);
@@ -38,14 +39,18 @@ public class UIB_Tools_Window : EditorWindow
         //
         if (GUILayout.Button("Create Page", GUILayout.MaxWidth(100.0f), GUILayout.MaxHeight(20.0f)))
         {
-            Debug.Log("Clicked Button");
             CreateUIB_Page(pageName);
         }
 
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Create Button", GUILayout.MaxWidth(100.0f), GUILayout.MaxHeight(20.0f)))
+        if (
+            GUILayout.Button(
+                "Create Button",
+                GUILayout.MaxWidth(100.0f),
+                GUILayout.MaxHeight(20.0f)
+            )
+        )
         {
-            Debug.Log("Clicked Button");
             CreateUIB_Button(pageName);
         }
 
@@ -55,7 +60,6 @@ public class UIB_Tools_Window : EditorWindow
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.EndVertical();
-
     }
 
     private void CreateUIB_Button(string page_Name)
@@ -69,7 +73,10 @@ public class UIB_Tools_Window : EditorWindow
             return;
         }
 
-        GameObject tmp = (UnityEngine.GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)));
+        GameObject tmp = (UnityEngine.GameObject)
+            PrefabUtility.InstantiatePrefab(
+                AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject))
+            );
         tmp.transform.SetParent(UnityEditor.Selection.transforms[0].transform);
         tmp.name = page_Name + "_Button";
 
@@ -96,14 +103,17 @@ public class UIB_Tools_Window : EditorWindow
 
             //If the user presses the yes button, create the Prefab
             {
-                GameObject tmp = (UnityEngine.GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)));
+                GameObject tmp = (UnityEngine.GameObject)
+                    PrefabUtility.InstantiatePrefab(
+                        AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject))
+                    );
                 tmp.transform.SetParent(GameObject.Find("Pages").transform);
-                tmp.name = page_name+"_Page";
+                tmp.name = page_name + "_Page";
             }
         }
         else
         {
-            Debug.Log("No Prefab found");
+            Debug.LogWarning("No Prefab found");
         }
     }
 }

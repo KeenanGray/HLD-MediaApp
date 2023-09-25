@@ -264,7 +264,7 @@ namespace UI_Builder
             }
             catch (Exception e)
             {
-                Debug.Log(e);
+                Debug.LogWarning(e);
             }
 
             if (initializing)
@@ -331,7 +331,6 @@ namespace UI_Builder
             {
                 UIB_Page.ActivatedPages.Add(transform);
             }
-            //Debug.Log("Page activated " + name);
         }
 
         public void PageDeActivatedHandler()
@@ -358,7 +357,6 @@ namespace UI_Builder
 
             if (UIB_Page.ActivatedPages.Count > 0)
             {
-                //                print("REMOVING  " + transform.name);
                 UIB_Page.ActivatedPages.Remove(transform);
             }
 
@@ -412,11 +410,10 @@ namespace UI_Builder
         {
             if (page_Canvas == null)
             {
-                Debug.Log("No Canvas on " + name);
+                Debug.LogWarning("No Canvas on " + name);
             }
             else
             {
-                //                Debug.Log("canvas enabled " + page_Canvas.enabled);
                 page_Canvas.enabled = set;
             }
         }

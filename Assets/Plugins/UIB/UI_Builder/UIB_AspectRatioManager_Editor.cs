@@ -26,7 +26,9 @@ namespace UI_Builder
         {
             if (aspectRatioManager == null)
             {
-                aspectRatioManager = GameObject.FindWithTag("MainCanvas").GetComponent<UIB_AspectRatioManager_Editor>();
+                aspectRatioManager = GameObject
+                    .FindWithTag("MainCanvas")
+                    .GetComponent<UIB_AspectRatioManager_Editor>();
                 return aspectRatioManager;
             }
             else
@@ -37,7 +39,6 @@ namespace UI_Builder
         {
             if (IsInEditor)
             {
-                //            Debug.Log("Run");
                 GetScreenResolution();
             }
         }
@@ -59,7 +60,6 @@ namespace UI_Builder
 
             foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
             {
-
                 arf.enabled = true;
                 arf.aspectRatio = (ScreenWidth) / (ScreenHeight);
                 arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
@@ -68,7 +68,12 @@ namespace UI_Builder
                 // var tmp = arf.GetComponent<RectTransform>().position;
                 //if get component has a "page", move it into a nice position;
                 var page = arf.GetComponent<UIB_Page>();
-                if (page != null && arf.tag != "App_Biography" && arf.tag != "Pool" && arf.transform.parent.tag!="Pool")
+                if (
+                    page != null
+                    && arf.tag != "App_Biography"
+                    && arf.tag != "Pool"
+                    && arf.transform.parent.tag != "Pool"
+                )
                 {
                     rowcount++;
                     if (rowcount > rowTotal)
@@ -80,11 +85,14 @@ namespace UI_Builder
 
                     var pos = new Vector3(right, up, 0);
                     right += ScreenWidth + buffer;
-                    arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+                    arf.GetComponent<RectTransform>().position = new Vector3(
+                        (int)pos.x,
+                        (int)pos.y,
+                        (int)pos.z
+                    );
                 }
 
-
-               if (arf.transform.parent.tag == "Pool")
+                if (arf.transform.parent.tag == "Pool")
                 {
                     var commonName = arf.transform.parent.name.Split('(')[0];
                     if (!nameMap.ContainsKey(arf.transform.parent.name))
@@ -102,16 +110,22 @@ namespace UI_Builder
 
                         var pos = new Vector3(-right, up, 0);
                         right += ScreenWidth + buffer;
-                        arf.transform.parent.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
-                        arf.GetComponent<RectTransform>().position = new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+                        arf.transform.parent.GetComponent<RectTransform>().position = new Vector3(
+                            (int)pos.x,
+                            (int)pos.y,
+                            (int)pos.z
+                        );
+                        arf.GetComponent<RectTransform>().position = new Vector3(
+                            (int)pos.x,
+                            (int)pos.y,
+                            (int)pos.z
+                        );
                     }
                     else
                     {
                         cnt++;
-                       
-                    } 
+                    }
                 }
-
             }
         }
 #endif

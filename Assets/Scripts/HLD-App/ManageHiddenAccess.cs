@@ -69,7 +69,6 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
         GetComponentInParent<UIB_Page>().AssetBundleRequired = true;
 
-        //  UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
         frame = GetComponentInParent<Mask>().gameObject;
         initSize = frame.GetComponent<RectTransform>().sizeDelta;
         initPos = frame.GetComponent<RectTransform>().localPosition;
@@ -150,12 +149,8 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
 
     private void CheckIsCorrect(string arg0)
     {
-        Debug.Log(arg0);
-
         var ShowName = name.Split('_')[0];
-
         var res = "";
-
         res =
             UIB_FileManager
                 .ReadTextAssetBundle(ShowName + "AccessCode", "hld/general");
@@ -168,7 +163,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
             }
             else
             {
-                Debug.Log("Correct Code is: " + res + " you entered " + arg0);
+                Debug.LogWarning("Correct Code is: " + res + " you entered " + arg0);
                 if (UAP_AccessibilityManager.IsActive())
                 {
                     UAP_AccessibilityManager.Say(" \n\r");
@@ -184,7 +179,7 @@ public class ManageHiddenAccess : MonoBehaviour, ISelectHandler
         }
         else
         {
-            Debug.Log("res is not assigned " + gameObject.name);
+            Debug.LogWarning("res is not assigned " + gameObject.name);
         }
     }
 

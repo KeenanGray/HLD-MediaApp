@@ -121,18 +121,17 @@ public class UIB_InputManager : MonoBehaviour
     {
         if (swipe.full)
         {
-            Debug.Log(swipe.fingers + " finger(s) " + swipe.dir + " swipe detected with value " + swipe.SwipeSpeed());
+            Debug.LogAssertion(swipe.fingers + " finger(s) " + swipe.dir + " swipe detected with value " + swipe.SwipeSpeed());
         }
         else
         {
-            // Debug.Log("user is swiping " + swipe.dir);
         }
 
     }
 
     private void PrintTapData(int touches, int tapCount)
     {
-        Debug.Log(touches + " finger " + tapCount + " taps!");
+        Debug.LogAssertion(touches + " finger " + tapCount + " taps!");
     }
 
     IEnumerator CheckSwipeInput()
@@ -264,7 +263,6 @@ public class UIB_InputManager : MonoBehaviour
             {
                 if (Input.touches[0].phase == TouchPhase.Began)
                 {
-                    //Debug.Log("Began touch with " + Input.touchCount);
                 }
 
                 touches = Input.touchCount;
@@ -409,7 +407,6 @@ public class UIB_InputManager : MonoBehaviour
             GameObject.Find("Accessibility Manager").GetComponent<UAP_AccessibilityManager>().SayPause(.1f);
 
 #if UNITY_IOS && !UNITY_EDITOR
-            Debug.Log("ios");
             iOSTTS.StopSpeaking();
             iOSTTS.StopSpeaking();
             iOSTTS.Shutdown();
@@ -419,7 +416,6 @@ public class UIB_InputManager : MonoBehaviour
         }
         if (fingers == 3 && taps == 1)
         {
-            // Debug.Log("repeating from " + UAP_AccessibilityManager.GetCurrentFocusObject().name);
             //  UAP_AccessibilityManager.Say(UAP_AccessibilityManager.GetCurrentFocusObject().GetComponent<UAP_BaseElement>().m_);
             UAP_AccessibilityManager.GetCurrentFocusObject().GetComponent<UAP_BaseElement>().SelectItem(true);
         }

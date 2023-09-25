@@ -61,9 +61,6 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
         scroll = GetComponentInChildren<ScrollRect>();
 
         GetComponent<UIB_Page>().AssetBundleRequired = true;
-        //     UIB_AssetBundleHelper.InsertAssetBundle("hld/general");
-        //     UIB_AssetBundleHelper.InsertAssetBundle("hld/meondisplay/captions");
-
         GetComponent<UIB_Page>().OnActivated += PageActivatedHandler;
         GetComponent<UIB_Page>().OnDeActivated += PageDeActivatedHandler;
     }
@@ -143,66 +140,6 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
 
     }
 
-    /*
-    //THIS IS THE OLD PAGEACTIVEDHANDLER THAT USED THE VIDEO PLAYER
-    public void PageActivatedHandler()
-    {
-        if (GetComponent<UIB_Page>().AssetBundleRequired) {
-            Debug.Log("we need an asset bundle for this page");
-        }
-
-        GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_VideoPlayer>().OriginScreen = gameObject;
-
-        //sort alphabetically
-        var OrderedByName = Dancers.OrderBy(x => x);
-
-        int i = 0;
-        ObjPoolManager.BeginRetrieval();
-
-        foreach (string dancer in OrderedByName)
-        {
-            GameObject b = null;
-            ObjPoolManager.RetrieveFromPool(ObjPoolManager.Pool.Button, ref b);
-
-            if (b != null)
-            {
-                b.name = dancer.Replace(" ", "_") + " video";
-
-                b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { PlayVideoFromAssetBundle(dancer, "hld/meondisplay/"); });
-                b.transform.SetParent(scroll.content.transform);
-
-                var ab = b.GetComponent<UI_Builder.UIB_Button>();
-                ab.SetButtonText(dancer);
-                ab.Button_Opens = UI_Builder.UIB_Button.UIB_Button_Activates.Video;
-
-                ab.Init();
-
-                var sab = b.GetComponent<Special_AccessibleButton>();
-                if (i == 0)
-                {
-                    AccessibleButton = sab;
-                }
-
-                sab.m_ManualPositionOrder = i;
-                sab.m_ManualPositionParent = transform.parent.gameObject;
-
-                i++;
-            }
-            else
-                Debug.LogError("Not enough objects in pool");
-        }
-        ObjPoolManager.EndRetrieval();
-
-        var theScroll = transform.Find("UIB_ScrollingMenu");
-        theScroll.GetComponent<UIB_ScrollingMenu>().playedOnce=false;
-        theScroll.GetComponent<UIB_ScrollingMenu>().Setup();
-
-        GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_Page>().DeActivate();
-
-        StartCoroutine(GetComponent<UIB_Page>().ResetUAP(true));
-    }
-    */
-
     //THIS IS THE NEW PAGE ACTIVASTED HANDLER
     //THIS ONE ADDS A BUTTON THAT OPENS A PAGE LINK TO THE VIDEO.
     public void PageActivatedHandler()
@@ -211,7 +148,6 @@ public class MeOnDisplay_Page : MonoBehaviour, UIB_IPage
 
         if (GetComponent<UIB_Page>().AssetBundleRequired)
         {
-            Debug.Log("we need an asset bundle for this page");
         }
 
         GameObject.FindWithTag("App_VideoPlayer").GetComponent<UIB_VideoPlayer>().OriginScreen = gameObject;

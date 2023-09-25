@@ -111,17 +111,16 @@ public class Bio_Page : MonoBehaviour
             Sprite newSprite = tmp.LoadAsset<Sprite>(name);
             if (newSprite != null)
             {
-                // Debug.Log("loaded it");
             }
             else
-                Debug.Log("did not load " + name);
+                Debug.LogWarning("did not load " + name);
 
             BioImage.sprite = tmp.LoadAsset<Sprite>(name);
             //  BioImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
         }
         else
         {
-            Debug.Log("bundle not found " + bundleString);
+            Debug.LogWarning("bundle not found " + bundleString);
         }
     }
 }

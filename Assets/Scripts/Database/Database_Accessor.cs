@@ -103,22 +103,11 @@ namespace HLD
 
         #endregion
 
-        private void Awake()
-        {
-            Debug.Log("Awake");
-
-            Debug.Log(Credentials);
-            Debug.Log(Client);
-            Debug.Log("Awake Done");
-        }
-
         /// <summary>
         /// Get Object from S3 Bucket
         /// </summary>
         public async Task GetObject(string filename, string S3BucketName)
         {
-            Debug.Log("Get Object " + filename);
-
             Amazon.S3.Model.GetObjectResponse result = await Client.GetObjectAsync(
                 S3BucketName,
                 filename
@@ -127,13 +116,8 @@ namespace HLD
             if (result != null)
             {
                 filename = S3BucketName + "/" + filename;
-                Debug.Log("File Downloaded " + filename);
-
                 var file_manager = GameObject.FindObjectsOfType<UIB_FileManager>()[0];
                 await file_manager.WriteFileFromResponse(result, filename);
-
-                Debug.Log("Write Object " + filename);
-
                 Directory.SetLastAccessTime(UIB_PlatformManager.persistentDataPath, DateTime.Now);
             }
         }
@@ -143,12 +127,9 @@ namespace HLD
         /// </summary>
         public async Task GetObjects(string S3BucketName)
         {
-            Debug.Log("GetObjects");
-
             var result = await Client.ListObjectsAsync(S3BucketName);
             foreach (var obj in result.S3Objects)
             {
-                Debug.Log("key:" + obj);
             }
         }
 
@@ -175,12 +156,10 @@ namespace HLD
             //Compare the difference in time between the local directory and files in the cloud
             if (timeDiff < 0)
             {
-                // Debug.Log("online file is older");
                 InitializationManager.DownloadCount--;
             }
             else if (timeDiff == 0)
             {
-                Debug.LogWarning("same time - seems wierd if you get here.");
                 UIB_FileManager.HasUpdatedAFile = true;
 
                 await GetObject(filename, S3BucketName);
@@ -188,7 +167,6 @@ namespace HLD
             }
             else if (timeDiff > 0)
             {
-                // Debug.LogWarning("Downloading from the Cloud " + filename);
                 UIB_FileManager.HasUpdatedAFile = true;
                 await GetObject(filename, S3BucketName);
                 InitializationManager.hasUpdatedFiles = true;

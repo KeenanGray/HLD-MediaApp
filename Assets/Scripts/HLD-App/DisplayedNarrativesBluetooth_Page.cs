@@ -48,7 +48,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
                 case BluetoothLowEnergyState.TURNING_ON:
                     break;
                 case BluetoothLowEnergyState.UNKNOWN:
-                    Debug.Log("status is unknown");
                     break;
                 case BluetoothLowEnergyState.RESETTING:
                     break;
@@ -97,7 +96,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     private void LogPauseState(PauseState state)
     {
 #if !UNITY_EDITOR
-        Debug.Log(state);
 #endif
         if (state == PauseState.Paused)
         {
@@ -186,7 +184,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
     internal void StopPlaying(BluetoothAudioSource bluetoothAudioSource)
     {
         var key = bluetoothAudioSource.name.Replace("_Bluetooth_Audio", "");
-        //Debug.Log(key);
         AudioPlayers.Remove(key);
         Destroy(bluetoothAudioSource.gameObject);
     }
@@ -521,7 +518,6 @@ public class DisplayedNarrativesBluetooth_Page : MonoBehaviour, UIB_IPage
         if (dancersDetected.ContainsKey(label))
         {
             dancersDetected[label] = dancersDetected[label] + 1;
-            Debug.Log("detected " + DancerMajorsList[label - 1] + " count: " + dancersDetected[label]);
         }
         else
         {

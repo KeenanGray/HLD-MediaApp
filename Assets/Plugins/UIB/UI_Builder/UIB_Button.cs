@@ -183,7 +183,6 @@ namespace UI_Builder
                     SceneManager.LoadScene(s_link);
                     break;
                 default:
-                    Debug.Log("No Activity for this button");
                     break;
             }
 

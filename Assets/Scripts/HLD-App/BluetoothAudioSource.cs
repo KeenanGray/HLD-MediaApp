@@ -121,7 +121,7 @@ public class BluetoothAudioSource : MonoBehaviour
 
         if (src.clip == null)
         {
-            Debug.Log("Could not find audio clip");
+            Debug.LogWarning("Could not find audio clip");
             return;
         }
         src.Play();
@@ -187,7 +187,7 @@ public class BluetoothAudioSource : MonoBehaviour
 
         if (AudioCaptions == null)
         {
-            Debug.Log("No captions");
+            Debug.LogWarning("No captions");
             yield break;
         }
 
@@ -367,7 +367,6 @@ public class BluetoothAudioSource : MonoBehaviour
                 //check if the clip is finished
                 if ((int)src.time >= (int)src.clip.length)
                 {
-                    //Debug.Log("clip over");
                     clipEnded = true;
                 }
             }

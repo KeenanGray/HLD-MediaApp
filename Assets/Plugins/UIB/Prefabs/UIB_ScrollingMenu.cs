@@ -31,6 +31,7 @@ namespace UI_Builder
 
         public bool Playing = false;
         public bool playedOnce = false;
+
         private void Start()
         {
             Setup();
@@ -38,9 +39,7 @@ namespace UI_Builder
             Init();
         }
 
-        private void Update()
-        {
-        }
+        private void Update() { }
 
         public void Init()
         {
@@ -79,7 +78,10 @@ namespace UI_Builder
                 contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, 0);
             }
 
-            myRt.anchoredPosition = new Vector3(contentRect.anchoredPosition.x, contentRect.anchoredPosition.y + 60);
+            myRt.anchoredPosition = new Vector3(
+                contentRect.anchoredPosition.x,
+                contentRect.anchoredPosition.y + 60
+            );
         }
 
         private void OnEnable()
@@ -121,10 +123,6 @@ namespace UI_Builder
                                 SetAlignment(text);
                                 var I = b.GetComponent<Image>();
                                 I.color = TextBackgroundColor;
-
-                                //  var thingy = (Handles.GetMainGameViewSize().y / Handles.GetMainGameViewSize().x) * GameObject.Find("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x;
-                                //  Debug.Log("Thingy " + thingy / 2);
-                                //  b.GetComponent<RectTransform>().sizeDelta = new Vector2(thingy / 2, b.GetComponent<RectTransform>().sizeDelta.y);
                             }
                         }
                     }
@@ -139,7 +137,6 @@ namespace UI_Builder
                         text2.font = font;
                         SetAlignment(text2);
                     }
-
                 }
 
                 var vlg = GetComponent<ScrollRect>().content.GetComponent<VerticalLayoutGroup>();
@@ -166,14 +163,7 @@ namespace UI_Builder
                 vlg.padding.left = padding;
             else if (t.alignment.ToString().Contains("Right"))
                 vlg.padding.left = padding;
-            else
-            {
-
-            }
-
-
+            else { }
         }
-
     }
-
 }

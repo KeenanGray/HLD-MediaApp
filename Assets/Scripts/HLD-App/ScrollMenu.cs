@@ -56,7 +56,6 @@ namespace HLD
 
             if (GetComponent<UIB_Page>().AssetBundleRequired)
             {
-                //Debug.Log("do we have to do something here");
             }
 
             Page_Parent = null;
@@ -145,7 +144,6 @@ namespace HLD
             //Update the background based on the scroll box
             Sprite ImageToUse = null;
             AssetBundle tmp = null;
-            //print("hld/" + ShowName.ToLower() + "/narratives/photos");
 
             foreach (AssetBundle b in AssetBundle.GetAllLoadedAssetBundles())
             {
