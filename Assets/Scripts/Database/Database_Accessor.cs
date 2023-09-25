@@ -118,6 +118,8 @@ namespace HLD
                 filename = S3BucketName + "/" + filename;
                 var file_manager = GameObject.FindObjectsOfType<UIB_FileManager>()[0];
                 await file_manager.WriteFileFromResponse(result, filename);
+
+                Debug.Log("wrote file : " + filename);
                 Directory.SetLastAccessTime(UIB_PlatformManager.persistentDataPath, DateTime.Now);
             }
         }
@@ -149,7 +151,11 @@ namespace HLD
             var result = await Client.GetObjectMetadataAsync(request);
 
             S3LastModified = result.LastModified.ToUniversalTime();
-            localFilesLastModified = DateTime.Parse(PlayerPrefs.GetString("LastUpdated"));
+
+            if (PlayerPrefs.GetString("LastUpdated") == null || PlayerPrefs.GetString("LastUpdated") == "")
+                localFilesLastModified = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            else
+                localFilesLastModified = DateTime.Parse(PlayerPrefs.GetString("LastUpdated"));
 
             var timeDiff = S3LastModified.CompareTo(localFilesLastModified);
 

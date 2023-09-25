@@ -41,14 +41,11 @@ public class InitializationManager : MonoBehaviour
 
     public TextMeshProUGUI percentText;
 
-    private bool hasCheckedFiles;
-
     public static bool doneLoadingAssetBundles = false;
 
     void Start()
     {
         InitializationManager.hasUpdatedFiles = false;
-        hasCheckedFiles = false;
         InitializeTime = 0;
 
 #if (!UNITY_EDITOR)
@@ -95,15 +92,6 @@ public class InitializationManager : MonoBehaviour
         PlayerPrefs.SetInt("desc_timecode", 0);
 
         #region GameObjectAssignment
-        try
-        {
-            percentText = GameObject.Find("DownloadPercent").GetComponent<TextMeshProUGUI>();
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning("Failed to find GameObject: " + e);
-            yield break;
-        }
 
         try
         {
@@ -145,43 +133,20 @@ public class InitializationManager : MonoBehaviour
         }
         #endregion
 
-        /****************THIS CODE RELATES TO DOWNLOADING THE FILES AND MIGHT NEED CHANGES IF THE DATABASE ACCESSOR SCRIPT IS MODIFIED ******************
-        //this coroutine checks the local files and starts any necessary downloads
-        */
+        // checks the local files and starts any necessary downloads
         //if we are on ios and this is the first launch, ignore this (keenan what does this comment mean? 9/23/2023 ????????)
-        yield return StartCoroutine("CheckLocalFiles");
-
-        //this coroutine continously checks if we have wifi and downloads are happening
-        //it updates the download icon accordingly
-        StartCoroutine("CheckWifiAndDownloads");
-
-        //this coroutine updates download percentage over time
-        StartCoroutine("UpdateDownloadPercent");
-
-        //this coroutine waits until we have checked for all the files
-        //then it begins loading asset bundles in the background
-        //it must be started after pages have initialized
-
-
-        while (!hasCheckedFiles)
-        {
-            yield return null;
-        }
+        CheckLocalFiles();
 
         var loading_text = GameObject.Find("LoadingText").GetComponent<TextMeshProUGUI>();
 
         while (DownloadCount > 0)
         {
-            loading_text.text = "Loading Files..." + DownloadCount + " Files Remaining";
+            loading_text.text = "Loading Files..." + (DownloadCount - 1) + " Files Remaining";
             yield return null;
         }
 
-        ManageAssetBundleFiles();
-
         //setup checks for accessibility on android - which is wierd;
 #if UNITY_ANDROID && !UNITY_EDITOR
-
-
         if (UAP_AccessibilityManager.GetAndroidAccessibility())
         {
             UAP_AccessibilityManager.EnableAccessibility(true);
@@ -192,33 +157,30 @@ public class InitializationManager : MonoBehaviour
         }
 #endif
 
+
+        #region initialize UI
         //Set the main page container
         //Can't remember why i did this
-        UIB_PageContainer MainContainer = null;
-        foreach (UIB_PageContainer PageContainer in GetComponentsInChildren<UIB_PageContainer>())
-        {
-            MainContainer = PageContainer;
-            MainContainer.Init();
-        }
+        UIB_PageContainer MainContainer = GameObject.Find("Pages").GetComponent<UIB_PageContainer>();
+        MainContainer.Init();
 
         //set scroll rects to top
-        foreach (Scrollbar sb in GetComponentsInChildren<Scrollbar>())
+        foreach (Scrollbar sb in GameObject.FindObjectsOfType<Scrollbar>())
         {
             sb.value = 1;
         }
 
         //turn aspect ratio fitters on
         //causes all pages to share origin with canvas and be correct dimensions
-        foreach (AspectRatioFitter arf in GetComponentsInChildren<AspectRatioFitter>())
+        foreach (AspectRatioFitter arf in GameObject.FindObjectsOfType<AspectRatioFitter>())
         {
-            arf.aspectRatio =
-                (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
+            arf.aspectRatio = (UIB_AspectRatioManager.ScreenWidth) / (UIB_AspectRatioManager.ScreenHeight);
             arf.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             arf.enabled = true;
         }
 
         //initialize each button
-        foreach (UI_Builder.UIB_Button ab in GetComponentsInChildren<UI_Builder.UIB_Button>())
+        foreach (UI_Builder.UIB_Button ab in GameObject.FindObjectsOfType<UI_Builder.UIB_Button>())
         {
             //before initializing buttons, we may change some names based on player_prefs
             if (ab.name == "Displayed-Code_Button")
@@ -250,26 +212,11 @@ public class InitializationManager : MonoBehaviour
             p.Init();
         }
 
-        foreach (UIB_Page p in GetComponentsInChildren<UIB_Page>())
-        {
-            //TODO:Fix this bad bad shit
-            if (p.gameObject.name == "Landing_Page")
-                yield return p.MoveScreenOut(true);
-            else
-            {
-                p.StartCoroutine("MoveScreenOut", true);
-            }
-        }
-
         //initialize each scrolling menu
         foreach (UIB_ScrollingMenu uibSM in GetComponentsInChildren<UIB_ScrollingMenu>())
         {
             uibSM.Init();
         }
-
-        //setup the first screen
-        var firstScreen = GameObject.Find("Landing_Page");
-        yield return firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
 
         if (UAP_AccessibilityManager.IsEnabled())
         {
@@ -284,15 +231,24 @@ public class InitializationManager : MonoBehaviour
             else { }
 
             //select the first button with UAP
-            var first = GameObject.Find("DISPLAYED-Code_Button");
-            UAP_AccessibilityManager.SelectElement(first, true);
+            //var first = GameObject.Find("DISPLAYED-Code_Button");
+            //UAP_AccessibilityManager.SelectElement(first, true);
         }
+        //setup the first screen
+        var firstScreen = GameObject.Find("Landing_Page");
+        firstScreen.GetComponent<UIB_Page>().StartCoroutine("MoveScreenIn", true);
+        #endregion
+
+        GameObject.Find("MainCanvas").GetComponent<UIB_AssetBundleHelper>().StartCoroutine("LoadAssetBundlesInBackground");
+
+        yield return new WaitForSeconds(.25f);
 
         //if we are finally done loading everything, then we can remove the cover
         while (!doneLoadingAssetBundles)
         {
             yield return null;
         }
+
         //remove the cover
         MainContainer.DisableCover();
         //Remove the loading Text
@@ -306,22 +262,16 @@ public class InitializationManager : MonoBehaviour
         yield break;
     }
 
-    private void ManageAssetBundleFiles()
-    {
-        blankPage.transform.SetAsLastSibling();
-        GameObject
-            .Find("MainCanvas")
-            .GetComponent<UIB_AssetBundleHelper>()
-            .StartCoroutine("LoadAssetBundlesInBackground");
-    }
-
-    private IEnumerator CheckLocalFiles()
+    private void CheckLocalFiles()
     {
         //if we copied files from streaming assets, this means a fresh install
         //we should reload the scene so the files load from the correct place
         //and the internet files are downloaded on first run.
         if (wroteToPersistant)
-            cleanupAndReloadScene();
+        {
+            Debug.Log("Loading reload scene");
+            SceneManager.LoadScene(1);
+        }
 
         //check for relevant asset bundle files
         //First check that platform specific assetbundle exists
@@ -387,11 +337,6 @@ public class InitializationManager : MonoBehaviour
         filename = "suspendeddisbelief/audio";
         filename = "hld/" + filename;
         TryDownloadFile(filename);
-
-        //if we get here we have all the files
-        hasCheckedFiles = true;
-
-        yield break;
     }
 
     private async void TryDownloadFile(string filename, bool fallbackUsingBundle = false)
@@ -497,74 +442,6 @@ public class InitializationManager : MonoBehaviour
         return list;
     }
 
-    IEnumerator CheckWifiAndDownloads()
-    {
-        GameObject WifiInUseIcon = null;
-        string persistantDataPath = UIB_PlatformManager.persistentDataPath;
-
-        WifiInUseIcon = GameObject.Find("DownloadIcon");
-
-        while (true)
-        {
-            if (WifiInUseIcon == null) { }
-
-            if (CheckInternet())
-            {
-                if (DownloadCount > 0 && checkingForUpdates <= 0)
-                {
-                    WifiInUseIcon.SetActive(true);
-                }
-                else
-                {
-                    WifiInUseIcon.SetActive(false);
-                }
-                yield return null;
-            }
-            else
-            {
-                Debug.LogWarning("No internet ");
-                yield return null;
-            }
-
-            if (PercentDownloaded.Equals(100))
-            {
-                WifiInUseIcon.SetActive(false);
-
-                yield break;
-            }
-
-            yield return null;
-        }
-    }
-
-    IEnumerator UpdateDownloadPercent()
-    {
-        while (PercentDownloaded < 100)
-        {
-            if (TotalDownloads > 0)
-            {
-                PercentDownloaded =
-                    (float)((TotalDownloads - DownloadCount) / TotalDownloads) * 100;
-                if (PercentDownloaded > 0) { }
-                else
-                {
-                    PercentDownloaded = 0;
-                }
-                percentText.text = Mathf.Round(PercentDownloaded) + "%";
-            }
-            yield return null;
-        }
-
-        if (InitializationManager.hasUpdatedFiles)
-            cleanupAndReloadScene();
-
-        yield break;
-    }
-
-    private void cleanupAndReloadScene()
-    {
-        SceneManager.LoadScene(1);
-    }
 
     private void CheckAndUpdateLinks(string key)
     {

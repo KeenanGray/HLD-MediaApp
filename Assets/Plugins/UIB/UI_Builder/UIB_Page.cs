@@ -16,6 +16,7 @@ namespace UI_Builder
     /// Pages can be individually set to swipe in, at a custom speed, from the "Left" "Top" "Bottom" or "Right" of the screen.
     /// Specify "Instant" to have a page instantly appear on button press
 
+
     public interface UIB_IPage
     {
         //Pages are activated by button presses. 
@@ -44,20 +45,28 @@ namespace UI_Builder
         public float rate = 1.0f;
         public bool AssetBundleRequired; //Kind of a misnamed variable: has more to do with whether files have been downloaded from web
 
-        GameObject mainCanvas;
-        GameObject subCanvas;
         public static GameObject pageParent;
-
-        //        private List<RectTransform> views;
 
         private RectTransform rt;
 
         UnityEngine.UI.Button close_button;
         private bool PageOnScreen;
 
+        Button[] childButtons;
+        UAP_BaseElement[] childUAPElements;
+        AccessibleUIGroupRoot[] ChildAccessibleUI;
+
+
         public bool GetPageOnScreen()
         {
             return PageOnScreen;
+        }
+        private void Awake()
+        {
+            childButtons = GetComponentsInChildren<Button>();
+            childUAPElements = GetComponentsInChildren<UAP_BaseElement>();
+            ChildAccessibleUI = GetComponentsInChildren<AccessibleUIGroupRoot>();
+            page_Canvas = GetComponentInChildren<Canvas>();
         }
 
         public void Init()
@@ -106,6 +115,9 @@ namespace UI_Builder
             }
             else
                 page_Canvas.enabled = false;
+
+
+
         }
 
         private void Start()
@@ -126,44 +138,6 @@ namespace UI_Builder
         //TODO: Update SwipeHandling + Views with UAP
 
         public static List<Transform> ActivatedPages;
-
-        /*
-        static List<Transform> ChildTransformsSorted(Transform t)
-        {
-            sorted.Clear();
-            for (int i = 0; i < t.childCount; i++)
-            {
-                Transform child = t.GetChild(i);
-
-                var tPage = child.GetComponent<UIB_Page>();
-
-                if (tPage != null)
-                {
-                    sorted.Add(child);
-                }
-                else
-                {
-                }
-
-                foreach (var item in ChildTransformsSorted(child.transform))
-                {
-                    var tPage2 = item.GetComponent<UIB_Page>();
-                    if (tPage2 != null)
-                    {
-                        sorted.Add(item);
-                    }
-                    else
-                    {
-
-                    }
-
-                }
-
-            }
-
-            return sorted;
-        }
-        */
 
         void SwipeHandler(SwipeData swipe)
         {
@@ -253,14 +227,12 @@ namespace UI_Builder
             //  yield return new WaitForEndOfFrame();
             rt.anchoredPosition = new Vector3(0, 0, 0);
             var offscreenpos = rt.anchoredPosition.x + 1920;
-
             float lerp = 0;
-
             var tmp = rate;
 
             try
             {
-                GetComponentInChildren<Canvas>().enabled = false;
+                page_Canvas.enabled = false;
             }
             catch (Exception e)
             {
@@ -275,15 +247,20 @@ namespace UI_Builder
             {
                 while (true)
                 {
-                    rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(offscreenpos, 0, 0), lerp);
-                    lerp += tmp;
-
-                    if (Mathf.Approximately(offscreenpos, rt.anchoredPosition.x + UIB_AspectRatioManager.ScreenWidth) ||
-                    rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
+                    if (!initializing)
                     {
-                        break;
+                        rt.anchoredPosition = Vector3.Lerp(rt.anchoredPosition, new Vector3(offscreenpos, 0, 0), lerp);
+                        lerp += tmp;
+
+                        if (Mathf.Approximately(offscreenpos, rt.anchoredPosition.x + UIB_AspectRatioManager.ScreenWidth) ||
+                        rt.anchoredPosition.x + lerp >= GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<CanvasScaler>().referenceResolution.x)
+                        {
+                            break;
+                        }
+                        yield return null;
                     }
-                    yield return null;
+                    else
+                        rt.anchoredPosition = new Vector3(offscreenpos, 0, 0);
                 }
             }
 
@@ -306,16 +283,7 @@ namespace UI_Builder
         {
             if (AssetBundleRequired && !UIB_PageManager.InternetActive)
             {
-                //TODO:REfactor this
-                //if internet is necessary and we haven't downloaded the required files. do not allow access to this page
-                /*
-                var tmpLastPage = UIB_PageManager.LastPage;
-                var go = GameObject.Find("InternetFileError_Page").GetComponent<UIB_Page>();
-                go.StartCoroutine("MoveScreenIn", false);
-                StartCoroutine("MoveScreenOut", true);
-                UIB_PageManager.LastPage = tmpLastPage;
-                return;
-                */
+
             }
 
             //Say the newly selected element when the page loads
@@ -363,24 +331,25 @@ namespace UI_Builder
         }
 
         public static bool paused = false;
+
         public IEnumerator ResetUAP(bool toggle)
         {
-            foreach (Button b in GetComponentsInChildren<Button>())
+            foreach (Button b in childButtons)
             {
                 b.enabled = toggle;
             }
-            foreach (UAP_BaseElement uap in GetComponentsInChildren<UAP_BaseElement>())
+            foreach (UAP_BaseElement uap in childUAPElements)
             {
                 uap.enabled = toggle;
             }
 
-            foreach (AccessibleUIGroupRoot agui in GetComponentsInChildren<AccessibleUIGroupRoot>())
+            foreach (AccessibleUIGroupRoot agui in ChildAccessibleUI)
             {
-                agui.enabled = false;
-                agui.enabled = true;
+                //agui.enabled = false;
+                //agui.enabled = true;
             }
 
-            foreach (AccessibleUIGroupRoot ugui in GetComponentsInChildren<AccessibleUIGroupRoot>())
+            foreach (AccessibleUIGroupRoot ugui in ChildAccessibleUI)
             {
                 ugui.enabled = toggle;
             }

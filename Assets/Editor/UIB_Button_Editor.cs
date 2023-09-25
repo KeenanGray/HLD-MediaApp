@@ -47,7 +47,7 @@ namespace UI_Builder
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.InAppUrl.ToString())
             {
                 EditorGUILayout.PropertyField(myText, new GUIContent("Url"));
-              //  EditorGUILayout.PropertyField(myTitle, new GUIContent("Title"));
+                //  EditorGUILayout.PropertyField(myTitle, new GUIContent("Title"));
                 serializedObject.ApplyModifiedProperties();
                 return;
             }
@@ -67,7 +67,6 @@ namespace UI_Builder
                 serializedObject.ApplyModifiedProperties();
                 return;
             }
-            //            Debug.Log("Opens " + Opens.enumDisplayNames[Opens.enumValueIndex]);
             if (Opens.enumDisplayNames[Opens.enumValueIndex] == UI_Builder.UIB_Button.UIB_Button_Activates.None.ToString())
             {
                 EditorGUILayout.HelpBox("Button is not set to open anything", MessageType.Info);

@@ -93,13 +93,7 @@ public class DisplayedNarrativesList_Page : HLD.ScrollMenu
         scrollrect.content.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(0, -1700);
 
-        /*
-        while (scrollrect.content.GetComponent<RectTransform>().rect.height <= 0)
-        {
-            Debug.Log("HERE 1");
-            yield return null;
-        }
-        */
+
         scrollrect.content.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(0,
                 -scrollrect.GetComponent<RectTransform>().rect.height);

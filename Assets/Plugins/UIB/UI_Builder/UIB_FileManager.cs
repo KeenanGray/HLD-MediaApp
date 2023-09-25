@@ -291,7 +291,6 @@ namespace UI_Builder
             {
                 Debug.LogWarning("Asset bundle not found " + bundleString);
                 //if we have any issues with the asset bundles, reload the scene
-                SceneManager.LoadScene(1);
                 return "";
             }
         }

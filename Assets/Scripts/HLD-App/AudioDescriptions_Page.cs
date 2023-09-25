@@ -27,9 +27,6 @@ public class AudioDescriptions_Page : MonoBehaviour, UIB_IPage
         var audioPlayer = AudioPlayerScreen.GetComponent<UIB_AudioPlayer>();
         AudioPlayerScreen.GetComponent<AspectRatioFitter>().enabled = true;
         audioPlayer.SetTitle("Audio Descriptions");
-
-        print("showname " + ShowName);
-
         audioPlayer.SetImageAssetBundle("background", "hld/" + ShowName + "/audio");
         audioPlayer.fileType = ".mp3";
         audioPlayer.SetAudio("Audio_Captions", "hld/" + ShowName + "/audio");
