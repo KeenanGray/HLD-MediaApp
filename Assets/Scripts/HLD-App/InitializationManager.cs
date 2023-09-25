@@ -401,11 +401,7 @@ public class InitializationManager : MonoBehaviour
         UIB_AssetBundleHelper.InsertAssetBundle(filename);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        filepath =
-            UIB_PlatformManager.persistentDataPath
-            + "android/assets/"
-            + UIB_PlatformManager.platform
-            + filename;
+        filepath =UIB_PlatformManager.persistentDataPath+ "android/assets/"+ UIB_PlatformManager.platform+ filename;
 #endif
 
         if (!UIB_FileManager.FileExists(filepath)) //if the file does not exist we copy the stored version for peristant storage

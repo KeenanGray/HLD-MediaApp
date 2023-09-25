@@ -86,7 +86,6 @@ namespace UI_Builder
             if (!Directory.Exists(newpath))
                 Directory.CreateDirectory(newpath);
 
-            Debug.Log("Writing file " + newpath + " " + name);
             using (var fs = System.IO.File.Create(newpath + "/" + name))
             {
                 byte[] buffer = new byte[81920];
